@@ -10,11 +10,38 @@
 		224936DD1B389CD200699D59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DC1B389CD200699D59 /* main.m */; };
 		224936E01B389CD200699D59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DF1B389CD200699D59 /* AppDelegate.m */; };
 		224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */; };
-		224936E61B389CD200699D59 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936E51B389CD200699D59 /* ViewController.m */; };
 		224936E91B389CD200699D59 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224936E71B389CD200699D59 /* Main.storyboard */; };
 		224936EB1B389CD200699D59 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224936EA1B389CD200699D59 /* Images.xcassets */; };
-		224936EE1B389CD200699D59 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 224936EC1B389CD200699D59 /* LaunchScreen.xib */; };
 		224936FA1B389CD300699D59 /* LIFX_AmbienceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936F91B389CD300699D59 /* LIFX_AmbienceTests.m */; };
+		224937041B389E1400699D59 /* LIFXKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224937031B389E1400699D59 /* LIFXKit.framework */; };
+		224937061B389E4800699D59 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224937051B389E4800699D59 /* SystemConfiguration.framework */; };
+		224937081B389E5D00699D59 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 224937071B389E5D00699D59 /* libz.dylib */; };
+		2249370A1B389E7600699D59 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224937091B389E7600699D59 /* MediaPlayer.framework */; };
+		2249370C1B389E7E00699D59 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2249370B1B389E7D00699D59 /* AVFoundation.framework */; };
+		2249370E1B389E8F00699D59 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2249370D1B389E8F00699D59 /* CoreGraphics.framework */; };
+		224937101B389E9800699D59 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2249370F1B389E9800699D59 /* UIKit.framework */; };
+		2249372A1B38FADA00699D59 /* cam_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 224937271B38FADA00699D59 /* cam_128.png */; };
+		2249372B1B38FADA00699D59 /* mic_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 224937281B38FADA00699D59 /* mic_128.png */; };
+		2249372C1B38FADA00699D59 /* music_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 224937291B38FADA00699D59 /* music_128.png */; };
+		224937631B39CB7400699D59 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 224937621B39CB7400699D59 /* Default@2x.png */; };
+		2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2249376A1B39EDFE00699D59 /* MainViewController.m */; };
+		2249376E1B39F0E300699D59 /* MusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2249376D1B39F0E300699D59 /* MusicViewController.m */; };
+		224937711B3A54C800699D59 /* VizViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937701B3A54C800699D59 /* VizViewController.m */; };
+		224937741B3A568400699D59 /* VisualizerView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 224937731B3A568400699D59 /* VisualizerView.mm */; };
+		224937761B3A56B100699D59 /* MeterTable in Resources */ = {isa = PBXBuildFile; fileRef = 224937751B3A56B100699D59 /* MeterTable */; };
+		224937781B3A57CD00699D59 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224937771B3A57CD00699D59 /* QuartzCore.framework */; };
+		2249377A1B3A592800699D59 /* MeterTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 224937791B3A592800699D59 /* MeterTable.cpp */; };
+		2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2249377B1B3A5A3F00699D59 /* DemoSong.m4a */; };
+		2249377E1B3A5E0A00699D59 /* particleTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 2249377D1B3A5E0A00699D59 /* particleTexture.png */; };
+		224937811B3A76AB00699D59 /* CamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937801B3A76AB00699D59 /* CamViewController.m */; };
+		224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937831B3A776D00699D59 /* AVCamPreviewView.m */; };
+		224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */; };
+		227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8531B3B2D17004EFFA7 /* camicon128.png */; };
+		227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8541B3B2D17004EFFA7 /* vizicon128.png */; };
+		22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224936DB1B389CD200699D59 /* Info.plist */; };
+		22F76A0E1B3C9AD700EE3AFD /* audioplayer_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */; };
+		22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */; };
+		22F76A151B3CAF1100EE3AFD /* FSAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F76A141B3CAF1100EE3AFD /* FSAudioPlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,14 +61,47 @@
 		224936DE1B389CD200699D59 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		224936DF1B389CD200699D59 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		224936E21B389CD200699D59 /* LIFX_Ambience.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LIFX_Ambience.xcdatamodel; sourceTree = "<group>"; };
-		224936E41B389CD200699D59 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		224936E51B389CD200699D59 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		224936E81B389CD200699D59 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		224936EA1B389CD200699D59 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		224936ED1B389CD200699D59 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		224936F31B389CD300699D59 /* LIFX AmbienceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LIFX AmbienceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224936F81B389CD300699D59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		224936F91B389CD300699D59 /* LIFX_AmbienceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LIFX_AmbienceTests.m; sourceTree = "<group>"; };
+		224937031B389E1400699D59 /* LIFXKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LIFXKit.framework; path = "../../LIFXKit-cnsblnuqrwxhuicgndijkotbdhas/Build/Products/Release-iphonesimulator/LIFXKit.framework"; sourceTree = "<group>"; };
+		224937051B389E4800699D59 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		224937071B389E5D00699D59 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		224937091B389E7600699D59 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		2249370B1B389E7D00699D59 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2249370D1B389E8F00699D59 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2249370F1B389E9800699D59 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		224937271B38FADA00699D59 /* cam_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cam_128.png; sourceTree = "<group>"; };
+		224937281B38FADA00699D59 /* mic_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_128.png; sourceTree = "<group>"; };
+		224937291B38FADA00699D59 /* music_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = music_128.png; sourceTree = "<group>"; };
+		224937621B39CB7400699D59 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		224937691B39EDFE00699D59 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		2249376A1B39EDFE00699D59 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		2249376C1B39F0E300699D59 /* MusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicViewController.h; sourceTree = "<group>"; };
+		2249376D1B39F0E300699D59 /* MusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicViewController.m; sourceTree = "<group>"; };
+		2249376F1B3A54C800699D59 /* VizViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VizViewController.h; sourceTree = "<group>"; };
+		224937701B3A54C800699D59 /* VizViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VizViewController.m; sourceTree = "<group>"; };
+		224937721B3A568400699D59 /* VisualizerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualizerView.h; sourceTree = "<group>"; };
+		224937731B3A568400699D59 /* VisualizerView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VisualizerView.mm; sourceTree = "<group>"; };
+		224937751B3A56B100699D59 /* MeterTable */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MeterTable; sourceTree = "<group>"; };
+		224937771B3A57CD00699D59 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		224937791B3A592800699D59 /* MeterTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MeterTable.cpp; path = "LIFX Ambience/MeterTable/MeterTable.cpp"; sourceTree = "<group>"; };
+		2249377B1B3A5A3F00699D59 /* DemoSong.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DemoSong.m4a; sourceTree = "<group>"; };
+		2249377D1B3A5E0A00699D59 /* particleTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = particleTexture.png; path = "LIFX Ambience/MeterTable/particleTexture.png"; sourceTree = "<group>"; };
+		2249377F1B3A76AB00699D59 /* CamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamViewController.h; sourceTree = "<group>"; };
+		224937801B3A76AB00699D59 /* CamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CamViewController.m; sourceTree = "<group>"; };
+		224937821B3A776D00699D59 /* AVCamPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamPreviewView.h; sourceTree = "<group>"; };
+		224937831B3A776D00699D59 /* AVCamPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamPreviewView.m; sourceTree = "<group>"; };
+		224937851B3A779C00699D59 /* UIImageAverageColorAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageAverageColorAddition.h; sourceTree = "<group>"; };
+		224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageAverageColorAddition.m; sourceTree = "<group>"; };
+		227BB8531B3B2D17004EFFA7 /* camicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camicon128.png; sourceTree = "<group>"; };
+		227BB8541B3B2D17004EFFA7 /* vizicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vizicon128.png; sourceTree = "<group>"; };
+		22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_pause.png; sourceTree = "<group>"; };
+		22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_play.png; sourceTree = "<group>"; };
+		22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSAudioPlayer.h; sourceTree = "<group>"; };
+		22F76A141B3CAF1100EE3AFD /* FSAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSAudioPlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +109,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				224937081B389E5D00699D59 /* libz.dylib in Frameworks */,
+				224937061B389E4800699D59 /* SystemConfiguration.framework in Frameworks */,
+				224937041B389E1400699D59 /* LIFXKit.framework in Frameworks */,
+				224937781B3A57CD00699D59 /* QuartzCore.framework in Frameworks */,
+				2249370C1B389E7E00699D59 /* AVFoundation.framework in Frameworks */,
+				2249370A1B389E7600699D59 /* MediaPlayer.framework in Frameworks */,
+				224937101B389E9800699D59 /* UIKit.framework in Frameworks */,
+				2249370E1B389E8F00699D59 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +133,17 @@
 		224936CE1B389CD200699D59 = {
 			isa = PBXGroup;
 			children = (
+				224936E71B389CD200699D59 /* Main.storyboard */,
+				2249377D1B3A5E0A00699D59 /* particleTexture.png */,
+				224937791B3A592800699D59 /* MeterTable.cpp */,
+				224937771B3A57CD00699D59 /* QuartzCore.framework */,
+				2249370F1B389E9800699D59 /* UIKit.framework */,
+				2249370D1B389E8F00699D59 /* CoreGraphics.framework */,
+				2249370B1B389E7D00699D59 /* AVFoundation.framework */,
+				224937091B389E7600699D59 /* MediaPlayer.framework */,
+				224937071B389E5D00699D59 /* libz.dylib */,
+				224937051B389E4800699D59 /* SystemConfiguration.framework */,
+				224937031B389E1400699D59 /* LIFXKit.framework */,
 				224936D91B389CD200699D59 /* LIFX Ambience */,
 				224936F61B389CD300699D59 /* LIFX AmbienceTests */,
 				224936D81B389CD200699D59 /* Products */,
@@ -83,14 +162,26 @@
 		224936D91B389CD200699D59 /* LIFX Ambience */ = {
 			isa = PBXGroup;
 			children = (
+				22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */,
+				22F76A141B3CAF1100EE3AFD /* FSAudioPlayer.m */,
+				224937851B3A779C00699D59 /* UIImageAverageColorAddition.h */,
+				224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */,
+				224937821B3A776D00699D59 /* AVCamPreviewView.h */,
+				224937831B3A776D00699D59 /* AVCamPreviewView.m */,
+				2249377F1B3A76AB00699D59 /* CamViewController.h */,
+				224937801B3A76AB00699D59 /* CamViewController.m */,
+				2249376C1B39F0E300699D59 /* MusicViewController.h */,
+				2249376D1B39F0E300699D59 /* MusicViewController.m */,
 				224936DE1B389CD200699D59 /* AppDelegate.h */,
 				224936DF1B389CD200699D59 /* AppDelegate.m */,
-				224936E41B389CD200699D59 /* ViewController.h */,
-				224936E51B389CD200699D59 /* ViewController.m */,
-				224936E71B389CD200699D59 /* Main.storyboard */,
-				224936EA1B389CD200699D59 /* Images.xcassets */,
-				224936EC1B389CD200699D59 /* LaunchScreen.xib */,
+				224937691B39EDFE00699D59 /* MainViewController.h */,
+				2249376A1B39EDFE00699D59 /* MainViewController.m */,
+				2249376F1B3A54C800699D59 /* VizViewController.h */,
+				224937701B3A54C800699D59 /* VizViewController.m */,
+				224937721B3A568400699D59 /* VisualizerView.h */,
+				224937731B3A568400699D59 /* VisualizerView.mm */,
 				224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */,
+				224936EA1B389CD200699D59 /* Images.xcassets */,
 				224936DA1B389CD200699D59 /* Supporting Files */,
 			);
 			path = "LIFX Ambience";
@@ -99,6 +190,16 @@
 		224936DA1B389CD200699D59 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2249377B1B3A5A3F00699D59 /* DemoSong.m4a */,
+				224937751B3A56B100699D59 /* MeterTable */,
+				22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */,
+				22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */,
+				224937621B39CB7400699D59 /* Default@2x.png */,
+				224937271B38FADA00699D59 /* cam_128.png */,
+				224937281B38FADA00699D59 /* mic_128.png */,
+				224937291B38FADA00699D59 /* music_128.png */,
+				227BB8531B3B2D17004EFFA7 /* camicon128.png */,
+				227BB8541B3B2D17004EFFA7 /* vizicon128.png */,
 				224936DB1B389CD200699D59 /* Info.plist */,
 				224936DC1B389CD200699D59 /* main.m */,
 			);
@@ -171,6 +272,11 @@
 				TargetAttributes = {
 					224936D61B389CD200699D59 = {
 						CreatedOnToolsVersion = 6.3.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					224936F21B389CD300699D59 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -202,9 +308,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */,
+				227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */,
+				2249377E1B3A5E0A00699D59 /* particleTexture.png in Resources */,
+				224937631B39CB7400699D59 /* Default@2x.png in Resources */,
+				2249372C1B38FADA00699D59 /* music_128.png in Resources */,
+				2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */,
+				2249372A1B38FADA00699D59 /* cam_128.png in Resources */,
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
-				224936EE1B389CD200699D59 /* LaunchScreen.xib in Resources */,
+				22F76A0E1B3C9AD700EE3AFD /* audioplayer_pause.png in Resources */,
+				22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */,
+				22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */,
 				224936EB1B389CD200699D59 /* Images.xcassets in Resources */,
+				2249372B1B38FADA00699D59 /* mic_128.png in Resources */,
+				224937761B3A56B100699D59 /* MeterTable in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,10 +339,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
-				224936E01B389CD200699D59 /* AppDelegate.m in Sources */,
-				224936E61B389CD200699D59 /* ViewController.m in Sources */,
 				224936DD1B389CD200699D59 /* main.m in Sources */,
+				224936E01B389CD200699D59 /* AppDelegate.m in Sources */,
+				22F76A151B3CAF1100EE3AFD /* FSAudioPlayer.m in Sources */,
+				2249377A1B3A592800699D59 /* MeterTable.cpp in Sources */,
+				224937741B3A568400699D59 /* VisualizerView.mm in Sources */,
+				224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */,
+				224937811B3A76AB00699D59 /* CamViewController.m in Sources */,
+				224937711B3A54C800699D59 /* VizViewController.m in Sources */,
+				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
+				2249376E1B39F0E300699D59 /* MusicViewController.m in Sources */,
+				2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */,
+				224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,14 +379,7 @@
 				224936E81B389CD200699D59 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		224936EC1B389CD200699D59 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				224936ED1B389CD200699D59 /* Base */,
-			);
-			name = LaunchScreen.xib;
+			path = "LIFX Ambience";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -307,6 +425,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				myappname = "LIFX-Ambience";
 			};
 			name = Debug;
 		};
@@ -344,15 +463,23 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				myappname = "LIFX-Ambience";
 			};
 			name = Release;
 		};
 		224936FE1B389CD300699D59 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/frak/Documents/LIFXKit-cnsblnuqrwxhuicgndijkotbdhas/Build/Products/Release-iphonesimulator",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = "LIFX Ambience/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -360,9 +487,17 @@
 		224936FF1B389CD300699D59 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/frak/Documents/LIFXKit-cnsblnuqrwxhuicgndijkotbdhas/Build/Products/Release-iphonesimulator",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = "LIFX Ambience/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -420,6 +555,7 @@
 				224936FF1B389CD300699D59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		224937001B389CD300699D59 /* Build configuration list for PBXNativeTarget "LIFX AmbienceTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +564,7 @@
 				224937021B389CD300699D59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
