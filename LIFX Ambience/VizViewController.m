@@ -23,7 +23,7 @@
 @property (strong, nonatomic) UIBarButtonItem *pauseBBI;
 
 // Add properties here
-@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+//@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (strong, nonatomic) VisualizerView *visualizer;
 
 //FRAK Audio Player
@@ -34,7 +34,7 @@
 
 @implementation VizViewController {
     BOOL _isBarHide;
-    BOOL _isPlaying;
+    //BOOL _isPlaying;
 }
 
 - (BOOL) prefersStatusBarHidden {return YES;}
@@ -76,6 +76,7 @@ NSTimer *timer;
 
 #endif
 
+//This function gets called AFTER autolayout/contraint has finished and BEFORE viewWillAppear
 - (void)viewDidLayoutSubviews
 {
     
@@ -106,7 +107,7 @@ NSTimer *timer;
     if (![parent isEqual:self.parentViewController]) {
         NSLog(@"Back pressed");
         
-        if (_isPlaying)
+        if ([self.myaudioPlayer isPlaying])
         {
             NSLog (@"Stopping audio");
             //[_audioPlayer stop];
@@ -229,7 +230,7 @@ NSTimer *timer;
     [self.view addSubview:_toolBar];
     
     _isBarHide = YES;
-    _isPlaying = NO;
+    //_isPlaying = NO;
     
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
     [_backgroundView addGestureRecognizer:tapGR];
@@ -264,23 +265,25 @@ NSTimer *timer;
 #pragma mark - Music control
 
 
-
+/*
 - (void)playPause {
+    
     if (_isPlaying) {
         // Pause audio here
-        [_audioPlayer pause];
+        //[_audioPlayer pause];
         
-        [_toolBar setItems:_playItems];  // toggle play/pause button
+        //[_toolBar setItems:_playItems];  // toggle play/pause button
     }
     else {
         // Play audio here
-        [_audioPlayer play];
+        //[_audioPlayer play];
         
-        [_toolBar setItems:_pauseItems]; // toggle play/pause button
+        //[_toolBar setItems:_pauseItems]; // toggle play/pause button
     }
     _isPlaying = !_isPlaying;
 }
-
+ */
+/*
 - (void)playURL:(NSURL *)url {
     if (_isPlaying) {
         [self playPause]; // Pause the previous audio player
@@ -293,6 +296,29 @@ NSTimer *timer;
     [_visualizer setAudioPlayer:_audioPlayer];
     
     [self playPause];   // Play
+    
+}
+*/
+
+- (void)myplayURL:(NSURL *)url {
+    NSLog(@"myplayURL() ");
+    // Add audioPlayer configurations here
+    //self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    [self setupAudioPlayer:url];
+    [self.myaudioPlayer.audioPlayer setNumberOfLoops:-1];
+    [self.myaudioPlayer.audioPlayer setMeteringEnabled:YES];
+    [_visualizer setAudioPlayer:self.myaudioPlayer.audioPlayer];
+    
+    //[self playPause];   // Play
+    if (![self.myaudioPlayer isPlaying])
+    {
+        self.isPaused = FALSE;
+        //sending self start
+        NSLog(@"sending self start ");
+        [self playAudioPressed:self.view];
+    }
+
+    
 }
 
 #pragma mark - Media Picker
@@ -322,15 +348,37 @@ NSTimer *timer;
     
     // grab the first selection (media picker is capable of returning more than one selected item,
     // but this app only deals with one song at a time)
-    MPMediaItem *item = [[collection items] objectAtIndex:0];
-    NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
-    [_navBar.topItem setTitle:title];
+    //MPMediaItem *item = [[collection items] objectAtIndex:0];
+    //NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
+    //[_navBar.topItem setTitle:title];
     
     // get a URL reference to the selected item
-    NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
+    //NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
     
     // pass the URL to playURL:, defined earlier in this file
-    [self playURL:url];
+    //[self playURL:url];
+    
+    
+    
+    MPMediaItem *item = [[collection items] objectAtIndex:0];
+    NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
+    NSLog(@"url:%@",myurl);
+    NSLog(@"self.isPaused:%d",self.isPaused);
+    if (self.myaudioPlayer.audioPlayer.isPlaying)
+    {
+        [self.myaudioPlayer stopAudio];
+    
+    }
+    
+    
+    //NSLog (@"Stopping audio");
+    
+    //self.audioPlayer = [[YMCAudioPlayer alloc] init];
+    [self myplayURL:myurl];
+    //[self setupAudioPlayer:myurl];
+
+
+    
 }
 
 /*
@@ -340,6 +388,7 @@ NSTimer *timer;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+/*
 - (void)configureAudioPlayer {
     if (_isPlaying) { return;}
     NSURL *audioFileURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@"m4a"];
@@ -352,16 +401,16 @@ NSTimer *timer;
     [_audioPlayer setMeteringEnabled:YES];
     [_visualizer setAudioPlayer:_audioPlayer];
 }
-
+*/
 - (void)configuremyAudioPlayer {
-    if (_isPlaying) { return;}
+    if ([self.myaudioPlayer isPlaying]) { return;}
     self.myaudioPlayer = [[FSAudioPlayer alloc] init];
     NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@".m4a"];
     [self setupAudioPlayer:audioFileLocationURL];
     
     [_myaudioPlayer.audioPlayer setNumberOfLoops:-1];
     [_myaudioPlayer.audioPlayer setMeteringEnabled:YES];
-    [_visualizer setAudioPlayer:_myaudioPlayer.audioPlayer];
+    [_visualizer setAudioPlayer:self.myaudioPlayer.audioPlayer];
 }
 
 
@@ -399,7 +448,7 @@ NSTimer *timer;
 {
     NSError *error;
     //insert Filename & FileExtension
-    
+    NSLog(@"setupAudioPlayer()");
     
     //init the Player to get file properties to set the time labels
     //[self.audioPlayer initPlayer:fileName fileExtension:fileExtension];
@@ -412,7 +461,6 @@ NSTimer *timer;
     
     self.duration.text = [NSString stringWithFormat:@"-%@",
                           [self.myaudioPlayer timeFormat:[self.myaudioPlayer getAudioDuration]]];
-    
 }
 /*
 //volume slider on the right side
@@ -431,7 +479,7 @@ NSTimer *timer;
 - (IBAction)playAudioPressed:(id)playButton
 {
     NSLog(@"Entering %s()",__FUNCTION__);
-    NSLog(@"BEFORE:_isPlaying=%d",_isPlaying);
+    //NSLog(@"BEFORE:_isPlaying=%d",_isPlaying);
     [self.timer invalidate];
     //play audio for the first time or if pause was pressed
     if (!self.isPaused) {
@@ -459,8 +507,8 @@ NSTimer *timer;
         [self.myaudioPlayer pauseAudio];
         self.isPaused = FALSE;
     }
-     _isPlaying = !_isPlaying;
-     NSLog(@"AFTER: _isPlaying=%d",_isPlaying);
+     //_isPlaying = !_isPlaying;
+     //NSLog(@"AFTER: _isPlaying=%d",_isPlaying);
 }
 /*
  * Updates the time label display and

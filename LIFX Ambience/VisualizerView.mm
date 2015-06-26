@@ -203,6 +203,7 @@
         //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
         //[localNetworkContext.allLightsCollection setColor:gLifxColor overDuration:2];
     }
+    //NSLog(@"......emitter.....");
     [emitterLayer setValue:@(scale) forKeyPath:@"emitterCells.cell.emitterCells.childCell.scale"];
 }
 
