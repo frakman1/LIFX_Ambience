@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UILabel *duration;
 @property (weak, nonatomic) IBOutlet UILabel *timeElapsed;
+@property (weak, nonatomic) IBOutlet UILabel *lblSongTitle;
 
 
 @property BOOL isPaused;

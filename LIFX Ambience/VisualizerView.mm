@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MeterTable/MeterTable.h"
 #import <LIFXKit/LIFXKit.h>
+#import "VizViewController.h"
 //#import "UIImageAverageColorAddition.h"
 
 
@@ -19,6 +20,7 @@
     UIColor *gColor ;
     LFXHSBKColor* gLifxColor ;
     CGFloat hue, saturation, brightness, alpha;
+    CGFloat gIncrement;
     CGFloat starthue;
     BOOL stopFlag ;
     CADisplayLink *dpLink;
@@ -47,13 +49,15 @@
 {
     stopFlag = FALSE;
     
-    gColor = [UIColor colorWithRed:0.0f green:0.0 blue:1.0f alpha:1.0f] ;
+    gColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:1.0f] ;
     [gColor getHue:&starthue saturation:&saturation brightness:&brightness alpha:&alpha];
     gLifxColor = [LFXHSBKColor colorWithHue:(starthue*360) saturation:saturation brightness:brightness];
     NSLog(@"starting hue:%f  ",starthue);
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:gLifxColor];
-    
+    saturation = 0.8;
+    gIncrement = 0.001;
+
     self = [super initWithFrame:frame];
     if (self) {
         [self setBackgroundColor:[UIColor blackColor]];
@@ -129,13 +133,20 @@
         dpLink = nil;
         
     }
-    //NSLog(@"****update*** ");
+   // NSLog(@"****update*** ");
 
     if (_audioPlayer.playing )
     {
         
         hue = (hue + 0.1);if (hue>360) hue=1;
-        //NSLog(@"hue:%f  ",hue);
+        
+        saturation= saturation+gIncrement;
+        if ( (saturation>0.9999)|| (saturation<0.5) )
+        {
+            gIncrement=gIncrement*(-1.0);
+        }
+        
+        //NSLog(@"hue:%f  saturation:%f",hue,saturation);
         CAEmitterCell *cell = [CAEmitterCell emitterCell];
         cell.name = @"cell";
         
@@ -149,7 +160,7 @@
         
         cell.emitterCells = @[childCell];
         
-        cell.color = [[UIColor colorWithHue: hue/360.0 saturation: 1.0 brightness: 1.0 alpha: 1.0]CGColor] ;
+        cell.color = [[UIColor colorWithHue: hue/360.0 saturation: saturation brightness: 1.0 alpha: 1.0]CGColor] ;
         
         
         cell.redRange = 0.46f;

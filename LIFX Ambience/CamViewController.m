@@ -388,9 +388,9 @@ LFXHSBKColor *gcamLifxColor;
     camTimer = nil;
     [NSThread sleepForTimeInterval:1];
     
-    LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
+    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
 
 
 }

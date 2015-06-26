@@ -244,14 +244,22 @@
                                 <color key="textColor" red="0.86111111110000005" green="0.86111111110000005" blue="0.86111111110000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DemoSong" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7p-Ub-gvD" userLabel="SongTitle">
+                                <rect key="frame" x="0.0" y="46" width="320" height="25"/>
+                                <color key="backgroundColor" red="0.086274509799999996" green="0.24313725489999999" blue="0.38823529410000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="bO5-M5-QBN"/>
                     <connections>
                         <outlet property="audioPlayerBackgroundLayer" destination="iAb-br-qGv" id="Oin-KO-lIm"/>
                         <outlet property="currentTimeSlider" destination="Dxt-7a-SeI" id="Giw-sp-dYh"/>
                         <outlet property="duration" destination="GBE-oa-55V" id="W5p-Lq-z4H"/>
+                        <outlet property="lblSongTitle" destination="K7p-Ub-gvD" id="isQ-lb-ruO"/>
                         <outlet property="playButton" destination="7kF-jk-FSj" id="q5S-nd-LzQ"/>
                         <outlet property="timeElapsed" destination="mqs-A3-REf" id="H8f-b1-bv6"/>
                     </connections>
@@ -277,7 +285,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Average Colour" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tzL-Ow-623">
                                         <rect key="frame" x="79" y="580" width="175" height="28"/>
-                                        <color key="backgroundColor" white="0.740234375" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.12994581077131881" green="0.37710584495059335" blue="0.59564393939393945" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.82185444078947367" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>

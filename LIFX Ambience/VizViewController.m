@@ -84,27 +84,23 @@ NSTimer *timer;
     CGRect frame = self.view.frame;
 
     self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width ,self.audioPlayerBackgroundLayer.frame.size.height);
+    self.lblSongTitle.frame = CGRectMake(self.lblSongTitle.frame.origin.x, self.lblSongTitle.frame.origin.y, frame.size.width ,self.lblSongTitle.frame.size.height);
+    
+    
     self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
     CGPoint mypoint;
     mypoint.x = (self.audioPlayerBackgroundLayer.frame.origin.x + self.audioPlayerBackgroundLayer.frame.size.width)-50;
     mypoint.y = self.audioPlayerBackgroundLayer.center.y;
     self.duration.center = mypoint;
 
-/*
-    [[self.audioPlayerBackgroundLayer superview] bringSubviewToFront:self.audioPlayerBackgroundLayer];
-    [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
-    [[self.playButton superview] bringSubviewToFront:self.playButton];
-    [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
-    [[self.duration superview] bringSubviewToFront:self.duration];
-    [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
- */
-
     
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
 {
-    if (![parent isEqual:self.parentViewController]) {
+    NSLog(@"%@",parent.title );
+    if (![parent isEqual:self.parentViewController])
+    {
         NSLog(@"Back pressed");
         
         if ([self.myaudioPlayer isPlaying])
@@ -122,16 +118,25 @@ NSTimer *timer;
         
         //[self.myaudioPlayer stopAudio];
         
-        NSLog (@"Stopping audio");
         
         
-        //[self.visualizer vizStop];
+        
+        [self.visualizer vizStop];
+        [self.visualizer removeFromSuperview];
+        
+
+        NSArray *viewsToRemove = [self.view subviews];
+        for (UIView *v in viewsToRemove)
+        {
+            NSLog(@"removing view  %@", v);
+            [v removeFromSuperview];
+        }
         
         
         LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
         LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
         [localNetworkContext.allLightsCollection setColor:tmpColor];
-
+   
     }
 }
 
@@ -147,6 +152,7 @@ NSTimer *timer;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog (@"****viewDidLoad****");
     
     [self configureBars];
     
@@ -165,14 +171,16 @@ NSTimer *timer;
     [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
     [[self.duration superview] bringSubviewToFront:self.duration];
     [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
+    [[self.lblSongTitle superview] bringSubviewToFront:self.lblSongTitle];
 
-    //[self configureAudioPlayer];
+    
     [self configuremyAudioPlayer];
     
     // Setup Main soundtrack player
     
     //NSString *filename = [self.gameSelection stringByAppendingString:@".mp3"];
     //NSLog(@"crafed filename: %@",filename);
+    [self.currentTimeSlider setThumbImage: [UIImage imageNamed:@"knob2.png"] forState:UIControlStateNormal];
 
 }
 
@@ -215,15 +223,15 @@ NSTimer *timer;
     
     UIBarButtonItem *pickBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(pickSong)];
     
-    self.playBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPause)];
+//    self.playBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPause)];
     
-    self.pauseBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPause)];
+//    self.pauseBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPause)];
     
     UIBarButtonItem *leftFlexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *rightFlexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    self.playItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI, _playBBI, rightFlexBBI, nil];
-    self.pauseItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI, _pauseBBI, rightFlexBBI, nil];
+    self.playItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI,  rightFlexBBI, nil];
+    self.pauseItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI, rightFlexBBI, nil];
     
     [_toolBar setItems:_playItems];
     
@@ -263,42 +271,6 @@ NSTimer *timer;
 
 
 #pragma mark - Music control
-
-
-/*
-- (void)playPause {
-    
-    if (_isPlaying) {
-        // Pause audio here
-        //[_audioPlayer pause];
-        
-        //[_toolBar setItems:_playItems];  // toggle play/pause button
-    }
-    else {
-        // Play audio here
-        //[_audioPlayer play];
-        
-        //[_toolBar setItems:_pauseItems]; // toggle play/pause button
-    }
-    _isPlaying = !_isPlaying;
-}
- */
-/*
-- (void)playURL:(NSURL *)url {
-    if (_isPlaying) {
-        [self playPause]; // Pause the previous audio player
-    }
-    
-    // Add audioPlayer configurations here
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
-    [_audioPlayer setNumberOfLoops:-1];
-    [_audioPlayer setMeteringEnabled:YES];
-    [_visualizer setAudioPlayer:_audioPlayer];
-    
-    [self playPause];   // Play
-    
-}
-*/
 
 - (void)myplayURL:(NSURL *)url {
     NSLog(@"myplayURL() ");
@@ -364,6 +336,9 @@ NSTimer *timer;
     NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
     NSLog(@"url:%@",myurl);
     NSLog(@"self.isPaused:%d",self.isPaused);
+    
+    NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
+    self.lblSongTitle.text = title;
     if (self.myaudioPlayer.audioPlayer.isPlaying)
     {
         [self.myaudioPlayer stopAudio];
@@ -388,20 +363,7 @@ NSTimer *timer;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-/*
-- (void)configureAudioPlayer {
-    if (_isPlaying) { return;}
-    NSURL *audioFileURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@"m4a"];
-    NSError *error;
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:&error];
-    if (error) {
-        NSLog(@"%@", [error localizedDescription]);
-    }
-    [_audioPlayer setNumberOfLoops:-1];
-    [_audioPlayer setMeteringEnabled:YES];
-    [_visualizer setAudioPlayer:_audioPlayer];
-}
-*/
+
 - (void)configuremyAudioPlayer {
     if ([self.myaudioPlayer isPlaying]) { return;}
     self.myaudioPlayer = [[FSAudioPlayer alloc] init];
@@ -488,7 +450,7 @@ NSTimer *timer;
                                    forState:UIControlStateNormal];
         
         //start a timer to update the time label display
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                       target:self
                                                     selector:@selector(updateTime:)
                                                     userInfo:nil

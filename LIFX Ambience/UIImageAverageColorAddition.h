@@ -4,7 +4,7 @@
 
 @interface UIImage (UIImageAverageColorAddition)
 
-- (UIColor *)averageColor;
+
 - (UIColor *)mergedColor;
 
 @end

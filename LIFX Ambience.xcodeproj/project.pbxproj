@@ -42,6 +42,8 @@
 		22F76A0E1B3C9AD700EE3AFD /* audioplayer_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */; };
 		22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */; };
 		22F76A151B3CAF1100EE3AFD /* FSAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F76A141B3CAF1100EE3AFD /* FSAudioPlayer.m */; };
+		22F76A171B3D907600EE3AFD /* knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A161B3D907600EE3AFD /* knob.png */; };
+		22F76A191B3D9D0F00EE3AFD /* knob2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A181B3D9D0F00EE3AFD /* knob2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,8 @@
 		22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_play.png; sourceTree = "<group>"; };
 		22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSAudioPlayer.h; sourceTree = "<group>"; };
 		22F76A141B3CAF1100EE3AFD /* FSAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSAudioPlayer.m; sourceTree = "<group>"; };
+		22F76A161B3D907600EE3AFD /* knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob.png; sourceTree = "<group>"; };
+		22F76A181B3D9D0F00EE3AFD /* knob2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,8 @@
 		224936DA1B389CD200699D59 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				22F76A181B3D9D0F00EE3AFD /* knob2.png */,
+				22F76A161B3D907600EE3AFD /* knob.png */,
 				2249377B1B3A5A3F00699D59 /* DemoSong.m4a */,
 				224937751B3A56B100699D59 /* MeterTable */,
 				22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */,
@@ -316,9 +322,11 @@
 				2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */,
 				2249372A1B38FADA00699D59 /* cam_128.png in Resources */,
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
+				22F76A191B3D9D0F00EE3AFD /* knob2.png in Resources */,
 				22F76A0E1B3C9AD700EE3AFD /* audioplayer_pause.png in Resources */,
 				22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */,
 				22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */,
+				22F76A171B3D907600EE3AFD /* knob.png in Resources */,
 				224936EB1B389CD200699D59 /* Images.xcassets in Resources */,
 				2249372B1B38FADA00699D59 /* mic_128.png in Resources */,
 				224937761B3A56B100699D59 /* MeterTable in Resources */,
