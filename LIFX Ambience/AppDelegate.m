@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Flurry/Flurry.h"
 
 @interface AppDelegate ()
 
@@ -19,6 +20,7 @@
     // Override point for customization after application launch.
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     application.applicationSupportsShakeToEdit = YES;
+    [Flurry startSession:@"SHY275WVSQH8FYKF63M6"];
 
     return YES;
 }
