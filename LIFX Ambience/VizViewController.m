@@ -26,6 +26,10 @@
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (strong, nonatomic) VisualizerView *visualizer;
 
+//FRAK Audio Player
+@property (nonatomic, strong) FSAudioPlayer *myaudioPlayer;
+@property NSTimer *timer;
+
 @end
 
 @implementation VizViewController {
@@ -72,11 +76,61 @@ NSTimer *timer;
 
 #endif
 
+- (void)viewDidLayoutSubviews
+{
+    
+    [super viewDidLayoutSubviews];
+    CGRect frame = self.view.frame;
+
+    self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width ,self.audioPlayerBackgroundLayer.frame.size.height);
+    self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
+    CGPoint mypoint;
+    mypoint.x = (self.audioPlayerBackgroundLayer.frame.origin.x + self.audioPlayerBackgroundLayer.frame.size.width)-50;
+    mypoint.y = self.audioPlayerBackgroundLayer.center.y;
+    self.duration.center = mypoint;
+
+/*
+    [[self.audioPlayerBackgroundLayer superview] bringSubviewToFront:self.audioPlayerBackgroundLayer];
+    [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
+    [[self.playButton superview] bringSubviewToFront:self.playButton];
+    [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
+    [[self.duration superview] bringSubviewToFront:self.duration];
+    [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
+ */
+
+    
+}
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
 {
     if (![parent isEqual:self.parentViewController]) {
         NSLog(@"Back pressed");
+        
+        if (_isPlaying)
+        {
+            NSLog (@"Stopping audio");
+            //[_audioPlayer stop];
+            [self.myaudioPlayer stopAudio];
+        }
+        
+        if(self.timer)
+        {
+            [self.timer invalidate];
+            self.timer = nil;
+        }
+        
+        //[self.myaudioPlayer stopAudio];
+        
+        NSLog (@"Stopping audio");
+        
+        
+        //[self.visualizer vizStop];
+        
+        
+        LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
+        LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+        [localNetworkContext.allLightsCollection setColor:tmpColor];
+
     }
 }
 
@@ -84,18 +138,6 @@ NSTimer *timer;
 -(void) viewWillDisappear:(BOOL)animated
 {
     NSLog (@"***viewWillDisappear***");
-    if (_isPlaying)
-    {
-        NSLog (@"Stopping audio");
-       [_audioPlayer stop];
-    }
-    
-    //[self.visualizer vizStop];
-    
-    
-    LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
 
     [self resignFirstResponder];
     
@@ -123,7 +165,14 @@ NSTimer *timer;
     [[self.duration superview] bringSubviewToFront:self.duration];
     [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
 
-    [self configureAudioPlayer];
+    //[self configureAudioPlayer];
+    [self configuremyAudioPlayer];
+    
+    // Setup Main soundtrack player
+    
+    //NSString *filename = [self.gameSelection stringByAppendingString:@".mp3"];
+    //NSLog(@"crafed filename: %@",filename);
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -214,6 +263,8 @@ NSTimer *timer;
 
 #pragma mark - Music control
 
+
+
 - (void)playPause {
     if (_isPlaying) {
         // Pause audio here
@@ -302,6 +353,18 @@ NSTimer *timer;
     [_visualizer setAudioPlayer:_audioPlayer];
 }
 
+- (void)configuremyAudioPlayer {
+    if (_isPlaying) { return;}
+    self.myaudioPlayer = [[FSAudioPlayer alloc] init];
+    NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@".m4a"];
+    [self setupAudioPlayer:audioFileLocationURL];
+    
+    [_myaudioPlayer.audioPlayer setNumberOfLoops:-1];
+    [_myaudioPlayer.audioPlayer setMeteringEnabled:YES];
+    [_visualizer setAudioPlayer:_myaudioPlayer.audioPlayer];
+}
+
+
 - (void)configureAudioSession {
     NSError *error;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
@@ -318,5 +381,146 @@ NSTimer *timer;
     // Pass the selected object to the new view controller.
     NSLog(@"segueing...");
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Music Player
+
+/*
+ * Setup the AudioPlayer with
+ * Filename and FileExtension like mp3
+ * Loading audioFile and sets the time Labels
+ */
+//- (void)setupAudioPlayer:(NSString*)fileName
+- (void)setupAudioPlayer:(NSURL*)fileURL
+
+{
+    NSError *error;
+    //insert Filename & FileExtension
+    
+    
+    //init the Player to get file properties to set the time labels
+    //[self.audioPlayer initPlayer:fileName fileExtension:fileExtension];
+    self.myaudioPlayer.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:&error];
+    self.currentTimeSlider.maximumValue = [self.myaudioPlayer getAudioDuration];
+    
+    //init the current timedisplay and the labels. if a current time was stored
+    //for this player then take it and update the time display
+    self.timeElapsed.text = @"0:00";
+    
+    self.duration.text = [NSString stringWithFormat:@"-%@",
+                          [self.myaudioPlayer timeFormat:[self.myaudioPlayer getAudioDuration]]];
+    
+}
+/*
+//volume slider on the right side
+-(IBAction)updateslider:(id)sender
+{
+    UISlider * slider = (UISlider*)sender;
+    NSLog(@"Slider Value: %.1f", [slider value]);
+    self.myaudioPlayer.audioPlayer.volume=[slider value];
+}
+*/
+/*
+ * PlayButton is pressed
+ * plays or pauses the audio and sets
+ * the play/pause Text of the Button
+ */
+- (IBAction)playAudioPressed:(id)playButton
+{
+    NSLog(@"Entering %s()",__FUNCTION__);
+    NSLog(@"BEFORE:_isPlaying=%d",_isPlaying);
+    [self.timer invalidate];
+    //play audio for the first time or if pause was pressed
+    if (!self.isPaused) {
+       
+        [self.playButton setBackgroundImage:[UIImage imageNamed:@"audioplayer_pause.png"]
+                                   forState:UIControlStateNormal];
+        
+        //start a timer to update the time label display
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                      target:self
+                                                    selector:@selector(updateTime:)
+                                                    userInfo:nil
+                                                     repeats:YES];
+        
+        [self.myaudioPlayer playAudio];
+        self.isPaused = TRUE;
+       
+        
+    } else {
+        NSLog(@"in else of if (!self.isPaused)");
+        //player is paused and Button is pressed again
+        [self.playButton setBackgroundImage:[UIImage imageNamed:@"audioplayer_play.png"]
+                                   forState:UIControlStateNormal];
+        
+        [self.myaudioPlayer pauseAudio];
+        self.isPaused = FALSE;
+    }
+     _isPlaying = !_isPlaying;
+     NSLog(@"AFTER: _isPlaying=%d",_isPlaying);
+}
+/*
+ * Updates the time label display and
+ * the current value of the slider
+ * while audio is playing
+ */
+- (void)updateTime:(NSTimer *)timer
+{
+    //to don't update every second. When scrubber is mouseDown the the slider will not set
+    if (!self.scrubbing)
+    {
+        self.currentTimeSlider.value = [self.myaudioPlayer getCurrentAudioTime];
+    }
+    self.timeElapsed.text = [NSString stringWithFormat:@"%@",
+                             [self.myaudioPlayer timeFormat:[self.myaudioPlayer getCurrentAudioTime]]];
+    
+    self.duration.text = [NSString stringWithFormat:@"-%@",
+                          [self.myaudioPlayer timeFormat:[self.myaudioPlayer getAudioDuration] - [self.myaudioPlayer getCurrentAudioTime]]];
+    
+    //When resetted/ended reset the playButton
+    if (![self.myaudioPlayer isPlaying])
+    {
+        [self.playButton setBackgroundImage:[UIImage imageNamed:@"audioplayer_play.png"]
+                                   forState:UIControlStateNormal];
+        [self.myaudioPlayer pauseAudio];
+        self.isPaused = FALSE;
+        // auto replay ***FRAK***
+        
+        NSLog(@"Sending self play");
+        [self playAudioPressed:self.view];
+    }
+}
+
+/*
+ * Sets the current value of the slider/scrubber
+ * to the audio file when slider/scrubber is used
+ */
+- (IBAction)setCurrentTime:(id)scrubber
+{
+    //if scrubbing update the timestate, call updateTime faster not to wait a second and dont repeat it
+    [NSTimer scheduledTimerWithTimeInterval:0.01
+                                     target:self
+                                   selector:@selector(updateTime:)
+                                   userInfo:nil
+                                    repeats:NO];
+    
+    [self.myaudioPlayer setCurrentAudioTime:self.currentTimeSlider.value];
+    self.scrubbing = FALSE;
+}
+
+/*
+ * Sets if the user is scrubbing right now
+ * to avoid slider update while dragging the slider
+ */
+- (IBAction)userIsScrubbing:(id)sender
+{
+    self.scrubbing = TRUE;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @end

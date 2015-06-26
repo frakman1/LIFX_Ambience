@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#include "FSAudioPlayer.h"
 
 @interface VizViewController : UIViewController <MPMediaPickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *audioPlayerBackgroundLayer;
@@ -20,5 +21,7 @@
 
 @property BOOL isPaused;
 @property BOOL scrubbing;
+
+
 
 @end

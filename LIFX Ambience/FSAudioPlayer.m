@@ -21,6 +21,7 @@
 }
 
 -(void)stopAudio {
+    NSLog(@"Stopping FSAudioPlayer Audio");
     [self.audioPlayer stop];
 }
 

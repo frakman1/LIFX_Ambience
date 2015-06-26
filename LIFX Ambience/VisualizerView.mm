@@ -129,7 +129,7 @@
         dpLink = nil;
         
     }
-    NSLog(@"****update*** ");
+    //NSLog(@"****update*** ");
 
     if (_audioPlayer.playing )
     {
@@ -187,7 +187,7 @@
         
         float level = meterTable.ValueAt(power);
         scale = level * 5;
-        NSLog(@"level:%f  scale:%f  power:%f",level,scale,power);
+        //NSLog(@"level:%f  scale:%f  power:%f",level,scale,power);
         
         gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:0.2+level];
         [localNetworkContext.allLightsCollection setColor:gLifxColor];

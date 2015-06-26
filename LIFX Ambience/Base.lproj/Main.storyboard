@@ -204,7 +204,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAb-br-qGv" userLabel="audioPlayerBackgroundLayer">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.50000001192092869" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAb-br-qGv" userLabel="audioPlayerBackgroundLayer">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
                                 <color key="backgroundColor" red="0.086274509803921567" green="0.24313725490196078" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -212,6 +212,10 @@
                             </label>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Dxt-7a-SeI" userLabel="audioSlider">
                                 <rect key="frame" x="72" y="8" width="175" height="31"/>
+                                <connections>
+                                    <action selector="setCurrentTime:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="omY-pa-E76"/>
+                                    <action selector="userIsScrubbing:" destination="2Ua-YC-BMe" eventType="touchDragInside" id="VG5-xj-JN7"/>
+                                </connections>
                             </slider>
                             <button autoresizesSubviews="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kF-jk-FSj" userLabel="audioPlayButton">
                                 <rect key="frame" x="-1" y="3" width="39" height="40"/>
@@ -224,6 +228,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="playAudioPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="1pZ-v9-Bng"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-0:37" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GBE-oa-55V" userLabel="timeDuration">
                                 <rect key="frame" x="265" y="13" width="50" height="21"/>
