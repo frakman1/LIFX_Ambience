@@ -14,6 +14,7 @@
 #import <LIFXKit/LIFXKit.h>
 #import "UIImageAverageColorAddition.h"
 
+
 //#import "SCAudioMeter.h"
 
 
@@ -638,6 +639,8 @@ LFXHSBKColor *gcamLifxColor;
         }
     }
 }
+
+
 
 - (IBAction)snapStillImage:(id)sender
 {

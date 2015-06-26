@@ -25,7 +25,6 @@
 		2249372C1B38FADA00699D59 /* music_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 224937291B38FADA00699D59 /* music_128.png */; };
 		224937631B39CB7400699D59 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 224937621B39CB7400699D59 /* Default@2x.png */; };
 		2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2249376A1B39EDFE00699D59 /* MainViewController.m */; };
-		2249376E1B39F0E300699D59 /* MusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2249376D1B39F0E300699D59 /* MusicViewController.m */; };
 		224937711B3A54C800699D59 /* VizViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937701B3A54C800699D59 /* VizViewController.m */; };
 		224937741B3A568400699D59 /* VisualizerView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 224937731B3A568400699D59 /* VisualizerView.mm */; };
 		224937761B3A56B100699D59 /* MeterTable in Resources */ = {isa = PBXBuildFile; fileRef = 224937751B3A56B100699D59 /* MeterTable */; };
@@ -81,8 +80,6 @@
 		224937621B39CB7400699D59 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		224937691B39EDFE00699D59 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		2249376A1B39EDFE00699D59 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		2249376C1B39F0E300699D59 /* MusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicViewController.h; sourceTree = "<group>"; };
-		2249376D1B39F0E300699D59 /* MusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicViewController.m; sourceTree = "<group>"; };
 		2249376F1B3A54C800699D59 /* VizViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VizViewController.h; sourceTree = "<group>"; };
 		224937701B3A54C800699D59 /* VizViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VizViewController.m; sourceTree = "<group>"; };
 		224937721B3A568400699D59 /* VisualizerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualizerView.h; sourceTree = "<group>"; };
@@ -174,8 +171,6 @@
 				224937831B3A776D00699D59 /* AVCamPreviewView.m */,
 				2249377F1B3A76AB00699D59 /* CamViewController.h */,
 				224937801B3A76AB00699D59 /* CamViewController.m */,
-				2249376C1B39F0E300699D59 /* MusicViewController.h */,
-				2249376D1B39F0E300699D59 /* MusicViewController.m */,
 				224936DE1B389CD200699D59 /* AppDelegate.h */,
 				224936DF1B389CD200699D59 /* AppDelegate.m */,
 				224937691B39EDFE00699D59 /* MainViewController.h */,
@@ -356,7 +351,6 @@
 				224937811B3A76AB00699D59 /* CamViewController.m in Sources */,
 				224937711B3A54C800699D59 /* VizViewController.m in Sources */,
 				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
-				2249376E1B39F0E300699D59 /* MusicViewController.m in Sources */,
 				2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */,
 				224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */,
 			);

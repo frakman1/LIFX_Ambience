@@ -1,10 +1,3 @@
-//
-//  VisualizerView.m
-//  iPodVisualizer
-//
-//  Created by Xinrong Guo on 13-3-30.
-//  Copyright (c) 2013 Xinrong Guo. All rights reserved.
-//
 
 #import "VisualizerView.h"
 #import <QuartzCore/QuartzCore.h>
