@@ -9,20 +9,64 @@
 #import "MainViewController.h"
 #import <LIFXKit/LIFXKit.h>
 
+typedef NS_ENUM(NSInteger, TableSection) {
+    TableSectionLights = 0,
+    //TableSectionTags = 1,
+};
 
-@interface MainViewController () <LFXNetworkContextObserver, LFXLightCollectionObserver, LFXLightObserver>
+@interface MainViewController () <UITableViewDataSource, UITableViewDelegate,LFXNetworkContextObserver, LFXLightCollectionObserver, LFXLightObserver>
 
 @property (nonatomic) LFXNetworkContext *lifxNetworkContext;
 
 @property (nonatomic) UIView *connectionStatusView;
 @property (nonatomic) NSArray *lights;
 @property (nonatomic) NSArray *taggedLightCollections;
+@property (weak, nonatomic) IBOutlet UITableView * tableView;
 
 
 
 @end
 
 @implementation MainViewController
+
+
+NSTimer *timer;
+-(void)myTick:(NSTimer *)timer
+{
+    //NSLog(@"myTick..");
+    [self updateLights];
+    [self updateNavBar];
+    //[self updateTags];
+    
+    //take screenshot
+    /*
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    CGRect rect = [keyWindow bounds];
+    UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [keyWindow.layer renderInContext:context];
+    UIImage *capturedScreen = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    
+    //UIColor* averageColor = [capturedScreen averageColor];
+    CGFloat red, green, blue;
+    CGFloat hue, saturation, brightness, alpha;
+    LFXHSBKColor *lifxColor;
+    
+    //[averageColor getRed:&red green:&green blue:&blue alpha:NULL];
+    //[averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+    
+    NSLog(@"hue:%f   saturation:%f  brightness:%f  alpha:%f",hue,saturation,brightness,alpha);
+    NSLog(@"red:%f   green:%f  blue:%f  alpha2:%f",red,green,blue,alpha);
+    
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //[localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOn];
+    lifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:self.visualizer.glevel];
+    [localNetworkContext.allLightsCollection setColor:lifxColor overDuration:0.5];
+    */
+    
+}
 
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -56,6 +100,11 @@
     self.connectionStatusView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.connectionStatusView];
+    
+    [self.tableView setDelegate:self];
+    [self.tableView setDataSource:self];
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
 
 
 
@@ -65,8 +114,15 @@
 {
     [super viewWillAppear:animated];
     [self updateNavBar];
-   // [self updateLights];
-  //  [self updateTags];
+    [self updateLights];
+    [self updateTags];
+}
+
+
+- (void)updateTags
+{
+    self.taggedLightCollections = self.lifxNetworkContext.taggedLightCollections;
+    [self.tableView reloadData];
 }
 
 - (void)updateNavBar
@@ -79,16 +135,19 @@
 - (void)updateLights
 {
     self.lights = self.lifxNetworkContext.allLightsCollection.lights;
-    //[self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
+    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+
 
 
 }
@@ -144,6 +203,87 @@
     [light removeLightObserver:self];
     [self updateLights];
     [self updateNavBar];
+}
+
+#pragma mark - Table View
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    switch ((TableSection)section)
+    {
+        case TableSectionLights:	return self.lights.count;
+        //case TableSectionTags:		return self.taggedLightCollections.count;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    //switch ((TableSection)section)
+    {
+        //case TableSectionLights:	return @"Lights";
+        //case TableSectionTags:		return @"Tags";
+    }
+    return @"";
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    switch ((TableSection)indexPath.section)
+    {
+        case TableSectionLights:
+        {
+            LFXLight *light = self.lights[indexPath.row];
+            
+            cell.textLabel.text = light.label;
+            cell.detailTextLabel.text = light.deviceID;
+           // NSLog(@"color:%@",light.color);
+            cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+            
+            break;
+        }
+/*
+        case TableSectionTags:
+        {
+            LFXTaggedLightCollection *taggedLightCollection = self.taggedLightCollections[indexPath.row];
+            
+            cell.textLabel.text = taggedLightCollection.tag;
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%i devices", (int)taggedLightCollection.lights.count];
+            
+            break;
+        }
+ */
+    }
+    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    cell.detailTextLabel.textColor = [UIColor grayColor];
+
+    return cell;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    if(cell.selectionStyle == UITableViewCellSelectionStyleNone){
+        return nil;
+    }
+    return indexPath;
+}
+#pragma mark - LFXLightObserver
+
+- (void)light:(LFXLight *)light didChangeLabel:(NSString *)label
+{
+    NSLog(@"Light: %@ Did Change Label: %@", light, label);
+    NSUInteger rowIndex = [self.lights indexOfObject:light];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:rowIndex inSection:TableSectionLights]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 
