@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		221B11341B3E9405004F3122 /* libFlurry_6.6.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */; };
 		224936DD1B389CD200699D59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DC1B389CD200699D59 /* main.m */; };
 		224936E01B389CD200699D59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DF1B389CD200699D59 /* AppDelegate.m */; };
 		224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */; };
@@ -44,8 +45,6 @@
 		22F76A171B3D907600EE3AFD /* knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A161B3D907600EE3AFD /* knob.png */; };
 		22F76A191B3D9D0F00EE3AFD /* knob2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A181B3D9D0F00EE3AFD /* knob2.png */; };
 		22F76A1B1B3DF83C00EE3AFD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22F76A1A1B3DF83C00EE3AFD /* Security.framework */; };
-		22F76A1D1B3DF88100EE3AFD /* Flurry in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A1C1B3DF88100EE3AFD /* Flurry */; };
-		22F76A1F1B3DF92900EE3AFD /* libFlurry_6.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22F76A1E1B3DF92900EE3AFD /* libFlurry_6.4.0.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +58,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		221B11311B3E9405004F3122 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		221B11321B3E9405004F3122 /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
+		221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.6.0.a; sourceTree = "<group>"; };
 		224936D71B389CD200699D59 /* LIFX Ambience.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LIFX Ambience.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224936DB1B389CD200699D59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		224936DC1B389CD200699D59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -107,8 +109,6 @@
 		22F76A161B3D907600EE3AFD /* knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob.png; sourceTree = "<group>"; };
 		22F76A181B3D9D0F00EE3AFD /* knob2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob2.png; sourceTree = "<group>"; };
 		22F76A1A1B3DF83C00EE3AFD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		22F76A1C1B3DF88100EE3AFD /* Flurry */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Flurry; sourceTree = "<group>"; };
-		22F76A1E1B3DF92900EE3AFD /* libFlurry_6.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry_6.4.0.a; path = "../../../Downloads/Flurry iPhone SDK viPhone 6.4.0/Flurry-iOS-6.4.0/Flurry/libFlurry_6.4.0.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22F76A1F1B3DF92900EE3AFD /* libFlurry_6.4.0.a in Frameworks */,
+				221B11341B3E9405004F3122 /* libFlurry_6.6.0.a in Frameworks */,
 				224937061B389E4800699D59 /* SystemConfiguration.framework in Frameworks */,
 				22F76A1B1B3DF83C00EE3AFD /* Security.framework in Frameworks */,
 				224937081B389E5D00699D59 /* libz.dylib in Frameworks */,
@@ -139,10 +139,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		221B11301B3E9405004F3122 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				221B11311B3E9405004F3122 /* Flurry.h */,
+				221B11321B3E9405004F3122 /* FlurryWatch.h */,
+				221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */,
+			);
+			path = Flurry;
+			sourceTree = "<group>";
+		};
 		224936CE1B389CD200699D59 = {
 			isa = PBXGroup;
 			children = (
-				22F76A1E1B3DF92900EE3AFD /* libFlurry_6.4.0.a */,
+				221B11301B3E9405004F3122 /* Flurry */,
 				22F76A1A1B3DF83C00EE3AFD /* Security.framework */,
 				224936E71B389CD200699D59 /* Main.storyboard */,
 				2249377D1B3A5E0A00699D59 /* particleTexture.png */,
@@ -173,7 +183,6 @@
 		224936D91B389CD200699D59 /* LIFX Ambience */ = {
 			isa = PBXGroup;
 			children = (
-				22F76A1C1B3DF88100EE3AFD /* Flurry */,
 				22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */,
 				22F76A141B3CAF1100EE3AFD /* FSAudioPlayer.m */,
 				224937851B3A779C00699D59 /* UIImageAverageColorAddition.h */,
@@ -284,6 +293,7 @@
 				TargetAttributes = {
 					224936D61B389CD200699D59 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 7G2GKABE9F;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -320,7 +330,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22F76A1D1B3DF88100EE3AFD /* Flurry in Resources */,
 				227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */,
 				227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */,
 				2249377E1B3A5E0A00699D59 /* particleTexture.png in Resources */,
@@ -416,7 +425,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Farqed Al Nuaimy (EPV8XNQYME)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -436,8 +446,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/**";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				myappname = "LIFX-Ambience";
 			};
@@ -460,7 +472,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Farqed Al Nuaimy (EPV8XNQYME)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -474,7 +487,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/**";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				myappname = "LIFX-Ambience";
@@ -484,51 +499,71 @@
 		224936FE1B389CD300699D59 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/frak/Documents/LIFXKit-cnsblnuqrwxhuicgndijkotbdhas/Build/Products/Release-iphonesimulator",
+					"$(PROJECT_DIR)/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/**",
+				);
 				INFOPLIST_FILE = "LIFX Ambience/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/**",
 					"$(inherited)",
-					/Users/frak/Downloads/Flurry,
 					iPhone,
 					SDK,
 					viPhone,
-					"6.4.0/Flurry-iOS-6.4.0/Flurry",
+					"$(PROJECT_DIR)/Flurry",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
 		224936FF1B389CD300699D59 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/frak/Documents/LIFXKit-cnsblnuqrwxhuicgndijkotbdhas/Build/Products/Release-iphonesimulator",
+					"$(PROJECT_DIR)/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/**",
+				);
 				INFOPLIST_FILE = "LIFX Ambience/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/**",
 					"$(inherited)",
-					/Users/frak/Downloads/Flurry,
 					iPhone,
 					SDK,
 					viPhone,
-					"6.4.0/Flurry-iOS-6.4.0/Flurry",
+					"$(PROJECT_DIR)/Flurry",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
