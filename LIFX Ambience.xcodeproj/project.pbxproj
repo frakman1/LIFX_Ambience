@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		221B11341B3E9405004F3122 /* libFlurry_6.6.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */; };
+		221B113A1B41C18E004F3122 /* lightbulb_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B11391B41C18E004F3122 /* lightbulb_icon.png */; };
+		221B113E1B41D046004F3122 /* lightbulb_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B113D1B41D046004F3122 /* lightbulb_on.png */; };
 		224936DD1B389CD200699D59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DC1B389CD200699D59 /* main.m */; };
 		224936E01B389CD200699D59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DF1B389CD200699D59 /* AppDelegate.m */; };
 		224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */; };
@@ -61,6 +63,8 @@
 		221B11311B3E9405004F3122 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		221B11321B3E9405004F3122 /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
 		221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.6.0.a; sourceTree = "<group>"; };
+		221B11391B41C18E004F3122 /* lightbulb_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightbulb_icon.png; sourceTree = SOURCE_ROOT; };
+		221B113D1B41D046004F3122 /* lightbulb_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightbulb_on.png; sourceTree = "<group>"; };
 		224936D71B389CD200699D59 /* LIFX Ambience.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LIFX Ambience.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224936DB1B389CD200699D59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		224936DC1B389CD200699D59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -209,6 +213,8 @@
 		224936DA1B389CD200699D59 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				221B113D1B41D046004F3122 /* lightbulb_on.png */,
+				221B11391B41C18E004F3122 /* lightbulb_icon.png */,
 				22F76A181B3D9D0F00EE3AFD /* knob2.png */,
 				22F76A161B3D907600EE3AFD /* knob.png */,
 				2249377B1B3A5A3F00699D59 /* DemoSong.m4a */,
@@ -335,6 +341,7 @@
 				2249377E1B3A5E0A00699D59 /* particleTexture.png in Resources */,
 				224937631B39CB7400699D59 /* Default@2x.png in Resources */,
 				2249372C1B38FADA00699D59 /* music_128.png in Resources */,
+				221B113A1B41C18E004F3122 /* lightbulb_icon.png in Resources */,
 				2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */,
 				2249372A1B38FADA00699D59 /* cam_128.png in Resources */,
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
@@ -343,6 +350,7 @@
 				22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */,
 				22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */,
 				22F76A171B3D907600EE3AFD /* knob.png in Resources */,
+				221B113E1B41D046004F3122 /* lightbulb_on.png in Resources */,
 				224936EB1B389CD200699D59 /* Images.xcassets in Resources */,
 				2249372B1B38FADA00699D59 /* mic_128.png in Resources */,
 				224937761B3A56B100699D59 /* MeterTable in Resources */,

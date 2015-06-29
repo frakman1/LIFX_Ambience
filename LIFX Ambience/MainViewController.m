@@ -15,6 +15,10 @@ typedef NS_ENUM(NSInteger, TableSection) {
 };
 
 @interface MainViewController () <UITableViewDataSource, UITableViewDelegate,LFXNetworkContextObserver, LFXLightCollectionObserver, LFXLightObserver>
+{
+    UIBarButtonItem *tempButton;
+    UIBarButtonItem *tempButton2;
+}
 
 @property (nonatomic) LFXNetworkContext *lifxNetworkContext;
 
@@ -24,13 +28,21 @@ typedef NS_ENUM(NSInteger, TableSection) {
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnMusic;
 @property (weak, nonatomic) IBOutlet UIButton *btnCam;
-
+@property (strong,nonatomic) IBOutlet UIButton *someButton;
+@property (strong,nonatomic) IBOutlet UIButton *someButton2;
+@property (nonatomic, retain) UIBarButtonItem *tempButton;
+@property (nonatomic, retain) UIBarButtonItem *tempButton2;
 
 
 @end
 
 @implementation MainViewController
 
+@synthesize tempButton;
+@synthesize tempButton2;
+
+UIImage* offImg;
+UIImage* onImg;
 
 NSTimer *timer;
 -(void)myTick:(NSTimer *)timer
@@ -70,6 +82,18 @@ NSTimer *timer;
     
 }
 
+- (void)toggleLightList:(id)sender
+{
+    
+    [UIView transitionWithView:self.tableView
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    self.tableView.hidden = !self.tableView.hidden;
+
+}
+
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -95,13 +119,39 @@ NSTimer *timer;
     //self.navigationController.navigationBar.shadowImage = [UIImage new];
     //self.navigationController.navigationBar.translucent = YES;}
     
-    self.connectionStatusView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 12)];
-    self.connectionStatusView.backgroundColor = [UIColor redColor];
-    self.connectionStatusView.layer.cornerRadius = self.connectionStatusView.frame.size.height / 2.0;
-    self.connectionStatusView.layer.borderWidth = 1.0 / [UIScreen mainScreen].scale;
-    self.connectionStatusView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    //self.connectionStatusView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    //self.connectionStatusView.backgroundColor = [UIColor redColor];
+    //self.connectionStatusView.layer.cornerRadius = self.connectionStatusView.frame.size.height / 2.0;
+    //self.connectionStatusView.layer.borderWidth = 5.0 / [UIScreen mainScreen].scale;
+    //self.connectionStatusView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    //UITapGestureRecognizer *singleFingerTap =[[UITapGestureRecognizer alloc] initWithTarget:self  action:@selector (toggleLightList:)];
+    //[self.connectionStatusView addGestureRecognizer:singleFingerTap];
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.connectionStatusView];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.connectionStatusView];
+    
+    offImg = [UIImage imageNamed:@"lightbulb_icon.png"];
+    onImg = [UIImage imageNamed:@"lightbulb_on.png"];
+    CGRect frameimg = CGRectMake(0, 0, offImg.size.width, offImg.size.height);
+    self.someButton = [[UIButton alloc] initWithFrame:frameimg];
+    self.someButton2 = [[UIButton alloc] initWithFrame:frameimg];
+    [self.someButton setBackgroundImage:offImg forState:UIControlStateNormal];
+    [self.someButton2 setBackgroundImage:onImg forState:UIControlStateNormal];
+    [self.someButton addTarget:self action:@selector(toggleLightList:) forControlEvents:UIControlEventTouchUpInside];
+    [self.someButton2 addTarget:self action:@selector(toggleLightList:) forControlEvents:UIControlEventTouchUpInside];
+    [self.someButton setShowsTouchWhenHighlighted:YES];
+    [self.someButton2 setShowsTouchWhenHighlighted:YES];
+    
+    //UIBarButtonItem *lightBarButton =[[UIBarButtonItem alloc] initWithCustomView:self.someButton];
+    tempButton = [[UIBarButtonItem alloc] initWithCustomView:self.someButton];
+    tempButton2 = [[UIBarButtonItem alloc] initWithCustomView:self.someButton2];
+    self.navigationItem.leftBarButtonItem=tempButton;
+    
+    
+    
+    
+    //self.navigationItem.rightBarButtonItem.target = self;
+    //self.navigationItem.rightBarButtonItem.action = @selector(toggleLightList:);
+    //[self.navigationItem.rightBarButtonItem setAction:@selector(toggleLightList:)];
     
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
@@ -120,6 +170,18 @@ NSTimer *timer;
     [self updateTags];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    //LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
+    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+    
+    
+    
+}
+
 
 - (void)updateTags
 {
@@ -131,7 +193,9 @@ NSTimer *timer;
 {
     BOOL isConnected = (self.lifxNetworkContext.connectionState == LFXConnectionStateConnected);
     //self.title = [NSString stringWithFormat:@"LIFX Ambience (%@)", isConnected ? @"connected" : @"searching"];
-    self.connectionStatusView.backgroundColor = isConnected ? [UIColor greenColor] : [UIColor redColor];
+    //self.connectionStatusView.backgroundColor = isConnected ? [UIColor greenColor] : [UIColor redColor];
+    //[self.navigationItem.leftBarButtonItem. setBackgroundImage:onImg forState:UIControlStateNormal];
+    self.navigationItem.leftBarButtonItem = isConnected ? tempButton2 : tempButton;
 }
 
 - (void)updateLights
@@ -142,17 +206,6 @@ NSTimer *timer;
 
 
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    //LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
-    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    //[localNetworkContext.allLightsCollection setColor:tmpColor];
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
-
-
-
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -179,14 +232,14 @@ NSTimer *timer;
 {
     NSLog(@"Network Context Did Add Tagged Light Collection: %@", collection.tag);
     [collection addLightCollectionObserver:self];
-    //[self updateTags];
+    [self updateTags];
 }
 
 - (void)networkContext:(LFXNetworkContext *)networkContext didRemoveTaggedLightCollection:(LFXTaggedLightCollection *)collection
 {
     NSLog(@"Network Context Did Remove Tagged Light Collection: %@", collection.tag);
     [collection removeLightCollectionObserver:self];
-    //[self updateTags];
+    [self updateTags];
 }
 
 #pragma mark - LFXLightCollectionObserver
@@ -230,7 +283,22 @@ NSTimer *timer;
         //case TableSectionLights:	return @"Lights";
         //case TableSectionTags:		return @"Tags";
     }
-    return @"";
+    return @"Lights";
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Background color
+    //gColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:1.0f] ;
+    view.tintColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:0.3f] ;
+    
+    // Text Color
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor grayColor]];
+    
+    // Another way to set the background color
+    // Note: does not preserve gradient effect of original header
+    // header.contentView.backgroundColor = [UIColor blackColor];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -242,7 +310,7 @@ NSTimer *timer;
         case TableSectionLights:
         {
             LFXLight *light = self.lights[indexPath.row];
-            
+            //cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.textLabel.text = light.label;
             cell.detailTextLabel.text = light.deviceID;
            // NSLog(@"color:%@",light.color);
@@ -313,7 +381,7 @@ NSTimer *timer;
     tableFrame.origin.y = self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height;
     
     [self.tableView setFrame:tableFrame];
-    
+    self.tableView.hidden = YES;
     
    /*
     self.tableView.frame = CGRectMake(0,
