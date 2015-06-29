@@ -22,6 +22,8 @@ typedef NS_ENUM(NSInteger, TableSection) {
 @property (nonatomic) NSArray *lights;
 @property (nonatomic) NSArray *taggedLightCollections;
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
+@property (weak, nonatomic) IBOutlet UIButton *btnMusic;
+@property (weak, nonatomic) IBOutlet UIButton *btnCam;
 
 
 
@@ -294,6 +296,46 @@ NSTimer *timer;
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 
+}
+
+
+//This function gets called AFTER autolayout/contraint has finished and BEFORE viewWillAppear
+- (void)viewDidLayoutSubviews
+{
+    
+    [super viewDidLayoutSubviews];
+    CGRect frame = self.view.frame;
+    
+    CGRect tableFrame = [self.tableView frame];
+    tableFrame.size.height = frame.size.height - self.tableView.frame.origin.y;
+    tableFrame.size.width = frame.size.width;
+    tableFrame.origin.x = frame.origin.x;
+    tableFrame.origin.y = self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height;
+    
+    [self.tableView setFrame:tableFrame];
+    
+    
+   /*
+    self.tableView.frame = CGRectMake(0,
+                                      self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height,
+                                      frame.size.width,
+                                      frame.size.height
+                                      );
+    */
+    
+    //frame.origin.x + (float)frame.size.height - (float) self.tableView.frame.size.height;
+/*
+    self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width ,self.audioPlayerBackgroundLayer.frame.size.height);
+    self.lblSongTitle.frame = CGRectMake(self.lblSongTitle.frame.origin.x, self.lblSongTitle.frame.origin.y, frame.size.width ,self.lblSongTitle.frame.size.height);
+    
+    
+    self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
+    CGPoint mypoint;
+    mypoint.x = (self.audioPlayerBackgroundLayer.frame.origin.x + self.audioPlayerBackgroundLayer.frame.size.width)-50;
+    mypoint.y = self.audioPlayerBackgroundLayer.center.y;
+    self.duration.center = mypoint;
+    
+*/
 }
 
 

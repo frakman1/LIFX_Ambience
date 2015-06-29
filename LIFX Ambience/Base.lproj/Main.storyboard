@@ -23,9 +23,12 @@
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KOs-qU-nef">
                                 <rect key="frame" x="-4" y="44" width="328" height="544"/>
                                 <subviews>
-                                    <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cKV-bV-5Zu">
+                                    <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cKV-bV-5Zu">
                                         <rect key="frame" x="4" y="192" width="320" height="118"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="118" id="R9L-8Z-zuB"/>
+                                        </constraints>
                                         <color key="sectionIndexColor" white="0.82185444080000003" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="Xe0-xM-Y7d" detailTextLabel="jM4-Tv-7eh" style="IBUITableViewCellStyleSubtitle" id="LbU-o5-fWJ">
@@ -56,7 +59,7 @@
                                         </prototypes>
                                         <sections/>
                                     </tableView>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj">
                                         <rect key="frame" x="201" y="293" width="119" height="119"/>
                                         <state key="normal" image="camicon128.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -65,7 +68,7 @@
                                             <segue destination="beV-Dh-bsA" kind="push" id="AMS-OF-CFg"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee">
                                         <rect key="frame" x="8" y="293" width="119" height="119"/>
                                         <state key="normal" image="vizicon128.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -78,7 +81,12 @@
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="9Rk-T0-rCj" secondAttribute="centerX" constant="-100" id="91p-xT-gyg"/>
+                                    <constraint firstItem="cKV-bV-5Zu" firstAttribute="top" secondItem="KOs-qU-nef" secondAttribute="top" constant="192" id="Jtw-Kt-Xa9"/>
+                                    <constraint firstItem="cKV-bV-5Zu" firstAttribute="leading" secondItem="KOs-qU-nef" secondAttribute="leading" constant="4" id="R3d-pO-e7H"/>
                                     <constraint firstAttribute="centerX" secondItem="ZQI-9p-Oee" secondAttribute="centerX" constant="100" id="Txa-eg-WG8"/>
+                                    <constraint firstAttribute="centerY" secondItem="9Rk-T0-rCj" secondAttribute="centerY" id="YzU-py-lZZ"/>
+                                    <constraint firstAttribute="centerY" secondItem="ZQI-9p-Oee" secondAttribute="centerY" id="lmG-0w-jKJ"/>
+                                    <constraint firstItem="cKV-bV-5Zu" firstAttribute="centerX" secondItem="KOs-qU-nef" secondAttribute="centerX" id="x8z-b8-DLf"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -96,6 +104,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="qxN-Jc-eSL"/>
                     <connections>
+                        <outlet property="btnCam" destination="9Rk-T0-rCj" id="wTq-Br-jcP"/>
+                        <outlet property="btnMusic" destination="ZQI-9p-Oee" id="mWW-0c-L44"/>
                         <outlet property="tableView" destination="cKV-bV-5Zu" id="H4y-CB-g4U"/>
                     </connections>
                 </viewController>
