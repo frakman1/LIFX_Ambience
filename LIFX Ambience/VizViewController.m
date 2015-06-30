@@ -15,12 +15,12 @@
 @interface VizViewController ()
 
 @property (strong, nonatomic) UIView *backgroundView;
-//@property (strong, nonatomic) UINavigationBar *navBar;
-//@property (strong, nonatomic) UIToolbar *toolBar;
-//@property (strong, nonatomic) NSArray *playItems;
-//@property (strong, nonatomic) NSArray *pauseItems;
-//@property (strong, nonatomic) UIBarButtonItem *playBBI;
-//@property (strong, nonatomic) UIBarButtonItem *pauseBBI;
+@property (strong, nonatomic) UINavigationBar *navBar;
+@property (strong, nonatomic) UIToolbar *toolBar;
+@property (strong, nonatomic) NSArray *playItems;
+@property (strong, nonatomic) NSArray *pauseItems;
+@property (strong, nonatomic) UIBarButtonItem *playBBI;
+@property (strong, nonatomic) UIBarButtonItem *pauseBBI;
 
 // Add properties here
 //@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
@@ -33,7 +33,7 @@
 @end
 
 @implementation VizViewController {
-    BOOL _isBarHide;
+    //BOOL _isBarHide;
     //BOOL _isPlaying;
 }
 
@@ -133,6 +133,9 @@ NSTimer *timer;
         }
         
         
+        LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
+        LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+        [localNetworkContext.allLightsCollection setColor:tmpColor];
    
     }
 }
@@ -151,7 +154,7 @@ NSTimer *timer;
     [super viewDidLoad];
     NSLog (@"****viewDidLoad****");
     
-    //[self configureBars];
+    [self configureBars];
     
     [self configureAudioSession];
     
@@ -191,7 +194,6 @@ NSTimer *timer;
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
     //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
 }
-#if 0
 
 - (void)configureBars {
     [self.view setBackgroundColor:[UIColor blackColor]];
@@ -225,24 +227,23 @@ NSTimer *timer;
     
 //    self.pauseBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPause)];
     
-    UIBarButtonItem *leftFlexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *rightFlexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+   // UIBarButtonItem *leftFlexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    //UIBarButtonItem *rightFlexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    self.playItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI,  rightFlexBBI, nil];
-    self.pauseItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI, rightFlexBBI, nil];
+    //self.playItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI,  rightFlexBBI, nil];
+    //self.pauseItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI, rightFlexBBI, nil];
     
-    [_toolBar setItems:_playItems];
+    //[_toolBar setItems:_playItems];
     
-    [self.view addSubview:_toolBar];
+    //[self.view addSubview:_toolBar];
     
-    _isBarHide = YES;
+    //_isBarHide = YES;
     //_isPlaying = NO;
     
-    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
-    [_backgroundView addGestureRecognizer:tapGR];
+//    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
+  //  [_backgroundView addGestureRecognizer:tapGR];
 }
-
-
+#if 0
 - (void)toggleBars {
     //CGFloat navBarDis = -30;
     CGFloat toolBarDis = 44;
@@ -268,6 +269,7 @@ NSTimer *timer;
     [self toggleBars];
 }
 #endif
+
 
 #pragma mark - Music control
 
@@ -299,8 +301,6 @@ NSTimer *timer;
     [picker setDelegate:self];
     [picker setAllowsPickingMultipleItems: NO];
     [self presentViewController:picker animated:YES completion:NULL];
-
-    
 }
 
 /*
@@ -540,6 +540,5 @@ NSTimer *timer;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 @end
