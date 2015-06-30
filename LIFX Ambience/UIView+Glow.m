@@ -64,7 +64,7 @@ static char* GLOWVIEW_KEY = "GLOWVIEW";
     glowView.alpha = 0;
     glowView.layer.shadowColor = color.CGColor;
     glowView.layer.shadowOffset = CGSizeZero;
-    glowView.layer.shadowRadius = 10;
+    glowView.layer.shadowRadius = 20;
     glowView.layer.shadowOpacity = 1.0;
     
     // Create an animation that slowly fades the glow view in and out forever.
@@ -72,7 +72,7 @@ static char* GLOWVIEW_KEY = "GLOWVIEW";
     animation.fromValue = @(fromIntensity);
     animation.toValue = @(toIntensity);
     animation.repeatCount = repeat ? HUGE_VAL : 0;
-    animation.duration = 1.0;
+    animation.duration = 5.0;
     animation.autoreverses = YES;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     

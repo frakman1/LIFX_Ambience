@@ -104,7 +104,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="qxN-Jc-eSL">
                         <barButtonItem key="rightBarButtonItem" image="info.png" id="bXh-6c-WSD">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="aDy-15-Ep7" kind="push" id="eKU-G0-I5H"/>
                             </connections>
@@ -201,7 +201,13 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="bO5-M5-QBN"/>
+                    <navigationItem key="navigationItem" id="bO5-M5-QBN">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="Mbq-mV-fin">
+                            <connections>
+                                <action selector="barbtnSearchPressed:" destination="2Ua-YC-BMe" id="bcL-lk-QMh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="audioPlayerBackgroundLayer" destination="iAb-br-qGv" id="Oin-KO-lIm"/>
                         <outlet property="currentTimeSlider" destination="Dxt-7a-SeI" id="Giw-sp-dYh"/>
@@ -314,8 +320,8 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Say Hi" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6P-EE-NrW">
-                                        <rect key="frame" x="34" y="284" width="66" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Feedback" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6P-EE-NrW">
+                                        <rect key="frame" x="34" y="284" width="76" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -348,6 +354,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="VNQ-e4-Tjc"/>
                     <connections>
+                        <outlet property="btnDonate" destination="CpC-yr-SEC" id="FXY-za-9RI"/>
+                        <outlet property="btnMail" destination="Uyh-e7-wZP" id="agm-q0-9EN"/>
                         <outlet property="lblDonate" destination="BmV-ah-Lc9" id="32k-pT-oT1"/>
                         <outlet property="lblMail" destination="T6P-EE-NrW" id="4hb-ij-70S"/>
                     </connections>

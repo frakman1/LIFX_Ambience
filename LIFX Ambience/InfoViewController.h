@@ -15,4 +15,6 @@
 - (IBAction) donateButtonTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *lblDonate;
 @property (weak, nonatomic) IBOutlet UILabel *lblMail;
+@property (weak, nonatomic) IBOutlet UIButton *btnDonate;
+@property (weak, nonatomic) IBOutlet UIButton *btnMail;
 @end

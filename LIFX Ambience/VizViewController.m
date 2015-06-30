@@ -15,12 +15,12 @@
 @interface VizViewController ()
 
 @property (strong, nonatomic) UIView *backgroundView;
-@property (strong, nonatomic) UINavigationBar *navBar;
-@property (strong, nonatomic) UIToolbar *toolBar;
-@property (strong, nonatomic) NSArray *playItems;
-@property (strong, nonatomic) NSArray *pauseItems;
-@property (strong, nonatomic) UIBarButtonItem *playBBI;
-@property (strong, nonatomic) UIBarButtonItem *pauseBBI;
+//@property (strong, nonatomic) UINavigationBar *navBar;
+//@property (strong, nonatomic) UIToolbar *toolBar;
+//@property (strong, nonatomic) NSArray *playItems;
+//@property (strong, nonatomic) NSArray *pauseItems;
+//@property (strong, nonatomic) UIBarButtonItem *playBBI;
+//@property (strong, nonatomic) UIBarButtonItem *pauseBBI;
 
 // Add properties here
 //@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
@@ -133,9 +133,6 @@ NSTimer *timer;
         }
         
         
-        LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
-        LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-        [localNetworkContext.allLightsCollection setColor:tmpColor];
    
     }
 }
@@ -154,7 +151,7 @@ NSTimer *timer;
     [super viewDidLoad];
     NSLog (@"****viewDidLoad****");
     
-    [self configureBars];
+    //[self configureBars];
     
     [self configureAudioSession];
     
@@ -187,13 +184,14 @@ NSTimer *timer;
 - (void)viewDidAppear:(BOOL)animated {
     NSLog (@"***viewDidAppear***");
     [super viewDidAppear:animated];
-    [self toggleBars];
+    //[self toggleBars];
     //[self.visualizer vizStart];
     //spawn average colour effect thread
     //timer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
     //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
 }
+#if 0
 
 - (void)configureBars {
     [self.view setBackgroundColor:[UIColor blackColor]];
@@ -217,11 +215,11 @@ NSTimer *timer;
     //[self.view addSubview:_navBar];
     
     // ToolBar
-    self.toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, frame.size.height-30, frame.size.width, 30)];
-    [_toolBar setBarStyle:UIBarStyleBlackTranslucent];
-    [_toolBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    //self.toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, frame.size.height-30, frame.size.width, 30)];
+    //[_toolBar setBarStyle:UIBarStyleBlackTranslucent];
+    //[_toolBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     
-    UIBarButtonItem *pickBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(pickSong)];
+    //UIBarButtonItem *pickBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(pickSong)];
     
 //    self.playBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPause)];
     
@@ -243,6 +241,7 @@ NSTimer *timer;
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
     [_backgroundView addGestureRecognizer:tapGR];
 }
+
 
 - (void)toggleBars {
     //CGFloat navBarDis = -30;
@@ -268,7 +267,7 @@ NSTimer *timer;
 - (void)tapGestureHandler:(UITapGestureRecognizer *)tapGR {
     [self toggleBars];
 }
-
+#endif
 
 #pragma mark - Music control
 
@@ -294,19 +293,28 @@ NSTimer *timer;
 }
 
 #pragma mark - Media Picker
+- (IBAction)barbtnSearchPressed:(UIBarButtonItem *)sender
+{
+    MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
+    [picker setDelegate:self];
+    [picker setAllowsPickingMultipleItems: NO];
+    [self presentViewController:picker animated:YES completion:NULL];
+
+    
+}
 
 /*
  * This method is called when the user presses the magnifier button (because this selector was used
  * to create the button in configureBars, defined earlier in this file). It displays a media picker
  * screen to the user configured to show only audio files.
- */
+ 
 - (void)pickSong {
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
     [picker setDelegate:self];
     [picker setAllowsPickingMultipleItems: NO];
     [self presentViewController:picker animated:YES completion:NULL];
 }
-
+*/
 #pragma mark - Media Picker Delegate
 
 /*
@@ -532,5 +540,6 @@ NSTimer *timer;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 @end

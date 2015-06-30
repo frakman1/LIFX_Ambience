@@ -23,6 +23,7 @@
 @property BOOL isPaused;
 @property BOOL scrubbing;
 
+- (IBAction)barbtnSearchPressed:(UIBarButtonItem *)sender;
 
 
 @end

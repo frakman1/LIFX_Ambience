@@ -158,7 +158,6 @@ NSTimer *timer;
     
     
     
-    
     //self.navigationItem.rightBarButtonItem.target = self;
     //self.navigationItem.rightBarButtonItem.action = @selector(toggleLightList:);
     //[self.navigationItem.rightBarButtonItem setAction:@selector(toggleLightList:)];
@@ -167,7 +166,7 @@ NSTimer *timer;
     [self.tableView setDataSource:self];
     
     self.tableView.backgroundColor = [UIColor clearColor];
-
+    self.tableView.hidden = YES;
     
 
 }
@@ -187,6 +186,14 @@ NSTimer *timer;
     //[localNetworkContext.allLightsCollection setColor:tmpColor];
     
     timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+    //[(UIImageView *)self.navigationItem.leftBarButtonItem.customView startGlowingWithColor:[UIColor whiteColor] intensity:5];
+    [self.btnMusic.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
+    [self.btnCam.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
+    
+    //reset the lights
+    LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    [localNetworkContext.allLightsCollection setColor:tmpColor];
     
     
     
@@ -391,7 +398,7 @@ NSTimer *timer;
     tableFrame.origin.y = self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height;
     
     [self.tableView setFrame:tableFrame];
-    self.tableView.hidden = YES;
+    
     
    /*
     self.tableView.frame = CGRectMake(0,

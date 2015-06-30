@@ -9,6 +9,7 @@
 #import "InfoViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import <QuartzCore/QuartzCore.h>
+#import "UIView+Glow.h"
 
 
 @interface InfoViewController ()
@@ -35,6 +36,8 @@
     self.lblMail.layer.shadowOpacity = .9;
     self.lblMail.layer.shadowOffset = CGSizeZero;
     self.lblMail.layer.masksToBounds = NO;
+    [self.btnMail.imageView startGlowingWithColor:[UIColor orangeColor] intensity:5];
+    [self.btnDonate.imageView startGlowingWithColor:[UIColor greenColor] intensity:5];
 
 }
 
