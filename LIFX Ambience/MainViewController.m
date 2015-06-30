@@ -8,6 +8,9 @@
 
 #import "MainViewController.h"
 #import <LIFXKit/LIFXKit.h>
+#import "UIView+Glow.h"
+#import <QuartzCore/QuartzCore.h>
+
 
 typedef NS_ENUM(NSInteger, TableSection) {
     TableSectionLights = 0,
@@ -47,10 +50,14 @@ UIImage* onImg;
 NSTimer *timer;
 -(void)myTick:(NSTimer *)timer
 {
-    //NSLog(@"myTick..");
+    //NSLog(@"myTick..\n\n");
     [self updateLights];
     [self updateNavBar];
     //[self updateTags];
+    
+    
+    
+
     
     //take screenshot
     /*
@@ -141,6 +148,9 @@ NSTimer *timer;
     [self.someButton setShowsTouchWhenHighlighted:YES];
     [self.someButton2 setShowsTouchWhenHighlighted:YES];
     
+    //[self.btnMusic.imageView startGlowingWithColor:[UIColor whiteColor] intensity:0.5];
+    //[self.btnCam.imageView startGlowingWithColor:[UIColor whiteColor] intensity:0.5];
+    
     //UIBarButtonItem *lightBarButton =[[UIBarButtonItem alloc] initWithCustomView:self.someButton];
     tempButton = [[UIBarButtonItem alloc] initWithCustomView:self.someButton];
     tempButton2 = [[UIBarButtonItem alloc] initWithCustomView:self.someButton2];
@@ -158,7 +168,7 @@ NSTimer *timer;
     
     self.tableView.backgroundColor = [UIColor clearColor];
 
-
+    
 
 }
 

@@ -94,15 +94,22 @@
                         <constraints>
                             <constraint firstItem="3FN-it-rVN" firstAttribute="leading" secondItem="KOs-qU-nef" secondAttribute="leading" id="0Uz-iK-lWN"/>
                             <constraint firstItem="3FN-it-rVN" firstAttribute="bottom" secondItem="KOs-qU-nef" secondAttribute="bottom" id="3EK-4S-u60"/>
-                            <constraint firstItem="SEi-JS-j7f" firstAttribute="top" secondItem="3FN-it-rVN" secondAttribute="bottom" constant="-20" id="8Iw-Id-XJV"/>
+                            <constraint firstItem="SEi-JS-j7f" firstAttribute="top" secondItem="3FN-it-rVN" secondAttribute="bottom" constant="-20" id="3ly-Yr-heS"/>
+                            <constraint firstItem="3FN-it-rVN" firstAttribute="top" secondItem="Qqn-y2-vLh" secondAttribute="bottom" constant="-20" id="7Vk-lu-RLE"/>
                             <constraint firstItem="3FN-it-rVN" firstAttribute="trailing" secondItem="KOs-qU-nef" secondAttribute="trailing" id="LMC-Pg-hMx"/>
-                            <constraint firstItem="3FN-it-rVN" firstAttribute="top" secondItem="Qqn-y2-vLh" secondAttribute="bottom" constant="-20" id="RA8-B2-X3R"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3FN-it-rVN" secondAttribute="trailing" constant="-20" id="TK8-54-jOa"/>
                             <constraint firstItem="3FN-it-rVN" firstAttribute="top" secondItem="KOs-qU-nef" secondAttribute="top" id="eKw-SQ-UrL"/>
                             <constraint firstItem="3FN-it-rVN" firstAttribute="leading" secondItem="aik-py-Rp3" secondAttribute="leadingMargin" constant="-20" id="gLb-Z4-O5S"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="qxN-Jc-eSL"/>
+                    <navigationItem key="navigationItem" id="qxN-Jc-eSL">
+                        <barButtonItem key="rightBarButtonItem" image="info.png" id="bXh-6c-WSD">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="aDy-15-Ep7" kind="push" id="eKU-G0-I5H"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="btnCam" destination="9Rk-T0-rCj" id="wTq-Br-jcP"/>
                         <outlet property="btnMusic" destination="ZQI-9p-Oee" id="mWW-0c-L44"/>
@@ -265,11 +272,98 @@
             </objects>
             <point key="canvasLocation" x="582" y="524"/>
         </scene>
+        <!--Info View Controller-->
+        <scene sceneID="ngn-yR-Hr3">
+            <objects>
+                <viewController id="aDy-15-Ep7" customClass="InfoViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JG1-iK-XML"/>
+                        <viewControllerLayoutGuide type="bottom" id="aN4-bw-sIQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PoP-Ka-j9k">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="background2" translatesAutoresizingMaskIntoConstraints="NO" id="xuO-MH-w2f">
+                                <rect key="frame" x="-4" y="44" width="328" height="544"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DOz-z7-QUn">
+                                <rect key="frame" x="-4" y="44" width="328" height="544"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CpC-yr-SEC">
+                                        <rect key="frame" x="201" y="186" width="119" height="119"/>
+                                        <state key="normal" image="dollar.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="donateButtonTapped:" destination="aDy-15-Ep7" eventType="touchUpInside" id="i2z-eP-yWk"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uyh-e7-wZP">
+                                        <rect key="frame" x="8" y="186" width="119" height="119"/>
+                                        <state key="normal" image="mail.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sendButtonTapped:" destination="aDy-15-Ep7" eventType="touchUpInside" id="cgI-zi-Fvy"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Donate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BmV-ah-Lc9">
+                                        <rect key="frame" x="227" y="284" width="66" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Say Hi" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6P-EE-NrW">
+                                        <rect key="frame" x="34" y="284" width="66" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.15686274510000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="T6P-EE-NrW" secondAttribute="centerX" constant="100" id="7PS-B9-fek"/>
+                                    <constraint firstAttribute="centerX" secondItem="BmV-ah-Lc9" secondAttribute="centerX" constant="-100" id="AVS-gc-AOc"/>
+                                    <constraint firstAttribute="centerX" secondItem="Uyh-e7-wZP" secondAttribute="centerX" constant="100" id="PyK-ES-K6k"/>
+                                    <constraint firstAttribute="centerY" secondItem="T6P-EE-NrW" secondAttribute="centerY" constant="-50" id="k5Q-j8-79F"/>
+                                    <constraint firstAttribute="centerX" secondItem="CpC-yr-SEC" secondAttribute="centerX" constant="-100" id="oUI-oW-RB6"/>
+                                    <constraint firstAttribute="centerY" secondItem="CpC-yr-SEC" secondAttribute="centerY" id="ow2-8O-4SG"/>
+                                    <constraint firstAttribute="centerY" secondItem="Uyh-e7-wZP" secondAttribute="centerY" constant="-5" id="qqh-97-5k4"/>
+                                    <constraint firstAttribute="centerY" secondItem="BmV-ah-Lc9" secondAttribute="centerY" constant="-50" id="wjo-hV-DVU"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="xuO-MH-w2f" secondAttribute="trailing" constant="-20" id="2JS-Ej-QBy"/>
+                            <constraint firstItem="xuO-MH-w2f" firstAttribute="bottom" secondItem="DOz-z7-QUn" secondAttribute="bottom" id="DsK-xN-OAb"/>
+                            <constraint firstItem="xuO-MH-w2f" firstAttribute="trailing" secondItem="DOz-z7-QUn" secondAttribute="trailing" id="Fjh-kJ-9e5"/>
+                            <constraint firstItem="aN4-bw-sIQ" firstAttribute="top" secondItem="xuO-MH-w2f" secondAttribute="bottom" constant="-20" id="TBr-Ez-eSA"/>
+                            <constraint firstItem="xuO-MH-w2f" firstAttribute="top" secondItem="DOz-z7-QUn" secondAttribute="top" id="TS0-qg-ze9"/>
+                            <constraint firstItem="xuO-MH-w2f" firstAttribute="top" secondItem="JG1-iK-XML" secondAttribute="bottom" constant="-20" id="br4-oq-r3k"/>
+                            <constraint firstItem="xuO-MH-w2f" firstAttribute="leading" secondItem="DOz-z7-QUn" secondAttribute="leading" id="mTr-AN-Srv"/>
+                            <constraint firstItem="xuO-MH-w2f" firstAttribute="leading" secondItem="PoP-Ka-j9k" secondAttribute="leadingMargin" constant="-20" id="yqC-li-UTx"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="VNQ-e4-Tjc"/>
+                    <connections>
+                        <outlet property="lblDonate" destination="BmV-ah-Lc9" id="32k-pT-oT1"/>
+                        <outlet property="lblMail" destination="T6P-EE-NrW" id="4hb-ij-70S"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EGb-gu-fry" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="582" y="-857"/>
+        </scene>
     </scenes>
     <resources>
         <image name="audioplayer_play.png" width="66" height="65"/>
         <image name="background2" width="320" height="480"/>
         <image name="camicon128.png" width="128" height="128"/>
+        <image name="dollar.png" width="64" height="64"/>
+        <image name="info.png" width="32" height="32"/>
+        <image name="mail.png" width="64" height="64"/>
         <image name="vizicon128.png" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

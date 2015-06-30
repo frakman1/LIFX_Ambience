@@ -9,7 +9,12 @@
 /* Begin PBXBuildFile section */
 		221B11341B3E9405004F3122 /* libFlurry_6.6.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */; };
 		221B113A1B41C18E004F3122 /* lightbulb_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B11391B41C18E004F3122 /* lightbulb_icon.png */; };
-		221B113E1B41D046004F3122 /* lightbulb_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B113D1B41D046004F3122 /* lightbulb_on.png */; };
+		221B11421B420ADA004F3122 /* lightbulb_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B11411B420ADA004F3122 /* lightbulb_on.png */; };
+		221B11441B420B61004F3122 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B11431B420B61004F3122 /* info.png */; };
+		221B11471B420C3E004F3122 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B11461B420C3E004F3122 /* InfoViewController.m */; };
+		221B11491B420EB2004F3122 /* mail.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B11481B420EB2004F3122 /* mail.png */; };
+		221B114B1B42100C004F3122 /* dollar.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B114A1B42100C004F3122 /* dollar.png */; };
+		221B114E1B4218FD004F3122 /* UIView+Glow.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B114D1B4218FD004F3122 /* UIView+Glow.m */; };
 		224936DD1B389CD200699D59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DC1B389CD200699D59 /* main.m */; };
 		224936E01B389CD200699D59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DF1B389CD200699D59 /* AppDelegate.m */; };
 		224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */; };
@@ -64,7 +69,14 @@
 		221B11321B3E9405004F3122 /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
 		221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.6.0.a; sourceTree = "<group>"; };
 		221B11391B41C18E004F3122 /* lightbulb_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightbulb_icon.png; sourceTree = SOURCE_ROOT; };
-		221B113D1B41D046004F3122 /* lightbulb_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightbulb_on.png; sourceTree = "<group>"; };
+		221B11411B420ADA004F3122 /* lightbulb_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightbulb_on.png; sourceTree = "<group>"; };
+		221B11431B420B61004F3122 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		221B11451B420C3E004F3122 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		221B11461B420C3E004F3122 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		221B11481B420EB2004F3122 /* mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mail.png; sourceTree = "<group>"; };
+		221B114A1B42100C004F3122 /* dollar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dollar.png; sourceTree = "<group>"; };
+		221B114C1B4218FD004F3122 /* UIView+Glow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Glow.h"; sourceTree = "<group>"; };
+		221B114D1B4218FD004F3122 /* UIView+Glow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Glow.m"; sourceTree = "<group>"; };
 		224936D71B389CD200699D59 /* LIFX Ambience.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LIFX Ambience.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224936DB1B389CD200699D59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		224936DC1B389CD200699D59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -187,6 +199,8 @@
 		224936D91B389CD200699D59 /* LIFX Ambience */ = {
 			isa = PBXGroup;
 			children = (
+				221B114C1B4218FD004F3122 /* UIView+Glow.h */,
+				221B114D1B4218FD004F3122 /* UIView+Glow.m */,
 				22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */,
 				22F76A141B3CAF1100EE3AFD /* FSAudioPlayer.m */,
 				224937851B3A779C00699D59 /* UIImageAverageColorAddition.h */,
@@ -203,6 +217,8 @@
 				224937701B3A54C800699D59 /* VizViewController.m */,
 				224937721B3A568400699D59 /* VisualizerView.h */,
 				224937731B3A568400699D59 /* VisualizerView.mm */,
+				221B11451B420C3E004F3122 /* InfoViewController.h */,
+				221B11461B420C3E004F3122 /* InfoViewController.m */,
 				224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */,
 				224936EA1B389CD200699D59 /* Images.xcassets */,
 				224936DA1B389CD200699D59 /* Supporting Files */,
@@ -213,7 +229,10 @@
 		224936DA1B389CD200699D59 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				221B113D1B41D046004F3122 /* lightbulb_on.png */,
+				221B114A1B42100C004F3122 /* dollar.png */,
+				221B11481B420EB2004F3122 /* mail.png */,
+				221B11431B420B61004F3122 /* info.png */,
+				221B11411B420ADA004F3122 /* lightbulb_on.png */,
 				221B11391B41C18E004F3122 /* lightbulb_icon.png */,
 				22F76A181B3D9D0F00EE3AFD /* knob2.png */,
 				22F76A161B3D907600EE3AFD /* knob.png */,
@@ -338,19 +357,22 @@
 			files = (
 				227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */,
 				227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */,
+				221B114B1B42100C004F3122 /* dollar.png in Resources */,
 				2249377E1B3A5E0A00699D59 /* particleTexture.png in Resources */,
 				224937631B39CB7400699D59 /* Default@2x.png in Resources */,
 				2249372C1B38FADA00699D59 /* music_128.png in Resources */,
 				221B113A1B41C18E004F3122 /* lightbulb_icon.png in Resources */,
+				221B11491B420EB2004F3122 /* mail.png in Resources */,
 				2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */,
 				2249372A1B38FADA00699D59 /* cam_128.png in Resources */,
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
 				22F76A191B3D9D0F00EE3AFD /* knob2.png in Resources */,
 				22F76A0E1B3C9AD700EE3AFD /* audioplayer_pause.png in Resources */,
 				22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */,
+				221B11441B420B61004F3122 /* info.png in Resources */,
 				22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */,
 				22F76A171B3D907600EE3AFD /* knob.png in Resources */,
-				221B113E1B41D046004F3122 /* lightbulb_on.png in Resources */,
+				221B11421B420ADA004F3122 /* lightbulb_on.png in Resources */,
 				224936EB1B389CD200699D59 /* Images.xcassets in Resources */,
 				2249372B1B38FADA00699D59 /* mic_128.png in Resources */,
 				224937761B3A56B100699D59 /* MeterTable in Resources */,
@@ -373,6 +395,7 @@
 			files = (
 				224936DD1B389CD200699D59 /* main.m in Sources */,
 				224936E01B389CD200699D59 /* AppDelegate.m in Sources */,
+				221B11471B420C3E004F3122 /* InfoViewController.m in Sources */,
 				22F76A151B3CAF1100EE3AFD /* FSAudioPlayer.m in Sources */,
 				2249377A1B3A592800699D59 /* MeterTable.cpp in Sources */,
 				224937741B3A568400699D59 /* VisualizerView.mm in Sources */,
@@ -381,6 +404,7 @@
 				224937711B3A54C800699D59 /* VizViewController.m in Sources */,
 				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
 				2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */,
+				221B114E1B4218FD004F3122 /* UIView+Glow.m in Sources */,
 				224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
