@@ -30,7 +30,6 @@
 	<array>
 		<string>audio</string>
 		<string>bluetooth-central</string>
-		<string>external-accessory</string>
 	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>

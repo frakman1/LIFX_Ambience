@@ -156,8 +156,7 @@ NSTimer *timer;
     tempButton2 = [[UIBarButtonItem alloc] initWithCustomView:self.someButton2];
     self.navigationItem.leftBarButtonItem=tempButton;
     
-    
-    
+                    
     //self.navigationItem.rightBarButtonItem.target = self;
     //self.navigationItem.rightBarButtonItem.action = @selector(toggleLightList:);
     //[self.navigationItem.rightBarButtonItem setAction:@selector(toggleLightList:)];
@@ -189,6 +188,14 @@ NSTimer *timer;
     //[(UIImageView *)self.navigationItem.leftBarButtonItem.customView startGlowingWithColor:[UIColor whiteColor] intensity:5];
     [self.btnMusic.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
     [self.btnCam.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
+    
+    /*
+    UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    
+    //UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+    //self.navigationItem.rightBarButtonItem=barButton;
+    [(UIImageView *)self.navigationItem.rightBarButtonItem.customView setImage:infoButton.imageView.image];
+     */
     
     //reset the lights
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
