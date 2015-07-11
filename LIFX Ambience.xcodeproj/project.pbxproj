@@ -45,6 +45,9 @@
 		224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */; };
 		227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8531B3B2D17004EFFA7 /* camicon128.png */; };
 		227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8541B3B2D17004EFFA7 /* vizicon128.png */; };
+		22DCE2031B50E075002506AD /* UIAlertView+NSCookbook.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */; };
+		22DCE2051B5105C5002506AD /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = 22DCE2041B5105C5002506AD /* next.png */; };
+		22DCE2071B51068E002506AD /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = 22DCE2061B51068E002506AD /* previous.png */; };
 		22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224936DB1B389CD200699D59 /* Info.plist */; };
 		22F76A0E1B3C9AD700EE3AFD /* audioplayer_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */; };
 		22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */; };
@@ -118,6 +121,10 @@
 		224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageAverageColorAddition.m; sourceTree = "<group>"; };
 		227BB8531B3B2D17004EFFA7 /* camicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camicon128.png; sourceTree = "<group>"; };
 		227BB8541B3B2D17004EFFA7 /* vizicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vizicon128.png; sourceTree = "<group>"; };
+		22DCE2011B50E074002506AD /* UIAlertView+NSCookbook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+NSCookbook.h"; sourceTree = "<group>"; };
+		22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+NSCookbook.m"; sourceTree = "<group>"; };
+		22DCE2041B5105C5002506AD /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
+		22DCE2061B51068E002506AD /* previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previous.png; sourceTree = "<group>"; };
 		22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_pause.png; sourceTree = "<group>"; };
 		22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_play.png; sourceTree = "<group>"; };
 		22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSAudioPlayer.h; sourceTree = "<group>"; };
@@ -199,6 +206,8 @@
 		224936D91B389CD200699D59 /* LIFX Ambience */ = {
 			isa = PBXGroup;
 			children = (
+				22DCE2011B50E074002506AD /* UIAlertView+NSCookbook.h */,
+				22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */,
 				221B114C1B4218FD004F3122 /* UIView+Glow.h */,
 				221B114D1B4218FD004F3122 /* UIView+Glow.m */,
 				22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */,
@@ -229,6 +238,8 @@
 		224936DA1B389CD200699D59 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				22DCE2041B5105C5002506AD /* next.png */,
+				22DCE2061B51068E002506AD /* previous.png */,
 				221B114F1B42DAFE004F3122 /* info.png */,
 				221B114A1B42100C004F3122 /* dollar.png */,
 				221B11481B420EB2004F3122 /* mail.png */,
@@ -369,10 +380,12 @@
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
 				22F76A191B3D9D0F00EE3AFD /* knob2.png in Resources */,
 				22F76A0E1B3C9AD700EE3AFD /* audioplayer_pause.png in Resources */,
+				22DCE2051B5105C5002506AD /* next.png in Resources */,
 				22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */,
 				22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */,
 				22F76A171B3D907600EE3AFD /* knob.png in Resources */,
 				221B11421B420ADA004F3122 /* lightbulb_on.png in Resources */,
+				22DCE2071B51068E002506AD /* previous.png in Resources */,
 				224936EB1B389CD200699D59 /* Images.xcassets in Resources */,
 				2249372B1B38FADA00699D59 /* mic_128.png in Resources */,
 				224937761B3A56B100699D59 /* MeterTable in Resources */,
@@ -394,6 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				224936DD1B389CD200699D59 /* main.m in Sources */,
+				22DCE2031B50E075002506AD /* UIAlertView+NSCookbook.m in Sources */,
 				224936E01B389CD200699D59 /* AppDelegate.m in Sources */,
 				221B11471B420C3E004F3122 /* InfoViewController.m in Sources */,
 				22F76A151B3CAF1100EE3AFD /* FSAudioPlayer.m in Sources */,

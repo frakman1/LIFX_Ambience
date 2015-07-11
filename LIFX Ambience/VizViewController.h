@@ -18,12 +18,17 @@
 @property (weak, nonatomic) IBOutlet UILabel *duration;
 @property (weak, nonatomic) IBOutlet UILabel *timeElapsed;
 @property (weak, nonatomic) IBOutlet UILabel *lblSongTitle;
+@property (weak, nonatomic) IBOutlet UILabel *lblSongArtist;
+@property (weak, nonatomic) IBOutlet UIButton *btnnext;
+@property (weak, nonatomic) IBOutlet UIButton *btnprevious;
 
 
 @property BOOL isPaused;
 @property BOOL scrubbing;
 
 - (IBAction)barbtnSearchPressed:(UIBarButtonItem *)sender;
-
+- (IBAction) btnnextPressed:(UIButton *)sender;
+- (void) startPlaying;
+- (IBAction)btnpreviousPressed:(UIButton *)sender;
 
 @end

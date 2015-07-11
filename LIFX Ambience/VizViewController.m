@@ -10,9 +10,10 @@
 #import <AVFoundation/AVFoundation.h>
 #import "VisualizerView.h"
 #import <LIFXKit/LIFXKit.h>
+#import "UIAlertView+NSCookbook.h"
 
 
-@interface VizViewController ()
+@interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UINavigationBar *navBar;
@@ -21,6 +22,10 @@
 @property (strong, nonatomic) NSArray *pauseItems;
 @property (strong, nonatomic) UIBarButtonItem *playBBI;
 @property (strong, nonatomic) UIBarButtonItem *pauseBBI;
+
+@property (nonatomic, retain) MPMediaItemCollection*    playlist;
+@property (nonatomic, retain) MPMediaItemCollection*    limboPlaylist;
+
 
 // Add properties here
 //@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
@@ -32,9 +37,85 @@
 
 @end
 
-@implementation VizViewController {
+@implementation VizViewController
+{
     //BOOL _isBarHide;
     //BOOL _isPlaying;
+    int gcurrenSong;
+}
+@synthesize playlist,limboPlaylist;
+
+
+
+- (void) startPlaying
+{
+    MPMediaItem *item = [[playlist items] objectAtIndex:gcurrenSong];
+    NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
+    NSLog(@"url:%@",myurl);
+    NSLog(@"self.isPaused:%d",self.isPaused);
+    NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
+    self.lblSongTitle.text = title;
+    NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
+    self.lblSongArtist.text = artist;
+
+    
+    if (self.myaudioPlayer.audioPlayer.isPlaying)
+    {
+        [self.myaudioPlayer stopAudio];
+    }
+    [self myplayURL:myurl];
+    
+}
+
+- (IBAction)btnpreviousPressed:(UIButton *)sender
+{
+    
+    NSLog(@"\n\nbtnpreviousPressed. gcurrentSong:%d",gcurrenSong);
+    
+    int index = 0;
+    for (MPMediaItem *item in playlist.items)
+    {
+        NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+    }
+
+    
+    
+    gcurrenSong--;
+    NSLog(@" next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
+    if (gcurrenSong < 0)
+    {
+        gcurrenSong = 0 ;
+        NSLog(@"gcurrentSong reset to %d",gcurrenSong);
+        
+    }
+    
+    [self startPlaying];
+   
+    
+}
+- (IBAction)btnnextPressed:(UIButton *)sender
+{
+    NSLog(@"\n\nbtnnextPressed. gcurrentSong:%d",gcurrenSong);
+    
+    int index = 0;
+    for (MPMediaItem *item in playlist.items)
+    {
+        NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+    }
+
+    
+    gcurrenSong++;
+    NSLog(@" next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
+    if (gcurrenSong > ([playlist count] - 1))
+    {
+        gcurrenSong = 0 ;
+        NSLog(@"gcurrentSong reset to %d",gcurrenSong);
+
+    }
+    
+    [self startPlaying];
+
+    
 }
 
 - (BOOL) prefersStatusBarHidden {return YES;}
@@ -83,8 +164,10 @@ NSTimer *timer;
     [super viewDidLayoutSubviews];
     CGRect frame = self.view.frame;
 
-    self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width ,self.audioPlayerBackgroundLayer.frame.size.height);
+    self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y,
+                                                       frame.size.width ,self.audioPlayerBackgroundLayer.frame.size.height);
     self.lblSongTitle.frame = CGRectMake(self.lblSongTitle.frame.origin.x, self.lblSongTitle.frame.origin.y, frame.size.width ,self.lblSongTitle.frame.size.height);
+    self.lblSongArtist.frame = CGRectMake(self.lblSongArtist.frame.origin.x, self.lblSongArtist.frame.origin.y, frame.size.width ,self.lblSongArtist.frame.size.height);
     
     
     self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
@@ -92,6 +175,15 @@ NSTimer *timer;
     mypoint.x = (self.audioPlayerBackgroundLayer.frame.origin.x + self.audioPlayerBackgroundLayer.frame.size.width)-50;
     mypoint.y = self.audioPlayerBackgroundLayer.center.y;
     self.duration.center = mypoint;
+    
+    mypoint.x = (self.lblSongTitle.frame.origin.x + self.lblSongTitle.frame.size.width)-30;
+    mypoint.y = self.lblSongTitle.center.y;
+    self.btnnext.center = mypoint;
+    
+    //self.currentTimeSlider.frame = CGRectMake(self.timeElapsed.frame.origin.x+self.timeElapsed.frame.size.width+10,self.timeElapsed.frame.origin.y,frame.size.width - (self.timeElapsed.frame.origin.x)*2,self.currentTimeSlider.frame.size.height);
+   
+    [[self.btnnext superview] bringSubviewToFront:self.btnnext];
+    [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
 
     
 }
@@ -172,6 +264,7 @@ NSTimer *timer;
     [[self.duration superview] bringSubviewToFront:self.duration];
     [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
     [[self.lblSongTitle superview] bringSubviewToFront:self.lblSongTitle];
+    [[self.lblSongArtist superview] bringSubviewToFront:self.lblSongArtist];
 
     
     [self configuremyAudioPlayer];
@@ -276,13 +369,11 @@ NSTimer *timer;
 - (void)myplayURL:(NSURL *)url {
     NSLog(@"myplayURL() ");
     // Add audioPlayer configurations here
-    //self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     [self setupAudioPlayer:url];
-    [self.myaudioPlayer.audioPlayer setNumberOfLoops:-1];
+    
     [self.myaudioPlayer.audioPlayer setMeteringEnabled:YES];
     [_visualizer setAudioPlayer:self.myaudioPlayer.audioPlayer];
     
-    //[self playPause];   // Play
     if (![self.myaudioPlayer isPlaying])
     {
         self.isPaused = FALSE;
@@ -298,9 +389,16 @@ NSTimer *timer;
 - (IBAction)barbtnSearchPressed:(UIBarButtonItem *)sender
 {
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
+    picker.prompt = @"Add songs to play";
     [picker setDelegate:self];
-    [picker setAllowsPickingMultipleItems: NO];
-    [self presentViewController:picker animated:YES completion:NULL];
+    [picker setAllowsPickingMultipleItems: YES];
+    [picker setShowsCloudItems:YES];
+    [self presentViewController:picker animated:YES completion:nil];
+    
+    //[picker setAllowsPickingMultipleItems:YES];
+    
+    //[self presentModalViewController:picker animated: YES];
+
 }
 
 /*
@@ -315,6 +413,38 @@ NSTimer *timer;
     [self presentViewController:picker animated:YES completion:NULL];
 }
 */
+
+#pragma mark - UIAlertView Delegate
+
+-(void)alertView:(UIAlertView*)alertview didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"clicked button at index %i", buttonIndex);
+    if (buttonIndex == 0) //Add To Current Playlist
+    {
+        
+        //this may not be necessary, but for some reason stepping through the arrays one at a time made this work, the MPMediaItem objects and collections aren't as flexible as their NS counterparts
+        NSMutableArray*newPlaylist = [[NSMutableArray alloc]init];
+        
+        //add the old items one by one, then the new
+        for (int i = 0; i < [playlist.items count]; i++)
+        {
+            [newPlaylist addObject:[playlist.items objectAtIndex:i]];
+        }
+        for (int j = 0; j < [limboPlaylist.items count]; j++)
+        {
+            [newPlaylist addObject:[limboPlaylist.items objectAtIndex:j]];
+        }
+        playlist = [MPMediaItemCollection collectionWithItems:newPlaylist];
+        //[musicPlayer setQueueWithItemCollection:playlist];
+    }
+    else //overwrite existing playlist
+    {
+        playlist = limboPlaylist;
+        //[musicPlayer setQueueWithItemCollection:playlist];
+    }
+}
+
+
 #pragma mark - Media Picker Delegate
 
 /*
@@ -326,6 +456,8 @@ NSTimer *timer;
     // remove the media picker screen
     [self dismissViewControllerAnimated:YES completion:NULL];
     
+    self.btnnext.hidden=NO;
+    self.btnprevious.hidden=NO;
     // grab the first selection (media picker is capable of returning more than one selected item,
     // but this app only deals with one song at a time)
     //MPMediaItem *item = [[collection items] objectAtIndex:0];
@@ -339,26 +471,103 @@ NSTimer *timer;
     //[self playURL:url];
     
     
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    MPMediaItem *item = [[collection items] objectAtIndex:0];
-    NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
-    NSLog(@"url:%@",myurl);
-    NSLog(@"self.isPaused:%d",self.isPaused);
+    limboPlaylist = collection;//this stores the new playlist until it is decided how if it will be added to or overwrite the current playlist
     
-    NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
-    self.lblSongTitle.text = title;
-    if (self.myaudioPlayer.audioPlayer.isPlaying)
+    //if there are both new and old playlists, ask what to do
+    if ([playlist count] > 0 && [collection count] > 0)
     {
-        [self.myaudioPlayer stopAudio];
-    
+        //button events handled in the UIAlertView Delegate (below)
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"New Playlist Created" message:@"Add songs to current playlist or create new playlist?" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Add To Current", @"Create New", nil];
+        //[alert show];
+        //return;
+        
+        [alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex)
+        {
+            NSLog(@"clicked button at index %i", buttonIndex);
+            if (buttonIndex == 0) //Add To Current Playlist
+            {
+                
+                //this may not be necessary, but for some reason stepping through the arrays one at a time made this work, the MPMediaItem objects and collections aren't as flexible as their NS counterparts
+                NSMutableArray*newPlaylist = [[NSMutableArray alloc]init];
+                
+                //add the old items one by one, then the new
+                for (int i = 0; i < [playlist.items count]; i++)
+                {
+                    [newPlaylist addObject:[playlist.items objectAtIndex:i]];
+                }
+                for (int j = 0; j < [limboPlaylist.items count]; j++)
+                {
+                    [newPlaylist addObject:[limboPlaylist.items objectAtIndex:j]];
+                }
+                playlist = [MPMediaItemCollection collectionWithItems:newPlaylist];
+                //[musicPlayer setQueueWithItemCollection:playlist];
+            }
+            else //NEW PLAYLIST .overwrite existing playlist
+            {
+                playlist = limboPlaylist;gcurrenSong=-1;
+                //[musicPlayer setQueueWithItemCollection:playlist];
+            }
+            NSLog(@"\n***INSIDE ALERT***");
+            int index = 0;
+            for (MPMediaItem *item in playlist.items)
+            {
+                NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+            }
+            
+            //MPMediaItem *item = [[playlist items] objectAtIndex:0];
+            //NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
+            //NSLog(@"url:%@",myurl);
+            //NSLog(@"self.isPaused:%d",self.isPaused);
+            //NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
+            //self.lblSongTitle.text = title;
+            //if (self.myaudioPlayer.audioPlayer.isPlaying)
+           // {
+           //     [self.myaudioPlayer stopAudio];
+           // }
+            //[self myplayURL:myurl];
+            
+
+        }];
+    }
+    else
+    {
+        NSLog(@"\n***First Time ***");
+        playlist = collection;
+
+        int index = 0;
+        for (MPMediaItem *item in playlist.items)
+        {
+            NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+        }
+        
+        [self startPlaying];
+        /*
+        MPMediaItem *item = [[playlist items] objectAtIndex:0];  gcurrenSong = 0;
+        NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
+        NSLog(@"url:%@",myurl);
+        NSLog(@"self.isPaused:%d",self.isPaused);
+        NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
+        self.lblSongTitle.text = title;
+        if (self.myaudioPlayer.audioPlayer.isPlaying)
+        {
+            [self.myaudioPlayer stopAudio];
+        }
+        [self myplayURL:myurl];
+        
+         */
+        
     }
     
+    //[musicPlayer setQueueWithItemCollection:mediaItemCollection];
+    //playlist = collection;
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     
-    //NSLog (@"Stopping audio");
-    
-    //self.audioPlayer = [[YMCAudioPlayer alloc] init];
-    [self myplayURL:myurl];
-    //[self setupAudioPlayer:myurl];
+
+ 
 
 
     
@@ -375,6 +584,7 @@ NSTimer *timer;
 - (void)configuremyAudioPlayer {
     if ([self.myaudioPlayer isPlaying]) { return;}
     self.myaudioPlayer = [[FSAudioPlayer alloc] init];
+    //self.myaudioPlayer.audioPlayer.delegate = self;
     NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@".m4a"];
     [self setupAudioPlayer:audioFileLocationURL];
     
@@ -431,6 +641,7 @@ NSTimer *timer;
     
     self.duration.text = [NSString stringWithFormat:@"-%@",
                           [self.myaudioPlayer timeFormat:[self.myaudioPlayer getAudioDuration]]];
+    self.myaudioPlayer.audioPlayer.delegate=self;
 }
 /*
 //volume slider on the right side
@@ -507,8 +718,8 @@ NSTimer *timer;
         self.isPaused = FALSE;
         // auto replay ***FRAK***
         
-        NSLog(@"Sending self play");
-        [self playAudioPressed:self.view];
+       // NSLog(@"Sending self play");
+       // [self playAudioPressed:self.view];
     }
 }
 
@@ -540,5 +751,29 @@ NSTimer *timer;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Audio Player
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    //
+    NSLog(@"\n\n***FRAK*** detected end of song. gcurrentSong:%d",gcurrenSong);
+    int index = 0;
+    for (MPMediaItem *item in playlist.items)
+    {
+        NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+    }
+
+    
+    gcurrenSong++;
+    NSLog(@"next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
+    if (gcurrenSong > ([playlist count] - 1))
+    {
+        gcurrenSong =0 ;
+        NSLog(@"gcurrentSong reset to %d ",gcurrenSong);
+    }
+    
+    [self startPlaying];
+
+}
+
 
 @end

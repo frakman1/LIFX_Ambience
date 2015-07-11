@@ -193,18 +193,43 @@
                                 <color key="textColor" red="0.86111111110000005" green="0.86111111110000005" blue="0.86111111110000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DemoSong" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7p-Ub-gvD" userLabel="SongTitle">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7p-Ub-gvD" userLabel="SongTitle">
                                 <rect key="frame" x="0.0" y="46" width="320" height="25"/>
                                 <color key="backgroundColor" red="0.086274509799999996" green="0.24313725489999999" blue="0.38823529410000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DemoSong" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6j-8u-4Ue" userLabel="SongTitle">
+                                <rect key="frame" x="0.0" y="71" width="320" height="49"/>
+                                <color key="backgroundColor" red="0.086274509799999996" green="0.24313725489999999" blue="0.38823529410000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbq-cK-tLI">
+                                <rect key="frame" x="264" y="64" width="64" height="64"/>
+                                <state key="normal" image="next.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnnextPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="DNc-eZ-OHV"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmt-IR-ni6">
+                                <rect key="frame" x="-8" y="64" width="64" height="64"/>
+                                <state key="normal" image="previous.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnpreviousPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="moT-U4-TJB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="bO5-M5-QBN">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="Mbq-mV-fin">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Mbq-mV-fin">
                             <connections>
                                 <action selector="barbtnSearchPressed:" destination="2Ua-YC-BMe" id="bcL-lk-QMh"/>
                             </connections>
@@ -212,9 +237,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="audioPlayerBackgroundLayer" destination="iAb-br-qGv" id="Oin-KO-lIm"/>
+                        <outlet property="btnnext" destination="cbq-cK-tLI" id="aum-MN-6lf"/>
+                        <outlet property="btnprevious" destination="bmt-IR-ni6" id="97P-YE-Ht3"/>
                         <outlet property="currentTimeSlider" destination="Dxt-7a-SeI" id="Giw-sp-dYh"/>
                         <outlet property="duration" destination="GBE-oa-55V" id="W5p-Lq-z4H"/>
-                        <outlet property="lblSongTitle" destination="K7p-Ub-gvD" id="isQ-lb-ruO"/>
+                        <outlet property="lblSongArtist" destination="K7p-Ub-gvD" id="72a-9h-aDP"/>
+                        <outlet property="lblSongTitle" destination="A6j-8u-4Ue" id="N9I-ur-i9D"/>
                         <outlet property="playButton" destination="7kF-jk-FSj" id="q5S-nd-LzQ"/>
                         <outlet property="timeElapsed" destination="mqs-A3-REf" id="H8f-b1-bv6"/>
                     </connections>
@@ -374,6 +402,8 @@
         <image name="dollar.png" width="64" height="64"/>
         <image name="info.png" width="32" height="32"/>
         <image name="mail.png" width="64" height="64"/>
+        <image name="next.png" width="64" height="64"/>
+        <image name="previous.png" width="64" height="64"/>
         <image name="vizicon128.png" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
