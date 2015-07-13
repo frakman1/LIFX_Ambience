@@ -225,7 +225,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.5" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-MZ-8xd">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-MZ-8xd">
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <items>
                                     <barButtonItem title="             " id="QV5-63-fpe"/>
@@ -240,18 +240,18 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="trailing" secondItem="K7p-Ub-gvD" secondAttribute="trailing" id="3Lg-Tw-pGt"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="trailing" secondItem="A6j-8u-4Ue" secondAttribute="trailing" id="Bfp-gy-2MD"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="trailing" secondItem="K7p-Ub-gvD" secondAttribute="trailing" id="EuT-nn-hG6"/>
                             <constraint firstItem="mqs-A3-REf" firstAttribute="centerY" secondItem="GBE-oa-55V" secondAttribute="centerY" id="Fak-I3-PUo"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="iAb-br-qGv" secondAttribute="leading" id="SFC-LU-bQx"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="A6j-8u-4Ue" secondAttribute="leading" id="YjG-sF-fpB"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="trailing" secondItem="iAb-br-qGv" secondAttribute="trailing" id="Ztj-BS-KlQ"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leading" id="bMT-oC-j2P"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="bottom" secondItem="F5m-G6-LOp" secondAttribute="top" id="eje-6a-4Qs"/>
-                            <constraint firstItem="mqs-A3-REf" firstAttribute="centerY" secondItem="7kF-jk-FSj" secondAttribute="centerY" id="tD2-KZ-OA4"/>
+                            <constraint firstItem="7kF-jk-FSj" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leadingMargin" id="IGg-7L-r05"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="trailing" secondItem="iAb-br-qGv" secondAttribute="trailing" id="fr3-jX-50k"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leading" id="g77-3J-qSc"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="trailing" secondItem="A6j-8u-4Ue" secondAttribute="trailing" id="pJm-YI-HWb"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="K7p-Ub-gvD" secondAttribute="leading" id="ptZ-RG-L7f"/>
                             <constraint firstItem="mqs-A3-REf" firstAttribute="centerY" secondItem="Dxt-7a-SeI" secondAttribute="centerY" id="tOq-JV-494"/>
-                            <constraint firstAttribute="trailing" secondItem="h7n-MZ-8xd" secondAttribute="trailing" id="xwZ-FR-c6Z"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="K7p-Ub-gvD" secondAttribute="leading" id="y8e-yK-yJj"/>
+                            <constraint firstAttribute="trailing" secondItem="h7n-MZ-8xd" secondAttribute="trailing" id="uEn-o8-5sQ"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="bottom" secondItem="F5m-G6-LOp" secondAttribute="top" id="wkb-n2-YSV"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="A6j-8u-4Ue" secondAttribute="leading" id="yUD-LV-wfE"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="iAb-br-qGv" secondAttribute="leading" id="zo1-S9-16a"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bO5-M5-QBN">
@@ -505,14 +505,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="audioplayer_play.png" width="66" height="65"/>
+        <image name="audioplayer_play.png" width="32" height="32"/>
         <image name="background2" width="320" height="480"/>
         <image name="camicon128.png" width="128" height="128"/>
         <image name="dollar.png" width="64" height="64"/>
         <image name="info.png" width="32" height="32"/>
         <image name="mail.png" width="64" height="64"/>
-        <image name="next.png" width="64" height="64"/>
-        <image name="previous.png" width="64" height="64"/>
+        <image name="next.png" width="32" height="32"/>
+        <image name="previous.png" width="32" height="32"/>
         <image name="vizicon128.png" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
