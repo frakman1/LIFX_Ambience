@@ -48,6 +48,9 @@
 		22DCE2031B50E075002506AD /* UIAlertView+NSCookbook.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */; };
 		22DCE2051B5105C5002506AD /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = 22DCE2041B5105C5002506AD /* next.png */; };
 		22DCE2071B51068E002506AD /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = 22DCE2061B51068E002506AD /* previous.png */; };
+		22DCE20C1B5188A3002506AD /* photoShutter2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 22DCE20B1B5188A3002506AD /* photoShutter2.caf */; };
+		22DCE20E1B5188B8002506AD /* blank.wav in Resources */ = {isa = PBXBuildFile; fileRef = 22DCE20D1B5188B8002506AD /* blank.wav */; };
+		22F036E91B54062D008027FD /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F036E81B54062D008027FD /* TableViewController.m */; };
 		22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224936DB1B389CD200699D59 /* Info.plist */; };
 		22F76A0E1B3C9AD700EE3AFD /* audioplayer_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */; };
 		22F76A0F1B3C9AD700EE3AFD /* audioplayer_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */; };
@@ -125,6 +128,10 @@
 		22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+NSCookbook.m"; sourceTree = "<group>"; };
 		22DCE2041B5105C5002506AD /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
 		22DCE2061B51068E002506AD /* previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previous.png; sourceTree = "<group>"; };
+		22DCE20B1B5188A3002506AD /* photoShutter2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = photoShutter2.caf; sourceTree = "<group>"; };
+		22DCE20D1B5188B8002506AD /* blank.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = blank.wav; sourceTree = "<group>"; };
+		22F036E71B54062D008027FD /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		22F036E81B54062D008027FD /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		22F76A0C1B3C9AD700EE3AFD /* audioplayer_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_pause.png; sourceTree = "<group>"; };
 		22F76A0D1B3C9AD700EE3AFD /* audioplayer_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_play.png; sourceTree = "<group>"; };
 		22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSAudioPlayer.h; sourceTree = "<group>"; };
@@ -206,6 +213,10 @@
 		224936D91B389CD200699D59 /* LIFX Ambience */ = {
 			isa = PBXGroup;
 			children = (
+				22F036E71B54062D008027FD /* TableViewController.h */,
+				22F036E81B54062D008027FD /* TableViewController.m */,
+				2249376F1B3A54C800699D59 /* VizViewController.h */,
+				224937701B3A54C800699D59 /* VizViewController.m */,
 				22DCE2011B50E074002506AD /* UIAlertView+NSCookbook.h */,
 				22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */,
 				221B114C1B4218FD004F3122 /* UIView+Glow.h */,
@@ -222,12 +233,10 @@
 				224936DF1B389CD200699D59 /* AppDelegate.m */,
 				224937691B39EDFE00699D59 /* MainViewController.h */,
 				2249376A1B39EDFE00699D59 /* MainViewController.m */,
-				2249376F1B3A54C800699D59 /* VizViewController.h */,
-				224937701B3A54C800699D59 /* VizViewController.m */,
-				224937721B3A568400699D59 /* VisualizerView.h */,
-				224937731B3A568400699D59 /* VisualizerView.mm */,
 				221B11451B420C3E004F3122 /* InfoViewController.h */,
 				221B11461B420C3E004F3122 /* InfoViewController.m */,
+				224937721B3A568400699D59 /* VisualizerView.h */,
+				224937731B3A568400699D59 /* VisualizerView.mm */,
 				224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */,
 				224936EA1B389CD200699D59 /* Images.xcassets */,
 				224936DA1B389CD200699D59 /* Supporting Files */,
@@ -238,6 +247,8 @@
 		224936DA1B389CD200699D59 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				22DCE20B1B5188A3002506AD /* photoShutter2.caf */,
+				22DCE20D1B5188B8002506AD /* blank.wav */,
 				22DCE2041B5105C5002506AD /* next.png */,
 				22DCE2061B51068E002506AD /* previous.png */,
 				221B114F1B42DAFE004F3122 /* info.png */,
@@ -371,10 +382,12 @@
 				221B114B1B42100C004F3122 /* dollar.png in Resources */,
 				2249377E1B3A5E0A00699D59 /* particleTexture.png in Resources */,
 				224937631B39CB7400699D59 /* Default@2x.png in Resources */,
+				22DCE20C1B5188A3002506AD /* photoShutter2.caf in Resources */,
 				2249372C1B38FADA00699D59 /* music_128.png in Resources */,
 				221B113A1B41C18E004F3122 /* lightbulb_icon.png in Resources */,
 				221B11491B420EB2004F3122 /* mail.png in Resources */,
 				221B11501B42DAFE004F3122 /* info.png in Resources */,
+				22DCE20E1B5188B8002506AD /* blank.wav in Resources */,
 				2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */,
 				2249372A1B38FADA00699D59 /* cam_128.png in Resources */,
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
@@ -419,6 +432,7 @@
 				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
 				2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */,
 				221B114E1B4218FD004F3122 /* UIView+Glow.m in Sources */,
+				22F036E91B54062D008027FD /* TableViewController.m in Sources */,
 				224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

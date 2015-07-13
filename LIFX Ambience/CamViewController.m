@@ -13,6 +13,7 @@
 #import "AVCamPreviewView.h"
 #import <LIFXKit/LIFXKit.h>
 #import "UIImageAverageColorAddition.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 
 //#import "SCAudioMeter.h"
@@ -31,6 +32,8 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @property (nonatomic, weak) IBOutlet UIButton *cameraButton;
 @property (nonatomic, weak) IBOutlet UIButton *stillButton;
 @property (nonatomic,weak) IBOutlet UILabel* myLabel;
+
+@property (nonatomic, strong) UISlider *volumeSlider;
 
 - (IBAction)toggleMovieRecording:(id)sender;
 - (IBAction)changeCamera:(id)sender;
@@ -73,87 +76,12 @@ LFXHSBKColor *gcamLifxColor;
 
 -(void) camTick:(NSTimer *)timer
 {
-/*
-    float pkpower = 0;
-    float avgpower = 0;
-    double pkpercentage = 0;
-    double avgpercentage = 0;
-*/
-    //NSLog(@"camTick..");
+    
     
     //take screenshot
-     [self snapStillImage:self.view];
+    [self snapStillImage:self.view];
     
-    // calculate volume meter levels
-    //-------------------------------
- /*
-    [recorder updateMeters];
-    pkpower = [recorder peakPowerForChannel:0];
-    avgpower = [recorder averagePowerForChannel:0];
-    pkpercentage = pow (10, (0.05 * pkpower));
-    avgpercentage = pow (10, (0.05 * avgpower));
-    
-    //Log the peak and average power
-    NSLog(@"pkPower:%0.2f avgPower:%0.2f pkPct:%0.2f avgPct:%0.2f", pkpower,avgpower,pkpercentage,avgpercentage);
- */
 
-    //process image
-    //Calculate merged background color.
-    //set background label color and LIFX to that
-    //-------------------------------
-    
-    //CGFloat hue, saturation, brightness, alpha;
-    //LFXHSBKColor *lifxColor;
-    //UIColor *tmpColor;
-    
-    //tmpColor = [gImage mergedColor];
-    //[tmpColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-    //NSLog(@"%@",[NSString stringWithFormat:@"average color: %.2f %.2f %.2f", red, green, blue]);
-    //[self.myLabel.backgroundColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-    //NSLog(@"%@",[NSString stringWithFormat:@"hue: %.2f saturation: %.2f  brightness: %.2f alpha: %.2f", hue, saturation, brightness, alpha]);
-    //lifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:avgpercentage+0.2];
-    //gColor = [LFXHSBKColor colorWithHue:(pkpercentage*360) saturation:avgpercentage brightness:avgpercentage+0.3];
-    //gColor = [LFXHSBKColor colorWithHue:gColor.hue saturation:gColor.saturation brightness:gBrightness];
-    
-    
-    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    //[localNetworkContext.allLightsCollection setColor:lifxColor];
-    
-    // change test UIview background colour to indicate change on device screen
-    //self.myLabel.backgroundColor = [UIColor colorWithHue:(lifxColor.hue/360.0) saturation:lifxColor.saturation brightness:avgpercentage alpha:1];
-    
-    
-    
-    
-    
-   
-/*
-    UIWindow *keyWindow = self.previewView.window;
-    CGRect rect = [keyWindow bounds];
-    UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [keyWindow.layer renderInContext:context];
-    UIImage *capturedScreen = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    
-    //UIImage *capturedScreen = [self pb_takeSnapshot ];
-    UIColor* averageColor = [capturedScreen mergedColor];
-    CGFloat red, green, blue;
-    CGFloat hue, saturation, brightness, alpha;
-    LFXHSBKColor *lifxColor;
-    
-    [averageColor getRed:&red green:&green blue:&blue alpha:NULL];
-    [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOn];
-    lifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
-    [localNetworkContext.allLightsCollection setColor:lifxColor overDuration:1];
-    
-    self.myLabel.backgroundColor = [capturedScreen mergedColor];
-    NSLog(@"red:%f  green:%f  blue:%f",red,green,blue);
-  */
-    
     
     
 }
@@ -211,12 +139,11 @@ LFXHSBKColor *gcamLifxColor;
     
     return captureDevice;
 }
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+ 
     // Create the AVCaptureSession
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
     [self setSession:session];
@@ -392,6 +319,21 @@ LFXHSBKColor *gcamLifxColor;
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
+    
+    //restore volume
+    MPVolumeView* volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews]){
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    
+    [volumeViewSlider setValue:0.5f animated:YES];
+    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+    
 
 
 }
@@ -644,6 +586,19 @@ LFXHSBKColor *gcamLifxColor;
 
 - (IBAction)snapStillImage:(id)sender
 {
+    MPVolumeView* volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews]){
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    
+    [volumeViewSlider setValue:0.0f animated:YES];
+    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+    
     dispatch_async([self sessionQueue], ^{
         // Update the orientation on the still image output video connection before capturing.
         [[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[[self previewView] layer] connection] videoOrientation]];

@@ -11,6 +11,8 @@
 #import "VisualizerView.h"
 #import <LIFXKit/LIFXKit.h>
 #import "UIAlertView+NSCookbook.h"
+#import <UIKit/UIKit.h>
+#import "TableViewController.h"
 
 
 @interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate>
@@ -43,7 +45,7 @@
     //BOOL _isPlaying;
     int gcurrenSong;
 }
-@synthesize playlist,limboPlaylist;
+@synthesize playlist,limboPlaylist,toolbar;
 
 
 
@@ -53,8 +55,20 @@
     NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
     NSLog(@"url:%@",myurl);
     NSLog(@"self.isPaused:%d",self.isPaused);
-    NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
+    
+    
+   // your_text = [your_text substringToIndex:10];
+   // your_label.text = your_text;
+    
+    NSString *title = [item valueForProperty:MPMediaItemPropertyTitle ];
+    if (title.length>25) title = [title substringToIndex:25];
+    //[title  appendString: [item valueForProperty:MPMediaItemPropertyTitle] ];
+    //title = [title substringToIndex:27];
+    //[title appendString:@".                       ."];NSLog(@"%@",title);
     self.lblSongTitle.text = title;
+    [self.lblSongTitle sizeToFit];
+    
+    
     NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
     self.lblSongArtist.text = artist;
 
@@ -176,14 +190,18 @@ NSTimer *timer;
     mypoint.y = self.audioPlayerBackgroundLayer.center.y;
     self.duration.center = mypoint;
     
+    self.playButton.frame = CGRectMake(self.playButton.frame.origin.x-10,self.playButton.frame.origin.y,self.playButton.frame.size.width,self.playButton.frame.size.height);
+    self.timeElapsed.frame = CGRectMake(self.timeElapsed.frame.origin.x+10,self.timeElapsed.frame.origin.y,self.timeElapsed.frame.size.width,self.timeElapsed.frame.size.height);
+    
     mypoint.x = (self.lblSongTitle.frame.origin.x + self.lblSongTitle.frame.size.width)-30;
     mypoint.y = self.lblSongTitle.center.y;
     self.btnnext.center = mypoint;
     
     //self.currentTimeSlider.frame = CGRectMake(self.timeElapsed.frame.origin.x+self.timeElapsed.frame.size.width+10,self.timeElapsed.frame.origin.y,frame.size.width - (self.timeElapsed.frame.origin.x)*2,self.currentTimeSlider.frame.size.height);
    
-    [[self.btnnext superview] bringSubviewToFront:self.btnnext];
-    [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
+    
+    self.lblSongTitle.adjustsFontSizeToFitWidth = YES;
+    
 
     
 }
@@ -259,12 +277,15 @@ NSTimer *timer;
     //[self.view sendSubviewToBack:_visualizer];
     [[self.audioPlayerBackgroundLayer superview] bringSubviewToFront:self.audioPlayerBackgroundLayer];
     [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
-    [[self.playButton superview] bringSubviewToFront:self.playButton];
-    [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
+        [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
     [[self.duration superview] bringSubviewToFront:self.duration];
     [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
     [[self.lblSongTitle superview] bringSubviewToFront:self.lblSongTitle];
     [[self.lblSongArtist superview] bringSubviewToFront:self.lblSongArtist];
+    [[self.playButton superview] bringSubviewToFront:self.playButton];
+    [[self.btnnext superview] bringSubviewToFront:self.btnnext];
+    [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
+    [[self.toolbar superview] bringSubviewToFront:self.toolbar];
 
     
     [self configuremyAudioPlayer];
@@ -299,70 +320,8 @@ NSTimer *timer;
     
     [self.view addSubview:_backgroundView];
     
-    // NavBar
-    //self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, -30, frame.size.width, 30)];
-    //[_navBar setBarStyle:UIBarStyleBlackTranslucent];
-    //[_navBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    
-    //UINavigationItem *navTitleItem = [[UINavigationItem alloc] initWithTitle:@"Music Visualizer"];
-    //[_navBar pushNavigationItem:navTitleItem animated:NO];
-    
-    //[self.view addSubview:_navBar];
-    
-    // ToolBar
-    //self.toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, frame.size.height-30, frame.size.width, 30)];
-    //[_toolBar setBarStyle:UIBarStyleBlackTranslucent];
-    //[_toolBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    
-    //UIBarButtonItem *pickBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(pickSong)];
-    
-//    self.playBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playPause)];
-    
-//    self.pauseBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(playPause)];
-    
-   // UIBarButtonItem *leftFlexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    //UIBarButtonItem *rightFlexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    //self.playItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI,  rightFlexBBI, nil];
-    //self.pauseItems = [NSArray arrayWithObjects:pickBBI, leftFlexBBI, rightFlexBBI, nil];
-    
-    //[_toolBar setItems:_playItems];
-    
-    //[self.view addSubview:_toolBar];
-    
-    //_isBarHide = YES;
-    //_isPlaying = NO;
-    
-//    UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
-  //  [_backgroundView addGestureRecognizer:tapGR];
-}
-#if 0
-- (void)toggleBars {
-    //CGFloat navBarDis = -30;
-    CGFloat toolBarDis = 44;
-    if (_isBarHide ) {
-        //navBarDis = -navBarDis;
-        toolBarDis = -toolBarDis;
-    }
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        //CGPoint navBarCenter = _navBar.center;
-        //navBarCenter.y += navBarDis;
-        //[_navBar setCenter:navBarCenter];
-        
-        CGPoint toolBarCenter = _toolBar.center;
-        toolBarCenter.y += toolBarDis;
-        [_toolBar setCenter:toolBarCenter];
-    }];
-    
-    _isBarHide = !_isBarHide;
-}
 
-- (void)tapGestureHandler:(UITapGestureRecognizer *)tapGR {
-    [self toggleBars];
 }
-#endif
-
 
 #pragma mark - Music control
 
@@ -605,12 +564,6 @@ NSTimer *timer;
 
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    NSLog(@"segueing...");
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -773,6 +726,31 @@ NSTimer *timer;
     
     [self startPlaying];
 
+}
+
+
+
+#pragma mark - Segue Methods
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ViewControllerToTableViewControllerSegue"])
+    {
+        TableViewController* ModalTableViewController = segue.destinationViewController;
+        ModalTableViewController.delegate = self;
+        ModalTableViewController.playlist = playlist;
+    }
+}
+#pragma mark - TableViewController Delegate Methods
+-(void) ModalTableViewDidClickDone:(MPMediaItemCollection*)newPlaylist
+{
+    playlist = newPlaylist;
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+-(void) ModalTableViewDidClickCancel
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 

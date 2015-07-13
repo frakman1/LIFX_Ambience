@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 #include "FSAudioPlayer.h"
+#import "TableViewController.h"
 
-@interface VizViewController : UIViewController <MPMediaPickerControllerDelegate>
+
+@interface VizViewController : UIViewController <MPMediaPickerControllerDelegate, TableViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *audioPlayerBackgroundLayer;
 
 @property (weak, nonatomic) IBOutlet UISlider *currentTimeSlider;
@@ -22,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnnext;
 @property (weak, nonatomic) IBOutlet UIButton *btnprevious;
 
+@property (nonatomic, retain) IBOutlet UIToolbar*   toolbar;
 
 @property BOOL isPaused;
 @property BOOL scrubbing;
@@ -30,5 +33,11 @@
 - (IBAction) btnnextPressed:(UIButton *)sender;
 - (void) startPlaying;
 - (IBAction)btnpreviousPressed:(UIButton *)sender;
+
+
+
+//TableViewController Delegate
+-(void) ModalTableViewDidClickDone:(MPMediaItemCollection*)newPlaylist;
+-(void) ModalTableViewDidClickCancel;
 
 @end
