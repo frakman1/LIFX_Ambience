@@ -277,6 +277,7 @@ LFXHSBKColor *gcamLifxColor;
         [[self session] startRunning];
     });
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     //spawn average colour effect thread
     camTimer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(camTick:) userInfo: nil repeats:YES];
     //NSLog(@"Launching MicReadOnSeparateThread");

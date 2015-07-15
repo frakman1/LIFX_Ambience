@@ -11,6 +11,7 @@
 		221068E61B54544A00D12A3A /* audioplayer_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 221068E41B54544A00D12A3A /* audioplayer_play.png */; };
 		221068E91B5456C200D12A3A /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = 221068E71B5456C200D12A3A /* next.png */; };
 		221068EA1B5456C200D12A3A /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = 221068E81B5456C200D12A3A /* previous.png */; };
+		221068ED1B56A62900D12A3A /* MarqueeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 221068EC1B56A62900D12A3A /* MarqueeLabel.m */; };
 		221B11341B3E9405004F3122 /* libFlurry_6.6.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */; };
 		221B113A1B41C18E004F3122 /* lightbulb_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B11391B41C18E004F3122 /* lightbulb_icon.png */; };
 		221B11421B420ADA004F3122 /* lightbulb_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B11411B420ADA004F3122 /* lightbulb_on.png */; };
@@ -73,6 +74,8 @@
 		221068E41B54544A00D12A3A /* audioplayer_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_play.png; sourceTree = "<group>"; };
 		221068E71B5456C200D12A3A /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
 		221068E81B5456C200D12A3A /* previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previous.png; sourceTree = "<group>"; };
+		221068EB1B56A62900D12A3A /* MarqueeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarqueeLabel.h; sourceTree = "<group>"; };
+		221068EC1B56A62900D12A3A /* MarqueeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarqueeLabel.m; sourceTree = "<group>"; };
 		221B11311B3E9405004F3122 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		221B11321B3E9405004F3122 /* FlurryWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryWatch.h; sourceTree = "<group>"; };
 		221B11331B3E9405004F3122 /* libFlurry_6.6.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.6.0.a; sourceTree = "<group>"; };
@@ -217,6 +220,8 @@
 				22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */,
 				221B114C1B4218FD004F3122 /* UIView+Glow.h */,
 				221B114D1B4218FD004F3122 /* UIView+Glow.m */,
+				221068EB1B56A62900D12A3A /* MarqueeLabel.h */,
+				221068EC1B56A62900D12A3A /* MarqueeLabel.m */,
 				22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */,
 				22F76A141B3CAF1100EE3AFD /* FSAudioPlayer.m */,
 				224937851B3A779C00699D59 /* UIImageAverageColorAddition.h */,
@@ -420,6 +425,7 @@
 				224937741B3A568400699D59 /* VisualizerView.mm in Sources */,
 				224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */,
 				224937811B3A76AB00699D59 /* CamViewController.m in Sources */,
+				221068ED1B56A62900D12A3A /* MarqueeLabel.m in Sources */,
 				224937711B3A54C800699D59 /* VizViewController.m in Sources */,
 				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
 				2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */,

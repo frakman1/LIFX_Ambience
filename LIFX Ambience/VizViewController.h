@@ -10,6 +10,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #include "FSAudioPlayer.h"
 #import "TableViewController.h"
+#import "MarqueeLabel.h"
 
 
 @interface VizViewController : UIViewController <MPMediaPickerControllerDelegate, TableViewControllerDelegate>
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *duration;
 @property (weak, nonatomic) IBOutlet UILabel *timeElapsed;
 @property (weak, nonatomic) IBOutlet UILabel *lblSongTitle;
+@property (weak, nonatomic) IBOutlet MarqueeLabel *mlblSongTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblSongArtist;
 @property (weak, nonatomic) IBOutlet UIButton *btnnext;
 @property (weak, nonatomic) IBOutlet UIButton *btnprevious;

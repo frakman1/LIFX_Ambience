@@ -13,7 +13,7 @@
 #import "UIAlertView+NSCookbook.h"
 #import <UIKit/UIKit.h>
 #import "TableViewController.h"
-
+#import "MarqueeLabel.h"
 
 @interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate>
 
@@ -61,12 +61,12 @@
    // your_label.text = your_text;
     
     NSString *title = [item valueForProperty:MPMediaItemPropertyTitle ];
-    if (title.length>25) title = [title substringToIndex:25];
+    //if (title.length>25) title = [title substringToIndex:25];
     //[title  appendString: [item valueForProperty:MPMediaItemPropertyTitle] ];
     //title = [title substringToIndex:27];
     //[title appendString:@".                       ."];NSLog(@"%@",title);
-    self.lblSongTitle.text = title;
-    [self.lblSongTitle sizeToFit];
+    self.mlblSongTitle.text = title;
+    //[self.mlblSongTitle sizeToFit];
     
     
     NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
@@ -180,7 +180,7 @@ NSTimer *timer;
 
     self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y,
                                                        frame.size.width ,self.audioPlayerBackgroundLayer.frame.size.height);
-    self.lblSongTitle.frame = CGRectMake(self.lblSongTitle.frame.origin.x, self.lblSongTitle.frame.origin.y, frame.size.width ,self.lblSongTitle.frame.size.height);
+    self.mlblSongTitle.frame = CGRectMake(self.mlblSongTitle.frame.origin.x, self.mlblSongTitle.frame.origin.y, frame.size.width ,self.mlblSongTitle.frame.size.height);
     self.lblSongArtist.frame = CGRectMake(self.lblSongArtist.frame.origin.x, self.lblSongArtist.frame.origin.y, frame.size.width ,self.lblSongArtist.frame.size.height);
     
     
@@ -193,14 +193,14 @@ NSTimer *timer;
     self.playButton.frame = CGRectMake(self.playButton.frame.origin.x-10,self.playButton.frame.origin.y,self.playButton.frame.size.width,self.playButton.frame.size.height);
     self.timeElapsed.frame = CGRectMake(self.timeElapsed.frame.origin.x+10,self.timeElapsed.frame.origin.y,self.timeElapsed.frame.size.width,self.timeElapsed.frame.size.height);
     
-    mypoint.x = (self.lblSongTitle.frame.origin.x + self.lblSongTitle.frame.size.width)-30;
-    mypoint.y = self.lblSongTitle.center.y;
+    mypoint.x = (self.mlblSongTitle.frame.origin.x + self.mlblSongTitle.frame.size.width)-30;
+    mypoint.y = self.mlblSongTitle.center.y;
     self.btnnext.center = mypoint;
     
     //self.currentTimeSlider.frame = CGRectMake(self.timeElapsed.frame.origin.x+self.timeElapsed.frame.size.width+10,self.timeElapsed.frame.origin.y,frame.size.width - (self.timeElapsed.frame.origin.x)*2,self.currentTimeSlider.frame.size.height);
    
     
-    self.lblSongTitle.adjustsFontSizeToFitWidth = YES;
+    //self.lblSongTitle.adjustsFontSizeToFitWidth = YES;
     
 
     
@@ -280,11 +280,9 @@ NSTimer *timer;
         [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
     [[self.duration superview] bringSubviewToFront:self.duration];
     [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
-    [[self.lblSongTitle superview] bringSubviewToFront:self.lblSongTitle];
+    [[self.mlblSongTitle superview] bringSubviewToFront:self.mlblSongTitle];
     [[self.lblSongArtist superview] bringSubviewToFront:self.lblSongArtist];
     [[self.playButton superview] bringSubviewToFront:self.playButton];
-    [[self.btnnext superview] bringSubviewToFront:self.btnnext];
-    [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
     [[self.toolbar superview] bringSubviewToFront:self.toolbar];
 
     
@@ -295,6 +293,18 @@ NSTimer *timer;
     //NSString *filename = [self.gameSelection stringByAppendingString:@".mp3"];
     //NSLog(@"crafed filename: %@",filename);
     [self.currentTimeSlider setThumbImage: [UIImage imageNamed:@"knob2.png"] forState:UIControlStateNormal];
+    
+    
+    // Continuous Type
+    self.mlblSongTitle.tag = 101;
+    self.mlblSongTitle.marqueeType = MLContinuous;
+    self.mlblSongTitle.scrollDuration = 6.0;
+    self.mlblSongTitle.animationCurve = UIViewAnimationOptionCurveLinear;
+    self.mlblSongTitle.fadeLength = 0.0f;
+    self.mlblSongTitle.leadingBuffer = 60.0f;
+    self.mlblSongTitle.trailingBuffer = 0.0f;
+    // Text string for this label is set via Interface Builder!
+
 
 }
 
@@ -417,6 +427,9 @@ NSTimer *timer;
     
     self.btnnext.hidden=NO;
     self.btnprevious.hidden=NO;
+    [[self.btnnext superview] bringSubviewToFront:self.btnnext];
+    [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
+
     // grab the first selection (media picker is capable of returning more than one selected item,
     // but this app only deals with one song at a time)
     //MPMediaItem *item = [[collection items] objectAtIndex:0];
