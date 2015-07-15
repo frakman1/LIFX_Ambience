@@ -56,15 +56,11 @@
     NSLog(@"url:%@",myurl);
     NSLog(@"self.isPaused:%d",self.isPaused);
     
-    
-   // your_text = [your_text substringToIndex:10];
-   // your_label.text = your_text;
-    
     NSString *title = [item valueForProperty:MPMediaItemPropertyTitle ];
     //if (title.length>25) title = [title substringToIndex:25];
     //[title  appendString: [item valueForProperty:MPMediaItemPropertyTitle] ];
     //title = [title substringToIndex:27];
-    //[title appendString:@".                       ."];NSLog(@"%@",title);
+    //NSString *newtitle = [NSString stringWithFormat:@"~~~~~~~~~~ %@ ~~~~~~~~~~",title];NSLog(@"%@",newtitle);
     self.mlblSongTitle.text = title;
     //[self.mlblSongTitle sizeToFit];
     
@@ -301,8 +297,8 @@ NSTimer *timer;
     self.mlblSongTitle.scrollDuration = 6.0;
     self.mlblSongTitle.animationCurve = UIViewAnimationOptionCurveLinear;
     self.mlblSongTitle.fadeLength = 0.0f;
-    self.mlblSongTitle.leadingBuffer = 60.0f;
-    self.mlblSongTitle.trailingBuffer = 0.0f;
+    self.mlblSongTitle.leadingBuffer = 40.0f;
+    self.mlblSongTitle.trailingBuffer = 40.0f;
     // Text string for this label is set via Interface Builder!
 
 
