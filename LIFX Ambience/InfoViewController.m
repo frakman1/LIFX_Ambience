@@ -11,6 +11,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIView+Glow.h"
 
+#import <sys/utsname.h> // import it in your header or implementation file.
+
 
 @interface InfoViewController ()
 
@@ -75,8 +77,17 @@
         NSArray *toRecipients = [NSArray arrayWithObject:@"frakman@hotmail.com"];
         [mailController setToRecipients:toRecipients];
         [mailController setSubject:@"LIFX Ambience Feedback."];
-        [mailController setMessageBody:@"Hi Frak! \n\nI have an idea to make LIFX Ambience better. How about this:\n\n" isHTML:NO];
+        //[mailController setMessageBody:@"Version:%@\n\n Hi Frak! \n\nI have an idea to make LIFX Ambience better. How about this:\n\n" isHTML:NO];
+        //[NSString stringWithFormat:@"Version %@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"], kRevisionNumber];
+        NSString* myversion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ;NSLog (@"myversion:%@",myversion);
+        NSString* myios = [[UIDevice currentDevice] systemVersion];NSLog (@"myios:%@",myios);
+        NSLog(@"model: %@",deviceName());
+        NSString* theMessage = [NSString stringWithFormat:@"Version: %@\niOS: %@\nModel: %@\n\n Hi Frak! \n\nI have an idea to make LIFX Ambience better. How about this:\n\n",myversion,myios,deviceName()];
+        [mailController setMessageBody:theMessage isHTML:NO];
+        
         [self presentViewController:mailController animated:YES completion:NULL];
+        
+
     }
     else
     {
@@ -86,6 +97,17 @@
     NSLog(@"Email sent");
     
 }
+
+
+NSString* deviceName()
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
+}
+
 #pragma mark Mail composer delegate method
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller

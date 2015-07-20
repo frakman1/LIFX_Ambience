@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
 {
     UIBarButtonItem *tempButton;
     UIBarButtonItem *tempButton2;
+    NSMutableArray *yourItemsArray;
 }
 
 @property (nonatomic) LFXNetworkContext *lifxNetworkContext;
@@ -166,6 +167,9 @@ NSTimer *timer;
     
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.hidden = YES;
+    //self.tableView.bounces = NO;
+    
+    //yourItemsArray = [[NSMutableArray alloc] initWithObjects:@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",nil];
     
 
 }
@@ -296,6 +300,7 @@ NSTimer *timer;
     switch ((TableSection)section)
     {
         case TableSectionLights:	return self.lights.count;
+        //case TableSectionLights:	return [yourItemsArray count];
         //case TableSectionTags:		return self.taggedLightCollections.count;
     }
 }
@@ -339,6 +344,8 @@ NSTimer *timer;
             cell.detailTextLabel.text = light.deviceID;
            // NSLog(@"color:%@",light.color);
             cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        
+            //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];
             
             break;
         }
