@@ -49,6 +49,11 @@
 {
     [super viewDidLoad];
     [[self theTableView] setEditing:YES];
+    self.theTableView.backgroundColor = [UIColor clearColor];
+   // [self.theTableView setDelegate:self];
+   // [self.theTableView setDataSource:self];
+
+    
 }
 
 
@@ -106,8 +111,6 @@
 {
     return @"";
 }
-
-
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -237,4 +240,8 @@
 {
     [self.delegate ModalTableViewDidClickCancel];
 }
+
+
 @end
+
+
