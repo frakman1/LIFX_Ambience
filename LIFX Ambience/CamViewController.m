@@ -76,13 +76,10 @@ LFXHSBKColor *gcamLifxColor;
 
 -(void) camTick:(NSTimer *)timer
 {
-    
-    
+#if !(TARGET_IPHONE_SIMULATOR)
     //take screenshot
     [self snapStillImage:self.view];
-    
-
-    
+#endif
     
 }
 
