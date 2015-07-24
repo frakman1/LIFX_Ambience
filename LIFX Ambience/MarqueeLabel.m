@@ -456,8 +456,8 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
 #pragma mark - Animation Handlers
 
 - (BOOL)labelShouldScroll {
-    NSLog(@"%s() OVERRIDING.",__FUNCTION__);
-    return YES;
+    //NSLog(@"%s() OVERRIDING.",__FUNCTION__);
+    //return YES;
     BOOL stringLength = ([self.subLabel.text length] > 0);
     if (!stringLength) {
         return NO;
@@ -524,8 +524,8 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
 - (void)scrollAwayWithInterval:(NSTimeInterval)interval delayAmount:(NSTimeInterval)delayAmount {
     // Check for conditions which would prevent scrolling
     if (![self labelReadyForScroll]) {
-        NSLog(@"%s() RETURNING FROM CONDITION.",__FUNCTION__);
-        //return;
+        //NSLog(@"%s() RETURNING FROM CONDITION.",__FUNCTION__);
+        return;
     }
     
     // Return labels to home (cancel any animations)
@@ -592,8 +592,8 @@ CGPoint MLOffsetCGPoint(CGPoint point, CGFloat offset);
 - (void)scrollContinuousWithInterval:(NSTimeInterval)interval after:(NSTimeInterval)delayAmount {
     // Check for conditions which would prevent scrolling
     if (![self labelReadyForScroll]) {
-        NSLog(@"%s() RETURNING FROM CONDITION.",__FUNCTION__);
-        //return;
+        //NSLog(@"%s() RETURNING FROM CONDITION.",__FUNCTION__);
+        return;
     }
     
     // Return labels to home (cancel any animations)

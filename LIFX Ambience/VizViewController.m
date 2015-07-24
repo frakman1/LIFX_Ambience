@@ -172,34 +172,54 @@ NSTimer *timer;
 {
     
     [super viewDidLayoutSubviews];
-    CGRect frame = self.view.frame;
 
-    self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y,
-                                                       frame.size.width ,self.audioPlayerBackgroundLayer.frame.size.height);
-    self.mlblSongTitle.frame = CGRectMake(self.mlblSongTitle.frame.origin.x, self.mlblSongTitle.frame.origin.y, frame.size.width ,self.mlblSongTitle.frame.size.height);
+    
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    CGRect frame = self.view.frame;
+    NSLog (@"1");
+    self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width, self.audioPlayerBackgroundLayer.frame.size.height);
+    //NSLog (@"2. %@", NSStringfromCGRect(self.audioPlayerBackgroundLayer.frame));
+    NSLog (@"2.audioPlayerBackgroundLayer x:%f y:%f width:%f height:%f",self.audioPlayerBackgroundLayer.frame.origin.x,self.audioPlayerBackgroundLayer.frame.origin.y,self.audioPlayerBackgroundLayer.frame.size.width,self.audioPlayerBackgroundLayer.frame.size.height);
+    
+    //self.lbltitleBackground.frame = CGRectMake(self.lbltitleBackground.frame.origin.x, self.lbltitleBackground.frame.origin.y, frame.size.width ,self.lbltitleBackground.frame.size.height);
+    //NSLog (@"3. %@",NSStringfromCGRect(self.lbltitleBackground.frame));
+   // NSLog (@"3.lbltitleBackground x:%f y:%f width:%f height:%f",self.lbltitleBackground.frame.origin.x,self.lbltitleBackground.frame.origin.y,self.lbltitleBackground.frame.size.width,self.lbltitleBackground.frame.size.height);
+    
+    self.mlblSongTitle.frame = CGRectMake(self.btnprevious.frame.size.width,  self.mlblSongTitle.frame.origin.y, frame.size.width - self.btnnext.frame.size.width - self.btnprevious.frame.size.width ,self.mlblSongTitle.frame.size.height);
+    NSLog (@"4.mlblSongTitle x:%f y:%f width:%f height:%f",self.mlblSongTitle.frame.origin.x,self.mlblSongTitle.frame.origin.y,self.mlblSongTitle.frame.size.width,self.mlblSongTitle.frame.size.height);
+    //NSLog (@"4. %@",NSStringfromCGRect(self.mlblSongTitle.frame));
+    
+    
     self.lblSongArtist.frame = CGRectMake(self.lblSongArtist.frame.origin.x, self.lblSongArtist.frame.origin.y, frame.size.width ,self.lblSongArtist.frame.size.height);
+    NSLog (@"5.lblSongArtist x:%f y:%f width:%f height:%f",self.lblSongArtist.frame.origin.x,self.lblSongArtist.frame.origin.y,self.lblSongArtist.frame.size.width,self.lblSongArtist.frame.size.height);
     
+    //self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
+   // CGPoint mypoint;
+  //  mypoint.x = (self.currentTimeSlider.frame.origin.x + self.currentTimeSlider.frame.size.width)+50 ;
+   // mypoint.y = self.currentTimeSlider.center.y;
+   // self.duration.frame = CGRectMake(CGRectGetMaxX(self.currentTimeSlider.frame)+150 ,self.currentTimeSlider.center.y,self.duration.frame.size.width,self.duration.frame.size.height);
+    //self.duration.center = mypoint;
+    NSLog (@"6.currentTimeSlider x:%f y:%f width:%f height:%f",self.currentTimeSlider.frame.origin.x,self.currentTimeSlider.frame.origin.y,self.currentTimeSlider.frame.size.width,self.currentTimeSlider.frame.size.height);
+
+    NSLog (@"7.duration x:%f y:%f width:%f height:%f",self.duration.frame.origin.x,self.duration.frame.origin.y,self.duration.frame.size.width,self.duration.frame.size.height);
+    NSLog(@"8. MAX X of slider:%f",CGRectGetMaxX(self.currentTimeSlider.frame));
     
-    self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
-    CGPoint mypoint;
-    mypoint.x = (self.audioPlayerBackgroundLayer.frame.origin.x + self.audioPlayerBackgroundLayer.frame.size.width)-50;
-    mypoint.y = self.audioPlayerBackgroundLayer.center.y;
-    self.duration.center = mypoint;
+    //self.playButton.frame = CGRectMake(self.playButton.frame.origin.x-10,self.playButton.frame.origin.y,self.playButton.frame.size.width,self.playButton.frame.size.height);
+    //self.timeElapsed.frame = CGRectMake(self.timeElapsed.frame.origin.x+10,self.timeElapsed.frame.origin.y,self.timeElapsed.frame.size.width,self.timeElapsed.frame.size.height);
     
-    self.playButton.frame = CGRectMake(self.playButton.frame.origin.x-10,self.playButton.frame.origin.y,self.playButton.frame.size.width,self.playButton.frame.size.height);
-    self.timeElapsed.frame = CGRectMake(self.timeElapsed.frame.origin.x+10,self.timeElapsed.frame.origin.y,self.timeElapsed.frame.size.width,self.timeElapsed.frame.size.height);
-    
-    mypoint.x = (self.mlblSongTitle.frame.origin.x + self.mlblSongTitle.frame.size.width)-30;
-    mypoint.y = self.mlblSongTitle.center.y;
-    self.btnnext.center = mypoint;
+    //mypoint.x = (self.mlblSongTitle.frame.origin.x + self.mlblSongTitle.frame.size.width)-30;
+    //mypoint.y = self.mlblSongTitle.center.y;
+    //self.btnnext.center = mypoint;
     
     //self.currentTimeSlider.frame = CGRectMake(self.timeElapsed.frame.origin.x+self.timeElapsed.frame.size.width+10,self.timeElapsed.frame.origin.y,frame.size.width - (self.timeElapsed.frame.origin.x)*2,self.currentTimeSlider.frame.size.height);
-   
+    
     
     //self.lblSongTitle.adjustsFontSizeToFitWidth = YES;
     
 
-    
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
@@ -273,13 +293,20 @@ NSTimer *timer;
     //[self.view sendSubviewToBack:_visualizer];
     [[self.audioPlayerBackgroundLayer superview] bringSubviewToFront:self.audioPlayerBackgroundLayer];
     [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
-        [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
+    [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
     [[self.duration superview] bringSubviewToFront:self.duration];
     [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
-    [[self.mlblSongTitle superview] bringSubviewToFront:self.mlblSongTitle];
+    
     [[self.lblSongArtist superview] bringSubviewToFront:self.lblSongArtist];
     [[self.playButton superview] bringSubviewToFront:self.playButton];
     [[self.toolbar superview] bringSubviewToFront:self.toolbar];
+    [[self.lbltitleBackground superview] bringSubviewToFront:self.lbltitleBackground];
+    [[self.mlblSongTitle superview] bringSubviewToFront:self.mlblSongTitle];
+    [[self.btnnext superview] bringSubviewToFront:self.btnnext];
+    [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
+
+
+
 
     
     [self configuremyAudioPlayer];
@@ -297,10 +324,10 @@ NSTimer *timer;
     self.mlblSongTitle.scrollDuration = 6.0;
     self.mlblSongTitle.animationCurve = UIViewAnimationOptionCurveLinear;
     self.mlblSongTitle.fadeLength = 0.0f;
-    self.mlblSongTitle.leadingBuffer = 40.0f;
-    self.mlblSongTitle.trailingBuffer = 40.0f;
+    self.mlblSongTitle.leadingBuffer = 10.0f;
+    self.mlblSongTitle.trailingBuffer = 10.0f;
     // Text string for this label is set via Interface Builder!
-
+    NSLog(@"Finished viewDidLoad");
 
 }
 
@@ -423,8 +450,8 @@ NSTimer *timer;
     
     self.btnnext.hidden=NO;
     self.btnprevious.hidden=NO;
-    [[self.btnnext superview] bringSubviewToFront:self.btnnext];
-    [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
+    //[[self.btnnext superview] bringSubviewToFront:self.btnnext];
+    //[[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
 
     // grab the first selection (media picker is capable of returning more than one selected item,
     // but this app only deals with one song at a time)

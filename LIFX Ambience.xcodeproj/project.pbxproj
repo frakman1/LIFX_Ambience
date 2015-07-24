@@ -197,6 +197,7 @@
 				224936D91B389CD200699D59 /* LIFX Ambience */,
 				224936F61B389CD300699D59 /* LIFX AmbienceTests */,
 				224936D81B389CD200699D59 /* Products */,
+				2EFA5DB8B9E0C2BD99FE705B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -288,6 +289,13 @@
 				224936F81B389CD300699D59 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2EFA5DB8B9E0C2BD99FE705B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblSongTitle;
 @property (weak, nonatomic) IBOutlet MarqueeLabel *mlblSongTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblSongArtist;
+@property (weak, nonatomic) IBOutlet UILabel *lbltitleBackground;
+
 @property (weak, nonatomic) IBOutlet UIButton *btnnext;
 @property (weak, nonatomic) IBOutlet UIButton *btnprevious;
 
