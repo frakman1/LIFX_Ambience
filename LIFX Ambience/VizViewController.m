@@ -179,22 +179,22 @@ NSTimer *timer;
 - (void) viewWillAppear:(BOOL)animated
 {
     CGRect frame = self.view.frame;
-    NSLog (@"1");
+    //NSLog (@"1");
     self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width, self.audioPlayerBackgroundLayer.frame.size.height);
     //NSLog (@"2. %@", NSStringfromCGRect(self.audioPlayerBackgroundLayer.frame));
-    NSLog (@"2.audioPlayerBackgroundLayer x:%f y:%f width:%f height:%f",self.audioPlayerBackgroundLayer.frame.origin.x,self.audioPlayerBackgroundLayer.frame.origin.y,self.audioPlayerBackgroundLayer.frame.size.width,self.audioPlayerBackgroundLayer.frame.size.height);
+    //NSLog (@"2.audioPlayerBackgroundLayer x:%f y:%f width:%f height:%f",self.audioPlayerBackgroundLayer.frame.origin.x,self.audioPlayerBackgroundLayer.frame.origin.y,self.audioPlayerBackgroundLayer.frame.size.width,self.audioPlayerBackgroundLayer.frame.size.height);
     
     //self.lbltitleBackground.frame = CGRectMake(self.lbltitleBackground.frame.origin.x, self.lbltitleBackground.frame.origin.y, frame.size.width ,self.lbltitleBackground.frame.size.height);
     //NSLog (@"3. %@",NSStringfromCGRect(self.lbltitleBackground.frame));
    // NSLog (@"3.lbltitleBackground x:%f y:%f width:%f height:%f",self.lbltitleBackground.frame.origin.x,self.lbltitleBackground.frame.origin.y,self.lbltitleBackground.frame.size.width,self.lbltitleBackground.frame.size.height);
     
     self.mlblSongTitle.frame = CGRectMake(self.btnprevious.frame.size.width,  self.mlblSongTitle.frame.origin.y, frame.size.width - self.btnnext.frame.size.width - self.btnprevious.frame.size.width ,self.mlblSongTitle.frame.size.height);
-    NSLog (@"4.mlblSongTitle x:%f y:%f width:%f height:%f",self.mlblSongTitle.frame.origin.x,self.mlblSongTitle.frame.origin.y,self.mlblSongTitle.frame.size.width,self.mlblSongTitle.frame.size.height);
+   // NSLog (@"4.mlblSongTitle x:%f y:%f width:%f height:%f",self.mlblSongTitle.frame.origin.x,self.mlblSongTitle.frame.origin.y,self.mlblSongTitle.frame.size.width,self.mlblSongTitle.frame.size.height);
     //NSLog (@"4. %@",NSStringfromCGRect(self.mlblSongTitle.frame));
     
     
     self.lblSongArtist.frame = CGRectMake(self.lblSongArtist.frame.origin.x, self.lblSongArtist.frame.origin.y, frame.size.width ,self.lblSongArtist.frame.size.height);
-    NSLog (@"5.lblSongArtist x:%f y:%f width:%f height:%f",self.lblSongArtist.frame.origin.x,self.lblSongArtist.frame.origin.y,self.lblSongArtist.frame.size.width,self.lblSongArtist.frame.size.height);
+    //NSLog (@"5.lblSongArtist x:%f y:%f width:%f height:%f",self.lblSongArtist.frame.origin.x,self.lblSongArtist.frame.origin.y,self.lblSongArtist.frame.size.width,self.lblSongArtist.frame.size.height);
     
     //self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
    // CGPoint mypoint;
@@ -202,10 +202,10 @@ NSTimer *timer;
    // mypoint.y = self.currentTimeSlider.center.y;
    // self.duration.frame = CGRectMake(CGRectGetMaxX(self.currentTimeSlider.frame)+150 ,self.currentTimeSlider.center.y,self.duration.frame.size.width,self.duration.frame.size.height);
     //self.duration.center = mypoint;
-    NSLog (@"6.currentTimeSlider x:%f y:%f width:%f height:%f",self.currentTimeSlider.frame.origin.x,self.currentTimeSlider.frame.origin.y,self.currentTimeSlider.frame.size.width,self.currentTimeSlider.frame.size.height);
+   // NSLog (@"6.currentTimeSlider x:%f y:%f width:%f height:%f",self.currentTimeSlider.frame.origin.x,self.currentTimeSlider.frame.origin.y,self.currentTimeSlider.frame.size.width,self.currentTimeSlider.frame.size.height);
 
-    NSLog (@"7.duration x:%f y:%f width:%f height:%f",self.duration.frame.origin.x,self.duration.frame.origin.y,self.duration.frame.size.width,self.duration.frame.size.height);
-    NSLog(@"8. MAX X of slider:%f",CGRectGetMaxX(self.currentTimeSlider.frame));
+   // NSLog (@"7.duration x:%f y:%f width:%f height:%f",self.duration.frame.origin.x,self.duration.frame.origin.y,self.duration.frame.size.width,self.duration.frame.size.height);
+   // NSLog(@"8. MAX X of slider:%f",CGRectGetMaxX(self.currentTimeSlider.frame));
     
     //self.playButton.frame = CGRectMake(self.playButton.frame.origin.x-10,self.playButton.frame.origin.y,self.playButton.frame.size.width,self.playButton.frame.size.height);
     //self.timeElapsed.frame = CGRectMake(self.timeElapsed.frame.origin.x+10,self.timeElapsed.frame.origin.y,self.timeElapsed.frame.size.width,self.timeElapsed.frame.size.height);
@@ -305,6 +305,7 @@ NSTimer *timer;
     [[self.btnnext superview] bringSubviewToFront:self.btnnext];
     [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
 
+    [self.playButton setShowsTouchWhenHighlighted:YES];
 
 
 
@@ -318,7 +319,7 @@ NSTimer *timer;
     [self.currentTimeSlider setThumbImage: [UIImage imageNamed:@"knob2.png"] forState:UIControlStateNormal];
     
     
-    // Continuous Type
+    // Setup MArquee as Continuous Type
     self.mlblSongTitle.tag = 101;
     self.mlblSongTitle.marqueeType = MLContinuous;
     self.mlblSongTitle.scrollDuration = 6.0;
@@ -450,8 +451,11 @@ NSTimer *timer;
     
     self.btnnext.hidden=NO;
     self.btnprevious.hidden=NO;
-    //[[self.btnnext superview] bringSubviewToFront:self.btnnext];
-    //[[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
+    [[self.btnnext superview] bringSubviewToFront:self.btnnext];
+    [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
+    
+    [self.btnnext setShowsTouchWhenHighlighted:YES];
+    [self.btnprevious setShowsTouchWhenHighlighted:YES];
 
     // grab the first selection (media picker is capable of returning more than one selected item,
     // but this app only deals with one song at a time)
