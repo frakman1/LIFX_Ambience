@@ -10,4 +10,7 @@
 
 @interface CamViewController : UIViewController
 
+- (IBAction)btnMicPressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *btnMic;
+
 @end

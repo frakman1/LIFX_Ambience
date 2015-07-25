@@ -10,6 +10,7 @@
 #import <LIFXKit/LIFXKit.h>
 #import "UIView+Glow.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIView+HierarchyLogging.h"
 
 
 
@@ -163,6 +164,12 @@ NSTimer *timer;
     //self.navigationItem.rightBarButtonItem.action = @selector(toggleLightList:);
     //[self.navigationItem.rightBarButtonItem setAction:@selector(toggleLightList:)];
     
+    //UIBarButtonItem *item = (UIBarButtonItem *)self.navigationItem.rightBarButtonItem;
+    //UIButton *myBtn = (UIButton *)item.customView;
+    //myBtn setShowsTouchWhenHighlighted:YES];
+    
+
+    
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     
@@ -201,6 +208,17 @@ NSTimer *timer;
     //self.navigationItem.rightBarButtonItem=barButton;
     [(UIImageView *)self.navigationItem.rightBarButtonItem.customView setImage:infoButton.imageView.image];
      */
+    /*
+    NSLog(@"Looking for BUTTON!");
+    //if ([self.navigationItem.rightBarButtonItem.customView.subviews.lastObject isKindOfClass:[UIButton class]])
+    {
+        NSLog(@"FOUND BUTTON!");
+        UIButton * btn = ((UIButton *)(self.navigationItem.rightBarButtonItem.customView ));
+        [btn setShowsTouchWhenHighlighted:YES];
+    }
+    NSLog(@" type: %@",self.navigationItem.rightBarButtonItem.customView);
+    [[self.view]  logViewHierarchy];
+    */
     
     //reset the lights
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];

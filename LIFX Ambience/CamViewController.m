@@ -16,7 +16,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 
-//#import "SCAudioMeter.h"
+#import "SCAudioMeter.h"
 
 
 static void * CapturingStillImageContext = &CapturingStillImageContext;
@@ -57,7 +57,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @property (nonatomic) id runtimeErrorHandlingObserver;
 
 
-//@property (nonatomic, strong) SCAudioMeter *audioMeter;
+@property (nonatomic, strong) SCAudioMeter *audioMeter;
 
 @end
 
@@ -83,7 +83,7 @@ LFXHSBKColor *gcamLifxColor;
     
 }
 
-
+BOOL gMicEnabled = false;
 
 - (BOOL)isSessionRunningAndDeviceAuthorized
 {
@@ -243,7 +243,7 @@ LFXHSBKColor *gcamLifxColor;
     //gImage = [[UIImage alloc] initWithCGImage: gImage.CGImage];
     gcamColor = [UIColor greenColor] ;
 */
-    //self.audioMeter = [[SCAudioMeter alloc] initWithSamplePeriod:0.05];
+    self.audioMeter = [[SCAudioMeter alloc] initWithSamplePeriod:0.05];
     
 }
 
@@ -278,7 +278,7 @@ LFXHSBKColor *gcamLifxColor;
     //spawn average colour effect thread
     camTimer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(camTick:) userInfo: nil repeats:YES];
     //NSLog(@"Launching MicReadOnSeparateThread");
-#if 0
+
 
 
     //[NSThread detachNewThreadSelector: @selector(MicReadOnSeparateThread) toTarget: self withObject:nil];
@@ -287,16 +287,17 @@ LFXHSBKColor *gcamLifxColor;
         double sanval = fabs(dBValue);
         double myval = (value+0.1) * 5; if (myval > 1) myval =1;
         NSLog(@"Value: %0.2f   dBValue:%0.2f  sanval:%0.2f  myval:%0.2f", value,dBValue,sanval,myval);
+        NSLog(@"gMicEnabled:%d",gMicEnabled);
         //gcamLifxColor = [LFXHSBKColor colorWithHue:gcamLifxColor.hue saturation:gcamLifxColor.saturation brightness:myval];
         gcamLifxColor = [gcamLifxColor colorWithBrightness:myval];
         LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-        [localNetworkContext.allLightsCollection setColor:gcamLifxColor];
+        if (gMicEnabled)  [localNetworkContext.allLightsCollection setColor:gcamLifxColor];
  
         
         
     }];
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif
+
     
 }
 
@@ -309,7 +310,7 @@ LFXHSBKColor *gcamLifxColor;
     [super viewWillDisappear:animated];
     NSLog(@"***viewWillDisappear***");
     //[self.audioMeter.microphone stopFetchingAudio];
-    //[self.audioMeter endAudioMetering];
+    [self.audioMeter endAudioMetering];
     [camTimer invalidate];
     camTimer = nil;
     [NSThread sleepForTimeInterval:1];
@@ -678,4 +679,16 @@ LFXHSBKColor *gcamLifxColor;
 }
 */
 
+- (IBAction)btnMicPressed:(id)sender {
+    gMicEnabled = !gMicEnabled;
+    if (gMicEnabled)
+    {
+        [self.btnMic setSelected:YES];
+        
+    }
+    else
+    {
+        [self.btnMic setSelected:NO];
+    }
+}
 @end
