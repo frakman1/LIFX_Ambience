@@ -225,6 +225,7 @@
 		224936D91B389CD200699D59 /* LIFX Ambience */ = {
 			isa = PBXGroup;
 			children = (
+				224936EA1B389CD200699D59 /* Images.xcassets */,
 				22E60BA91B63ED4700E74219 /* SCAudioMeter.h */,
 				22E60BAA1B63ED4700E74219 /* SCAudioMeter.m */,
 				22F036E71B54062D008027FD /* TableViewController.h */,
@@ -254,7 +255,6 @@
 				224937721B3A568400699D59 /* VisualizerView.h */,
 				224937731B3A568400699D59 /* VisualizerView.mm */,
 				224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */,
-				224936EA1B389CD200699D59 /* Images.xcassets */,
 				224936DA1B389CD200699D59 /* Supporting Files */,
 				22E60BA61B63E3F900E74219 /* UIView+HierarchyLogging.h */,
 				22E60BA71B63E41F00E74219 /* UIView+HierarchyLogging.m */,

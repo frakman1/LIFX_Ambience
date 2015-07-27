@@ -316,7 +316,7 @@ NSTimer *timer;
     
     //NSString *filename = [self.gameSelection stringByAppendingString:@".mp3"];
     //NSLog(@"crafed filename: %@",filename);
-    [self.currentTimeSlider setThumbImage: [UIImage imageNamed:@"knob2.png"] forState:UIControlStateNormal];
+    //[self.currentTimeSlider setThumbImage: [UIImage imageNamed:@"knob2.png"] forState:UIControlStateNormal];
     
     
     // Setup MArquee as Continuous Type
@@ -658,7 +658,7 @@ NSTimer *timer;
     //play audio for the first time or if pause was pressed
     if (!self.isPaused) {
        
-        [self.playButton setBackgroundImage:[UIImage imageNamed:@"audioplayer_pause.png"]
+        [self.playButton setBackgroundImage:[UIImage imageNamed:@"pause"]
                                    forState:UIControlStateNormal];
         
         //start a timer to update the time label display
@@ -675,7 +675,7 @@ NSTimer *timer;
     } else {
         NSLog(@"in else of if (!self.isPaused)");
         //player is paused and Button is pressed again
-        [self.playButton setBackgroundImage:[UIImage imageNamed:@"audioplayer_play.png"]
+        [self.playButton setBackgroundImage:[UIImage imageNamed:@"play"]
                                    forState:UIControlStateNormal];
         
         [self.myaudioPlayer pauseAudio];
@@ -705,7 +705,7 @@ NSTimer *timer;
     //When resetted/ended reset the playButton
     if (![self.myaudioPlayer isPlaying])
     {
-        [self.playButton setBackgroundImage:[UIImage imageNamed:@"audioplayer_play.png"]
+        [self.playButton setBackgroundImage:[UIImage imageNamed:@"play"]
                                    forState:UIControlStateNormal];
         [self.myaudioPlayer pauseAudio];
         self.isPaused = FALSE;

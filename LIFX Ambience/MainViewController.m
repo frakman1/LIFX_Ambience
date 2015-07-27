@@ -139,8 +139,8 @@ NSTimer *timer;
     //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.connectionStatusView];
     
     
-    offImg = [UIImage imageNamed:@"lightbulb_icon.png"];
-    onImg = [UIImage imageNamed:@"lightbulb_on.png"];
+    offImg = [UIImage imageNamed:@"bulb_off"];
+    onImg = [UIImage imageNamed:@"bulb_on"];
     CGRect frameimg = CGRectMake(0, 0, offImg.size.width, offImg.size.height);
     self.someButton = [[UIButton alloc] initWithFrame:frameimg];
     self.someButton2 = [[UIButton alloc] initWithFrame:frameimg];

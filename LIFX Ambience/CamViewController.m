@@ -244,6 +244,8 @@ BOOL gMicEnabled = false;
     gcamColor = [UIColor greenColor] ;
 */
     self.audioMeter = [[SCAudioMeter alloc] initWithSamplePeriod:0.05];
+    [self.btnMic setTitle: @"Mic Off" forState: UIControlStateNormal];
+    [self.btnMic setTitle: @"Mic On" forState: UIControlStateSelected];
     
 }
 
@@ -684,6 +686,7 @@ BOOL gMicEnabled = false;
     if (gMicEnabled)
     {
         [self.btnMic setSelected:YES];
+       
         
     }
     else
