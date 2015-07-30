@@ -179,7 +179,7 @@ NSTimer *timer;
     
     //yourItemsArray = [[NSMutableArray alloc] initWithObjects:@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",nil];
     
-
+    self.navigationController.navigationBar.topItem.title = @"";
 }
 
 - (void)viewWillAppear:(BOOL)animated
