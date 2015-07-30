@@ -130,42 +130,7 @@
 
 - (BOOL) prefersStatusBarHidden {return YES;}
 
-#if 0
-NSTimer *timer;
--(void)myTick:(NSTimer *)timer
-{
-    //NSLog(@"myTick..");
-    //take screenshot
-    
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    CGRect rect = [keyWindow bounds];
-    UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [keyWindow.layer renderInContext:context];
-    UIImage *capturedScreen = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    
-    //UIColor* averageColor = [capturedScreen averageColor];
-    CGFloat red, green, blue;
-    CGFloat hue, saturation, brightness, alpha;
-    LFXHSBKColor *lifxColor;
-    
-    //[averageColor getRed:&red green:&green blue:&blue alpha:NULL];
-    //[averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-    
-    NSLog(@"hue:%f   saturation:%f  brightness:%f  alpha:%f",hue,saturation,brightness,alpha);
-    NSLog(@"red:%f   green:%f  blue:%f  alpha2:%f",red,green,blue,alpha);
-    
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    //[localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOn];
-    lifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:self.visualizer.glevel];
-    [localNetworkContext.allLightsCollection setColor:lifxColor overDuration:0.5];
-    
-    
-}
 
-#endif
 
 //This function gets called AFTER autolayout/contraint has finished and BEFORE viewWillAppear
 - (void)viewDidLayoutSubviews

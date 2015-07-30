@@ -229,7 +229,7 @@
                                 <items>
                                     <barButtonItem title="             " id="QV5-63-fpe"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="CSK-oV-jh9"/>
-                                    <barButtonItem title="Playlist" id="kUo-PU-Rbv">
+                                    <barButtonItem image="playlist" id="kUo-PU-Rbv">
                                         <connections>
                                             <segue destination="RiO-wb-2AG" kind="modal" identifier="ViewControllerToTableViewControllerSegue" id="hBJ-U5-ttk"/>
                                         </connections>
@@ -495,13 +495,13 @@
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <color key="backgroundColor" red="0.062743442947277586" green="0.18208296925694215" blue="0.28760258838989905" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
-                                    <barButtonItem title="Save" id="QHY-83-nTJ">
+                                    <barButtonItem image="save" id="QHY-83-nTJ">
                                         <connections>
                                             <action selector="clickSave:" destination="RiO-wb-2AG" id="kKt-Ci-bGX"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="lX7-Ey-5Mt"/>
-                                    <barButtonItem title="Cancel" id="Vz6-wp-81a">
+                                    <barButtonItem image="cancel" id="Vz6-wp-81a">
                                         <connections>
                                             <action selector="clickCancel:" destination="RiO-wb-2AG" id="gNu-wK-c93"/>
                                         </connections>
@@ -534,13 +534,16 @@
     <resources>
         <image name="background2" width="320" height="480"/>
         <image name="cam" width="89" height="89"/>
+        <image name="cancel" width="36" height="36"/>
         <image name="dollar" width="64" height="64"/>
         <image name="info" width="32" height="32"/>
         <image name="left" width="34" height="34"/>
         <image name="mail" width="64" height="39"/>
         <image name="music" width="89" height="89"/>
         <image name="play" width="28" height="28"/>
+        <image name="playlist" width="23" height="32"/>
         <image name="right" width="32" height="32"/>
+        <image name="save" width="32" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
