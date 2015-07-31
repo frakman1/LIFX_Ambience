@@ -54,42 +54,12 @@ UIImage* onImg;
 NSTimer *timer;
 -(void)myTick:(NSTimer *)timer
 {
-    //NSLog(@"myTick..\n\n");
+    NSLog(@"myTick..\n\n");
     [self updateLights];
     [self updateNavBar];
+    [self.tableView reloadData];
     //[self updateTags];
-    
-    
-    
-
-    
-    //take screenshot
-    /*
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    CGRect rect = [keyWindow bounds];
-    UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [keyWindow.layer renderInContext:context];
-    UIImage *capturedScreen = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    
-    //UIColor* averageColor = [capturedScreen averageColor];
-    CGFloat red, green, blue;
-    CGFloat hue, saturation, brightness, alpha;
-    LFXHSBKColor *lifxColor;
-    
-    //[averageColor getRed:&red green:&green blue:&blue alpha:NULL];
-    //[averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-    
-    NSLog(@"hue:%f   saturation:%f  brightness:%f  alpha:%f",hue,saturation,brightness,alpha);
-    NSLog(@"red:%f   green:%f  blue:%f  alpha2:%f",red,green,blue,alpha);
-    
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    //[localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOn];
-    lifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:self.visualizer.glevel];
-    [localNetworkContext.allLightsCollection setColor:lifxColor overDuration:0.5];
-    */
+ 
     
 }
 
@@ -257,16 +227,13 @@ NSTimer *timer;
     
     UIImage *image =  [UIImage imageNamed:@"bulb_off"]; [ok  setValue:image  forKey:@"image"];
     UIImage *image2 = [UIImage imageNamed:@"bulb_on"]; [ok2 setValue:image2 forKey:@"image"];
-    
     UIImage* image3 = [UIImage imageNamed:@"music"];
     UIImage* smallImage = [image3 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok3 setValue:smallImage forKey:@"image"];
-    
-    
     //UIImage *image3 = [UIImage imageNamed:@"music"];   [ok3 setValue:image3 forKey:@"image"];
     UIImage *image4 = [UIImage imageNamed:@"cam"];
     UIImage* smallImage2 = [image4 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok4 setValue:smallImage2 forKey:@"image"];
     
-    [alert addAction:ok]; // add action to uialertcontroller
+    [alert addAction:ok];  // add action to uialertcontroller
     [alert addAction:ok2]; // add action to uialertcontroller
     [alert addAction:ok3]; // add action to uialertcontroller
     [alert addAction:ok4]; // add action to uialertcontroller
@@ -391,7 +358,21 @@ NSTimer *timer;
         //case TableSectionLights:	return @"Lights";
         //case TableSectionTags:		return @"Tags";
     }
-    return @"Lights";
+    BOOL isConnected = (self.lifxNetworkContext.connectionState == LFXConnectionStateConnected);
+    //[self updateLights];
+    //[self updateNavBar];
+    //[self.tableView reloadData];
+    
+    if (isConnected)
+    {
+        return @"Lights";
+    }
+    else
+    {
+        self.lights=nil;
+        return @"No Lights Detected";
+    }
+    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
