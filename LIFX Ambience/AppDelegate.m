@@ -21,8 +21,8 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     application.applicationSupportsShakeToEdit = YES;
     [Flurry startSession:@"SHY275WVSQH8FYKF63M6"];
-
-    return YES;
+    
+     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
