@@ -270,6 +270,7 @@ NSTimer *timer;
 
 - (void)updateNavBar
 {
+    NSLog(@"updateNavBar()");
     BOOL isConnected = (self.lifxNetworkContext.connectionState == LFXConnectionStateConnected);
     //self.title = [NSString stringWithFormat:@"LIFX Ambience (%@)", isConnected ? @"connected" : @"searching"];
     //self.connectionStatusView.backgroundColor = isConnected ? [UIColor greenColor] : [UIColor redColor];
@@ -279,6 +280,7 @@ NSTimer *timer;
 
 - (void)updateLights
 {
+    NSLog(@"updateLights()");
     self.lights = self.lifxNetworkContext.allLightsCollection.lights;
     [self.tableView reloadData];
 }
