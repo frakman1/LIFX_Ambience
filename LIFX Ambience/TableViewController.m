@@ -106,10 +106,26 @@
     return cell;
 } 
 
-
+/*
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"";
+    
+    return @"Playlist";
+}
+*/
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UILabel * sectionHeader = [[UILabel alloc] initWithFrame:CGRectZero] ;
+    sectionHeader.backgroundColor = [UIColor clearColor];
+    sectionHeader.textAlignment = UITextAlignmentCenter;
+    sectionHeader.font = [UIFont boldSystemFontOfSize:15];
+    sectionHeader.textColor = [UIColor whiteColor];
+    
+    switch(section) {
+        //case 0:sectionHeader.text = @"TITLE ONE"; break;
+        //case 1:sectionHeader.text = @"TITLE TWO"; break;
+        default:sectionHeader.text = @"Playlist"; break;
+    }
+    return sectionHeader;
 }
 
 // Override to support conditional editing of the table view.
