@@ -14,6 +14,11 @@
 
 
 @interface VizViewController : UIViewController <MPMediaPickerControllerDelegate, TableViewControllerDelegate>
+{
+    //UISlider *powerLevel;
+    
+}
+
 @property (weak, nonatomic) IBOutlet UILabel *audioPlayerBackgroundLayer;
 
 @property (weak, nonatomic) IBOutlet UISlider *currentTimeSlider;
@@ -33,10 +38,13 @@
 @property BOOL isPaused;
 @property BOOL scrubbing;
 
-- (IBAction)barbtnSearchPressed:(UIBarButtonItem *)sender;
+@property (weak, nonatomic) IBOutlet UISlider *powerLevel;
+
+- (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;
 - (IBAction) btnnextPressed:(UIButton *)sender;
 - (void) startPlaying;
-- (IBAction)btnpreviousPressed:(UIButton *)sender;
+- (IBAction) btnpreviousPressed:(UIButton *)sender;
+- (IBAction)barbtnMixerPressed:(UIBarButtonItem *)sender;
 
 
 

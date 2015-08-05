@@ -122,7 +122,8 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
 - (void)update
 {
     
-   float scale = 0.5;
+    float scale = 0.5;
+    float calcBrightness = 1;
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     if (stopFlag==TRUE)
     {
@@ -198,10 +199,28 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         power /= [_audioPlayer numberOfChannels];
         
         float level = meterTable.ValueAt(power);
-        scale = level * 5;
-        //NSLog(@"level:%f  scale:%f  power:%f",level,scale,power);
+         NSLog(@"level:%f",level);
         
-        gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:CLAMP(0.2+level,0,1)];
+        NSLog(@" Scaling   value is: %f ",self.sliderScaleValue);
+        NSLog(@" Threshold value is: %f ",self.sliderThresholdValue);
+        
+        scale = level * 5;
+        //calcBrightness = self.sliderThresholdValue + (level * self.sliderScaleValue);
+        level = level + self.sliderThresholdValue;
+        calcBrightness = powf(level,self.sliderScaleValue);
+        
+        if (calcBrightness > 1.0)
+        {
+            NSLog(@"CLIP DETECTED!");
+        }
+        
+        float clamped = CLAMP(calcBrightness,0,1);
+        self.LevelValue = clamped;
+        
+        
+        NSLog(@"level:%f    scaled:%f   calcbrightness:%f   clamped:%f",level, scale, calcBrightness, clamped);
+
+        gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:clamped];
         [localNetworkContext.allLightsCollection setColor:gLifxColor];
         
         //self.glevel = level;

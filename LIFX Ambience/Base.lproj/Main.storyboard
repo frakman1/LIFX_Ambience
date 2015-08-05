@@ -2,6 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Z45-6d-dhy">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -227,6 +229,11 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-MZ-8xd">
                                 <rect key="frame" x="0.0" y="460" width="526" height="44"/>
                                 <items>
+                                    <barButtonItem image="mixer" id="EZj-mL-Glo">
+                                        <connections>
+                                            <action selector="barbtnMixerPressed:" destination="2Ua-YC-BMe" id="UvD-7u-AaI"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="             " id="QV5-63-fpe"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="CSK-oV-jh9"/>
                                     <barButtonItem image="playlist" id="kUo-PU-Rbv">
@@ -242,6 +249,10 @@
                                 <color key="textColor" red="0.86111111110000005" green="0.86111111110000005" blue="0.86111111110000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <slider hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="XrQ-Bk-Kb4">
+                                <rect key="frame" x="14" y="118" width="292" height="31"/>
+                                <color key="thumbTintColor" red="0.10588235294117647" green="0.29411764705882354" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -253,6 +264,7 @@
                             <constraint firstItem="A6j-8u-4Ue" firstAttribute="leading" secondItem="bmt-IR-ni6" secondAttribute="trailing" constant="8" id="c6r-e1-umr"/>
                             <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leading" id="g77-3J-qSc"/>
                             <constraint firstItem="mqs-A3-REf" firstAttribute="leading" secondItem="7kF-jk-FSj" secondAttribute="trailing" priority="250" constant="8" symbolic="YES" id="hyc-eK-kNh"/>
+                            <constraint firstAttribute="centerX" secondItem="XrQ-Bk-Kb4" secondAttribute="centerX" id="myQ-2k-aXm"/>
                             <constraint firstAttribute="centerX" secondItem="Dxt-7a-SeI" secondAttribute="centerX" id="nwv-po-cUn"/>
                             <constraint firstItem="Dxt-7a-SeI" firstAttribute="leading" secondItem="mqs-A3-REf" secondAttribute="trailing" priority="750" constant="8" symbolic="YES" id="prv-z7-Xve"/>
                             <constraint firstAttribute="centerX" secondItem="K7p-Ub-gvD" secondAttribute="centerX" id="rjz-d1-aOB"/>
@@ -278,6 +290,7 @@
                         <outlet property="lblSongArtist" destination="K7p-Ub-gvD" id="72a-9h-aDP"/>
                         <outlet property="mlblSongTitle" destination="A6j-8u-4Ue" id="3nC-jX-ipV"/>
                         <outlet property="playButton" destination="7kF-jk-FSj" id="q5S-nd-LzQ"/>
+                        <outlet property="powerLevel" destination="XrQ-Bk-Kb4" id="hYn-qy-g6N"/>
                         <outlet property="timeElapsed" destination="mqs-A3-REf" id="H8f-b1-bv6"/>
                         <outlet property="toolbar" destination="h7n-MZ-8xd" id="5r7-mK-zR2"/>
                     </connections>
@@ -315,10 +328,22 @@
                                         <rect key="frame" x="252" y="580" width="80" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <state key="normal" title="Mic Off">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="btnMicPressed:" destination="beV-Dh-bsA" eventType="touchUpInside" id="Mgn-nZ-A3v"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8k0-1H-qdw">
+                                        <rect key="frame" x="13" y="579" width="67" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Lock">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnLockPressed:" destination="beV-Dh-bsA" eventType="touchUpInside" id="6mI-YE-70d"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -326,10 +351,17 @@
                                 <constraints>
                                     <constraint firstItem="bm7-X8-kak" firstAttribute="centerY" secondItem="tzL-Ow-623" secondAttribute="centerY" id="2Q1-eE-g6O"/>
                                     <constraint firstItem="tzL-Ow-623" firstAttribute="leading" secondItem="UKW-oZ-bhA" secondAttribute="leading" constant="79" id="5cz-OV-klF"/>
+                                    <constraint firstAttribute="bottom" secondItem="8k0-1H-qdw" secondAttribute="bottom" constant="19" id="AcL-dL-tDz"/>
+                                    <constraint firstItem="8k0-1H-qdw" firstAttribute="firstBaseline" secondItem="bm7-X8-kak" secondAttribute="baseline" id="IlZ-Cp-buq"/>
+                                    <constraint firstItem="8k0-1H-qdw" firstAttribute="bottom" secondItem="bm7-X8-kak" secondAttribute="bottom" id="Jl8-1V-SUp"/>
                                     <constraint firstItem="tzL-Ow-623" firstAttribute="centerX" secondItem="UKW-oZ-bhA" secondAttribute="centerX" id="V9P-YV-Z9N"/>
                                     <constraint firstAttribute="trailing" secondItem="bm7-X8-kak" secondAttribute="trailing" constant="20" id="VaI-7X-Njb"/>
+                                    <constraint firstItem="tzL-Ow-623" firstAttribute="leading" secondItem="8k0-1H-qdw" secondAttribute="trailing" constant="14" id="Ysf-YA-e2f"/>
+                                    <constraint firstItem="8k0-1H-qdw" firstAttribute="baseline" secondItem="bm7-X8-kak" secondAttribute="firstBaseline" id="iaT-xl-axm"/>
                                     <constraint firstItem="bm7-X8-kak" firstAttribute="leading" secondItem="tzL-Ow-623" secondAttribute="trailing" constant="8" symbolic="YES" id="ivD-8D-mNO"/>
+                                    <constraint firstItem="8k0-1H-qdw" firstAttribute="leading" secondItem="UKW-oZ-bhA" secondAttribute="leading" constant="19" id="j2B-0c-jci"/>
                                     <constraint firstAttribute="bottom" secondItem="tzL-Ow-623" secondAttribute="bottom" constant="20" id="nBx-g9-yrk"/>
+                                    <constraint firstItem="8k0-1H-qdw" firstAttribute="centerY" secondItem="tzL-Ow-623" secondAttribute="centerY" id="pgW-L4-BfS"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -343,6 +375,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ehW-ab-m8J"/>
                     <connections>
+                        <outlet property="btnLock" destination="8k0-1H-qdw" id="3u5-Lw-WSY"/>
                         <outlet property="btnMic" destination="bm7-X8-kak" id="Hzd-O6-3dl"/>
                         <outlet property="myLabel" destination="tzL-Ow-623" id="96a-d8-FlV"/>
                         <outlet property="previewView" destination="UKW-oZ-bhA" id="xWf-7Q-RWD"/>
@@ -539,6 +572,7 @@
         <image name="info" width="32" height="32"/>
         <image name="left" width="34" height="34"/>
         <image name="mail" width="64" height="39"/>
+        <image name="mixer" width="32" height="32"/>
         <image name="music" width="89" height="89"/>
         <image name="play" width="28" height="28"/>
         <image name="playlist" width="23" height="32"/>

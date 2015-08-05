@@ -196,61 +196,66 @@ NSTimer *timer;
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
     
-      NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-      if (! [defaults boolForKey:@"alertShown"]) {
     
-    //
-    UIAlertController * alert=   [UIAlertController
-                                  alertControllerWithTitle:@"LIFX Ambience\rQuick Guide"
-                                  message:nil
-                                  preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* ok = [UIAlertAction
-                         actionWithTitle:@"No LIFX bulbs detected"
-                         style:UIAlertActionStyleDefault
-                         handler:nil];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
-    UIAlertAction* ok2 = [UIAlertAction
-                         actionWithTitle:@"LIFX bulb(s) detected"
-                         style:UIAlertActionStyleDefault
-                         handler:nil];
+    // do this once per installation. Welcome/Instructions page.
+    // currently using the UIAlertAction and hacking an image into it.
+    // TODO: need to find a better way to improve image so that it has colour etc.
+    if (! [defaults boolForKey:@"alertShown"]) {
     
-    UIAlertAction* ok3 = [UIAlertAction
-                         actionWithTitle:@"Music Player"
-                         style:UIAlertActionStyleDefault
-                         handler:nil];
-    
-    UIAlertAction* ok4 = [UIAlertAction
-                          actionWithTitle:@"Camera Viewer"
-                          style:UIAlertActionStyleDefault
-                          handler:nil];
-          
-    UIAlertAction* ok5 = [UIAlertAction
-                          actionWithTitle:@"OK"
-                          style:UIAlertActionStyleDefault
-                          handler:nil];
-    
-    UIImage *image =  [UIImage imageNamed:@"bulb_off"]; [ok  setValue:image  forKey:@"image"];
-    UIImage *image2 = [UIImage imageNamed:@"bulb_on"]; [ok2 setValue:image2 forKey:@"image"];
-    UIImage *image3 = [UIImage imageNamed:@"music_sm"];[ok3 setValue:image3 forKey:@"image"];
-    //UIImage* smallImage = [image3 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok3 setValue:smallImage forKey:@"image"];
-    //UIImage *image3 = [UIImage imageNamed:@"music"];   [ok3 setValue:image3 forKey:@"image"];
-    UIImage *image4 = [UIImage imageNamed:@"cam_sm"];[ok4 setValue:image4 forKey:@"image"];
-    //UIImage* smallImage2 = [image4 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok4 setValue:smallImage2 forKey:@"image"];
-    
-    [alert addAction:ok];  // add action to uialertcontroller
-    [alert addAction:ok2]; // add action to uialertcontroller
-    [alert addAction:ok3]; // add action to uialertcontroller
-    [alert addAction:ok4]; // add action to uialertcontroller
-    [alert addAction:ok5]; // add action to uialertcontroller
-    
-    //UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    //imgView.image = [UIImage imageNamed:@"music"];
-    //[alert.view addSubview:imgView];
-    
-    [self presentViewController:alert animated:YES completion:nil];
-    
-    
-    //
+        //
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:@"LIFX Ambience\rQuick Guide"
+                                      message:nil
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction
+                             actionWithTitle:@"No LIFX bulbs detected"
+                             style:UIAlertActionStyleDefault
+                             handler:nil];
+        
+        UIAlertAction* ok2 = [UIAlertAction
+                             actionWithTitle:@"LIFX bulb(s) detected"
+                             style:UIAlertActionStyleDefault
+                             handler:nil];
+        
+        UIAlertAction* ok3 = [UIAlertAction
+                             actionWithTitle:@"Music Player"
+                             style:UIAlertActionStyleDefault
+                             handler:nil];
+        
+        UIAlertAction* ok4 = [UIAlertAction
+                              actionWithTitle:@"Camera Viewer"
+                              style:UIAlertActionStyleDefault
+                              handler:nil];
+              
+        UIAlertAction* ok5 = [UIAlertAction
+                              actionWithTitle:@"OK"
+                              style:UIAlertActionStyleDefault
+                              handler:nil];
+        
+        UIImage *image =  [UIImage imageNamed:@"bulb_off"]; [ok  setValue:image  forKey:@"image"];
+        UIImage *image2 = [UIImage imageNamed:@"bulb_on"]; [ok2 setValue:image2 forKey:@"image"];
+        UIImage *image3 = [UIImage imageNamed:@"music_sm"];[ok3 setValue:image3 forKey:@"image"];
+        //UIImage* smallImage = [image3 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok3 setValue:smallImage forKey:@"image"];
+        //UIImage *image3 = [UIImage imageNamed:@"music"];   [ok3 setValue:image3 forKey:@"image"];
+        UIImage *image4 = [UIImage imageNamed:@"cam_sm"];[ok4 setValue:image4 forKey:@"image"];
+        //UIImage* smallImage2 = [image4 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok4 setValue:smallImage2 forKey:@"image"];
+        
+        [alert addAction:ok];  // add action to uialertcontroller
+        [alert addAction:ok2]; // add action to uialertcontroller
+        [alert addAction:ok3]; // add action to uialertcontroller
+        [alert addAction:ok4]; // add action to uialertcontroller
+        [alert addAction:ok5]; // add action to uialertcontroller
+        
+        //UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        //imgView.image = [UIImage imageNamed:@"music"];
+        //[alert.view addSubview:imgView];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+        //
     
     
         [defaults setBool:YES forKey:@"alertShown"];

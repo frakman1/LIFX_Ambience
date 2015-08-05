@@ -7,6 +7,10 @@
 
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 @property (nonatomic) float glevel;
+@property (nonatomic) float sliderScaleValue;
+@property (nonatomic) float sliderThresholdValue;
+
+@property (nonatomic) float LevelValue;
 
 
 - (void) vizStop;

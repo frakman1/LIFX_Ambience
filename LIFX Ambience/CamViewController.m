@@ -84,6 +84,7 @@ LFXHSBKColor *gcamLifxColor;
 }
 
 BOOL gMicEnabled = false;
+BOOL gLockEnabled = false;
 
 - (BOOL)isSessionRunningAndDeviceAuthorized
 {
@@ -622,7 +623,7 @@ BOOL gMicEnabled = false;
                 [self.myLabel.backgroundColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                 LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
                 gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
-                [localNetworkContext.allLightsCollection setColor:gcamLifxColor overDuration:0.5];
+                if (!gLockEnabled)[localNetworkContext.allLightsCollection setColor:gcamLifxColor overDuration:0.5];
                 //********
               
                 //[[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
@@ -681,7 +682,23 @@ BOOL gMicEnabled = false;
 }
 */
 
-- (IBAction)btnMicPressed:(id)sender {
+- (IBAction)btnLockPressed:(id)sender {
+    gLockEnabled = !gLockEnabled;
+    if (gLockEnabled)
+    {
+        [self.btnLock setSelected:YES];
+        
+        
+    }
+    else
+    {
+        [self.btnLock setSelected:NO];
+    }
+}
+
+
+- (IBAction)btnMicPressed:(id)sender
+{
     gMicEnabled = !gMicEnabled;
     if (gMicEnabled)
     {

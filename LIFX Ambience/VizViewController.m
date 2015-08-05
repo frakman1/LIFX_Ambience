@@ -36,6 +36,7 @@
 //FRAK Audio Player
 @property (nonatomic, strong) FSAudioPlayer *myaudioPlayer;
 @property NSTimer *timer;
+@property NSTimer *tickerTimer;
 
 @end
 
@@ -44,10 +45,20 @@
     //BOOL _isBarHide;
     //BOOL _isPlaying;
     int gcurrenSong;
+    UISlider *myslider_threshold;
+    UISlider *myslider_scale;
+    UIImageView *imgExpo;
+    UIImageView *imgOffset;
 }
-@synthesize playlist,limboPlaylist,toolbar;
+@synthesize playlist,limboPlaylist,toolbar,powerLevel;
 
 
+
+- (void) myTick:(NSTimer *)timer
+{
+    //NSLog(@"myTick");
+    self.powerLevel.value = self.visualizer.LevelValue;
+}
 
 - (void) startPlaying
 {
@@ -101,6 +112,17 @@
     
     [self startPlaying];
    
+    
+}
+
+- (IBAction)barbtnMixerPressed:(UIBarButtonItem *)sender
+{
+    myslider_threshold.hidden = !myslider_threshold.hidden;
+    myslider_scale.hidden = !myslider_scale.hidden;
+    self.powerLevel.hidden = !self.powerLevel.hidden;
+    imgExpo.hidden = !imgExpo.hidden;
+    imgOffset.hidden = !imgOffset.hidden;
+    
     
 }
 - (IBAction)btnnextPressed:(UIButton *)sender
@@ -206,6 +228,11 @@
             [self.timer invalidate];
             self.timer = nil;
         }
+        if(self.tickerTimer)
+        {
+            [self.tickerTimer invalidate];
+            self.tickerTimer = nil;
+       }
         
         //[self.myaudioPlayer stopAudio];
         
@@ -271,7 +298,7 @@
     [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
 
     [self.playButton setShowsTouchWhenHighlighted:YES];
-
+    [[self.powerLevel superview] bringSubviewToFront:self.powerLevel];
 
 
     
@@ -293,6 +320,43 @@
     self.mlblSongTitle.leadingBuffer = 10.0f;
     self.mlblSongTitle.trailingBuffer = 10.0f;
     // Text string for this label is set via Interface Builder!
+    
+    //create vertical slider - Scaler
+    myslider_scale = [[UISlider alloc] initWithFrame:CGRectMake(self.view.frame.origin.x-50, 270, 160, 30)];
+    myslider_scale.maximumValue = 10;
+    myslider_scale.minimumValue = 1;
+    myslider_scale.value=1;  _visualizer.sliderScaleValue =  myslider_scale.value;
+    myslider_scale.transform = CGAffineTransformRotate(myslider_scale.transform, -0.5*M_PI);
+    [self.view addSubview:myslider_scale];
+    [myslider_scale addTarget:self action:@selector(updateslider_scale:) forControlEvents:UIControlEventValueChanged];
+    myslider_scale.hidden = TRUE;
+    
+    NSLog (@"myslider_scale x:%f y:%f width:%f height:%f",myslider_scale.frame.origin.x,myslider_scale.frame.origin.y,myslider_scale.frame.size.width,myslider_scale.frame.size.height);
+    
+    imgExpo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"expo"]];
+    imgExpo.frame=CGRectMake(myslider_scale.frame.origin.x, myslider_scale.frame.origin.y+myslider_scale.frame.size.height+10, 32, 32);
+    imgExpo.hidden = TRUE;
+    [self.view addSubview:imgExpo];
+    
+    
+    //create vertical slider - Threshold
+    myslider_threshold = [[UISlider alloc] initWithFrame:CGRectMake(self.view.frame.size.width-100, 270, 160, 30)];
+    myslider_threshold.value=0.2; _visualizer.sliderThresholdValue = myslider_threshold.value;
+    myslider_threshold.transform = CGAffineTransformRotate(myslider_threshold.transform, -0.5*M_PI);
+    [self.view addSubview:myslider_threshold];
+    [myslider_threshold addTarget:self action:@selector(updateslider_threshold:) forControlEvents:UIControlEventValueChanged];
+    myslider_threshold.hidden = TRUE;
+    
+    imgOffset = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"offset"]];
+    imgOffset.frame=CGRectMake(myslider_threshold.frame.origin.x, myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height+10, 35,29);
+    //imgOffset.frame=CGRectMake(100,100 ,35,29);
+
+    imgOffset.hidden = TRUE;
+    [self.view addSubview:imgOffset];
+
+    
+    NSLog (@"myslider_threshold x:%f y:%f width:%f height:%f",myslider_threshold.frame.origin.x,myslider_threshold.frame.origin.y,myslider_threshold.frame.size.width,myslider_threshold.frame.size.height);
+    
     NSLog(@"Finished viewDidLoad");
 
 }
@@ -303,7 +367,7 @@
     //[self toggleBars];
     //[self.visualizer vizStart];
     //spawn average colour effect thread
-    //timer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+    self.tickerTimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
     //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
 }
@@ -320,6 +384,23 @@
     [self.view addSubview:_backgroundView];
     
 
+}
+
+//update slider scale
+-(IBAction)updateslider_scale:(id)sender
+{
+    UISlider * slider = (UISlider*)sender;
+    NSLog(@"Scale Slider Value: %.1f", [slider value]);
+    _visualizer.sliderScaleValue = [slider value];
+}
+
+
+//update slider threshold
+-(IBAction)updateslider_threshold:(id)sender
+{
+    UISlider * slider = (UISlider*)sender;
+    NSLog(@"Threshold Slider Value: %.1f", [slider value]);
+    _visualizer.sliderThresholdValue = [slider value];
 }
 
 #pragma mark - Music control
@@ -549,7 +630,8 @@
     if ([self.myaudioPlayer isPlaying]) { return;}
     self.myaudioPlayer = [[FSAudioPlayer alloc] init];
     //self.myaudioPlayer.audioPlayer.delegate = self;
-    NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@".m4a"];
+    //NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@".m4a"];
+    NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"dragon" withExtension:@".mp3"];
     [self setupAudioPlayer:audioFileLocationURL];
     
     [_myaudioPlayer.audioPlayer setNumberOfLoops:-1];
@@ -679,6 +761,7 @@
        // NSLog(@"Sending self play");
        // [self playAudioPressed:self.view];
     }
+    
 }
 
 /*

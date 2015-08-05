@@ -52,6 +52,7 @@
 		227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8531B3B2D17004EFFA7 /* camicon128.png */; };
 		227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8541B3B2D17004EFFA7 /* vizicon128.png */; };
 		22AEB37B1B6BECDA00915E8A /* UIImageResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB37A1B6BECDA00915E8A /* UIImageResizing.m */; };
+		22AEB37D1B6FCD6700915E8A /* dragon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 22AEB37C1B6FCD6700915E8A /* dragon.mp3 */; };
 		22DCE2031B50E075002506AD /* UIAlertView+NSCookbook.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */; };
 		22E60BA81B63E41F00E74219 /* UIView+HierarchyLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E60BA71B63E41F00E74219 /* UIView+HierarchyLogging.m */; };
 		22E60BAB1B63ED4700E74219 /* SCAudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E60BAA1B63ED4700E74219 /* SCAudioMeter.m */; };
@@ -136,6 +137,7 @@
 		227BB8541B3B2D17004EFFA7 /* vizicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vizicon128.png; sourceTree = "<group>"; };
 		22AEB3791B6BECDA00915E8A /* UIImageResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageResizing.h; sourceTree = "<group>"; };
 		22AEB37A1B6BECDA00915E8A /* UIImageResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageResizing.m; sourceTree = "<group>"; };
+		22AEB37C1B6FCD6700915E8A /* dragon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dragon.mp3; sourceTree = "<group>"; };
 		22DCE2011B50E074002506AD /* UIAlertView+NSCookbook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+NSCookbook.h"; sourceTree = "<group>"; };
 		22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+NSCookbook.m"; sourceTree = "<group>"; };
 		22E60BA61B63E3F900E74219 /* UIView+HierarchyLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+HierarchyLogging.h"; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				221B11391B41C18E004F3122 /* lightbulb_icon.png */,
 				22F76A181B3D9D0F00EE3AFD /* knob2.png */,
 				22F76A161B3D907600EE3AFD /* knob.png */,
+				22AEB37C1B6FCD6700915E8A /* dragon.mp3 */,
 				2249377B1B3A5A3F00699D59 /* DemoSong.m4a */,
 				224937751B3A56B100699D59 /* MeterTable */,
 				224937621B39CB7400699D59 /* Default@2x.png */,
@@ -429,6 +432,7 @@
 				221B113A1B41C18E004F3122 /* lightbulb_icon.png in Resources */,
 				221B11491B420EB2004F3122 /* mail.png in Resources */,
 				221B11501B42DAFE004F3122 /* info.png in Resources */,
+				22AEB37D1B6FCD6700915E8A /* dragon.mp3 in Resources */,
 				2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */,
 				2249372A1B38FADA00699D59 /* cam_128.png in Resources */,
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
