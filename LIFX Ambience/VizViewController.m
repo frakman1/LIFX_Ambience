@@ -14,6 +14,7 @@
 #import <UIKit/UIKit.h>
 #import "TableViewController.h"
 #import "MarqueeLabel.h"
+#import "ANPopoverSlider.h"
 
 @interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate>
 
@@ -321,8 +322,27 @@
     self.mlblSongTitle.trailingBuffer = 10.0f;
     // Text string for this label is set via Interface Builder!
     
+    
+    //create vertical slider - Threshold (DC Offset)
+    myslider_threshold = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.origin.x-20, 270, 160, 30)];
+    myslider_threshold.value=0.2; _visualizer.sliderThresholdValue = myslider_threshold.value;
+    myslider_threshold.transform = CGAffineTransformRotate(myslider_threshold.transform, -0.5*M_PI);
+    [self.view addSubview:myslider_threshold];
+    [myslider_threshold addTarget:self action:@selector(updateslider_threshold:) forControlEvents:UIControlEventValueChanged];
+    myslider_threshold.hidden = TRUE;
+    
+    imgOffset = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"offset"]];
+    imgOffset.frame=CGRectMake(myslider_threshold.center.x-50, myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height+10, 101,62);
+    //imgOffset.frame=CGRectMake(100,100 ,35,29);
+    
+    imgOffset.hidden = TRUE;
+    [self.view addSubview:imgOffset];
+    
+
+    
+    
     //create vertical slider - Scaler
-    myslider_scale = [[UISlider alloc] initWithFrame:CGRectMake(self.view.frame.origin.x-50, 270, 160, 30)];
+    myslider_scale = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.size.width-130, 270, 160, 30)];
     myslider_scale.maximumValue = 10;
     myslider_scale.minimumValue = 1;
     myslider_scale.value=1;  _visualizer.sliderScaleValue =  myslider_scale.value;
@@ -334,26 +354,11 @@
     NSLog (@"myslider_scale x:%f y:%f width:%f height:%f",myslider_scale.frame.origin.x,myslider_scale.frame.origin.y,myslider_scale.frame.size.width,myslider_scale.frame.size.height);
     
     imgExpo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"expo"]];
-    imgExpo.frame=CGRectMake(myslider_scale.frame.origin.x, myslider_scale.frame.origin.y+myslider_scale.frame.size.height+10, 32, 32);
+    imgExpo.frame=CGRectMake(myslider_scale.center.x-50, myslider_scale.frame.origin.y+myslider_scale.frame.size.height+10, 101, 62);
     imgExpo.hidden = TRUE;
     [self.view addSubview:imgExpo];
     
     
-    //create vertical slider - Threshold
-    myslider_threshold = [[UISlider alloc] initWithFrame:CGRectMake(self.view.frame.size.width-100, 270, 160, 30)];
-    myslider_threshold.value=0.2; _visualizer.sliderThresholdValue = myslider_threshold.value;
-    myslider_threshold.transform = CGAffineTransformRotate(myslider_threshold.transform, -0.5*M_PI);
-    [self.view addSubview:myslider_threshold];
-    [myslider_threshold addTarget:self action:@selector(updateslider_threshold:) forControlEvents:UIControlEventValueChanged];
-    myslider_threshold.hidden = TRUE;
-    
-    imgOffset = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"offset"]];
-    imgOffset.frame=CGRectMake(myslider_threshold.frame.origin.x, myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height+10, 35,29);
-    //imgOffset.frame=CGRectMake(100,100 ,35,29);
-
-    imgOffset.hidden = TRUE;
-    [self.view addSubview:imgOffset];
-
     
     NSLog (@"myslider_threshold x:%f y:%f width:%f height:%f",myslider_threshold.frame.origin.x,myslider_threshold.frame.origin.y,myslider_threshold.frame.size.width,myslider_threshold.frame.size.height);
     
