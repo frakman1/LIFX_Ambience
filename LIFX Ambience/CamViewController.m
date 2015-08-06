@@ -84,7 +84,7 @@ LFXHSBKColor *gcamLifxColor;
 }
 
 BOOL gMicEnabled = false;
-BOOL gLockEnabled = false;
+BOOL gLockEnabled = false; //used to lock colour
 
 - (BOOL)isSessionRunningAndDeviceAuthorized
 {
@@ -277,9 +277,29 @@ BOOL gLockEnabled = false;
         [[self session] startRunning];
     });
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    if (gLockEnabled)
+    {
+        [self.btnLock setSelected:YES];
+    }
+    else
+    {
+        [self.btnLock setSelected:NO];
+    }
+
+    if (gMicEnabled)
+    {
+        [self.btnMic setSelected:YES];
+    }
+    else
+    {
+        [self.btnMic setSelected:NO];
+    }
+
+    
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     //spawn average colour effect thread
-    camTimer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(camTick:) userInfo: nil repeats:YES];
+    camTimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(camTick:) userInfo: nil repeats:YES];
     //NSLog(@"Launching MicReadOnSeparateThread");
 
 
@@ -687,8 +707,6 @@ BOOL gLockEnabled = false;
     if (gLockEnabled)
     {
         [self.btnLock setSelected:YES];
-        
-        
     }
     else
     {
@@ -703,8 +721,6 @@ BOOL gLockEnabled = false;
     if (gMicEnabled)
     {
         [self.btnMic setSelected:YES];
-       
-        
     }
     else
     {
