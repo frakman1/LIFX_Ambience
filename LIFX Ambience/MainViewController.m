@@ -95,6 +95,8 @@ NSTimer *timer;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
     // Do any additional setup after loading the view.
     //[self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     //self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -151,6 +153,7 @@ NSTimer *timer;
     //yourItemsArray = [[NSMutableArray alloc] initWithObjects:@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",nil];
     
     self.navigationController.navigationBar.topItem.title = @"";
+    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -167,7 +170,7 @@ NSTimer *timer;
     //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     //[localNetworkContext.allLightsCollection setColor:tmpColor];
     
-    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+
     //[(UIImageView *)self.navigationItem.leftBarButtonItem.customView startGlowingWithColor:[UIColor whiteColor] intensity:5];
     [self.btnMusic.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
     [self.btnCam.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
