@@ -69,6 +69,17 @@
     NSLog(@"self.isPaused:%d",self.isPaused);
     
     NSString *title = [item valueForProperty:MPMediaItemPropertyTitle ];
+    
+    if (!myurl)
+    {
+        /*
+         * !!!: When MPMediaItemPropertyAssetURL is nil, it typically means the file
+         * in question is protected by DRM. (old m4p files)
+         */
+        NSLog(@" *** ERROR *** %@ has DRM  *** ERROR *** ",title);
+    }
+    
+    
     //if (title.length>25) title = [title substringToIndex:25];
     //[title  appendString: [item valueForProperty:MPMediaItemPropertyTitle] ];
     //title = [title substringToIndex:27];
@@ -362,6 +373,13 @@
     
     NSLog (@"myslider_threshold x:%f y:%f width:%f height:%f",myslider_threshold.frame.origin.x,myslider_threshold.frame.origin.y,myslider_threshold.frame.size.width,myslider_threshold.frame.size.height);
     
+    
+    
+    //UIBarButtonItem *item = (UIBarButtonItem *)self.navigationItem.rightBarButtonItem;
+    //UIBarButtonItem *item = self.navigationController.navigationBar.topItem.rightBarButtonItem;
+    //UIButton *myBtn = (UIButton *)item.customView;
+    //[myBtn setShowsTouchWhenHighlighted:YES];
+
     NSLog(@"Finished viewDidLoad");
 
 }
@@ -430,7 +448,24 @@
 }
 
 #pragma mark - Media Picker
-- (IBAction)barbtnSearchPressed:(UIBarButtonItem *)sender
+
+- (IBAction)btnSearchPressed:(UIButton *)sender
+{
+    MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
+    picker.prompt = @"Add songs to play";
+    [picker setDelegate:self];
+    [picker setAllowsPickingMultipleItems: YES];
+    [picker setShowsCloudItems:YES];
+    [self presentViewController:picker animated:YES completion:nil];
+    
+    //[picker setAllowsPickingMultipleItems:YES];
+    
+    //[self presentModalViewController:picker animated: YES];
+    
+    
+}
+
+- (IBAction)barbtnSearchPressed:(UIButton *)sender
 {
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
     picker.prompt = @"Add songs to play";

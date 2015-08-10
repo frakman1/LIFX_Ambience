@@ -138,7 +138,12 @@ NSTimer *timer;
     //[self.navigationItem.rightBarButtonItem setAction:@selector(toggleLightList:)];
     
     //UIBarButtonItem *item = (UIBarButtonItem *)self.navigationItem.rightBarButtonItem;
+    //UIBarButtonItem *item = self.navigationController.navigationBar.topItem.rightBarButtonItem;
     //UIButton *myBtn = (UIButton *)item.customView;
+    //[myBtn setShowsTouchWhenHighlighted:YES];
+   
+    //[(UIButton *)(UIBarButtonItem *)self.navigationItem.rightBarButtonItem.customView setShowsTouchWhenHighlighted:YES];
+    
     //myBtn setShowsTouchWhenHighlighted:YES];
     
 
@@ -162,7 +167,9 @@ NSTimer *timer;
     [self updateNavBar];
     [self updateLights];
     [self updateTags];
+
 }
+
 
 - (void)viewDidAppear:(BOOL)animated
 {

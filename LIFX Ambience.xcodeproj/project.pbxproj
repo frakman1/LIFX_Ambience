@@ -313,8 +313,8 @@
 		22C44C971B73BA5900F09113 /* MusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				2249376F1B3A54C800699D59 /* VizViewController.h */,
 				224937701B3A54C800699D59 /* VizViewController.m */,
+				2249376F1B3A54C800699D59 /* VizViewController.h */,
 				22F036E71B54062D008027FD /* TableViewController.h */,
 				22F036E81B54062D008027FD /* TableViewController.m */,
 				22F76A131B3CAF1100EE3AFD /* FSAudioPlayer.h */,
@@ -329,14 +329,14 @@
 		22C44C981B73BA8900F09113 /* CameraViewer */ = {
 			isa = PBXGroup;
 			children = (
+				224937801B3A76AB00699D59 /* CamViewController.m */,
+				2249377F1B3A76AB00699D59 /* CamViewController.h */,
 				224937851B3A779C00699D59 /* UIImageAverageColorAddition.h */,
 				224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */,
 				22AEB3791B6BECDA00915E8A /* UIImageResizing.h */,
 				22AEB37A1B6BECDA00915E8A /* UIImageResizing.m */,
 				224937821B3A776D00699D59 /* AVCamPreviewView.h */,
 				224937831B3A776D00699D59 /* AVCamPreviewView.m */,
-				2249377F1B3A76AB00699D59 /* CamViewController.h */,
-				224937801B3A76AB00699D59 /* CamViewController.m */,
 			);
 			name = CameraViewer;
 			sourceTree = "<group>";

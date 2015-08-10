@@ -315,8 +315,6 @@ BOOL gLockEnabled = false; //used to lock colour
         gcamLifxColor = [gcamLifxColor colorWithBrightness:myval];
         LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
         if (gMicEnabled)  [localNetworkContext.allLightsCollection setColor:gcamLifxColor];
- 
-        
         
     }];
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
