@@ -81,10 +81,38 @@
                                             <segue destination="2Ua-YC-BMe" kind="push" id="bRd-lM-23s"/>
                                         </connections>
                                     </button>
+                                    <slider hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="C8e-vI-cLQ">
+                                        <rect key="frame" x="20" y="22" width="288" height="31"/>
+                                        <connections>
+                                            <action selector="brightnessOrKelvinChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="vxW-WM-DHp"/>
+                                        </connections>
+                                    </slider>
+                                    <slider hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="60P-Zi-HdE">
+                                        <rect key="frame" x="20" y="82" width="288" height="31"/>
+                                        <connections>
+                                            <action selector="HueChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="po5-dK-2pp"/>
+                                        </connections>
+                                    </slider>
+                                    <slider hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="t0k-fm-ghC">
+                                        <rect key="frame" x="20" y="120" width="288" height="31"/>
+                                        <connections>
+                                            <action selector="HueChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="pDF-SV-m9K"/>
+                                            <action selector="SaturationChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="bhb-D0-FAV"/>
+                                        </connections>
+                                    </slider>
+                                    <slider hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="heN-aR-VfS">
+                                        <rect key="frame" x="20" y="158" width="288" height="31"/>
+                                        <connections>
+                                            <action selector="HueChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="59G-aQ-a6c"/>
+                                            <action selector="SaturationChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="i3o-rg-wDA"/>
+                                            <action selector="ValueChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="gCx-iA-n50"/>
+                                        </connections>
+                                    </slider>
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="9Rk-T0-rCj" secondAttribute="centerX" constant="-100" id="91p-xT-gyg"/>
+                                    <constraint firstAttribute="centerX" secondItem="C8e-vI-cLQ" secondAttribute="centerX" id="AYh-B1-pNt"/>
                                     <constraint firstItem="cKV-bV-5Zu" firstAttribute="top" secondItem="KOs-qU-nef" secondAttribute="top" constant="192" id="Jtw-Kt-Xa9"/>
                                     <constraint firstItem="cKV-bV-5Zu" firstAttribute="leading" secondItem="KOs-qU-nef" secondAttribute="leading" constant="4" id="R3d-pO-e7H"/>
                                     <constraint firstAttribute="centerX" secondItem="ZQI-9p-Oee" secondAttribute="centerX" constant="100" id="Txa-eg-WG8"/>
@@ -124,6 +152,10 @@
                     <connections>
                         <outlet property="btnCam" destination="9Rk-T0-rCj" id="wTq-Br-jcP"/>
                         <outlet property="btnMusic" destination="ZQI-9p-Oee" id="mWW-0c-L44"/>
+                        <outlet property="sliderBrightness" destination="C8e-vI-cLQ" id="zqG-xZ-MG5"/>
+                        <outlet property="sliderHue" destination="60P-Zi-HdE" id="7ui-tf-HAF"/>
+                        <outlet property="sliderSaturation" destination="t0k-fm-ghC" id="P3v-n9-rXM"/>
+                        <outlet property="sliderValue" destination="heN-aR-VfS" id="rj5-uo-rHI"/>
                         <outlet property="tableView" destination="cKV-bV-5Zu" id="H4y-CB-g4U"/>
                     </connections>
                 </viewController>
@@ -233,17 +265,26 @@
                                     <action selector="btnpreviousPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="moT-U4-TJB"/>
                                 </connections>
                             </button>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-MZ-8xd">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.5" contentMode="scaleToFill" misplaced="YES" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-MZ-8xd">
                                 <rect key="frame" x="0.0" y="460" width="526" height="44"/>
                                 <items>
-                                    <barButtonItem image="mixer" id="EZj-mL-Glo">
-                                        <connections>
-                                            <action selector="barbtnMixerPressed:" destination="2Ua-YC-BMe" id="UvD-7u-AaI"/>
-                                        </connections>
+                                    <barButtonItem style="plain" id="YD7-2M-riT">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="IfA-DK-3aB">
+                                            <rect key="frame" x="16" y="7" width="32" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <state key="normal" image="mixer">
+                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="btnMixerPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="hl5-qX-jlb"/>
+                                            </connections>
+                                        </button>
                                     </barButtonItem>
                                     <barButtonItem title="             " id="QV5-63-fpe"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="CSK-oV-jh9"/>
                                     <barButtonItem image="playlist" id="kUo-PU-Rbv">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <segue destination="RiO-wb-2AG" kind="modal" identifier="ViewControllerToTableViewControllerSegue" id="hBJ-U5-ttk"/>
                                         </connections>
@@ -283,16 +324,18 @@
                     </view>
                     <navigationItem key="navigationItem" id="bO5-M5-QBN">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="tXn-gZ-XXw">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="HTQ-Ef-c6y">
-                                <rect key="frame" x="233" y="7" width="22" height="22"/>
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="HTQ-Ef-c6y">
+                                <rect key="frame" x="282" y="11" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="add">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="btnSearchPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="atx-9G-QBv"/>
                                 </connections>
                             </button>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -579,6 +622,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add" width="32" height="32"/>
         <image name="background2" width="320" height="480"/>
         <image name="cam" width="89" height="89"/>
         <image name="cancel" width="36" height="36"/>

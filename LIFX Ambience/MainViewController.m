@@ -72,6 +72,10 @@ NSTimer *timer;
                     animations:NULL
                     completion:NULL];
     self.tableView.hidden = !self.tableView.hidden;
+    self.sliderBrightness.hidden = !self.sliderBrightness.hidden;
+    self.sliderHue.hidden = !self.sliderHue.hidden;
+    self.sliderSaturation.hidden = !self.sliderSaturation.hidden;
+    self.sliderValue.hidden = !self.sliderValue.hidden;
 
 }
 
@@ -96,6 +100,11 @@ NSTimer *timer;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.sliderBrightness setThumbImage: [UIImage imageNamed:@"bright"] forState:UIControlStateNormal];
+    [self.sliderHue setThumbImage: [UIImage imageNamed:@"hue"] forState:UIControlStateNormal];
+    [self.sliderSaturation setThumbImage: [UIImage imageNamed:@"sat"] forState:UIControlStateNormal];
+    [self.sliderValue setThumbImage: [UIImage imageNamed:@"value"] forState:UIControlStateNormal];
+  
     
     // Do any additional setup after loading the view.
     //[self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -202,9 +211,14 @@ NSTimer *timer;
     */
     
     //reset the lights
+    self.sliderBrightness.value = 1;
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
+    self.sliderHue.value = tmpColor.hue/360;
+    self.sliderSaturation.value = tmpColor.saturation;
+    self.sliderValue.value = tmpColor.brightness;
+
     
     
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
@@ -517,6 +531,55 @@ NSTimer *timer;
     self.duration.center = mypoint;
     
 */
+}
+
+
+- (IBAction)brightnessOrKelvinChanged:(UISlider *)sender
+{
+    LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:self.sliderBrightness.value  kelvin:3500];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    
+   /*
+    LFXHSBKColor *colour = [LFXHSBKColor colorWithHue:self.selectedLight.color.hue
+                                           saturation:self.selectedLight.color.saturation
+                                           brightness:self.brightnessSlider.value
+                                               kelvin:self.kelvinSlider.value];
+    */
+    // LFXHSBKColor * colour = [LFXHSBKColor whiteColorWithBrightness:self.brightnessSlider.value
+    //                                                         kelvin:self.kelvinSlider.value];
+    //self.selectedLight.color = colour;
+    self.sliderHue.value = tmpColor.hue/360;
+    self.sliderSaturation.value = tmpColor.saturation;
+    self.sliderValue.value = tmpColor.brightness;
+}
+
+
+- (IBAction)HueChanged:(UISlider *)sender
+{
+
+    LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    
+ }
+
+- (IBAction)SaturationChanged:(UISlider *)sender
+{
+    
+    LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    
+}
+
+- (IBAction)ValueChanged:(UISlider *)sender
+{
+    
+    LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    
 }
 
 

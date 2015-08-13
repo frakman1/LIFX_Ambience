@@ -134,9 +134,17 @@
     self.powerLevel.hidden = !self.powerLevel.hidden;
     imgExpo.hidden = !imgExpo.hidden;
     imgOffset.hidden = !imgOffset.hidden;
-    
-    
 }
+- (IBAction)btnMixerPressed:(UIButton *)sender
+{
+    myslider_threshold.hidden = !myslider_threshold.hidden;
+    myslider_scale.hidden = !myslider_scale.hidden;
+    self.powerLevel.hidden = !self.powerLevel.hidden;
+    imgExpo.hidden = !imgExpo.hidden;
+    imgOffset.hidden = !imgOffset.hidden;
+}
+
+
 - (IBAction)btnnextPressed:(UIButton *)sender
 {
     NSLog(@"\n\nbtnnextPressed. gcurrentSong:%d",gcurrenSong);

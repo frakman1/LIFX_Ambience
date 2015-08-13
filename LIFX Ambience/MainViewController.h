@@ -10,4 +10,11 @@
 
 @interface MainViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UISlider *sliderBrightness;
+
+@property (weak, nonatomic) IBOutlet UISlider *sliderHue;
+@property (weak, nonatomic) IBOutlet UISlider *sliderSaturation;
+@property (weak, nonatomic) IBOutlet UISlider *sliderValue;
+
+
 @end
