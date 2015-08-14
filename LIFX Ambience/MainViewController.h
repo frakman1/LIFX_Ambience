@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UISlider *sliderHue;
 @property (weak, nonatomic) IBOutlet UISlider *sliderSaturation;
 @property (weak, nonatomic) IBOutlet UISlider *sliderValue;
+@property (weak, nonatomic) IBOutlet UILabel  *lblInfo;
 
 
 @end

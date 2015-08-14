@@ -85,12 +85,16 @@
                                         <rect key="frame" x="20" y="22" width="288" height="31"/>
                                         <connections>
                                             <action selector="brightnessOrKelvinChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="vxW-WM-DHp"/>
+                                            <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpInside" id="GHe-pj-NNw"/>
+                                            <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpOutside" id="mqG-PP-tjK"/>
                                         </connections>
                                     </slider>
                                     <slider hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="60P-Zi-HdE">
                                         <rect key="frame" x="20" y="93" width="288" height="31"/>
                                         <connections>
                                             <action selector="HueChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="po5-dK-2pp"/>
+                                            <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpOutside" id="Ay6-F8-Yc4"/>
+                                            <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpInside" id="UOf-bj-yYG"/>
                                         </connections>
                                     </slider>
                                     <slider hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="t0k-fm-ghC">
@@ -98,6 +102,8 @@
                                         <connections>
                                             <action selector="HueChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="pDF-SV-m9K"/>
                                             <action selector="SaturationChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="bhb-D0-FAV"/>
+                                            <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpOutside" id="AJa-8j-Cnm"/>
+                                            <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpInside" id="lPD-Vv-iTG"/>
                                         </connections>
                                     </slider>
                                     <slider hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="heN-aR-VfS">
@@ -106,8 +112,16 @@
                                             <action selector="HueChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="59G-aQ-a6c"/>
                                             <action selector="SaturationChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="i3o-rg-wDA"/>
                                             <action selector="ValueChanged:" destination="3SO-wL-eml" eventType="valueChanged" id="gCx-iA-n50"/>
+                                            <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpOutside" id="3XV-nc-ytx"/>
+                                            <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpInside" id="ofB-9Y-Wd4"/>
                                         </connections>
                                     </slider>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o86-oX-Jlq">
+                                        <rect key="frame" x="22" y="52" width="279" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                                 <constraints>
@@ -120,6 +134,7 @@
                                     <constraint firstAttribute="centerX" secondItem="t0k-fm-ghC" secondAttribute="centerX" id="kTi-3e-l6f"/>
                                     <constraint firstAttribute="centerX" secondItem="60P-Zi-HdE" secondAttribute="centerX" id="lTe-Nm-g7k"/>
                                     <constraint firstAttribute="centerY" secondItem="ZQI-9p-Oee" secondAttribute="centerY" id="lmG-0w-jKJ"/>
+                                    <constraint firstAttribute="centerX" secondItem="o86-oX-Jlq" secondAttribute="centerX" id="qgA-wS-YO8"/>
                                     <constraint firstAttribute="centerX" secondItem="heN-aR-VfS" secondAttribute="centerX" id="t6D-bm-mi7"/>
                                     <constraint firstItem="cKV-bV-5Zu" firstAttribute="centerX" secondItem="KOs-qU-nef" secondAttribute="centerX" id="x8z-b8-DLf"/>
                                 </constraints>
@@ -155,6 +170,7 @@
                     <connections>
                         <outlet property="btnCam" destination="9Rk-T0-rCj" id="wTq-Br-jcP"/>
                         <outlet property="btnMusic" destination="ZQI-9p-Oee" id="mWW-0c-L44"/>
+                        <outlet property="lblInfo" destination="o86-oX-Jlq" id="A44-n0-rqU"/>
                         <outlet property="sliderBrightness" destination="C8e-vI-cLQ" id="zqG-xZ-MG5"/>
                         <outlet property="sliderHue" destination="60P-Zi-HdE" id="7ui-tf-HAF"/>
                         <outlet property="sliderSaturation" destination="t0k-fm-ghC" id="P3v-n9-rXM"/>

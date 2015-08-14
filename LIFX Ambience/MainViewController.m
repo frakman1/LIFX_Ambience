@@ -71,6 +71,28 @@ NSTimer *timer;
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:NULL
                     completion:NULL];
+    [UIView transitionWithView:self.sliderBrightness
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    [UIView transitionWithView:self.sliderHue
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    [UIView transitionWithView:self.sliderSaturation
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    [UIView transitionWithView:self.sliderValue
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+    
     self.tableView.hidden = !self.tableView.hidden;
     self.sliderBrightness.hidden = !self.sliderBrightness.hidden;
     self.sliderHue.hidden = !self.sliderHue.hidden;
@@ -312,6 +334,11 @@ NSTimer *timer;
     NSLog(@"updateLights()");
     self.lights = self.lifxNetworkContext.allLightsCollection.lights;
     [self.tableView reloadData];
+    LFXLight * tmplight = self.lights.lastObject;
+    self.sliderBrightness.value = tmplight.color.brightness;
+    self.sliderSaturation.value = tmplight.color.saturation;
+    self.sliderHue.value = tmplight.color.hue/360;
+    self.sliderValue.value = tmplight.color.brightness;
 }
 
 
@@ -360,6 +387,7 @@ NSTimer *timer;
     [light addLightObserver:self];
     [self updateLights];
     [self updateNavBar];
+    
 }
 
 - (void)lightCollection:(LFXLightCollection *)lightCollection didRemoveLight:(LFXLight *)light
@@ -552,15 +580,48 @@ NSTimer *timer;
     self.sliderHue.value = tmpColor.hue/360;
     self.sliderSaturation.value = tmpColor.saturation;
     self.sliderValue.value = tmpColor.brightness;
+    
+    [UIView transitionWithView:self.lblInfo
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+
+    self.lblInfo.hidden=FALSE;
+    NSString* s = [NSString stringWithFormat:@"White Brightness: %0.2f",self.sliderBrightness.value];
+    [self.lblInfo setText:s ];
 }
 
 
 - (IBAction)HueChanged:(UISlider *)sender
 {
-
+    
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
+    
+    [UIView transitionWithView:self.lblInfo
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+
+    self.lblInfo.hidden=FALSE;
+    if (self.sliderSaturation.value == 0.0f)
+    {
+        NSString* s1 = [NSString stringWithFormat:@"Hue (Colour): %0.2f \n(ensure Saturation is non-zero)",self.sliderHue.value];
+        [self.lblInfo setText:s1 ];
+    }
+    else
+    {
+        NSString* s2 = [NSString stringWithFormat:@"Hue (Colour): %0.2f",self.sliderHue.value];
+        [self.lblInfo setText:s2 ];
+    }
+    
+    
+
     
  }
 
@@ -571,6 +632,18 @@ NSTimer *timer;
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
     
+    [UIView transitionWithView:self.lblInfo
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+
+    self.lblInfo.hidden=FALSE;
+    NSString* s = [NSString stringWithFormat:@"Saturation (Intensity): %0.2f",self.sliderSaturation.value];
+    [self.lblInfo setText:s ];
+
+    
 }
 
 - (IBAction)ValueChanged:(UISlider *)sender
@@ -580,7 +653,30 @@ NSTimer *timer;
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
     
+    [UIView transitionWithView:self.lblInfo
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+
+    self.lblInfo.hidden=FALSE;
+    NSString* s = [NSString stringWithFormat:@"Value (Brightness): %0.2f",self.sliderValue.value];
+    [self.lblInfo setText:s ];
+
 }
 
+- (IBAction)sliderBrightnessReleased:(UISlider *)sender forEvent:(UIEvent *)event
+{
+    [UIView transitionWithView:self.lblInfo
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+    self.lblInfo.hidden = YES;
+   
+    
+}
 
 @end
