@@ -199,10 +199,10 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         power /= [_audioPlayer numberOfChannels];
         
         float level = meterTable.ValueAt(power);
-         NSLog(@"level:%f",level);
+         //NSLog(@"level:%f",level);
         
-        NSLog(@" Scaling   value is: %f ",self.sliderScaleValue);
-        NSLog(@" Threshold value is: %f ",self.sliderThresholdValue);
+       // NSLog(@" Scaling   value is: %f ",self.sliderScaleValue);
+        //NSLog(@" Threshold value is: %f ",self.sliderThresholdValue);
         
         scale = level * 5;
         //calcBrightness = self.sliderThresholdValue + (level * self.sliderScaleValue);
@@ -218,7 +218,7 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         self.LevelValue = clamped;
         
         
-        NSLog(@"level:%f    scaled:%f   calcbrightness:%f   clamped:%f",level, scale, calcBrightness, clamped);
+        //NSLog(@"level:%f    scaled:%f   calcbrightness:%f   clamped:%f",level, scale, calcBrightness, clamped);
 
         gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:clamped];
         [localNetworkContext.allLightsCollection setColor:gLifxColor];

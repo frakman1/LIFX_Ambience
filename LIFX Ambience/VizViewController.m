@@ -387,10 +387,106 @@
     //UIBarButtonItem *item = self.navigationController.navigationBar.topItem.rightBarButtonItem;
     //UIButton *myBtn = (UIButton *)item.customView;
     //[myBtn setShowsTouchWhenHighlighted:YES];
+    
+    // FRAK. add tap gesture handler
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playAudioPressed:)];
+    tapGesture.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:tapGesture];
+    
+    UISwipeGestureRecognizer *recognizer;
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp)];
+    [[self view] addGestureRecognizer:recognizer];
+    
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
+    [[self view] addGestureRecognizer:recognizer];
+
+    
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [[self view] addGestureRecognizer:recognizer];
+
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [[self view] addGestureRecognizer:recognizer];
+
 
     NSLog(@"Finished viewDidLoad");
 
 }
+
+
+- (void)handleSwipeUp:(UITapGestureRecognizer *)sender
+{
+     NSLog(@"handleSwipeUp ");
+    //self.myaudioPlayer.audioPlayer.volume += 0.1;
+    MPVolumeView* volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews]){
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    
+    [volumeViewSlider setValue:volumeViewSlider.value+0.2 animated:YES];
+    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+
+    
+}
+
+- (void)handleSwipeDown:(UITapGestureRecognizer *)sender
+{
+     NSLog(@"handleSwipeDown ");
+    MPVolumeView* volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews]){
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    
+    [volumeViewSlider setValue:volumeViewSlider.value-0.2 animated:YES];
+    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+    
+}
+
+- (void)handleSwipeLeft:(UITapGestureRecognizer *)sender
+{
+    [self.btnnext setHighlighted:YES]; [self.btnnext sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnnext setHighlighted:NO];
+
+    //[self btnpreviousPressed:nil];
+    
+}
+- (void)handleSwipeRight:(UITapGestureRecognizer *)sender
+{
+    [self.btnprevious setHighlighted:YES]; [self.btnprevious sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnprevious setHighlighted:NO];
+    //[self btnnextPressed:nil];
+    
+}
+
+/*
+- (void)handleTapGesture:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateRecognized) {
+        // handling code
+        NSLog(@"double tap detected");
+        //[self pause:self];
+        if ([self isPlaying])
+        {
+            [self pause:self];
+        }
+        else
+        {
+            [self play:self];
+        }
+        
+    }
+}
+*/
 
 - (void)viewDidAppear:(BOOL)animated {
     NSLog (@"***viewDidAppear***");
