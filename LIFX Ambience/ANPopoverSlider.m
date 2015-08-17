@@ -48,6 +48,7 @@
 
 -(void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     // Fade out the popup view
+    
     [self fadePopupViewInAndOut:NO];
     [super endTrackingWithTouch:touch withEvent:event];
 }
@@ -71,6 +72,7 @@
         _popupView.alpha = 1.0;
     } else {
         _popupView.alpha = 0.0;
+        
     }
     [UIView commitAnimations];
 }

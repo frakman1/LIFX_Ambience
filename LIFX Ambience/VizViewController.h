@@ -39,6 +39,8 @@
 @property BOOL scrubbing;
 
 @property (weak, nonatomic) IBOutlet UISlider *powerLevel;
+@property (weak, nonatomic) IBOutlet UIImageView *imgBox;
+
 
 - (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;
 - (IBAction) btnnextPressed:(UIButton *)sender;

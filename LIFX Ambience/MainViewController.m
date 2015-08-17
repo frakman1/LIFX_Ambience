@@ -334,11 +334,11 @@ NSTimer *timer;
     NSLog(@"updateLights()");
     self.lights = self.lifxNetworkContext.allLightsCollection.lights;
     [self.tableView reloadData];
-    LFXLight * tmplight = self.lights.lastObject;
-    self.sliderBrightness.value = tmplight.color.brightness;
-    self.sliderSaturation.value = tmplight.color.saturation;
-    self.sliderHue.value = tmplight.color.hue/360;
-    self.sliderValue.value = tmplight.color.brightness;
+    //LFXLight * tmplight = self.lights.lastObject;
+    //self.sliderBrightness.value = tmplight.color.brightness;
+    //self.sliderSaturation.value = tmplight.color.saturation;
+    //self.sliderHue.value = tmplight.color.hue/360;
+    //self.sliderValue.value = tmplight.color.brightness;
 }
 
 
@@ -466,11 +466,20 @@ NSTimer *timer;
             //cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.textLabel.text = light.label;
             cell.detailTextLabel.text = light.deviceID;
-           // NSLog(@"color:%@",light.color);
+            NSLog(@"color:%ld",(long)indexPath.row);
             cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
         
             //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];
             
+            //update sliders. just do it once instead of on every row
+            if (indexPath.row==0)
+            {
+                self.sliderBrightness.value = light.color.brightness;
+                self.sliderSaturation.value = light.color.saturation;
+                self.sliderHue.value = light.color.hue/360;
+                self.sliderValue.value = light.color.brightness;
+            }
+
             break;
         }
 /*
@@ -492,6 +501,8 @@ NSTimer *timer;
     
     cell.detailTextLabel.textColor = [UIColor grayColor];
 
+
+    
     return cell;
 }
 

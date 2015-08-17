@@ -226,7 +226,7 @@
                                     <action selector="userIsScrubbing:" destination="2Ua-YC-BMe" eventType="touchDragInside" id="VG5-xj-JN7"/>
                                 </connections>
                             </slider>
-                            <button autoresizesSubviews="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kF-jk-FSj" userLabel="audioPlayButton">
+                            <button autoresizesSubviews="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kF-jk-FSj" userLabel="audioPlayButton">
                                 <rect key="frame" x="7" y="10" width="28" height="28"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -320,11 +320,16 @@
                                 <rect key="frame" x="14" y="118" width="292" height="31"/>
                                 <color key="thumbTintColor" red="0.10588235294117647" green="0.29411764705882354" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                             </slider>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="blank" translatesAutoresizingMaskIntoConstraints="NO" id="aBq-FL-9bS">
+                                <rect key="frame" x="74" y="201" width="171" height="171"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="cbq-cK-tLI" secondAttribute="trailing" constant="-7" id="24i-2r-I60"/>
                             <constraint firstItem="7kF-jk-FSj" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leadingMargin" constant="-9" id="7ix-dD-xAG"/>
+                            <constraint firstAttribute="centerX" secondItem="aBq-FL-9bS" secondAttribute="centerX" id="Sl7-Ch-w9o"/>
                             <constraint firstItem="bmt-IR-ni6" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leadingMargin" constant="-9" id="Tb0-qn-BdE"/>
                             <constraint firstItem="cbq-cK-tLI" firstAttribute="leading" secondItem="A6j-8u-4Ue" secondAttribute="trailing" constant="6" id="ZWg-9y-6Gp"/>
                             <constraint firstItem="GBE-oa-55V" firstAttribute="leading" secondItem="Dxt-7a-SeI" secondAttribute="trailing" constant="8" symbolic="YES" id="Zos-NO-n6N"/>
@@ -363,6 +368,7 @@
                         <outlet property="btnprevious" destination="bmt-IR-ni6" id="97P-YE-Ht3"/>
                         <outlet property="currentTimeSlider" destination="Dxt-7a-SeI" id="Giw-sp-dYh"/>
                         <outlet property="duration" destination="GBE-oa-55V" id="W5p-Lq-z4H"/>
+                        <outlet property="imgBox" destination="aBq-FL-9bS" id="KgU-Wq-drZ"/>
                         <outlet property="lblSongArtist" destination="K7p-Ub-gvD" id="72a-9h-aDP"/>
                         <outlet property="mlblSongTitle" destination="A6j-8u-4Ue" id="3nC-jX-ipV"/>
                         <outlet property="playButton" destination="7kF-jk-FSj" id="q5S-nd-LzQ"/>
@@ -643,6 +649,7 @@
     <resources>
         <image name="add" width="32" height="32"/>
         <image name="background2" width="320" height="480"/>
+        <image name="blank" width="371" height="371"/>
         <image name="cam" width="89" height="89"/>
         <image name="cancel" width="36" height="36"/>
         <image name="dollar" width="64" height="64"/>

@@ -50,6 +50,7 @@
     UISlider *myslider_scale;
     UIImageView *imgExpo;
     UIImageView *imgOffset;
+    BOOL firstTime;
 }
 @synthesize playlist,limboPlaylist,toolbar,powerLevel;
 
@@ -292,6 +293,7 @@
     [super viewDidLoad];
     NSLog (@"****viewDidLoad****");
     
+    
     [self configureBars];
     
     [self configureAudioSession];
@@ -319,6 +321,9 @@
 
     [self.playButton setShowsTouchWhenHighlighted:YES];
     [[self.powerLevel superview] bringSubviewToFront:self.powerLevel];
+    [[self.imgBox superview] bringSubviewToFront:self.imgBox];
+    //[self.imgBox setImage:[UIImage imageNamed:@"play2"]];
+
 
 
     
@@ -389,7 +394,7 @@
     //[myBtn setShowsTouchWhenHighlighted:YES];
     
     // FRAK. add tap gesture handler
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playAudioPressed:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:tapGesture];
     
@@ -411,9 +416,34 @@
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
     [[self view] addGestureRecognizer:recognizer];
 
+    firstTime = TRUE;
 
     NSLog(@"Finished viewDidLoad");
 
+}
+
+- (void)handleTap:(UITapGestureRecognizer *)sender
+{
+     NSLog(@"handleTap ");
+    if (!self.isPaused)
+    {
+        //playaudio
+        [self.imgBox setImage:[UIImage imageNamed:@"play2"]];
+        
+    }
+    else
+    {
+        //pause
+        [self.imgBox setImage:[UIImage imageNamed:@"pause2"]];
+        
+    }
+    
+    [self startFade];
+    
+    [self.playButton setHighlighted:YES]; [self.playButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.playButton setHighlighted:NO];
+
+    //self.imgBox.hidden = !self.imgBox.hidden;
+    //self.imgBox.alpha=1;
 }
 
 
@@ -433,6 +463,12 @@
     
     [volumeViewSlider setValue:volumeViewSlider.value+0.2 animated:YES];
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+    
+    [self.imgBox setImage:[UIImage imageNamed:@"volumeUp"]];
+    
+    
+    [self startFade];
+
 
     
 }
@@ -453,19 +489,38 @@
     [volumeViewSlider setValue:volumeViewSlider.value-0.2 animated:YES];
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
     
+    [self.imgBox setImage:[UIImage imageNamed:@"volumeDown"]];
+    
+    
+    [self startFade];
+
+    
 }
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)sender
 {
+    if (firstTime) return;
+    
     [self.btnnext setHighlighted:YES]; [self.btnnext sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnnext setHighlighted:NO];
+  //[self btnnextPressed:nil];
+    [self.imgBox setImage:[UIImage imageNamed:@"right2"]];
+        
+    
+    [self startFade];
 
-    //[self btnpreviousPressed:nil];
+    
     
 }
 - (void)handleSwipeRight:(UITapGestureRecognizer *)sender
 {
+    if (firstTime) return;
+    
     [self.btnprevious setHighlighted:YES]; [self.btnprevious sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnprevious setHighlighted:NO];
-    //[self btnnextPressed:nil];
+  //[self btnpreviousPressed:nil];
+    [self.imgBox setImage:[UIImage imageNamed:@"left2"]];
+    
+    [self startFade];
+
     
 }
 
@@ -646,6 +701,8 @@
     
     [self.btnnext setShowsTouchWhenHighlighted:YES];
     [self.btnprevious setShowsTouchWhenHighlighted:YES];
+    
+    firstTime = FALSE;
 
     // grab the first selection (media picker is capable of returning more than one selected item,
     // but this app only deals with one song at a time)
@@ -844,6 +901,9 @@
 - (IBAction)playAudioPressed:(id)playButton
 {
     NSLog(@"Entering %s()",__FUNCTION__);
+    
+
+    
     //NSLog(@"BEFORE:_isPlaying=%d",_isPlaying);
     [self.timer invalidate];
     //play audio for the first time or if pause was pressed
@@ -861,8 +921,6 @@
         
         [self.myaudioPlayer playAudio];
         self.isPaused = TRUE;
-       
-        
     } else {
         NSLog(@"in else of if (!self.isPaused)");
         //player is paused and Button is pressed again
@@ -874,7 +932,28 @@
     }
      //_isPlaying = !_isPlaying;
      //NSLog(@"AFTER: _isPlaying=%d",_isPlaying);
+
+
 }
+- (void) startFade
+{
+    [self.imgBox setAlpha:0.f];
+    //NSLog(@"startFade1 alpha:%f",self.imgBox.alpha);
+    
+    [UIView animateWithDuration:0.5f
+                          delay:0.f
+                        options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse
+                     animations:^{
+                         //NSLog(@"in animation alpha:%f",self.imgBox.alpha);
+                         [self.imgBox setAlpha:1.f];
+                     }
+                     completion:^(BOOL finished) {[self.imgBox setAlpha:0.f];}];
+
+    //[self.imgBox setAlpha:0.f];
+
+    //NSLog(@"startFade2 alpha:%f",self.imgBox.alpha);
+}
+
 /*
  * Updates the time label display and
  * the current value of the slider
