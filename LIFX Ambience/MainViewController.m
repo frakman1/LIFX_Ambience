@@ -54,7 +54,7 @@ UIImage* onImg;
 NSTimer *timer;
 -(void)myTick:(NSTimer *)timer
 {
-    NSLog(@"myTick..\n\n");
+    //NSLog(@"myTick..\n\n");
     [self updateLights];
     [self updateNavBar];
     [self.tableView reloadData];
@@ -321,7 +321,7 @@ NSTimer *timer;
 
 - (void)updateNavBar
 {
-    NSLog(@"updateNavBar()");
+    //NSLog(@"updateNavBar()");
     BOOL isConnected = (self.lifxNetworkContext.connectionState == LFXConnectionStateConnected);
     //self.title = [NSString stringWithFormat:@"LIFX Ambience (%@)", isConnected ? @"connected" : @"searching"];
     //self.connectionStatusView.backgroundColor = isConnected ? [UIColor greenColor] : [UIColor redColor];
@@ -331,7 +331,7 @@ NSTimer *timer;
 
 - (void)updateLights
 {
-    NSLog(@"updateLights()");
+    //NSLog(@"updateLights()");
     self.lights = self.lifxNetworkContext.allLightsCollection.lights;
     [self.tableView reloadData];
     //LFXLight * tmplight = self.lights.lastObject;
@@ -466,7 +466,7 @@ NSTimer *timer;
             //cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.textLabel.text = light.label;
             cell.detailTextLabel.text = light.deviceID;
-            NSLog(@"color:%ld",(long)indexPath.row);
+            //NSLog(@"color:%ld",(long)indexPath.row);
             cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
         
             //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];

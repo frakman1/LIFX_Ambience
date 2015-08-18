@@ -64,6 +64,7 @@
 
 - (void) startPlaying
 {
+     NSLog(@"startPlaying() gcurrentSong:%d",gcurrenSong);
     MPMediaItem *item = [[playlist items] objectAtIndex:gcurrenSong];
     NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
     NSLog(@"url:%@",myurl);
@@ -417,8 +418,37 @@
     [[self view] addGestureRecognizer:recognizer];
 
     firstTime = TRUE;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [defaults objectForKey:@"myplaylist"];
+    MPMediaItemCollection *mymediaItemCollection = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    //playlist = mediaItemCollection;
+   // NSLog(@"Playlist: %@",playlist);
+    
 
-    NSLog(@"Finished viewDidLoad");
+    int index = 0;
+    for (MPMediaItem *item in mymediaItemCollection.items)
+    {
+        NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+    }
+    NSLog(@"index: %d",index);
+    if (index>0)
+    {
+        playlist = mymediaItemCollection;
+        self.btnnext.hidden=NO;
+        self.btnprevious.hidden=NO;
+        [[self.btnnext superview] bringSubviewToFront:self.btnnext];
+        [[self.btnprevious superview] bringSubviewToFront:self.btnprevious];
+        
+        [self.btnnext setShowsTouchWhenHighlighted:YES];
+        [self.btnprevious setShowsTouchWhenHighlighted:YES];
+        
+        firstTime = FALSE;
+        [self startPlaying];
+
+    }
+    
+    NSLog(@"***Finished viewDidLoad:");
 
 }
 
@@ -756,11 +786,16 @@
                 //[musicPlayer setQueueWithItemCollection:playlist];
             }
             NSLog(@"\n***INSIDE ALERT***");
+            NSLog(@"***Saving Playlist ***");
             int index = 0;
             for (MPMediaItem *item in playlist.items)
             {
                 NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
             }
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:playlist];
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:data forKey:@"myplaylist"];
+            [defaults synchronize];
             
             //MPMediaItem *item = [[playlist items] objectAtIndex:0];
             //NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
@@ -780,6 +815,7 @@
     else
     {
         NSLog(@"\n***First Time ***");
+        NSLog(@"***Saving Playlist ***");
         playlist = collection;
 
         int index = 0;
@@ -787,6 +823,11 @@
         {
             NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
         }
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:playlist];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:data forKey:@"myplaylist"];
+        [defaults synchronize];
         
         [self startPlaying];
         /*
@@ -811,10 +852,23 @@
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+ // not working ??
+/*
+  int index = 0;
+  for (MPMediaItem *item in playlist.items)
+  {
+  NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+  }
+*/
+ /*   
+  //playlist = newPlaylist;
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:playlist];
     
-
- 
-
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:data forKey:@"myplaylist"];
+    [defaults synchronize];
+    
+*/
 
     
 }
@@ -1055,7 +1109,14 @@
 #pragma mark - TableViewController Delegate Methods
 -(void) ModalTableViewDidClickDone:(MPMediaItemCollection*)newPlaylist
 {
+    NSLog(@"***Saving Playlist ***");
     playlist = newPlaylist;
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:playlist];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:data forKey:@"myplaylist"];
+    [defaults synchronize];
+    
     [self dismissModalViewControllerAnimated:YES];
 }
 
