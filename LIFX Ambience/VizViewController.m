@@ -50,6 +50,8 @@
     UISlider *myslider_scale;
     UIImageView *imgExpo;
     UIImageView *imgOffset;
+    UILabel *lblOffset;
+    UILabel *lblExpo;
     BOOL firstTime;
 }
 @synthesize playlist,limboPlaylist,toolbar,powerLevel;
@@ -135,15 +137,19 @@
     myslider_scale.hidden = !myslider_scale.hidden;
     self.powerLevel.hidden = !self.powerLevel.hidden;
     imgExpo.hidden = !imgExpo.hidden;
-    imgOffset.hidden = !imgOffset.hidden;
+    //imgOffset.hidden = !imgOffset.hidden;
+    lblOffset.hidden = !lblOffset.hidden;
+    lblExpo.hidden = !lblExpo.hidden;
 }
 - (IBAction)btnMixerPressed:(UIButton *)sender
 {
     myslider_threshold.hidden = !myslider_threshold.hidden;
     myslider_scale.hidden = !myslider_scale.hidden;
     self.powerLevel.hidden = !self.powerLevel.hidden;
-    imgExpo.hidden = !imgExpo.hidden;
-    imgOffset.hidden = !imgOffset.hidden;
+    //imgExpo.hidden = !imgExpo.hidden;
+    //imgOffset.hidden = !imgOffset.hidden;
+    lblOffset.hidden = !lblOffset.hidden;
+    lblExpo.hidden = !lblExpo.hidden;
 }
 
 
@@ -325,8 +331,6 @@
     [[self.imgBox superview] bringSubviewToFront:self.imgBox];
     //[self.imgBox setImage:[UIImage imageNamed:@"play2"]];
 
-
-
     
     [self configuremyAudioPlayer];
     
@@ -357,11 +361,27 @@
     myslider_threshold.hidden = TRUE;
     
     imgOffset = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"offset"]];
-    imgOffset.frame=CGRectMake(myslider_threshold.center.x-50, myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height+10, 101,62);
+    //imgOffset.frame=CGRectMake(myslider_threshold.center.x-50, myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height+10, 101,62);
     //imgOffset.frame=CGRectMake(100,100 ,35,29);
     
+    lblOffset = [[UILabel alloc] init];
+    lblOffset.textColor = [UIColor whiteColor];
+    lblOffset.font=[lblOffset.font fontWithSize:15];
+    lblOffset.numberOfLines = 0;
+    [lblOffset sizeToFit];
+    lblOffset.textAlignment = NSTextAlignmentCenter;
+    //lblOffset.lineBreakMode= NSLineBreakByWordWrapping ;
+    lblOffset.text = @"Brightness \n Threshold";
+    lblOffset.frame = CGRectMake(myslider_threshold.center.x-50,
+                             myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height-50,
+                             90,
+                             180);
+    
+    
     imgOffset.hidden = TRUE;
-    [self.view addSubview:imgOffset];
+    lblOffset.hidden = TRUE;
+    //[self.view addSubview:imgOffset];
+    [self.view addSubview:lblOffset];
     
 
     
@@ -379,22 +399,36 @@
     NSLog (@"myslider_scale x:%f y:%f width:%f height:%f",myslider_scale.frame.origin.x,myslider_scale.frame.origin.y,myslider_scale.frame.size.width,myslider_scale.frame.size.height);
     
     imgExpo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"expo"]];
-    imgExpo.frame=CGRectMake(myslider_scale.center.x-50, myslider_scale.frame.origin.y+myslider_scale.frame.size.height+10, 101, 62);
-    imgExpo.hidden = TRUE;
-    [self.view addSubview:imgExpo];
+    //imgExpo.frame=CGRectMake(myslider_scale.center.x-50, myslider_scale.frame.origin.y+myslider_scale.frame.size.height+10, 101, 62);
     
     
+    lblExpo = [[UILabel alloc] init];
+    lblExpo.textColor = [UIColor whiteColor];
+    lblExpo.font=[lblExpo.font fontWithSize:15];
+    lblExpo.numberOfLines = 0;
+    [lblExpo sizeToFit];
+    lblExpo.textAlignment = NSTextAlignmentCenter;
+    //lblExpo.lineBreakMode= NSLineBreakByWordWrapping ;
+    lblExpo.text = @"Sensitivity";
+    lblExpo.frame = CGRectMake(myslider_scale.center.x-50,
+                                 lblOffset.frame.origin.y,
+                                 90,
+                                 180);
+    lblExpo.hidden = TRUE;
     
+    
+    //[self.view addSubview:imgExpo];
+    [self.view addSubview:lblExpo];
+    
+
     NSLog (@"myslider_threshold x:%f y:%f width:%f height:%f",myslider_threshold.frame.origin.x,myslider_threshold.frame.origin.y,myslider_threshold.frame.size.width,myslider_threshold.frame.size.height);
-    
-    
     
     //UIBarButtonItem *item = (UIBarButtonItem *)self.navigationItem.rightBarButtonItem;
     //UIBarButtonItem *item = self.navigationController.navigationBar.topItem.rightBarButtonItem;
     //UIButton *myBtn = (UIButton *)item.customView;
     //[myBtn setShowsTouchWhenHighlighted:YES];
     
-    // FRAK. add tap gesture handler
+    // add tap gesture handlers
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:tapGesture];
@@ -408,7 +442,6 @@
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
     [[self view] addGestureRecognizer:recognizer];
 
-    
     recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
     [[self view] addGestureRecognizer:recognizer];
@@ -419,9 +452,30 @@
 
     firstTime = TRUE;
     
+    //load saved playlist, if any
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *data = [defaults objectForKey:@"myplaylist"];
     MPMediaItemCollection *mymediaItemCollection = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    myslider_threshold.value = [defaults floatForKey:@"myThreshold"];
+    NSLog(@"Saved Threshold: %f",myslider_threshold.value);
+    if (myslider_threshold.value == 0.0)
+    {
+        NSLog(@" Threshold Invalid");
+        myslider_threshold.value = 0.2;
+    }
+    
+    
+    myslider_scale.value = [defaults floatForKey:@"myScaler"];
+    NSLog(@"Saved Scaler: %f",myslider_scale.value);
+    if (myslider_scale.value == 0.0)
+    {
+        NSLog(@" Scaler Invalid");
+        myslider_scale.value = 1;
+    }
+
+  
+    
     //playlist = mediaItemCollection;
    // NSLog(@"Playlist: %@",playlist);
     
@@ -496,11 +550,8 @@
     
     [self.imgBox setImage:[UIImage imageNamed:@"volumeUp"]];
     
-    
     [self startFade];
 
-
-    
 }
 
 - (void)handleSwipeDown:(UITapGestureRecognizer *)sender
@@ -521,10 +572,8 @@
     
     [self.imgBox setImage:[UIImage imageNamed:@"volumeDown"]];
     
-    
     [self startFade];
-
-    
+   
 }
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)sender
@@ -534,13 +583,11 @@
     [self.btnnext setHighlighted:YES]; [self.btnnext sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnnext setHighlighted:NO];
   //[self btnnextPressed:nil];
     [self.imgBox setImage:[UIImage imageNamed:@"right2"]];
-        
     
     [self startFade];
-
-    
     
 }
+
 - (void)handleSwipeRight:(UITapGestureRecognizer *)sender
 {
     if (firstTime) return;
@@ -602,8 +649,13 @@
 -(IBAction)updateslider_scale:(id)sender
 {
     UISlider * slider = (UISlider*)sender;
-    NSLog(@"Scale Slider Value: %.1f", [slider value]);
+    NSLog(@"Scale Slider Value: %.2f", [slider value]);
     _visualizer.sliderScaleValue = [slider value];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setFloat:[slider value] forKey:@"myScaler"];
+    [defaults synchronize];
+
 }
 
 
@@ -611,8 +663,13 @@
 -(IBAction)updateslider_threshold:(id)sender
 {
     UISlider * slider = (UISlider*)sender;
-    NSLog(@"Threshold Slider Value: %.1f", [slider value]);
+    NSLog(@"Threshold Slider Value: %.2f", [slider value]);
     _visualizer.sliderThresholdValue = [slider value];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setFloat:[slider value] forKey:@"myThreshold"];
+    [defaults synchronize];
+
 }
 
 #pragma mark - Music control
