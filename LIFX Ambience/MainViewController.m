@@ -11,7 +11,7 @@
 #import "UIView+Glow.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIView+HierarchyLogging.h"
-#import "UIImageResizing.h"
+
 
 
 
@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, TableSection) {
     UIBarButtonItem *tempButton;
     UIBarButtonItem *tempButton2;
     NSMutableArray *yourItemsArray;
+    
+
 }
 
 @property (nonatomic) LFXNetworkContext *lifxNetworkContext;
@@ -52,6 +54,9 @@ UIImage* offImg;
 UIImage* onImg;
 
 NSTimer *timer;
+
+
+
 -(void)myTick:(NSTimer *)timer
 {
     //NSLog(@"myTick..\n\n");
@@ -204,6 +209,9 @@ NSTimer *timer;
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    
+    [super viewDidAppear:animated];
+    
     //LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
     //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     //[localNetworkContext.allLightsCollection setColor:tmpColor];

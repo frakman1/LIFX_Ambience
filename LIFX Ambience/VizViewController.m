@@ -410,10 +410,7 @@
     lblExpo.textAlignment = NSTextAlignmentCenter;
     //lblExpo.lineBreakMode= NSLineBreakByWordWrapping ;
     lblExpo.text = @"Sensitivity";
-    lblExpo.frame = CGRectMake(myslider_scale.center.x-50,
-                                 lblOffset.frame.origin.y,
-                                 90,
-                                 180);
+    lblExpo.frame = CGRectMake(myslider_scale.center.x-50, lblOffset.frame.origin.y, 90, 180);
     lblExpo.hidden = TRUE;
     
     
@@ -457,6 +454,7 @@
     NSData *data = [defaults objectForKey:@"myplaylist"];
     MPMediaItemCollection *mymediaItemCollection = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
+    //load saved slider Values
     myslider_threshold.value = [defaults floatForKey:@"myThreshold"];
     NSLog(@"Saved Threshold: %f",myslider_threshold.value);
     if (myslider_threshold.value == 0.0)
@@ -465,20 +463,13 @@
         myslider_threshold.value = 0.2;
     }
     
-    
     myslider_scale.value = [defaults floatForKey:@"myScaler"];
     NSLog(@"Saved Scaler: %f",myslider_scale.value);
     if (myslider_scale.value == 0.0)
     {
         NSLog(@" Scaler Invalid");
-        myslider_scale.value = 1;
+        myslider_scale.value = 3;
     }
-
-  
-    
-    //playlist = mediaItemCollection;
-   // NSLog(@"Playlist: %@",playlist);
-    
 
     int index = 0;
     for (MPMediaItem *item in mymediaItemCollection.items)

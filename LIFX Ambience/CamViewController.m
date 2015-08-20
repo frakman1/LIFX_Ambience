@@ -17,6 +17,9 @@
 
 
 #import "SCAudioMeter.h"
+#import <QuartzCore/QuartzCore.h>
+
+
 
 
 static void * CapturingStillImageContext = &CapturingStillImageContext;
@@ -25,6 +28,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 
 @interface CamViewController () <AVCaptureFileOutputRecordingDelegate>
+
 
 // For use in the storyboards.
 @property (nonatomic, weak) IBOutlet AVCamPreviewView *previewView;
@@ -71,6 +75,7 @@ UIColor* gcamAverageColor;
 CGFloat red, green, blue;
 CGFloat hue, saturation, brightness, alpha;
 LFXHSBKColor *gcamLifxColor;
+BOOL runOnce=FALSE;
 
 //LFXHSBKColor *gColor;
 
@@ -85,6 +90,7 @@ LFXHSBKColor *gcamLifxColor;
 
 BOOL gMicEnabled = false;
 BOOL gLockEnabled = false; //used to lock colour
+BOOL gCropEnabled = false;
 
 - (BOOL)isSessionRunningAndDeviceAuthorized
 {
@@ -141,6 +147,56 @@ BOOL gLockEnabled = false; //used to lock colour
 {
     [super viewDidLoad];
     
+     NSLog(@"***viewDidLoad***");
+    //[self.btnCrop setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    //self.viewCropSquare.layer.borderColor = [UIColor redColor].CGColor;
+    //self.viewCropSquare.layer.borderWidth = 3.0f;
+    
+/*
+    CGRect imageRect = self.viewCropSquare.frame;
+    
+    imageRect.origin.x=20;
+    imageRect.origin.y=1510;
+    self.viewCropSquare.frame = imageRect;
+    [[self.viewCropSquare superview] bringSubviewToFront:self.viewCropSquare];
+*/
+    
+    
+/*
+    
+    if (runOnce==FALSE)
+    {
+        runOnce=TRUE;
+        
+        paintView=[[UIView alloc]initWithFrame:CGRectMake(50, 100, 100, 200)];
+        //NSLog(@"******************cropDimension: %f ,%f ,%f, %f",cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height);
+        //paintView=[[UIView alloc]initWithFrame:CGRectMake(cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height)];
+        
+        [paintView setBackgroundColor:[UIColor clearColor]];
+        paintView.layer.borderColor = [UIColor redColor].CGColor;
+        paintView.layer.borderWidth = 3.0f;
+        [[self view] addSubview:paintView];
+        
+        //[self drawRect:rect];
+        
+    }
+*/
+    
+
+    
+    
+    
+    
+    //CGPoint superCenter = CGPointMake(CGRectGetMidX([self.previewView bounds]), CGRectGetMidY([self.previewView bounds]));
+    //[self.viewCropSquare setCenter:superCenter];
+    
+    //[[self previewView]addSubview:self.viewCropSquare];
+    //[self.viewCropSquare setFrame:CGRectMake(38,1510,1030,400)];
+    //paintView=[[UIView alloc]initWithFrame:CGRectMake(38,1510,1030,400)];
+    //[paintView setBackgroundColor:[UIColor yellowColor]];
+    //[self.previewView.layer addSublayer:paintView.layer];
+    //[[paintView superview] bringSubviewToFront:paintView];
+    
  
     // Create the AVCaptureSession
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
@@ -148,6 +204,8 @@ BOOL gLockEnabled = false; //used to lock colour
     
     // Setup the preview view
     [[self previewView] setSession:session];
+     //NSLog(@"****************** previewView: %f ,%f ,%f, %f",self.previewView.layer.frame.origin.x, self.previewView.layer.frame.origin.y, self.previewView.layer.frame.size.width, self.previewView.layer.frame.size.height);
+    
     
     // Check for device authorization
     [self checkDeviceAuthorizationStatus];
@@ -248,6 +306,10 @@ BOOL gLockEnabled = false; //used to lock colour
     [self.btnMic setTitle: @"Mic Off" forState: UIControlStateNormal];
     [self.btnMic setTitle: @"Mic On" forState: UIControlStateSelected];
     
+    [self.btnCrop setTitle: @"Crop" forState: UIControlStateNormal];
+    [self.btnCrop setTitle: @"Cropping" forState: UIControlStateSelected];
+
+    
 }
 
 
@@ -257,8 +319,19 @@ BOOL gLockEnabled = false; //used to lock colour
    
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSLog(@"***viewDidAppear***");
+
+   
+    
+}
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    NSLog(@"***viewWillAppear***");
+
     dispatch_async([self sessionQueue], ^{
         [self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:SessionRunningAndDeviceAuthorizedContext];
         [self addObserver:self forKeyPath:@"stillImageOutput.capturingStillImage" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:CapturingStillImageContext];
@@ -296,6 +369,15 @@ BOOL gLockEnabled = false; //used to lock colour
         [self.btnMic setSelected:NO];
     }
 
+    if (gCropEnabled)
+    {
+        [self.btnCrop setSelected:YES];
+    }
+    else
+    {
+        [self.btnCrop setSelected:NO];
+    }
+
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     //spawn average colour effect thread
@@ -309,8 +391,8 @@ BOOL gLockEnabled = false; //used to lock colour
         double dBValue = 10 * log10(value);
         double sanval = fabs(dBValue);
         double myval = (value+0.1) * 5; if (myval > 1) myval =1;
-        NSLog(@"Value: %0.2f   dBValue:%0.2f  sanval:%0.2f  myval:%0.2f", value,dBValue,sanval,myval);
-        NSLog(@"gMicEnabled:%d",gMicEnabled);
+        //NSLog(@"Value: %0.2f   dBValue:%0.2f  sanval:%0.2f  myval:%0.2f", value,dBValue,sanval,myval);
+        //NSLog(@"gMicEnabled:%d",gMicEnabled);
         //gcamLifxColor = [LFXHSBKColor colorWithHue:gcamLifxColor.hue saturation:gcamLifxColor.saturation brightness:myval];
         gcamLifxColor = [gcamLifxColor colorWithBrightness:myval];
         LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
@@ -320,7 +402,9 @@ BOOL gLockEnabled = false; //used to lock colour
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     
+
 }
+
 
 
 
@@ -361,6 +445,8 @@ BOOL gLockEnabled = false; //used to lock colour
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    
     dispatch_async([self sessionQueue], ^{
         [[self session] stopRunning];
         
@@ -421,6 +507,8 @@ BOOL gLockEnabled = false; //used to lock colour
             [self runStillImageCaptureAnimation];
         }
          */
+        
+        //if (gCropEnabled) [self drawRect:cropDimension];
     }
     else if (context == RecordingContext)
     {
@@ -603,7 +691,6 @@ BOOL gLockEnabled = false; //used to lock colour
 }
 
 
-
 - (IBAction)snapStillImage:(id)sender
 {
     MPVolumeView* volumeView = [[MPVolumeView alloc] init];
@@ -633,11 +720,61 @@ BOOL gLockEnabled = false; //used to lock colour
             if (imageDataSampleBuffer)
             {
                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                UIImage *image = [[UIImage alloc] initWithData:imageData];
- 
+                //UIImage *image = [[UIImage alloc] initWithData:imageData];
+                
+                myimage = [UIImage imageWithData:imageData];
+
+                //cropImage = image;
+               // NSLog(@"original image size:%@",NSStringFromCGSize(image.size));
+ /*
+                if (runOnce==FALSE)
+                {
+                    runOnce=TRUE;
+                    CGRect rect = self.previewView.bounds;
+                    NSLog(@"****************** rect: %f ,%f ,%f, %f",rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+                    //paintView=[[UIView alloc]initWithFrame:CGRectMake(50, 100, 100, 200)];
+                    //NSLog(@"******************cropDimension: %f ,%f ,%f, %f",cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height);
+                    //paintView=[[UIView alloc]initWithFrame:CGRectMake(cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height)];
+                    
+                    //[paintView setBackgroundColor:[UIColor clearColor]];
+                    //paintView.layer.borderColor = [UIColor redColor].CGColor;
+                    //paintView.layer.borderWidth = 3.0f;
+                    //[[self view] addSubview:paintView];
+                    
+                    //[self drawRect:rect];
+                    
+                }
+*/
+                
+                
                 //******* process image
-                NSLog(@"Process Image");
-                self.myLabel.backgroundColor=[image mergedColor];
+                //NSLog(@"Process Image");
+                if (gCropEnabled)
+                {
+
+                   // NSLog(@"cropDimension:%@",NSStringFromCGRect(cropDimension));
+                    
+                    if (cropDimension.size.width==0) return;
+                    //NSLog(@"****************** viewCropSquare: %f ,%f ,%f, %f",self.viewCropSquare.frame.origin.x, self.viewCropSquare.frame.origin.y, self.viewCropSquare.frame.size.width, self.viewCropSquare.frame.size.height);
+                    NSLog(@"cropDimension: %@",NSStringFromCGRect(cropDimension));
+
+                    
+                    //UIImage *cropped = [self UIImageCrop:image rect:cropDimension];
+                    myimage = [self UIImageCrop:myimage rect:cropDimension];
+                    
+                    
+                    
+                    //NSLog(@"cropped image size:%@",NSStringFromCGSize(cropped.size));
+                    //image = cropped;
+                    //NSLog(@"image size:%@",NSStringFromCGSize(image.size));
+                    //[self drawRect:cropDimension];
+                    
+
+                }
+                
+                NSLog(@"****************** image : %f ,%f ",myimage.size.width, myimage.size.height);
+                
+                self.myLabel.backgroundColor=[myimage mergedColor];
                 [self.myLabel.backgroundColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                 LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
                 gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
@@ -649,9 +786,52 @@ BOOL gLockEnabled = false; //used to lock colour
         }];
     });
 }
+/*
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGPathRef path = CGPathCreateWithRect(rect, NULL);
+    [[UIColor redColor] setFill];
+    [[UIColor greenColor] setStroke];
+    CGContextAddPath(context, path);
+    CGContextDrawPath(context, kCGPathFillStroke);
+    CGPathRelease(path);
+}
+*/
+/*
+inline double rad(double deg)
+{
+    return deg / 180.0 * M_PI;
+}
+*/
+- (UIImage*) UIImageCrop:(UIImage*)img  rect:(CGRect)rect
+{
+    CGAffineTransform rectTransform;
+    switch (img.imageOrientation)
+    {
+        case UIImageOrientationLeft:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation( M_PI_2), 0, -img.size.height);
+            break;
+        case UIImageOrientationRight:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI_2), -img.size.width, 0);
+            break;
+        case UIImageOrientationDown:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI), -img.size.width, -img.size.height);
+            break;
+        default:
+            rectTransform = CGAffineTransformIdentity;
+    };
+    rectTransform = CGAffineTransformScale(rectTransform, img.scale, img.scale);
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect([img CGImage], CGRectApplyAffineTransform(rect, rectTransform));
+    UIImage *result = [UIImage imageWithCGImage:imageRef scale:img.scale orientation:img.imageOrientation];
 
 
-
+    
+    
+    CGImageRelease(imageRef);
+    return result;
+}
 
 - (IBAction)focusAndExposeTap:(UIGestureRecognizer *)gestureRecognizer
 {
@@ -710,6 +890,19 @@ BOOL gLockEnabled = false; //used to lock colour
     {
         [self.btnLock setSelected:NO];
     }
+    
+    
+    //overlayImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play2"]];
+    //[overlayImageView setFrame:CGRectMake(30, 100, 75, 75)];
+    //[[self view] addSubview:overlayImageView];
+    
+    //[[paintView superview] bringSubviewToFront:paintView];
+    //if (cropDimension.size.width==0) return;
+ 
+   
+
+
+    
 }
 
 
@@ -725,4 +918,137 @@ BOOL gLockEnabled = false; //used to lock colour
         [self.btnMic setSelected:NO];
     }
 }
+
+- (IBAction)cropBarButtonClick:(id)sender
+{
+    gCropEnabled = !gCropEnabled;
+    if (gCropEnabled)
+    {
+        [self.btnCrop setSelected:YES];
+        
+        //self.viewCropSquare.hidden=FALSE;
+        
+        //self.previewView.layer.frame = self.viewCropSquare.frame;
+        //self.previewView.layer.frame.origin.y, self.previewView.layer.frame.size.width, self.previewView.layer.frame.size.height
+        
+        if(myimage != nil)
+        {
+            ImageCropViewController *controller = [[ImageCropViewController alloc] initWithImage:myimage];
+            controller.delegate = self;
+            controller.blurredBackground = YES;
+            [[self navigationController] pushViewController:controller animated:YES];
+        }
+
+    }
+    else
+    {
+        [self.btnCrop setSelected:NO];
+        //self.viewCropSquare.hidden=TRUE ;
+        //return;
+    }
+    //NSLog(@"****************** viewCropSquare: %f ,%f ,%f, %f",self.viewCropSquare.frame.origin.x, self.viewCropSquare.frame.origin.y, self.viewCropSquare.frame.size.width, self.viewCropSquare.frame.size.height);
+
+    
+    
+}
+
+- (void)ImageCropViewController:(ImageCropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage withDimension:(CGRect)dimension
+{
+    //gCroppedImage = croppedImage;
+    //imageView.image = croppedImage;
+    NSLog(@"dimension: %@",NSStringFromCGRect(dimension));
+    cropDimension = dimension;
+    /////
+
+    /////
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+- (void)ImageCropViewControllerDidCancel:(ImageCropViewController *)controller
+{
+    //imageView.image = cropImage;
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+
+
 @end
+
+
+/*
+
+- (IBAction)done:(id)sender
+{
+    
+    if ([self.delegate respondsToSelector:@selector(ImageCropViewController:didFinishCroppingImage:)])
+    {
+        UIImage *cropped;
+        if (self.image != nil){
+            CGRect CropRect = self.cropView.cropAreaInImage;
+            CGImageRef imageRef = CGImageCreateWithImageInRect([self.image CGImage], CropRect) ;
+            cropped = [UIImage imageWithCGImage:imageRef];
+            CGImageRelease(imageRef);
+        }
+        [self.delegate ImageCropViewController:self didFinishCroppingImage:cropped];
+    }
+    
+}
+
+
+ 
+ 
+
+CGFloat kResizeThumbSize = 30.0f;
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [[event allTouches] anyObject];
+    touchStart = [[touches anyObject] locationInView:self.viewCropSquare];
+    isResizingLR = (self.viewCropSquare.bounds.size.width - touchStart.x < kResizeThumbSize && self.viewCropSquare.bounds.size.height - touchStart.y < kResizeThumbSize);
+    isResizingUL = (touchStart.x <kResizeThumbSize && touchStart.y <kResizeThumbSize);
+    isResizingUR = (self.viewCropSquare.bounds.size.width-touchStart.x < kResizeThumbSize && touchStart.y<kResizeThumbSize);
+    isResizingLL = (touchStart.x <kResizeThumbSize && self.viewCropSquare.bounds.size.height -touchStart.y <kResizeThumbSize);
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    CGPoint touchPoint = [[touches anyObject] locationInView:self.viewCropSquare];
+    CGPoint previous = [[touches anyObject] previousLocationInView:self.viewCropSquare];
+    
+    CGFloat deltaWidth = touchPoint.x - previous.x;
+    CGFloat deltaHeight = touchPoint.y - previous.y;
+    
+    // get the frame values so we can calculate changes below
+    CGFloat x = self.viewCropSquare.frame.origin.x;
+    CGFloat y = self.viewCropSquare.frame.origin.y;
+    CGFloat width = self.viewCropSquare.frame.size.width;
+    CGFloat height = self.viewCropSquare.frame.size.height;
+    
+    if (isResizingLR) {
+        self.viewCropSquare.frame = CGRectMake(x, y, touchPoint.x+deltaWidth, touchPoint.y+deltaWidth);
+    } else if (isResizingUL) {
+        self.viewCropSquare.frame = CGRectMake(x+deltaWidth, y+deltaHeight, width-deltaWidth, height-deltaHeight);
+    } else if (isResizingUR) {
+        self.viewCropSquare.frame = CGRectMake(x, y+deltaHeight, width+deltaWidth, height-deltaHeight);
+    } else if (isResizingLL) {
+        self.viewCropSquare.frame = CGRectMake(x+deltaWidth, y, width-deltaWidth, height+deltaHeight);
+    } else {
+        // not dragging from a corner -- move the view
+        self.viewCropSquare.center = CGPointMake(self.viewCropSquare.center.x + touchPoint.x - touchStart.x,
+                                                 self.viewCropSquare.center.y + touchPoint.y - touchStart.y);
+    }
+}
+
+
++ (UIImage*)imageWithImage:(UIImage*)image
+              scaledToSize:(CGSize)newSize;
+{
+    UIGraphicsBeginImageContext( newSize );
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+*/
+
+

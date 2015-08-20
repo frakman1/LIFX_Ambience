@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,8 @@
 		221B114B1B42100C004F3122 /* dollar.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B114A1B42100C004F3122 /* dollar.png */; };
 		221B114E1B4218FD004F3122 /* UIView+Glow.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B114D1B4218FD004F3122 /* UIView+Glow.m */; };
 		221B11501B42DAFE004F3122 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B114F1B42DAFE004F3122 /* info.png */; };
+		221E32971B851F1A00108108 /* ImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 221E32961B851F1A00108108 /* ImageCropView.m */; };
+		221E329A1B85223D00108108 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 221E32991B85223D00108108 /* FXBlurView.m */; };
 		224936DD1B389CD200699D59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DC1B389CD200699D59 /* main.m */; };
 		224936E01B389CD200699D59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DF1B389CD200699D59 /* AppDelegate.m */; };
 		224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */; };
@@ -96,6 +98,10 @@
 		221B114C1B4218FD004F3122 /* UIView+Glow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Glow.h"; sourceTree = "<group>"; };
 		221B114D1B4218FD004F3122 /* UIView+Glow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Glow.m"; sourceTree = "<group>"; };
 		221B114F1B42DAFE004F3122 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		221E32951B851F1A00108108 /* ImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCropView.h; sourceTree = "<group>"; };
+		221E32961B851F1A00108108 /* ImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropView.m; sourceTree = "<group>"; };
+		221E32981B85223D00108108 /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
+		221E32991B85223D00108108 /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 		224936D71B389CD200699D59 /* LIFX Ambience.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LIFX Ambience.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224936DB1B389CD200699D59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "LIFX Ambience/Info.plist"; sourceTree = "<group>"; };
 		224936DC1B389CD200699D59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -292,6 +298,10 @@
 		22C44C961B73BA1900F09113 /* ExternalCode */ = {
 			isa = PBXGroup;
 			children = (
+				221E32981B85223D00108108 /* FXBlurView.h */,
+				221E32991B85223D00108108 /* FXBlurView.m */,
+				221E32951B851F1A00108108 /* ImageCropView.h */,
+				221E32961B851F1A00108108 /* ImageCropView.m */,
 				22E60BA61B63E3F900E74219 /* UIView+HierarchyLogging.h */,
 				22E60BA71B63E41F00E74219 /* UIView+HierarchyLogging.m */,
 				22E60BA91B63ED4700E74219 /* SCAudioMeter.h */,
@@ -439,7 +449,7 @@
 				};
 			};
 			buildConfigurationList = 224936D21B389CD200699D59 /* Build configuration list for PBXProject "LIFX Ambience" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -539,11 +549,13 @@
 			files = (
 				224936DD1B389CD200699D59 /* main.m in Sources */,
 				22DCE2031B50E075002506AD /* UIAlertView+NSCookbook.m in Sources */,
+				221E32971B851F1A00108108 /* ImageCropView.m in Sources */,
 				224936E01B389CD200699D59 /* AppDelegate.m in Sources */,
 				221B11471B420C3E004F3122 /* InfoViewController.m in Sources */,
 				22E60BA81B63E41F00E74219 /* UIView+HierarchyLogging.m in Sources */,
 				22F76A151B3CAF1100EE3AFD /* FSAudioPlayer.m in Sources */,
 				2249377A1B3A592800699D59 /* MeterTable.cpp in Sources */,
+				221E329A1B85223D00108108 /* FXBlurView.m in Sources */,
 				224937741B3A568400699D59 /* VisualizerView.mm in Sources */,
 				22E60BAB1B63ED4700E74219 /* SCAudioMeter.m in Sources */,
 				224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */,

@@ -140,6 +140,9 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //NSLog(@"Entering commitEditingStyle:%d [playlist.items count]:%d",editingStyle,[playlist.items count]);
+    if ([playlist.items count] == 1) return;
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) 
     {
         NSMutableArray*newPlaylistArray = [[NSMutableArray alloc] init];

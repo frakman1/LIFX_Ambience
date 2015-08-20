@@ -428,11 +428,24 @@
                                             <action selector="btnLockPressed:" destination="beV-Dh-bsA" eventType="touchUpInside" id="6mI-YE-70d"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGM-Uc-f2G">
+                                        <rect key="frame" x="113" y="547" width="107" height="25"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="tintColor" red="0.99871764520202022" green="0.22663641561938874" blue="0.26622435910062486" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Crop">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cropBarButtonClick:" destination="beV-Dh-bsA" eventType="touchUpInside" id="Fs4-Hh-HHW"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="bm7-X8-kak" firstAttribute="centerY" secondItem="tzL-Ow-623" secondAttribute="centerY" id="2Q1-eE-g6O"/>
                                     <constraint firstItem="tzL-Ow-623" firstAttribute="leading" secondItem="UKW-oZ-bhA" secondAttribute="leading" constant="79" id="5cz-OV-klF"/>
+                                    <constraint firstAttribute="centerX" secondItem="MGM-Uc-f2G" secondAttribute="centerX" id="7lt-N7-hrX"/>
                                     <constraint firstAttribute="bottom" secondItem="8k0-1H-qdw" secondAttribute="bottom" constant="19" id="AcL-dL-tDz"/>
                                     <constraint firstItem="8k0-1H-qdw" firstAttribute="firstBaseline" secondItem="bm7-X8-kak" secondAttribute="baseline" id="IlZ-Cp-buq"/>
                                     <constraint firstItem="8k0-1H-qdw" firstAttribute="bottom" secondItem="bm7-X8-kak" secondAttribute="bottom" id="Jl8-1V-SUp"/>
@@ -445,6 +458,9 @@
                                     <constraint firstAttribute="bottom" secondItem="tzL-Ow-623" secondAttribute="bottom" constant="20" id="nBx-g9-yrk"/>
                                     <constraint firstItem="8k0-1H-qdw" firstAttribute="centerY" secondItem="tzL-Ow-623" secondAttribute="centerY" id="pgW-L4-BfS"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="0ga-ZH-Xaq" appends="YES" id="Qcj-il-Q9D"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -457,6 +473,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ehW-ab-m8J"/>
                     <connections>
+                        <outlet property="btnCrop" destination="MGM-Uc-f2G" id="Eqa-G6-ffK"/>
                         <outlet property="btnLock" destination="8k0-1H-qdw" id="3u5-Lw-WSY"/>
                         <outlet property="btnMic" destination="bm7-X8-kak" id="Hzd-O6-3dl"/>
                         <outlet property="myLabel" destination="tzL-Ow-623" id="96a-d8-FlV"/>
@@ -466,7 +483,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KAa-x5-bJB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="0ga-ZH-Xaq">
                     <connections>
-                        <action selector="focusAndExposeTap:" destination="beV-Dh-bsA" id="2z6-K5-FKq"/>
+                        <action selector="focusAndExposeTap:" destination="beV-Dh-bsA" id="74x-Jk-aJf"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
