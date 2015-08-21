@@ -66,11 +66,17 @@
 
 - (void) startPlaying
 {
-     NSLog(@"startPlaying() gcurrentSong:%d",gcurrenSong);
+    NSLog(@"startPlaying() gcurrentSong:%d",gcurrenSong);
     MPMediaItem *item = [[playlist items] objectAtIndex:gcurrenSong];
     NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
     NSLog(@"url:%@",myurl);
     NSLog(@"self.isPaused:%d",self.isPaused);
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:gcurrenSong forKey:@"mySong"];
+    [defaults synchronize];
+
+    
     
     NSString *title = [item valueForProperty:MPMediaItemPropertyTitle ];
     
@@ -487,6 +493,15 @@
         
         [self.btnnext setShowsTouchWhenHighlighted:YES];
         [self.btnprevious setShowsTouchWhenHighlighted:YES];
+        
+        gcurrenSong = [defaults integerForKey:@"mySong"];
+        NSLog(@"Saved Song: %d: ",gcurrenSong);
+        if ( (gcurrenSong == -1 ) || (gcurrenSong > mymediaItemCollection.items.count) )
+        {
+            NSLog(@"Song Invalid");
+            gcurrenSong = 0;
+        }
+
         
         firstTime = FALSE;
         [self startPlaying];

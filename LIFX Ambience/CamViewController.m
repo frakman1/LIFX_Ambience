@@ -75,7 +75,7 @@ UIColor* gcamAverageColor;
 CGFloat red, green, blue;
 CGFloat hue, saturation, brightness, alpha;
 LFXHSBKColor *gcamLifxColor;
-BOOL runOnce=FALSE;
+//BOOL runOnce;
 
 //LFXHSBKColor *gColor;
 
