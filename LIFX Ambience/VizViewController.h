@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeElapsed;
 @property (weak, nonatomic) IBOutlet UILabel *lblSongTitle;
 @property (weak, nonatomic) IBOutlet MarqueeLabel *mlblSongTitle;
-@property (weak, nonatomic) IBOutlet UILabel *lblSongArtist;
+@property (weak, nonatomic) IBOutlet MarqueeLabel *mlblSongArtist;
 @property (weak, nonatomic) IBOutlet UILabel *lbltitleBackground;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnnext;
@@ -53,5 +53,7 @@
 //TableViewController Delegate
 -(void) ModalTableViewDidClickDone:(MPMediaItemCollection*)newPlaylist;
 -(void) ModalTableViewDidClickCancel;
+-(void) ModalTableViewDidSelectSong:(MPMediaItemCollection*)newPlaylist withSong:(int)index;
+
 
 @end

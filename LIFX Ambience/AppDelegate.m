@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "Flurry/Flurry.h"
 
+
+#define kAppVersion [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+
 @interface AppDelegate ()
 
 @end
@@ -20,6 +23,7 @@
     // Override point for customization after application launch.
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     application.applicationSupportsShakeToEdit = YES;
+    [Flurry setAppVersion:kAppVersion]; NSLog(@"kAppVersion:%@",kAppVersion);
     [Flurry startSession:@"SHY275WVSQH8FYKF63M6"];
     
      return YES;

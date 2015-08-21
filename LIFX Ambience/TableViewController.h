@@ -28,5 +28,7 @@
 
 -(void) ModalTableViewDidClickDone:(MPMediaItemCollection*)newPlaylist;
 -(void) ModalTableViewDidClickCancel;
+-(void) ModalTableViewDidSelectSong:(MPMediaItemCollection*)newPlaylist withSong:(int)index;
+
 
 @end

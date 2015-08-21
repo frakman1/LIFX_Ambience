@@ -141,6 +141,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //NSLog(@"Entering commitEditingStyle:%d [playlist.items count]:%d",editingStyle,[playlist.items count]);
+    //prevent a 0 length list. MediaPlayer allocation fails below otherwise.
     if ([playlist.items count] == 1) return;
     
     if (editingStyle == UITableViewCellEditingStyleDelete) 
@@ -153,7 +154,7 @@
                 [newPlaylistArray addObject:[playlist.items objectAtIndex:i]];
             }
         }
-        MPMediaItemCollection*newPlaylist = [[MPMediaItemCollection alloc] initWithItems:newPlaylistArray];
+        MPMediaItemCollection*newPlaylist = [[MPMediaItemCollection alloc] initWithItems:newPlaylistArray]; //make sure this is never an empty list
         playlist = newPlaylist;
         [theTableView reloadData];
         
@@ -245,7 +246,19 @@
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MPMediaItem *item = [playlist.items objectAtIndex:[indexPath row]];
+    NSLog(@"%ld - selected: %@",(long)[indexPath row],item.title);
+    //[self.parentViewController dismissModalViewControllerAnimated:YES];
+    [self.delegate ModalTableViewDidSelectSong:playlist withSong:(int)[indexPath row]];
 }
+/*
+int index = 0;
+for (MPMediaItem *i/Users/frak/Documents/XcodeProjects/LIFX Ambience/LIFX Ambience/TableViewController.htem in mymediaItemCollection.items)
+{
+    NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+}
+NSLog(@"index: %d",index);
+*/
 
 
 #pragma mark - Toolbar Buttons

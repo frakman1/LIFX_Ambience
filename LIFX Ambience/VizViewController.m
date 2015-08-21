@@ -94,12 +94,13 @@
     //[title  appendString: [item valueForProperty:MPMediaItemPropertyTitle] ];
     //title = [title substringToIndex:27];
     //NSString *newtitle = [NSString stringWithFormat:@"~~~~~~~~~~ %@ ~~~~~~~~~~",title];NSLog(@"%@",newtitle);
-    self.mlblSongTitle.text = title;
+    NSString *newtitle = [NSString stringWithFormat:@"%@.",title];NSLog(@"%@",newtitle);
+    self.mlblSongTitle.text = newtitle;
     //[self.mlblSongTitle sizeToFit];
     
     
     NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
-    self.lblSongArtist.text = artist;
+    self.mlblSongArtist.text = artist;
 
     
     if (self.myaudioPlayer.audioPlayer.isPlaying)
@@ -200,6 +201,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     CGRect frame = self.view.frame;
+   
     //NSLog (@"1");
     self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width, self.audioPlayerBackgroundLayer.frame.size.height);
     //NSLog (@"2. %@", NSStringfromCGRect(self.audioPlayerBackgroundLayer.frame));
@@ -214,7 +216,7 @@
     //NSLog (@"4. %@",NSStringfromCGRect(self.mlblSongTitle.frame));
     
     
-    self.lblSongArtist.frame = CGRectMake(self.lblSongArtist.frame.origin.x, self.lblSongArtist.frame.origin.y, frame.size.width ,self.lblSongArtist.frame.size.height);
+    self.mlblSongArtist.frame = CGRectMake(self.mlblSongArtist.frame.origin.x, self.mlblSongArtist.frame.origin.y, frame.size.width ,self.mlblSongArtist.frame.size.height);
     //NSLog (@"5.lblSongArtist x:%f y:%f width:%f height:%f",self.lblSongArtist.frame.origin.x,self.lblSongArtist.frame.origin.y,self.lblSongArtist.frame.size.width,self.lblSongArtist.frame.size.height);
     
     //self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
@@ -324,7 +326,7 @@
     [[self.duration superview] bringSubviewToFront:self.duration];
     [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
     
-    [[self.lblSongArtist superview] bringSubviewToFront:self.lblSongArtist];
+    [[self.mlblSongArtist superview] bringSubviewToFront:self.mlblSongArtist];
     [[self.playButton superview] bringSubviewToFront:self.playButton];
     [[self.toolbar superview] bringSubviewToFront:self.toolbar];
     [[self.lbltitleBackground superview] bringSubviewToFront:self.lbltitleBackground];
@@ -356,6 +358,13 @@
     self.mlblSongTitle.leadingBuffer = 10.0f;
     self.mlblSongTitle.trailingBuffer = 10.0f;
     // Text string for this label is set via Interface Builder!
+    self.mlblSongArtist.tag = 102;
+    self.mlblSongArtist.marqueeType = MLContinuousReverse;
+    self.mlblSongArtist.scrollDuration = 6.0;
+    self.mlblSongArtist.animationCurve = UIViewAnimationOptionCurveLinear;
+    self.mlblSongArtist.fadeLength = 0.0f;
+    self.mlblSongArtist.leadingBuffer = 10.0f;
+    self.mlblSongArtist.trailingBuffer = 10.0f;
     
     
     //create vertical slider - Threshold (DC Offset)
@@ -469,6 +478,7 @@
         myslider_threshold.value = 0.2;
     }
     
+    //load saved slider Values
     myslider_scale.value = [defaults floatForKey:@"myScaler"];
     NSLog(@"Saved Scaler: %f",myslider_scale.value);
     if (myslider_scale.value == 0.0)
@@ -1187,6 +1197,26 @@
 -(void) ModalTableViewDidClickCancel
 {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+-(void) ModalTableViewDidSelectSong:(MPMediaItemCollection *)newPlaylist withSong:(int)index
+{
+    playlist = newPlaylist;
+    NSLog(@"***Saving Playlist ***");
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:playlist];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:data forKey:@"myplaylist"];
+    [defaults synchronize];
+    
+    NSLog(@"index:%d",index);
+    gcurrenSong = (int)index;
+    [self startPlaying];
+    
+    [self dismissModalViewControllerAnimated:YES];
+
+    
+    
+
 }
 
 

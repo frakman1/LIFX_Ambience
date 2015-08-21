@@ -15,7 +15,7 @@
     UIImage* myimage;
     UIImage* gCroppedImage;
     //IBOutlet UIImageView *imageView;
-    CGRect cropDimension;
+    //CGRect cropDimension;
     //UIView* paintView;
     //UIImageView *overlayImageView;
     
@@ -30,5 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnLock;
 @property (weak, nonatomic) IBOutlet UIButton *btnCrop;
 //@property (weak, nonatomic) IBOutlet UIView *viewCropSquare;
+//@property (assign,nonatomic) CGRect cropDimension;
 
 @end

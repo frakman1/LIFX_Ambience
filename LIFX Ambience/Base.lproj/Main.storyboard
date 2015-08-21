@@ -247,7 +247,7 @@
                                 <color key="textColor" red="0.86111111110000005" green="0.86111111110000005" blue="0.86111111110000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7p-Ub-gvD" userLabel="SongArtist">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7p-Ub-gvD" userLabel="SongArtist" customClass="MarqueeLabel">
                                 <rect key="frame" x="0.0" y="46" width="320" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -260,11 +260,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="animationDelay">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbq-cK-tLI">
                                 <rect key="frame" x="279" y="70" width="32" height="32"/>
@@ -369,7 +364,7 @@
                         <outlet property="currentTimeSlider" destination="Dxt-7a-SeI" id="Giw-sp-dYh"/>
                         <outlet property="duration" destination="GBE-oa-55V" id="W5p-Lq-z4H"/>
                         <outlet property="imgBox" destination="aBq-FL-9bS" id="KgU-Wq-drZ"/>
-                        <outlet property="lblSongArtist" destination="K7p-Ub-gvD" id="72a-9h-aDP"/>
+                        <outlet property="mlblSongArtist" destination="K7p-Ub-gvD" id="dzK-e0-L59"/>
                         <outlet property="mlblSongTitle" destination="A6j-8u-4Ue" id="3nC-jX-ipV"/>
                         <outlet property="playButton" destination="7kF-jk-FSj" id="q5S-nd-LzQ"/>
                         <outlet property="powerLevel" destination="XrQ-Bk-Kb4" id="hYn-qy-g6N"/>

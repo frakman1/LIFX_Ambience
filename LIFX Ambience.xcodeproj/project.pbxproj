@@ -722,11 +722,10 @@
 					viPhone,
 					"$(PROJECT_DIR)/Flurry",
 				);
-OTHER_LDFLAGS = (
-"-ObjC",
-"$(inherited)",
-);
-
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -763,10 +762,10 @@ OTHER_LDFLAGS = (
 					"$(PROJECT_DIR)/Flurry",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-OTHER_LDFLAGS = (
-"-ObjC",
-"$(inherited)",
-);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

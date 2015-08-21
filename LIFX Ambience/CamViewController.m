@@ -67,6 +67,8 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 @implementation CamViewController
 
+
+
 AVAudioRecorder* recorder;
 NSTimer *camTimer;
 //UIImage *gImage;
@@ -91,6 +93,7 @@ LFXHSBKColor *gcamLifxColor;
 BOOL gMicEnabled = false;
 BOOL gLockEnabled = false; //used to lock colour
 BOOL gCropEnabled = false;
+CGRect cropDimension; // globals are retained between view controllers. I was unable to retain this variable when used as ainstance variable or property.
 
 - (BOOL)isSessionRunningAndDeviceAuthorized
 {
@@ -331,6 +334,7 @@ BOOL gCropEnabled = false;
 {
     [super viewWillAppear:animated];
     NSLog(@"***viewWillAppear***");
+     NSLog(@"%@", self);
 
     dispatch_async([self sessionQueue], ^{
         [self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:SessionRunningAndDeviceAuthorizedContext];
@@ -754,7 +758,7 @@ BOOL gCropEnabled = false;
 
                    // NSLog(@"cropDimension:%@",NSStringFromCGRect(cropDimension));
                     
-                    if (cropDimension.size.width==0) return;
+                    if (cropDimension.size.width==0) {NSLog(@"no cropping dimensions set");return;}
                     //NSLog(@"****************** viewCropSquare: %f ,%f ,%f, %f",self.viewCropSquare.frame.origin.x, self.viewCropSquare.frame.origin.y, self.viewCropSquare.frame.size.width, self.viewCropSquare.frame.size.height);
                     NSLog(@"cropDimension: %@",NSStringFromCGRect(cropDimension));
 
