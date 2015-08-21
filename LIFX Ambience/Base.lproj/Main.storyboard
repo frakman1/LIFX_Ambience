@@ -628,6 +628,12 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="lX7-Ey-5Mt"/>
+                                    <barButtonItem image="shuffle" id="SXa-AO-HYr">
+                                        <connections>
+                                            <action selector="clickShuffle:" destination="RiO-wb-2AG" id="4Vs-qR-jIr"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Nt9-T9-gYg"/>
                                     <barButtonItem image="cancel" id="Vz6-wp-81a">
                                         <connections>
                                             <action selector="clickCancel:" destination="RiO-wb-2AG" id="gNu-wK-c93"/>
@@ -674,6 +680,7 @@
         <image name="playlist" width="23" height="32"/>
         <image name="right" width="32" height="32"/>
         <image name="save" width="32" height="32"/>
+        <image name="shuffle" width="46" height="34"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

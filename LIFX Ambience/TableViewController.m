@@ -273,6 +273,27 @@ NSLog(@"index: %d",index);
     [self.delegate ModalTableViewDidClickCancel];
 }
 
+- (IBAction)clickShuffle:(id)sender
+{
+    //[self.delegate ModalTableViewDidClickCancel];
+    NSLog(@"Every Day I'm Shuff-a-ling");
+    
+    NSMutableArray *tempPlayist = [[NSMutableArray alloc]initWithArray:playlist.items copyItems:TRUE]; 
+    
+    NSUInteger count = [tempPlayist count];
+    for (NSUInteger i = 0; i < count - 1; ++i)
+    {
+        NSInteger remainingCount = count - i;
+        NSInteger exchangeIndex = i + arc4random_uniform((u_int32_t )remainingCount);
+        [tempPlayist exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
+    }
+
+    playlist = [MPMediaItemCollection collectionWithItems:tempPlayist];
+    
+    [theTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+
+}
+
 
 @end
 
