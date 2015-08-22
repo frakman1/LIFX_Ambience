@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnprevious;
 
 @property (nonatomic, retain) IBOutlet UIToolbar*   toolbar;
+@property (weak, nonatomic) IBOutlet UIButton *btnRepeat;
 
 @property BOOL isPaused;
 @property BOOL scrubbing;

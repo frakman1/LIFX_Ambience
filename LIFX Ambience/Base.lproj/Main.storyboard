@@ -213,7 +213,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAb-br-qGv" userLabel="audioPlayerBackgroundLayer">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAb-br-qGv" userLabel="audioPlayerBackgroundLayer">
                                 <rect key="frame" x="0.0" y="0.0" width="526" height="116"/>
                                 <color key="backgroundColor" red="0.086274509803921567" green="0.24313725490196078" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -279,11 +279,11 @@
                                     <action selector="btnpreviousPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="moT-U4-TJB"/>
                                 </connections>
                             </button>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.5" contentMode="scaleToFill" misplaced="YES" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-MZ-8xd">
-                                <rect key="frame" x="0.0" y="460" width="526" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.5" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="h7n-MZ-8xd">
+                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <items>
-                                    <barButtonItem style="plain" id="YD7-2M-riT">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="IfA-DK-3aB">
+                                    <barButtonItem style="plain" id="MKH-FV-3Oa">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="nSh-8U-Vyf">
                                             <rect key="frame" x="16" y="7" width="32" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -291,12 +291,24 @@
                                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="btnMixerPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="hl5-qX-jlb"/>
+                                                <action selector="btnMixerPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="coW-pb-pyr"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
-                                    <barButtonItem title="             " id="QV5-63-fpe"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="CSK-oV-jh9"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ZQ6-yb-vfc"/>
+                                    <barButtonItem style="plain" id="Ybk-x7-mfm">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="xTE-jl-hfn">
+                                            <rect key="frame" x="153" y="7" width="60" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <state key="normal" image="repeat"/>
+                                            <connections>
+                                                <action selector="btnRepeatPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="oYQ-hT-goi"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="VzD-v9-aGh"/>
                                     <barButtonItem image="playlist" id="kUo-PU-Rbv">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
@@ -315,7 +327,7 @@
                                 <rect key="frame" x="14" y="118" width="292" height="31"/>
                                 <color key="thumbTintColor" red="0.10588235294117647" green="0.29411764705882354" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                             </slider>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="blank" translatesAutoresizingMaskIntoConstraints="NO" id="aBq-FL-9bS">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="blank" translatesAutoresizingMaskIntoConstraints="NO" id="aBq-FL-9bS">
                                 <rect key="frame" x="74" y="201" width="171" height="171"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
@@ -324,21 +336,24 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="cbq-cK-tLI" secondAttribute="trailing" constant="-7" id="24i-2r-I60"/>
                             <constraint firstItem="7kF-jk-FSj" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leadingMargin" constant="-9" id="7ix-dD-xAG"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="top" secondItem="aBq-FL-9bS" secondAttribute="bottom" constant="88" id="GM9-ww-Mbo"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="K7p-Ub-gvD" secondAttribute="leading" id="N32-qF-H0Z"/>
                             <constraint firstAttribute="centerX" secondItem="aBq-FL-9bS" secondAttribute="centerX" id="Sl7-Ch-w9o"/>
                             <constraint firstItem="bmt-IR-ni6" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leadingMargin" constant="-9" id="Tb0-qn-BdE"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="bottom" secondItem="F5m-G6-LOp" secondAttribute="top" id="V5h-q2-eI2"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="centerX" secondItem="XrQ-Bk-Kb4" secondAttribute="centerX" id="Wnh-7o-07g"/>
                             <constraint firstItem="cbq-cK-tLI" firstAttribute="leading" secondItem="A6j-8u-4Ue" secondAttribute="trailing" constant="6" id="ZWg-9y-6Gp"/>
                             <constraint firstItem="GBE-oa-55V" firstAttribute="leading" secondItem="Dxt-7a-SeI" secondAttribute="trailing" constant="8" symbolic="YES" id="Zos-NO-n6N"/>
                             <constraint firstItem="A6j-8u-4Ue" firstAttribute="leading" secondItem="bmt-IR-ni6" secondAttribute="trailing" constant="8" id="c6r-e1-umr"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leading" id="g77-3J-qSc"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="iAb-br-qGv" secondAttribute="leading" id="eWC-H6-Bq6"/>
                             <constraint firstItem="mqs-A3-REf" firstAttribute="leading" secondItem="7kF-jk-FSj" secondAttribute="trailing" priority="250" constant="8" symbolic="YES" id="hyc-eK-kNh"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leading" id="mmF-lx-Oz9"/>
                             <constraint firstAttribute="centerX" secondItem="XrQ-Bk-Kb4" secondAttribute="centerX" id="myQ-2k-aXm"/>
                             <constraint firstAttribute="centerX" secondItem="Dxt-7a-SeI" secondAttribute="centerX" id="nwv-po-cUn"/>
                             <constraint firstItem="Dxt-7a-SeI" firstAttribute="leading" secondItem="mqs-A3-REf" secondAttribute="trailing" priority="750" constant="8" symbolic="YES" id="prv-z7-Xve"/>
                             <constraint firstAttribute="centerX" secondItem="K7p-Ub-gvD" secondAttribute="centerX" id="rjz-d1-aOB"/>
-                            <constraint firstAttribute="trailing" secondItem="h7n-MZ-8xd" secondAttribute="trailing" id="uEn-o8-5sQ"/>
                             <constraint firstItem="bmt-IR-ni6" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leadingMargin" constant="-9" id="vAK-Pz-gkp"/>
                             <constraint firstAttribute="centerX" secondItem="A6j-8u-4Ue" secondAttribute="centerX" id="whF-wD-uzV"/>
-                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="bottom" secondItem="F5m-G6-LOp" secondAttribute="top" id="wkb-n2-YSV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bO5-M5-QBN">
@@ -359,6 +374,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="audioPlayerBackgroundLayer" destination="iAb-br-qGv" id="Oin-KO-lIm"/>
+                        <outlet property="btnRepeat" destination="xTE-jl-hfn" id="u2l-6a-8yS"/>
                         <outlet property="btnnext" destination="cbq-cK-tLI" id="aum-MN-6lf"/>
                         <outlet property="btnprevious" destination="bmt-IR-ni6" id="97P-YE-Ht3"/>
                         <outlet property="currentTimeSlider" destination="Dxt-7a-SeI" id="Giw-sp-dYh"/>
@@ -678,6 +694,7 @@
         <image name="music" width="89" height="89"/>
         <image name="play" width="28" height="28"/>
         <image name="playlist" width="23" height="32"/>
+        <image name="repeat" width="60" height="32"/>
         <image name="right" width="32" height="32"/>
         <image name="save" width="32" height="32"/>
         <image name="shuffle" width="46" height="34"/>

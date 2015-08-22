@@ -16,7 +16,7 @@
 #import "MarqueeLabel.h"
 #import "ANPopoverSlider.h"
 
-@interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate>
+@interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UINavigationBar *navBar;
@@ -56,7 +56,7 @@
 }
 @synthesize playlist,limboPlaylist,toolbar,powerLevel;
 
-
+BOOL gRepeatEnabled = false;
 
 - (void) myTick:(NSTimer *)timer
 {
@@ -338,7 +338,11 @@
     [[self.powerLevel superview] bringSubviewToFront:self.powerLevel];
     [[self.imgBox superview] bringSubviewToFront:self.imgBox];
     //[self.imgBox setImage:[UIImage imageNamed:@"play2"]];
-
+   // UIImage *repeatOn = [UIImage imageNamed:@"repeat_on"];
+    //UIImage *repeat   = [UIImage imageNamed:@"repeat"];
+    //[self.btnRepeat setImage:repeatOn   forState:UIControlStateSelected];
+    //[self.btnRepeat setImage:repeat     forState:UIControlStateNormal];
+    
     
     [self configuremyAudioPlayer];
     
@@ -439,10 +443,12 @@
     //UIBarButtonItem *item = self.navigationController.navigationBar.topItem.rightBarButtonItem;
     //UIButton *myBtn = (UIButton *)item.customView;
     //[myBtn setShowsTouchWhenHighlighted:YES];
-    
+
     // add tap gesture handlers
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapGesture.numberOfTapsRequired = 2;
+    tapGesture.delegate = self;
+    tapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGesture];
     
     UISwipeGestureRecognizer *recognizer;
@@ -453,11 +459,11 @@
     recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
     [[self view] addGestureRecognizer:recognizer];
-
+    
     recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
     [[self view] addGestureRecognizer:recognizer];
-
+    
     recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
     [[self view] addGestureRecognizer:recognizer];
@@ -520,12 +526,28 @@
     
     NSLog(@"***Finished viewDidLoad:");
     
+}
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    
+    if ( /*([touch.view isKindOfClass:[UIButton class]]) ||
+         ([touch.view isKindOfClass:[UIBarButtonItem class]]) ||
+         ([touch.view isKindOfClass:[UIToolbar class]]) ||
+        ([touch.view respondsToSelector:@selector(btnRepeatPressed:)])*/
+        ([touch.view isKindOfClass:[UIControl class]]) )
+    {
+        NSLog(@"Ignoring gesture");
+        return NO;
+    }
+    NSLog(@"Processing gesture");
+    return YES;
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)sender
 {
      NSLog(@"handleTap ");
+    
     if (!self.isPaused)
     {
         //playaudio
@@ -1154,8 +1176,15 @@
         NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
     }
 
+    if (self.btnRepeat.selected)
+    {
+         NSLog(@"Repeating Song. gcurrentSong unchanged ",gcurrenSong);
+    }
+    else
+    {
+        gcurrenSong++;
+    }
     
-    gcurrenSong++;
     NSLog(@"next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
     if (gcurrenSong > ([playlist count] - 1))
     {
@@ -1217,6 +1246,24 @@
     
     
 
+}
+- (IBAction)btnRepeatPressed:(UIButton *)sender
+{
+    NSLog(@"btnRepeatPressed. self.btnRepeat.selected:%d ",self.btnRepeat.selected);
+    self.btnRepeat.selected = !self.btnRepeat.selected;
+    if (self.btnRepeat.selected)
+    {
+        [self.btnRepeat setSelected:YES];
+        [self.btnRepeat setImage: [UIImage imageNamed:@"repeat_on"] forState:UIControlStateNormal] ;
+    }
+    else
+    {
+        [self.btnRepeat setSelected:NO];
+        [self.btnRepeat setImage: [UIImage imageNamed:@"repeat"] forState:UIControlStateNormal] ;
+    }
+ 
+    //[self.btnRepeat setImage:[UIImage imageNamed:@"repeat_on"] forState:UIControlStateNormal];
+     //NSLog(@"buttonstate:",self.btnRepeat.);
 }
 
 
