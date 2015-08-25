@@ -18,6 +18,7 @@
 
 #import "SCAudioMeter.h"
 #import <QuartzCore/QuartzCore.h>
+#import "JDFTooltips.h"
 
 
 
@@ -36,6 +37,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @property (nonatomic, weak) IBOutlet UIButton *cameraButton;
 @property (nonatomic, weak) IBOutlet UIButton *stillButton;
 @property (nonatomic,weak) IBOutlet UILabel* myLabel;
+@property (nonatomic, strong) JDFTooltipManager *tooltipManager;
 
 @property (nonatomic, strong) UISlider *volumeSlider;
 
@@ -311,8 +313,25 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     
     [self.btnCrop setTitle: @"Crop" forState: UIControlStateNormal];
     [self.btnCrop setTitle: @"Cropping" forState: UIControlStateSelected];
-
+    // [self showButtonPressed:nil];
+    CGFloat tooltipWidth = 100.0f;
     
+    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnLock.center.x,self.btnLock.center.y+15)  tooltipText:@"Lock Bulb Colour" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth];
+  
+    
+    //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMic.center.x,self.btnMic.center.y+15)  tooltipText:@"Vary Brightness with Audio Level " arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth+50];
+    
+    
+    //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+   // [self.tooltipManager addTooltipWithTargetView:self.btnCrop hostView:self.view tooltipText:@"Limit Colour Calculation to a Crop-Box" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+100];
+
+     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnCrop.center.x,self.btnCrop.center.y-20)  tooltipText:@"Limit Colour Calculation to Crop-Box Contents" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
+    
+    
+    [self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:[self previewView] tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
+
 }
 
 
@@ -974,12 +993,36 @@ inline double rad(double deg)
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+- (IBAction)btnHelpPressed:(id)sender
+{
+    self.btnHelp.selected = !self.btnHelp.selected;
+    if (self.btnHelp.selected)
+    {
+        //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
+        //[tooltip show];
+        [self.tooltipManager showAllTooltips];
+        [self.btnHelp setSelected:YES];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
 
+    }
+    else
+    {
+        //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
+        //[tooltip hideAnimated:TRUE];
+        [self.tooltipManager hideAllTooltipsAnimated:TRUE];
+        [self.btnHelp setSelected:NO];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+
+    }
+
+}
 
 @end
 
 
 /*
+ 
+ 
 
 - (IBAction)done:(id)sender
 {

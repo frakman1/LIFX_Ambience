@@ -357,6 +357,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bO5-M5-QBN">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="IVk-IA-yht">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J2o-9S-nqF">
+                                <rect key="frame" x="16" y="7" width="33" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="help">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnHelpPressed:" destination="2Ua-YC-BMe" eventType="touchUpInside" id="mrJ-q6-vfy"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="tXn-gZ-XXw">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="HTQ-Ef-c6y">
                                 <rect key="frame" x="282" y="11" width="32" height="32"/>
@@ -374,6 +386,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="audioPlayerBackgroundLayer" destination="iAb-br-qGv" id="Oin-KO-lIm"/>
+                        <outlet property="barbtnAddMusic" destination="tXn-gZ-XXw" id="rWe-U4-KtJ"/>
+                        <outlet property="barbtnHelp" destination="IVk-IA-yht" id="Mg0-se-FuB"/>
+                        <outlet property="btnAddMusic" destination="HTQ-Ef-c6y" id="fvl-8M-fza"/>
+                        <outlet property="btnHelp" destination="J2o-9S-nqF" id="Hxh-yh-4w7"/>
+                        <outlet property="btnMixer" destination="nSh-8U-Vyf" id="wK6-jg-M1E"/>
+                        <outlet property="btnPlaylist" destination="kUo-PU-Rbv" id="lFA-Eh-Onp"/>
                         <outlet property="btnRepeat" destination="xTE-jl-hfn" id="u2l-6a-8yS"/>
                         <outlet property="btnnext" destination="cbq-cK-tLI" id="aum-MN-6lf"/>
                         <outlet property="btnprevious" destination="bmt-IR-ni6" id="97P-YE-Ht3"/>
@@ -482,9 +500,24 @@
                             <constraint firstAttribute="trailing" secondItem="UKW-oZ-bhA" secondAttribute="trailing" id="sAg-Dm-ncg"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ehW-ab-m8J"/>
+                    <navigationItem key="navigationItem" id="ehW-ab-m8J">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="P3b-T7-bdL">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lKC-g0-nwK">
+                                <rect key="frame" x="233" y="7" width="33" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="help">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnHelpPressed:" destination="beV-Dh-bsA" eventType="touchUpInside" id="16L-5c-gs2"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="barbtnHelp" destination="P3b-T7-bdL" id="vlc-DJ-Equ"/>
                         <outlet property="btnCrop" destination="MGM-Uc-f2G" id="Eqa-G6-ffK"/>
+                        <outlet property="btnHelp" destination="lKC-g0-nwK" id="MbP-oF-lL2"/>
                         <outlet property="btnLock" destination="8k0-1H-qdw" id="3u5-Lw-WSY"/>
                         <outlet property="btnMic" destination="bm7-X8-kak" id="Hzd-O6-3dl"/>
                         <outlet property="myLabel" destination="tzL-Ow-623" id="96a-d8-FlV"/>
@@ -536,14 +569,14 @@
                                             <action selector="sendButtonTapped:" destination="aDy-15-Ep7" eventType="touchUpInside" id="cgI-zi-Fvy"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Donate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BmV-ah-Lc9">
-                                        <rect key="frame" x="227" y="284" width="66" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Feedback" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6P-EE-NrW">
+                                        <rect key="frame" x="34" y="284" width="76" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Feedback" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6P-EE-NrW">
-                                        <rect key="frame" x="34" y="284" width="76" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Buy me a drink" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BmV-ah-Lc9">
+                                        <rect key="frame" x="202" y="284" width="116" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -551,11 +584,11 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="T6P-EE-NrW" secondAttribute="centerX" constant="100" id="7PS-B9-fek"/>
-                                    <constraint firstAttribute="centerX" secondItem="BmV-ah-Lc9" secondAttribute="centerX" constant="-100" id="AVS-gc-AOc"/>
-                                    <constraint firstAttribute="centerX" secondItem="Uyh-e7-wZP" secondAttribute="centerX" constant="100" id="PyK-ES-K6k"/>
+                                    <constraint firstAttribute="centerX" secondItem="T6P-EE-NrW" secondAttribute="centerX" constant="90" id="7PS-B9-fek"/>
+                                    <constraint firstAttribute="centerX" secondItem="BmV-ah-Lc9" secondAttribute="centerX" constant="-90" id="AVS-gc-AOc"/>
+                                    <constraint firstAttribute="centerX" secondItem="Uyh-e7-wZP" secondAttribute="centerX" constant="90" id="PyK-ES-K6k"/>
                                     <constraint firstAttribute="centerY" secondItem="T6P-EE-NrW" secondAttribute="centerY" constant="-50" id="k5Q-j8-79F"/>
-                                    <constraint firstAttribute="centerX" secondItem="CpC-yr-SEC" secondAttribute="centerX" constant="-100" id="oUI-oW-RB6"/>
+                                    <constraint firstAttribute="centerX" secondItem="CpC-yr-SEC" secondAttribute="centerX" constant="-90" id="oUI-oW-RB6"/>
                                     <constraint firstAttribute="centerY" secondItem="CpC-yr-SEC" secondAttribute="centerY" id="ow2-8O-4SG"/>
                                     <constraint firstAttribute="centerY" secondItem="Uyh-e7-wZP" secondAttribute="centerY" constant="-5" id="qqh-97-5k4"/>
                                     <constraint firstAttribute="centerY" secondItem="BmV-ah-Lc9" secondAttribute="centerY" constant="-50" id="wjo-hV-DVU"/>
@@ -687,6 +720,7 @@
         <image name="cam" width="89" height="89"/>
         <image name="cancel" width="36" height="36"/>
         <image name="dollar" width="64" height="64"/>
+        <image name="help" width="33" height="32"/>
         <image name="info" width="32" height="32"/>
         <image name="left" width="34" height="34"/>
         <image name="mail" width="64" height="39"/>

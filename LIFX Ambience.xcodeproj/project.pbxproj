@@ -58,6 +58,11 @@
 		22AEB3821B726F3800915E8A /* ANPopoverSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB37F1B726F3800915E8A /* ANPopoverSlider.m */; };
 		22AEB3831B726F3800915E8A /* ANPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB3811B726F3800915E8A /* ANPopoverView.m */; };
 		22DCE2031B50E075002506AD /* UIAlertView+NSCookbook.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */; };
+		22E5A1551B8CE6FE00EED439 /* JDFSequentialTooltipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E5A14B1B8CE6FE00EED439 /* JDFSequentialTooltipManager.m */; };
+		22E5A1561B8CE6FE00EED439 /* JDFTooltipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E5A14D1B8CE6FE00EED439 /* JDFTooltipManager.m */; };
+		22E5A1571B8CE6FE00EED439 /* JDFTooltipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E5A1501B8CE6FE00EED439 /* JDFTooltipView.m */; };
+		22E5A1581B8CE6FE00EED439 /* UILabel+JDFTooltips.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E5A1521B8CE6FE00EED439 /* UILabel+JDFTooltips.m */; };
+		22E5A1591B8CE6FE00EED439 /* UIView+JDFTooltips.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E5A1541B8CE6FE00EED439 /* UIView+JDFTooltips.m */; };
 		22E60BA81B63E41F00E74219 /* UIView+HierarchyLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E60BA71B63E41F00E74219 /* UIView+HierarchyLogging.m */; };
 		22E60BAB1B63ED4700E74219 /* SCAudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E60BAA1B63ED4700E74219 /* SCAudioMeter.m */; };
 		22F036E91B54062D008027FD /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F036E81B54062D008027FD /* TableViewController.m */; };
@@ -152,6 +157,17 @@
 		22AEB3811B726F3800915E8A /* ANPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANPopoverView.m; sourceTree = "<group>"; };
 		22DCE2011B50E074002506AD /* UIAlertView+NSCookbook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+NSCookbook.h"; sourceTree = "<group>"; };
 		22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+NSCookbook.m"; sourceTree = "<group>"; };
+		22E5A14A1B8CE6FE00EED439 /* JDFSequentialTooltipManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFSequentialTooltipManager.h; sourceTree = "<group>"; };
+		22E5A14B1B8CE6FE00EED439 /* JDFSequentialTooltipManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFSequentialTooltipManager.m; sourceTree = "<group>"; };
+		22E5A14C1B8CE6FE00EED439 /* JDFTooltipManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFTooltipManager.h; sourceTree = "<group>"; };
+		22E5A14D1B8CE6FE00EED439 /* JDFTooltipManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFTooltipManager.m; sourceTree = "<group>"; };
+		22E5A14E1B8CE6FE00EED439 /* JDFTooltips.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFTooltips.h; sourceTree = "<group>"; };
+		22E5A14F1B8CE6FE00EED439 /* JDFTooltipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFTooltipView.h; sourceTree = "<group>"; };
+		22E5A1501B8CE6FE00EED439 /* JDFTooltipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFTooltipView.m; sourceTree = "<group>"; };
+		22E5A1511B8CE6FE00EED439 /* UILabel+JDFTooltips.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+JDFTooltips.h"; sourceTree = "<group>"; };
+		22E5A1521B8CE6FE00EED439 /* UILabel+JDFTooltips.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+JDFTooltips.m"; sourceTree = "<group>"; };
+		22E5A1531B8CE6FE00EED439 /* UIView+JDFTooltips.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+JDFTooltips.h"; sourceTree = "<group>"; };
+		22E5A1541B8CE6FE00EED439 /* UIView+JDFTooltips.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JDFTooltips.m"; sourceTree = "<group>"; };
 		22E60BA61B63E3F900E74219 /* UIView+HierarchyLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+HierarchyLogging.h"; sourceTree = "<group>"; };
 		22E60BA71B63E41F00E74219 /* UIView+HierarchyLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HierarchyLogging.m"; sourceTree = "<group>"; };
 		22E60BA91B63ED4700E74219 /* SCAudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAudioMeter.h; sourceTree = "<group>"; };
@@ -298,6 +314,17 @@
 		22C44C961B73BA1900F09113 /* ExternalCode */ = {
 			isa = PBXGroup;
 			children = (
+				22E5A14A1B8CE6FE00EED439 /* JDFSequentialTooltipManager.h */,
+				22E5A14B1B8CE6FE00EED439 /* JDFSequentialTooltipManager.m */,
+				22E5A14C1B8CE6FE00EED439 /* JDFTooltipManager.h */,
+				22E5A14D1B8CE6FE00EED439 /* JDFTooltipManager.m */,
+				22E5A14E1B8CE6FE00EED439 /* JDFTooltips.h */,
+				22E5A14F1B8CE6FE00EED439 /* JDFTooltipView.h */,
+				22E5A1501B8CE6FE00EED439 /* JDFTooltipView.m */,
+				22E5A1511B8CE6FE00EED439 /* UILabel+JDFTooltips.h */,
+				22E5A1521B8CE6FE00EED439 /* UILabel+JDFTooltips.m */,
+				22E5A1531B8CE6FE00EED439 /* UIView+JDFTooltips.h */,
+				22E5A1541B8CE6FE00EED439 /* UIView+JDFTooltips.m */,
 				221E32981B85223D00108108 /* FXBlurView.h */,
 				221E32991B85223D00108108 /* FXBlurView.m */,
 				221E32951B851F1A00108108 /* ImageCropView.h */,
@@ -552,22 +579,27 @@
 				221E32971B851F1A00108108 /* ImageCropView.m in Sources */,
 				224936E01B389CD200699D59 /* AppDelegate.m in Sources */,
 				221B11471B420C3E004F3122 /* InfoViewController.m in Sources */,
+				22E5A1571B8CE6FE00EED439 /* JDFTooltipView.m in Sources */,
 				22E60BA81B63E41F00E74219 /* UIView+HierarchyLogging.m in Sources */,
 				22F76A151B3CAF1100EE3AFD /* FSAudioPlayer.m in Sources */,
 				2249377A1B3A592800699D59 /* MeterTable.cpp in Sources */,
+				22E5A1591B8CE6FE00EED439 /* UIView+JDFTooltips.m in Sources */,
 				221E329A1B85223D00108108 /* FXBlurView.m in Sources */,
 				224937741B3A568400699D59 /* VisualizerView.mm in Sources */,
+				22E5A1581B8CE6FE00EED439 /* UILabel+JDFTooltips.m in Sources */,
 				22E60BAB1B63ED4700E74219 /* SCAudioMeter.m in Sources */,
 				224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */,
 				224937811B3A76AB00699D59 /* CamViewController.m in Sources */,
 				221068ED1B56A62900D12A3A /* MarqueeLabel.m in Sources */,
 				224937711B3A54C800699D59 /* VizViewController.m in Sources */,
+				22E5A1561B8CE6FE00EED439 /* JDFTooltipManager.m in Sources */,
 				22AEB37B1B6BECDA00915E8A /* UIImageResizing.m in Sources */,
 				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
 				2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */,
 				221B114E1B4218FD004F3122 /* UIView+Glow.m in Sources */,
 				22AEB3831B726F3800915E8A /* ANPopoverView.m in Sources */,
 				22AEB3821B726F3800915E8A /* ANPopoverSlider.m in Sources */,
+				22E5A1551B8CE6FE00EED439 /* JDFSequentialTooltipManager.m in Sources */,
 				22F036E91B54062D008027FD /* TableViewController.m in Sources */,
 				224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */,
 			);
@@ -713,6 +745,7 @@
 					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = "LIFX Ambience/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/**",
@@ -752,6 +785,7 @@
 					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = "LIFX Ambience/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/**",

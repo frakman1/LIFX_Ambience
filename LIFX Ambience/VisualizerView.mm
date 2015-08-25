@@ -139,14 +139,16 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
 
     if (_audioPlayer.playing )
     {
-        
+        //----------------------------------------------------
+        //--------- Update Colours ---------------------------
+
         hue = (hue + 0.1);if (hue>360) hue=1;
-        
         saturation= saturation+gIncrement;
         if ( (saturation>0.9999)|| (saturation<0.5) )
         {
             gIncrement=gIncrement*(-1.0);
         }
+        //----------------------------------------------------
         
         //NSLog(@"hue:%f  saturation:%f",hue,saturation);
         CAEmitterCell *cell = [CAEmitterCell emitterCell];
@@ -228,7 +230,7 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         
     }
     else
-    {
+    {//TODO: Add use self.sliderThresholdValue as brightness when not playing.
         //NSLog(@"**** tone down *** ");
         //gLifxColor = [LFXHSBKColor colorWithHue:(starthue*360) saturation:saturation brightness:0.2];
         //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];

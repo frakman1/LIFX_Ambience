@@ -141,7 +141,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //NSLog(@"Entering commitEditingStyle:%d [playlist.items count]:%d",editingStyle,[playlist.items count]);
-    //prevent a 0 length list. MediaPlayer allocation fails below otherwise.
+    
+    //***FRAK*** prevent a 0 length list. MediaPlayer allocation fails below otherwise.
     if ([playlist.items count] == 1) return;
     
     if (editingStyle == UITableViewCellEditingStyleDelete) 

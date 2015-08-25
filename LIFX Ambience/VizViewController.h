@@ -33,22 +33,29 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnnext;
 @property (weak, nonatomic) IBOutlet UIButton *btnprevious;
 
-@property (nonatomic, retain) IBOutlet UIToolbar*   toolbar;
-@property (weak, nonatomic) IBOutlet UIButton *btnRepeat;
+@property (nonatomic, retain) IBOutlet UIToolbar  *toolbar;
+@property (weak, nonatomic)   IBOutlet UIButton *btnRepeat;
 
 @property BOOL isPaused;
 @property BOOL scrubbing;
 
 @property (weak, nonatomic) IBOutlet UISlider *powerLevel;
 @property (weak, nonatomic) IBOutlet UIImageView *imgBox;
+@property (weak, nonatomic) IBOutlet UIButton *btnMixer;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnPlaylist;
+@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnHelp;
+@property (weak, nonatomic) IBOutlet UIButton *btnAddMusic;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnAddMusic;
+
 
 
 - (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;
 - (IBAction) btnnextPressed:(UIButton *)sender;
 - (void) startPlaying;
 - (IBAction) btnpreviousPressed:(UIButton *)sender;
-- (IBAction)barbtnMixerPressed:(UIBarButtonItem *)sender;
-
+- (IBAction)btnMixerPressed:(UIBarButtonItem *)sender;
+- (IBAction)btnHelpPressed:(UIButton *)sender;
 
 
 //TableViewController Delegate

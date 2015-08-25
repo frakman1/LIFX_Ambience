@@ -15,6 +15,7 @@
 #import "TableViewController.h"
 #import "MarqueeLabel.h"
 #import "ANPopoverSlider.h"
+#import "JDFTooltips.h"
 
 @interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
 
@@ -28,6 +29,8 @@
 
 @property (nonatomic, retain) MPMediaItemCollection*    playlist;
 @property (nonatomic, retain) MPMediaItemCollection*    limboPlaylist;
+
+@property (nonatomic, strong) JDFTooltipManager *tooltipManager;
 
 
 // Add properties here
@@ -108,80 +111,6 @@ BOOL gRepeatEnabled = false;
         [self.myaudioPlayer stopAudio];
     }
     [self myplayURL:myurl];
-    
-}
-
-- (IBAction)btnpreviousPressed:(UIButton *)sender
-{
-    
-    NSLog(@"\n\nbtnpreviousPressed. gcurrentSong:%d",gcurrenSong);
-    
-    int index = 0;
-    for (MPMediaItem *item in playlist.items)
-    {
-        NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
-    }
-
-    
-    
-    gcurrenSong--;
-    NSLog(@" next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
-    if (gcurrenSong < 0)
-    {
-        gcurrenSong = 0 ;
-        NSLog(@"gcurrentSong reset to %d",gcurrenSong);
-        
-    }
-    
-    [self startPlaying];
-   
-    
-}
-
-- (IBAction)barbtnMixerPressed:(UIBarButtonItem *)sender
-{
-    myslider_threshold.hidden = !myslider_threshold.hidden;
-    myslider_scale.hidden = !myslider_scale.hidden;
-    self.powerLevel.hidden = !self.powerLevel.hidden;
-    imgExpo.hidden = !imgExpo.hidden;
-    //imgOffset.hidden = !imgOffset.hidden;
-    lblOffset.hidden = !lblOffset.hidden;
-    lblExpo.hidden = !lblExpo.hidden;
-}
-- (IBAction)btnMixerPressed:(UIButton *)sender
-{
-    myslider_threshold.hidden = !myslider_threshold.hidden;
-    myslider_scale.hidden = !myslider_scale.hidden;
-    self.powerLevel.hidden = !self.powerLevel.hidden;
-    //imgExpo.hidden = !imgExpo.hidden;
-    //imgOffset.hidden = !imgOffset.hidden;
-    lblOffset.hidden = !lblOffset.hidden;
-    lblExpo.hidden = !lblExpo.hidden;
-}
-
-
-- (IBAction)btnnextPressed:(UIButton *)sender
-{
-    NSLog(@"\n\nbtnnextPressed. gcurrentSong:%d",gcurrenSong);
-    
-    int index = 0;
-    for (MPMediaItem *item in playlist.items)
-    {
-        NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
-    }
-
-    
-    gcurrenSong++;
-    NSLog(@" next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
-    if (gcurrenSong > ([playlist count] - 1))
-    {
-        gcurrenSong = 0 ;
-        NSLog(@"gcurrentSong reset to %d",gcurrenSong);
-
-    }
-    
-    [self startPlaying];
-
     
 }
 
@@ -304,7 +233,8 @@ BOOL gRepeatEnabled = false;
     [super viewWillDisappear:animated];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     NSLog (@"****viewDidLoad****");
     
@@ -524,6 +454,29 @@ BOOL gRepeatEnabled = false;
 
     }
     
+    // [self showButtonPressed:nil];
+    CGFloat tooltipWidth = 100.0f;
+    
+    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    [self.tooltipManager addTooltipWithTargetView:self.btnRepeat hostView:self.view tooltipText:@"Repeat Song" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
+    [self.tooltipManager addTooltipWithTargetView:self.btnMixer hostView:self.view tooltipText:@"Tweak Sensitivity" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+20];
+    
+    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnAddMusic hostView:self.lbltitleBackground tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp width:150];
+    
+    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:self.view tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y-20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.view width:200];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnHelp.center.y-20) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.view width:100];
+
+
+    [self.tooltipManager addTooltipWithTargetBarButtonItem:self.btnPlaylist hostView:self.view tooltipText:@"Playlist" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
+    
+    [self.tooltipManager addTooltipWithTargetView:self.imgBox hostView:self.view tooltipText:@"Tap and Swipe here. SWIPE UP: Volume Up. SWIPE DOWN: Volume Down. SWIPE LEFT: Next Song. SWIPE RIGHT: Previous Song. DOUBLE TAP:Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown width:300];
+
+    //JDFTooltipView* tooltip = [self.tooltipManager.tooltips objectAtIndex:2];
+    //tooltip.alpha = 0.5;
+    // [[self.tooltipManager.tooltips setObjec:2] setAlpha:0.5] ;
+    
     NSLog(@"***Finished viewDidLoad:");
     
 }
@@ -740,7 +693,7 @@ BOOL gRepeatEnabled = false;
     picker.prompt = @"Add songs to play";
     [picker setDelegate:self];
     [picker setAllowsPickingMultipleItems: YES];
-    [picker setShowsCloudItems:YES];
+    [picker setShowsCloudItems:NO];
     [self presentViewController:picker animated:YES completion:nil];
     
     //[picker setAllowsPickingMultipleItems:YES];
@@ -756,7 +709,7 @@ BOOL gRepeatEnabled = false;
     picker.prompt = @"Add songs to play";
     [picker setDelegate:self];
     [picker setAllowsPickingMultipleItems: YES];
-    [picker setShowsCloudItems:YES];
+    [picker setShowsCloudItems:NO];
     [self presentViewController:picker animated:YES completion:nil];
     
     //[picker setAllowsPickingMultipleItems:YES];
@@ -1243,10 +1196,9 @@ BOOL gRepeatEnabled = false;
     
     [self dismissModalViewControllerAnimated:YES];
 
-    
-    
-
 }
+
+
 - (IBAction)btnRepeatPressed:(UIButton *)sender
 {
     NSLog(@"btnRepeatPressed. self.btnRepeat.selected:%d ",self.btnRepeat.selected);
@@ -1264,6 +1216,109 @@ BOOL gRepeatEnabled = false;
  
     //[self.btnRepeat setImage:[UIImage imageNamed:@"repeat_on"] forState:UIControlStateNormal];
      //NSLog(@"buttonstate:",self.btnRepeat.);
+}
+
+
+- (IBAction)btnMixerPressed:(UIButton *)sender
+{
+    myslider_threshold.hidden = !myslider_threshold.hidden;
+    myslider_scale.hidden = !myslider_scale.hidden;
+    self.powerLevel.hidden = !self.powerLevel.hidden;
+    //imgExpo.hidden = !imgExpo.hidden;
+    //imgOffset.hidden = !imgOffset.hidden;
+    lblOffset.hidden = !lblOffset.hidden;
+    lblExpo.hidden = !lblExpo.hidden;
+    
+    
+    NSLog(@"btnMixerPressed. btnMixer.selected:%d ",self.btnMixer.selected);
+    self.btnMixer.selected = !self.btnMixer.selected;
+    if (self.btnMixer.selected)
+    {
+        [self.btnMixer setSelected:YES];
+        [self.btnMixer setImage: [UIImage imageNamed:@"mixer_on"] forState:UIControlStateNormal] ;
+    }
+    else
+    {
+        [self.btnMixer setSelected:NO];
+        [self.btnMixer setImage: [UIImage imageNamed:@"mixer"] forState:UIControlStateNormal] ;
+    }
+
+}
+
+
+- (IBAction)btnnextPressed:(UIButton *)sender
+{
+    NSLog(@"\n\nbtnnextPressed. gcurrentSong:%d",gcurrenSong);
+    
+    int index = 0;
+    for (MPMediaItem *item in playlist.items)
+    {
+        NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+    }
+    
+    
+    gcurrenSong++;
+    NSLog(@" next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
+    if (gcurrenSong > ([playlist count] - 1))
+    {
+        gcurrenSong = 0 ;
+        NSLog(@"gcurrentSong reset to %d",gcurrenSong);
+        
+    }
+    
+    [self startPlaying];
+    
+    
+}
+
+- (IBAction)btnpreviousPressed:(UIButton *)sender
+{
+    
+    NSLog(@"\n\nbtnpreviousPressed. gcurrentSong:%d",gcurrenSong);
+    
+    int index = 0;
+    for (MPMediaItem *item in playlist.items)
+    {
+        NSLog(@"%d) %@ - %@", index++, item.artist, item.title);
+    }
+    
+    
+    
+    gcurrenSong--;
+    NSLog(@" next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
+    if (gcurrenSong < 0)
+    {
+        gcurrenSong = 0 ;
+        NSLog(@"gcurrentSong reset to %d",gcurrenSong);
+        
+    }
+    
+    [self startPlaying];
+    
+    
+}
+- (IBAction)btnHelpPressed:(UIButton *)sender
+{
+    self.btnHelp.selected = !self.btnHelp.selected;
+    if (self.btnHelp.selected)
+    {
+        //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
+        //[tooltip show];
+        [self.tooltipManager showAllTooltips];
+        [self.btnHelp setSelected:YES];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
+    }
+    else
+    {
+        //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
+        //[tooltip hideAnimated:TRUE];
+        [self.tooltipManager hideAllTooltipsAnimated:TRUE];
+        [self.btnHelp setSelected:NO];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+        self.navigationItem.leftBarButtonItem = nil;
+    }
+
+    
 }
 
 

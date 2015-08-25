@@ -25,10 +25,15 @@
 
 - (IBAction)btnMicPressed:(id)sender;
 - (IBAction)btnLockPressed:(id)sender;
+- (IBAction)btnHelpPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnMic;
 @property (weak, nonatomic) IBOutlet UIButton *btnLock;
 @property (weak, nonatomic) IBOutlet UIButton *btnCrop;
+@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnHelp;
+
+
 //@property (weak, nonatomic) IBOutlet UIView *viewCropSquare;
 //@property (assign,nonatomic) CGRect cropDimension;
 
