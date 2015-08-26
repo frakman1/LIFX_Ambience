@@ -6,12 +6,23 @@
 //  Copyright (c) 2015 Fraksoft. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "ImageCropView.h" 
+//turn this off for simulator runs
+#define CROP 1
 
+#import <UIKit/UIKit.h>
+#if (CROP==1)
+#import "ImageCropView.h"
+#endif
+
+#if (CROP==1)
 @interface CamViewController : UIViewController <ImageCropViewControllerDelegate>
+#else
+@interface CamViewController : UIViewController
+#endif
 {
+#if (CROP==1)
     ImageCropView* imageCropView;
+#endif
     UIImage* myimage;
     UIImage* gCroppedImage;
     //IBOutlet UIImageView *imageView;

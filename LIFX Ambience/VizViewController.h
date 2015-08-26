@@ -35,14 +35,15 @@
 
 @property (nonatomic, retain) IBOutlet UIToolbar  *toolbar;
 @property (weak, nonatomic)   IBOutlet UIButton *btnRepeat;
+@property (weak, nonatomic) IBOutlet UIButton *btnMixer;
+@property (weak, nonatomic) IBOutlet UIButton *btnPlaylist;
+
 
 @property BOOL isPaused;
 @property BOOL scrubbing;
 
 @property (weak, nonatomic) IBOutlet UISlider *powerLevel;
 @property (weak, nonatomic) IBOutlet UIImageView *imgBox;
-@property (weak, nonatomic) IBOutlet UIButton *btnMixer;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnPlaylist;
 @property (weak, nonatomic) IBOutlet UIButton *btnHelp;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnHelp;
 @property (weak, nonatomic) IBOutlet UIButton *btnAddMusic;

@@ -314,6 +314,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     [self.btnCrop setTitle: @"Crop" forState: UIControlStateNormal];
     [self.btnCrop setTitle: @"Cropping" forState: UIControlStateSelected];
     // [self showButtonPressed:nil];
+    /*
     CGFloat tooltipWidth = 100.0f;
     
     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
@@ -330,7 +331,12 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
      [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnCrop.center.x,self.btnCrop.center.y-20)  tooltipText:@"Limit Colour Calculation to Crop-Box Contents" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
     
     
-    [self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:[self previewView] tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
+    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:[self previewView] tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
+    
+      [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.navigationItem.rightBarButtonItem.customView width:200];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
+    */
 
 }
 
@@ -345,6 +351,34 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 {
     [super viewDidAppear:animated];
     NSLog(@"***viewDidAppear***");
+    
+   // CGFloat tooltipWidth = 100.0f;
+    
+    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    [self.tooltipManager addTooltipWithTargetView:self.btnLock  hostView:self.view tooltipText:@"Lock Bulb Colour" arrowDirection:JDFTooltipViewArrowDirectionDown  width:100];
+    
+    
+    [self.tooltipManager addTooltipWithTargetView:self.btnMic  hostView:self.view tooltipText:@"Vary Brightness with Audio Level" arrowDirection:JDFTooltipViewArrowDirectionDown  width:150];
+    
+    [self.tooltipManager addTooltipWithTargetView:self.btnCrop  hostView:self.view tooltipText:@"Limit Colour Calculation to Crop-Box Contents" arrowDirection:JDFTooltipViewArrowDirectionDown  width:200];
+    
+    
+    //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    //[self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMic.center.x,self.btnMic.center.y+15)  tooltipText:@"Vary Brightness with Audio Level " arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth+50];
+    
+    
+    //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    // [self.tooltipManager addTooltipWithTargetView:self.btnCrop hostView:self.view tooltipText:@"Limit Colour Calculation to a Crop-Box" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+100];
+    
+    //[self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnCrop.center.x,self.btnCrop.center.y-20)  tooltipText:@"Limit Colour Calculation to Crop-Box Contents" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
+    
+    
+    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:[self previewView] tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.navigationItem.rightBarButtonItem.customView width:200];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
+    
 
    
     
@@ -779,7 +813,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
                     
                     if (cropDimension.size.width==0) {NSLog(@"no cropping dimensions set");return;}
                     //NSLog(@"****************** viewCropSquare: %f ,%f ,%f, %f",self.viewCropSquare.frame.origin.x, self.viewCropSquare.frame.origin.y, self.viewCropSquare.frame.size.width, self.viewCropSquare.frame.size.height);
-                    NSLog(@"cropDimension: %@",NSStringFromCGRect(cropDimension));
+                    //NSLog(@"cropDimension: %@",NSStringFromCGRect(cropDimension));
 
                     
                     //UIImage *cropped = [self UIImageCrop:image rect:cropDimension];
@@ -795,7 +829,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 
                 }
                 
-                NSLog(@"****************** image : %f ,%f ",myimage.size.width, myimage.size.height);
+               // NSLog(@"****************** image : %f ,%f ",myimage.size.width, myimage.size.height);
                 
                 self.myLabel.backgroundColor=[myimage mergedColor];
                 [self.myLabel.backgroundColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
@@ -942,6 +976,34 @@ inline double rad(double deg)
     }
 }
 
+- (IBAction)btnHelpPressed:(id)sender
+{
+    self.btnHelp.selected = !self.btnHelp.selected;
+    
+
+    
+    if (self.btnHelp.selected)
+    {
+        //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
+        //[tooltip show];
+        [self.tooltipManager showAllTooltips];
+        [self.btnHelp setSelected:YES];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
+        
+    }
+    else
+    {
+        //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
+        //[tooltip hideAnimated:TRUE];
+        [self.tooltipManager hideAllTooltipsAnimated:TRUE];
+        [self.btnHelp setSelected:NO];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+        
+    }
+    
+}
+#if (CROP==1)
+
 - (IBAction)cropBarButtonClick:(id)sender
 {
     gCropEnabled = !gCropEnabled;
@@ -975,6 +1037,9 @@ inline double rad(double deg)
     
 }
 
+
+
+
 - (void)ImageCropViewController:(ImageCropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage withDimension:(CGRect)dimension
 {
     //gCroppedImage = croppedImage;
@@ -992,30 +1057,7 @@ inline double rad(double deg)
     //imageView.image = cropImage;
     [[self navigationController] popViewControllerAnimated:YES];
 }
-
-- (IBAction)btnHelpPressed:(id)sender
-{
-    self.btnHelp.selected = !self.btnHelp.selected;
-    if (self.btnHelp.selected)
-    {
-        //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
-        //[tooltip show];
-        [self.tooltipManager showAllTooltips];
-        [self.btnHelp setSelected:YES];
-        [self.btnHelp setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
-
-    }
-    else
-    {
-        //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
-        //[tooltip hideAnimated:TRUE];
-        [self.tooltipManager hideAllTooltipsAnimated:TRUE];
-        [self.btnHelp setSelected:NO];
-        [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
-
-    }
-
-}
+#endif
 
 @end
 

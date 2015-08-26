@@ -30,6 +30,7 @@
 @property (nonatomic, retain) MPMediaItemCollection*    playlist;
 @property (nonatomic, retain) MPMediaItemCollection*    limboPlaylist;
 
+@property (nonatomic, strong) JDFTooltipManager *tooltipManager1;
 @property (nonatomic, strong) JDFTooltipManager *tooltipManager;
 
 
@@ -170,6 +171,24 @@ BOOL gRepeatEnabled = false;
     
     
     //self.lblSongTitle.adjustsFontSizeToFitWidth = YES;
+    
+    // [self showButtonPressed:nil];
+    CGFloat tooltipWidth = 100.0f;
+    
+    
+    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnAddMusic hostView:self.lbltitleBackground tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp width:150];
+    
+    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:self.view tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
+    
+     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionLeft hostView:self.navigationItem.leftBarButtonItem.customView width:200];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnAddMusic.center.y+20) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.navigationItem.rightBarButtonItem.customView width:100];
+    
+    
+    
+    [self.tooltipManager addTooltipWithTargetView:self.imgBox hostView:self.imgBox tooltipText:@"Tap and Swipe here. SWIPE UP: Volume Up. SWIPE DOWN: Volume Down. SWIPE LEFT: Next Song. SWIPE RIGHT: Previous Song. DOUBLE TAP:Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionUp width:300];
+
     
 
 }
@@ -454,24 +473,6 @@ BOOL gRepeatEnabled = false;
 
     }
     
-    // [self showButtonPressed:nil];
-    CGFloat tooltipWidth = 100.0f;
-    
-    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
-    [self.tooltipManager addTooltipWithTargetView:self.btnRepeat hostView:self.view tooltipText:@"Repeat Song" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
-    [self.tooltipManager addTooltipWithTargetView:self.btnMixer hostView:self.view tooltipText:@"Tweak Sensitivity" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+20];
-    
-    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnAddMusic hostView:self.lbltitleBackground tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp width:150];
-    
-    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:self.view tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y-20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.view width:200];
-    
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnHelp.center.y-20) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.view width:100];
-
-
-    [self.tooltipManager addTooltipWithTargetBarButtonItem:self.btnPlaylist hostView:self.view tooltipText:@"Playlist" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
-    
-    [self.tooltipManager addTooltipWithTargetView:self.imgBox hostView:self.view tooltipText:@"Tap and Swipe here. SWIPE UP: Volume Up. SWIPE DOWN: Volume Down. SWIPE LEFT: Next Song. SWIPE RIGHT: Previous Song. DOUBLE TAP:Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown width:300];
 
     //JDFTooltipView* tooltip = [self.tooltipManager.tooltips objectAtIndex:2];
     //tooltip.alpha = 0.5;
@@ -621,6 +622,19 @@ BOOL gRepeatEnabled = false;
     self.tickerTimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
     //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    
+    CGFloat tooltipWidth = 100.0f;
+    self.tooltipManager1 = [[JDFTooltipManager alloc] initWithHostView:self.toolbar];
+    
+    [self.tooltipManager1 addTooltipWithTargetView:self.btnMixer hostView:self.toolbar tooltipText:@"Tweak Sensitivity" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+20];
+    
+    [self.tooltipManager1 addTooltipWithTargetView:self.btnRepeat hostView:self.toolbar tooltipText:@"Repeat Song" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
+    
+    //CGRectMake(30, CGRectGetMaxY(label1.frame) + 100.0f, labelWidth, labelHeight)
+    
+    //[self.tooltipManager addTooltipWithTargetPoint:CGPointMake( CGRectGetMaxX(self.toolbar.frame) , self.toolbar.frame.origin.y  )  tooltipText:@"Playlist" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:self.toolbar width:100];
+    
+    [self.tooltipManager1 addTooltipWithTargetView:self.btnPlaylist hostView:self.toolbar tooltipText:@"Playlist" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
 }
 
 - (void)configureBars {
@@ -1299,12 +1313,14 @@ BOOL gRepeatEnabled = false;
 }
 - (IBAction)btnHelpPressed:(UIButton *)sender
 {
+
+
     self.btnHelp.selected = !self.btnHelp.selected;
     if (self.btnHelp.selected)
     {
         //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
         //[tooltip show];
-        [self.tooltipManager showAllTooltips];
+        [self.tooltipManager1 showAllTooltips];[self.tooltipManager showAllTooltips];
         [self.btnHelp setSelected:YES];
         [self.btnHelp setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
     }
@@ -1312,7 +1328,7 @@ BOOL gRepeatEnabled = false;
     {
         //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
         //[tooltip hideAnimated:TRUE];
-        [self.tooltipManager hideAllTooltipsAnimated:TRUE];
+        [self.tooltipManager1 hideAllTooltipsAnimated:TRUE];[self.tooltipManager hideAllTooltipsAnimated:TRUE];
         [self.btnHelp setSelected:NO];
         [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
         self.navigationItem.leftBarButtonItem = nil;

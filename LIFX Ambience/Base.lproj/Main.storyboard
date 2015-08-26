@@ -309,11 +309,17 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="VzD-v9-aGh"/>
-                                    <barButtonItem image="playlist" id="kUo-PU-Rbv">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <segue destination="RiO-wb-2AG" kind="modal" identifier="ViewControllerToTableViewControllerSegue" id="hBJ-U5-ttk"/>
-                                        </connections>
+                                    <barButtonItem style="plain" id="Wp1-eZ-Yf7">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Uwz-ZU-XJe">
+                                            <rect key="frame" x="258" y="7" width="23" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" image="playlist">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <segue destination="RiO-wb-2AG" kind="modal" identifier="ViewControllerToTableViewControllerSegue" id="3jB-o3-4M7"/>
+                                            </connections>
+                                        </button>
                                     </barButtonItem>
                                 </items>
                             </toolbar>
@@ -391,7 +397,7 @@
                         <outlet property="btnAddMusic" destination="HTQ-Ef-c6y" id="fvl-8M-fza"/>
                         <outlet property="btnHelp" destination="J2o-9S-nqF" id="Hxh-yh-4w7"/>
                         <outlet property="btnMixer" destination="nSh-8U-Vyf" id="wK6-jg-M1E"/>
-                        <outlet property="btnPlaylist" destination="kUo-PU-Rbv" id="lFA-Eh-Onp"/>
+                        <outlet property="btnPlaylist" destination="Uwz-ZU-XJe" id="eyD-Px-ISr"/>
                         <outlet property="btnRepeat" destination="xTE-jl-hfn" id="u2l-6a-8yS"/>
                         <outlet property="btnnext" destination="cbq-cK-tLI" id="aum-MN-6lf"/>
                         <outlet property="btnprevious" destination="bmt-IR-ni6" id="97P-YE-Ht3"/>
@@ -457,8 +463,8 @@
                                             <action selector="btnLockPressed:" destination="beV-Dh-bsA" eventType="touchUpInside" id="6mI-YE-70d"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGM-Uc-f2G">
-                                        <rect key="frame" x="113" y="547" width="107" height="25"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGM-Uc-f2G">
+                                        <rect key="frame" x="113" y="536" width="107" height="25"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="tintColor" red="0.99871764520202022" green="0.22663641561938874" blue="0.26622435910062486" alpha="1" colorSpace="calibratedRGB"/>
@@ -472,6 +478,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="tzL-Ow-623" firstAttribute="top" secondItem="MGM-Uc-f2G" secondAttribute="bottom" constant="19" id="0Fb-y6-LVz"/>
                                     <constraint firstItem="bm7-X8-kak" firstAttribute="centerY" secondItem="tzL-Ow-623" secondAttribute="centerY" id="2Q1-eE-g6O"/>
                                     <constraint firstItem="tzL-Ow-623" firstAttribute="leading" secondItem="UKW-oZ-bhA" secondAttribute="leading" constant="79" id="5cz-OV-klF"/>
                                     <constraint firstAttribute="centerX" secondItem="MGM-Uc-f2G" secondAttribute="centerX" id="7lt-N7-hrX"/>
