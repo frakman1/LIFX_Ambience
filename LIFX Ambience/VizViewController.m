@@ -632,7 +632,7 @@ BOOL gRepeatEnabled = false;
     
     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnAddMusic.center.y) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:100];
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0) tooltipText:@"Tap and Swipe here\nSWIPE UP: Volume Up.\nSWIPE DOWN: Volume Down.\nSWIPE LEFT: Next Song.\nSWIPE RIGHT: Previous Song.\nDOUBLE TAP: Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self.navigationController view] width:300];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0) tooltipText:@"Tap and Swipe here\n\n↑: Volume Up.\n↓: Volume Down.\n← : Next Song.\n→ : Previous Song.\nDouble Tap : Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self.navigationController view] width:300];
 
 }
 
