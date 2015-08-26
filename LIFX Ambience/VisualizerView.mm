@@ -164,8 +164,10 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         
         cell.emitterCells = @[childCell];
         
+        //------------ Update cell colour ------------------------------------------------------------------------
         cell.color = [[UIColor colorWithHue: hue/360.0 saturation: saturation brightness: 1.0 alpha: 1.0]CGColor] ;
-        
+        //---------------------------------------------------------------------------------------------------------
+
         
         cell.redRange = 0.46f;
         cell.greenRange = 0.49f;
