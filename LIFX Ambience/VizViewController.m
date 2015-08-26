@@ -628,11 +628,11 @@ BOOL gRepeatEnabled = false;
     
     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:[self.navigationController view]];
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionLeft hostView:[self.navigationController view] width:200];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x+15, self.btnHelp.center.y) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionLeft hostView:[self.navigationController view] width:180];
     
     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnAddMusic.center.y) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:100];
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0) tooltipText:@"Tap and Swipe here. SWIPE UP: Volume Up. SWIPE DOWN: Volume Down. SWIPE LEFT: Next Song. SWIPE RIGHT: Previous Song. DOUBLE TAP:Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self.navigationController view] width:300];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0) tooltipText:@"Tap and Swipe here\nSWIPE UP: Volume Up.\nSWIPE DOWN: Volume Down.\nSWIPE LEFT: Next Song.\nSWIPE RIGHT: Previous Song.\nDOUBLE TAP: Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self.navigationController view] width:300];
 
 }
 
