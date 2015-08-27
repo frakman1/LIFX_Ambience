@@ -11,6 +11,7 @@
 #import "UIView+Glow.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIView+HierarchyLogging.h"
+//#import "Constants.h"
 
 
 
@@ -44,6 +45,43 @@ typedef NS_ENUM(NSInteger, TableSection) {
 
 
 @end
+
+@implementation AKSingleSegmentedControl
+
+- (id)initWithItem:(id)item {
+    NSArray *a = [NSArray arrayWithObject:item];
+    return [super initWithItems:a];
+}
+
+- (void)setSelectedSegmentIndex:(NSInteger)toValue {
+    NSLog(@"setSelectedSegmentIndex() self.selectedSegmentIndex:%ld",(long)self.selectedSegmentIndex);
+    NSInteger newValue = self.selectedSegmentIndex==0 ? -1 : 0;
+    [super setSelectedSegmentIndex:newValue];
+}
+
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    int oldValue = self.selectedSegmentIndex;
+    
+    NSLog(@"\n\ntouchesBegan.OldValue: %d", oldValue);
+    
+    [super touchesBegan:touches withEvent:event];
+    
+    NSLog(@"selectedSegmentIndex %ld", (long)self.selectedSegmentIndex);
+    
+    if ( oldValue == self.selectedSegmentIndex )
+    {
+        NSLog(@"oldValue == self.selectedSegmentIndex ");
+        [self setSelectedSegmentIndex:-1];
+
+        [self sendActionsForControlEvents:UIControlEventValueChanged];
+    }
+
+}
+
+
+@end
+
 
 @implementation MainViewController
 
@@ -193,10 +231,85 @@ NSTimer *timer;
     
     //yourItemsArray = [[NSMutableArray alloc] initWithObjects:@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",nil];
     
-    self.navigationController.navigationBar.topItem.title = @"";
+    //self.navigationController.navigationBar.topItem.title = @"";
+    
+    //=======================================================================================================================================
+    /*
+    UIView * container = [[UIView alloc]initWithFrame:CGRectZero];
+    UIButton * button = [[UIButton alloc]initWithFrame:CGRectZero];
+    [button addTarget:self action:@selector(btnHelpPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:[UIImage imageNamed:@"help"] forState:UIControlStateNormal];
+    [button sizeToFit];
+    [container addSubview:button];
+    [container sizeToFit];
+    self.navigationItem.titleView = container;
+    [[self.navigationItem.titleView superview] bringSubviewToFront:self.navigationItem.titleView];
+     */
+   // NSArray *itemArray = [NSArray arrayWithObjects: @"Example", nil];
+   // NSArray *itemArray = [NSArray arrayWithObjects: [UIImage imageNamed:@"help"],nil];
+   // self.seg = [[AKSingleSegmentedControl alloc] initWithItem:[UIImage imageNamed:@"help"]];
+    
+    //self.seg.segmentedControlStyle = UISegmentedControlStyleBar;
+    
+    //UIColor *newTintColor = [UIColor colorWithRed: 0/255.0 green:175/255.0 blue:0/255.0 alpha:1.0];
+    //self.seg.tintColor = newTintColor;
+    
+    //UIColor *newSelectedTintColor = [UIColor colorWithRed: 251/255.0 green:175/255.0 blue:93/255.0 alpha:1.0];
+    //[[[self.seg subviews] objectAtIndex:0] setTintColor:newSelectedTintColor];
+    
+    //self.seg.segmentedControlStyle = UISegmentedControlStylePlain;
+    //[self.seg addTarget:self action:@selector(btnHelpPressed:)
+                 //forControlEvents:UIControlEventValueChanged];
+    //self.seg.selectedSegmentIndex = -1;
+    
+    //self.navigationItem.titleView = self.seg;
+    
+    /* Make Button in Code
+    UIView *container = [[UIView alloc] init];
+    container.frame = CGRectMake(0, 0, 32, 32);
+    
+    // create a button and add it to the container
+    UIButton *notificationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [notificationButton setImage:[UIImage imageNamed:@"help"] forState:UIControlStateNormal];
+    notificationButton.frame = CGRectMake(0, 0, 32, 32);
+    [notificationButton addTarget:self
+                           action:@selector(btnHelpPressed:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    [container addSubview:notificationButton];
+    
+    
+    
+    // Set the titleView to the container view
+    [self.navigationItem setTitleView:container];
+    */
+    
+    
+    //=======================================================================================================================================
+
     timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
 }
+/*
+- (IBAction)btnHelpPressed:(UIButton *)sender
+{
+    
+    //NSLog(@"\n\nPressed: self.seg.selectedSegmentIndex:%ld",(long)self.seg.selectedSegmentIndex);
+ 
+    //self.seg.selectedSegmentIndex = -1;
+    if (self.seg.selectedSegmentIndex==0)
+    {
+        NSLog(@"1: self.seg.selectedSegmentIndex:%ld",(long)self.seg.selectedSegmentIndex);
+        //self.seg.selectedSegmentIndex = -1;
+    }
+    else
+    {
+        NSLog(@"2: self.seg.selectedSegmentIndex:%ld",(long)self.seg.selectedSegmentIndex);
+        //self.seg.selectedSegmentIndex = 0;
+    }
+ 
 
+    
+}
+*/
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

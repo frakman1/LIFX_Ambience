@@ -44,7 +44,9 @@
 
 @property (weak, nonatomic) IBOutlet UISlider *powerLevel;
 @property (weak, nonatomic) IBOutlet UIImageView *imgBox;
-@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
+//@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
+@property (weak, nonatomic) IBOutlet UIButton *btnHelp2;
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnHelp;
 @property (weak, nonatomic) IBOutlet UIButton *btnAddMusic;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnAddMusic;

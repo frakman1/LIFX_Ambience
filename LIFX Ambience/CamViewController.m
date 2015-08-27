@@ -483,7 +483,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     [volumeViewSlider setValue:0.5f animated:YES];
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
     
-    [self.tooltipManager hideAllTooltipsAnimated:TRUE];
+    [self.tooltipManager hideAllTooltipsAnimated:FALSE];
 
 
 }

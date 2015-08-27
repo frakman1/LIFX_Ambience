@@ -7,7 +7,7 @@
 //
 
 //turn this off for simulator runs
-#define CROP 1
+#define CROP 0
 
 #import <UIKit/UIKit.h>
 #if (CROP==1)
@@ -42,7 +42,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnLock;
 @property (weak, nonatomic) IBOutlet UIButton *btnCrop;
 @property (weak, nonatomic) IBOutlet UIButton *btnHelp;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnHelp;
+//@property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnHelp;
 
 
 //@property (weak, nonatomic) IBOutlet UIView *viewCropSquare;

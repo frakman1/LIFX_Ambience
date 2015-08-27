@@ -236,7 +236,8 @@ BOOL gRepeatEnabled = false;
 -(void) viewWillDisappear:(BOOL)animated
 {
     NSLog (@"***viewWillDisappear***");
-
+    [self.tooltipManager hideAllTooltipsAnimated:FALSE];
+    [self.tooltipManager1 hideAllTooltipsAnimated:FALSE];
     [self resignFirstResponder];
     
     [super viewWillDisappear:animated];
@@ -628,11 +629,13 @@ BOOL gRepeatEnabled = false;
     
     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:[self.navigationController view]];
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x+15, self.btnHelp.center.y) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionLeft hostView:[self.navigationController view] width:180];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp2.center.x, self.btnHelp2.center.y+25) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:180];
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnAddMusic.center.y) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:100];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnAddMusic.center.y) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:[self.navigationController view] width:80];
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0) tooltipText:@"Tap and Swipe here\n\n↑: Volume Up.\n↓: Volume Down.\n← : Next Song.\n→ : Previous Song.\nDouble Tap : Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self.navigationController view] width:300];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake((self.view.bounds.size.width / 2.0), (self.view.bounds.size.height / 2.0) + 20 ) tooltipText:@"Tap and Swipe here\n\n↑: Volume Up.\n↓: Volume Down.\n← : Next Song.\n→ : Previous Song.\nDouble Tap : Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self.navigationController view] width:300];
+    
+    
 
 }
 
@@ -1314,23 +1317,23 @@ BOOL gRepeatEnabled = false;
 {
 
 
-    self.btnHelp.selected = !self.btnHelp.selected;
-    if (self.btnHelp.selected)
+    self.btnHelp2.selected = !self.btnHelp2.selected;
+    if (self.btnHelp2.selected)
     {
         //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
         //[tooltip show];
         [self.tooltipManager1 showAllTooltips];[self.tooltipManager showAllTooltips];
-        [self.btnHelp setSelected:YES];
-        [self.btnHelp setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
+        [self.btnHelp2 setSelected:YES];
+        [self.btnHelp2 setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
     }
     else
     {
         //JDFTooltipView *tooltip = [self.tooltipManager.tooltips lastObject];
         //[tooltip hideAnimated:TRUE];
         [self.tooltipManager1 hideAllTooltipsAnimated:TRUE];[self.tooltipManager hideAllTooltipsAnimated:TRUE];
-        [self.btnHelp setSelected:NO];
-        [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
-        self.navigationItem.leftBarButtonItem = nil;
+        [self.btnHelp2 setSelected:NO];
+        [self.btnHelp2 setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+        //self.navigationItem.leftBarButtonItem = nil;
     }
 
     
