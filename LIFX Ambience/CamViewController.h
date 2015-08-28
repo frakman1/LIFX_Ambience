@@ -7,7 +7,7 @@
 //
 
 //turn this off for simulator runs
-#define CROP 0
+#define CROP 1
 
 #import <UIKit/UIKit.h>
 #if (CROP==1)

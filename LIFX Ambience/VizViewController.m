@@ -49,6 +49,7 @@
 {
     //BOOL _isBarHide;
     //BOOL _isPlaying;
+    float gSavedVolume;
     int gcurrenSong;
     UISlider *myslider_threshold;
     UISlider *myslider_scale;
@@ -238,6 +239,24 @@ BOOL gRepeatEnabled = false;
     NSLog (@"***viewWillDisappear***");
     [self.tooltipManager hideAllTooltipsAnimated:FALSE];
     [self.tooltipManager1 hideAllTooltipsAnimated:FALSE];
+    
+    
+    MPVolumeView* volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews]){
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    gSavedVolume = volumeViewSlider.value ;
+    NSLog (@"Saving gSavedVolume value :%f",gSavedVolume);
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setFloat:gSavedVolume forKey:@"myVolume"];
+    [defaults synchronize];
+
     [self resignFirstResponder];
     
     [super viewWillDisappear:animated];
@@ -464,6 +483,27 @@ BOOL gRepeatEnabled = false;
 
     }
     
+    //load saved volume
+    gSavedVolume = [defaults floatForKey:@"myVolume"];
+    NSLog(@"Saved Volume: %f: ",gSavedVolume);
+    if (gSavedVolume==0.0)
+    {
+        NSLog(@" Saved Volume Invalid");
+        gSavedVolume = 0.1;
+    }
+    //restore volume
+    MPVolumeView* volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews]){
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    [volumeViewSlider setValue:gSavedVolume animated:YES];
+    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+
 
     //JDFTooltipView* tooltip = [self.tooltipManager.tooltips objectAtIndex:2];
     //tooltip.alpha = 0.5;
@@ -1334,6 +1374,8 @@ BOOL gRepeatEnabled = false;
         [self.btnHelp2 setSelected:NO];
         [self.btnHelp2 setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
         //self.navigationItem.leftBarButtonItem = nil;
+        [sender removeFromSuperview];
+        sender = nil;
     }
 
     

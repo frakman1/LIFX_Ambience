@@ -71,6 +71,7 @@
 		22F76A171B3D907600EE3AFD /* knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A161B3D907600EE3AFD /* knob.png */; };
 		22F76A191B3D9D0F00EE3AFD /* knob2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22F76A181B3D9D0F00EE3AFD /* knob2.png */; };
 		22F76A1B1B3DF83C00EE3AFD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22F76A1A1B3DF83C00EE3AFD /* Security.framework */; };
+		22FD06D21B8FAAFB004F71FD /* SPUserResizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FD06D11B8FAAFB004F71FD /* SPUserResizableView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +180,8 @@
 		22F76A161B3D907600EE3AFD /* knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob.png; sourceTree = "<group>"; };
 		22F76A181B3D9D0F00EE3AFD /* knob2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob2.png; sourceTree = "<group>"; };
 		22F76A1A1B3DF83C00EE3AFD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		22FD06D01B8FAAFB004F71FD /* SPUserResizableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPUserResizableView.h; sourceTree = "<group>"; };
+		22FD06D11B8FAAFB004F71FD /* SPUserResizableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPUserResizableView.m; sourceTree = "<group>"; };
 		8FD262340DC1EAB4C20BFB2F /* Pods-LIFX Ambience.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LIFX Ambience.release.xcconfig"; path = "Pods/Target Support Files/Pods-LIFX Ambience/Pods-LIFX Ambience.release.xcconfig"; sourceTree = "<group>"; };
 		FF05FC65342960725EBB8E27 /* Pods-LIFX Ambience.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LIFX Ambience.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LIFX Ambience/Pods-LIFX Ambience.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -314,6 +317,8 @@
 		22C44C961B73BA1900F09113 /* ExternalCode */ = {
 			isa = PBXGroup;
 			children = (
+				22FD06D01B8FAAFB004F71FD /* SPUserResizableView.h */,
+				22FD06D11B8FAAFB004F71FD /* SPUserResizableView.m */,
 				22E5A14A1B8CE6FE00EED439 /* JDFSequentialTooltipManager.h */,
 				22E5A14B1B8CE6FE00EED439 /* JDFSequentialTooltipManager.m */,
 				22E5A14C1B8CE6FE00EED439 /* JDFTooltipManager.h */,
@@ -591,6 +596,7 @@
 				224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */,
 				224937811B3A76AB00699D59 /* CamViewController.m in Sources */,
 				221068ED1B56A62900D12A3A /* MarqueeLabel.m in Sources */,
+				22FD06D21B8FAAFB004F71FD /* SPUserResizableView.m in Sources */,
 				224937711B3A54C800699D59 /* VizViewController.m in Sources */,
 				22E5A1561B8CE6FE00EED439 /* JDFTooltipManager.m in Sources */,
 				22AEB37B1B6BECDA00915E8A /* UIImageResizing.m in Sources */,

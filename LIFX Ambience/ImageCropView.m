@@ -8,8 +8,8 @@
 
 static CGFloat const DEFAULT_MASK_ALPHA = 0.75;
 static bool const square = NO;
-float IMAGE_MIN_HEIGHT = 200;
-float IMAGE_MIN_WIDTH = 200;
+float IMAGE_MIN_HEIGHT = 100;
+float IMAGE_MIN_WIDTH = 100;
 
 #pragma mark ImageCropViewController implementation
 

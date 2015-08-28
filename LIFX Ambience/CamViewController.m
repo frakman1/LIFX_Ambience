@@ -152,42 +152,42 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 {
     [super viewDidLoad];
     
-     NSLog(@"***viewDidLoad***");
+    NSLog(@"***viewDidLoad***");
     //[self.btnCrop setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     //self.viewCropSquare.layer.borderColor = [UIColor redColor].CGColor;
     //self.viewCropSquare.layer.borderWidth = 3.0f;
     
-/*
-    CGRect imageRect = self.viewCropSquare.frame;
+    /*
+     CGRect imageRect = self.viewCropSquare.frame;
+     
+     imageRect.origin.x=20;
+     imageRect.origin.y=1510;
+     self.viewCropSquare.frame = imageRect;
+     [[self.viewCropSquare superview] bringSubviewToFront:self.viewCropSquare];
+     */
     
-    imageRect.origin.x=20;
-    imageRect.origin.y=1510;
-    self.viewCropSquare.frame = imageRect;
-    [[self.viewCropSquare superview] bringSubviewToFront:self.viewCropSquare];
-*/
+    
+    /*
+     
+     if (runOnce==FALSE)
+     {
+     runOnce=TRUE;
+     
+     paintView=[[UIView alloc]initWithFrame:CGRectMake(50, 100, 100, 200)];
+     //NSLog(@"******************cropDimension: %f ,%f ,%f, %f",cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height);
+     //paintView=[[UIView alloc]initWithFrame:CGRectMake(cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height)];
+     
+     [paintView setBackgroundColor:[UIColor clearColor]];
+     paintView.layer.borderColor = [UIColor redColor].CGColor;
+     paintView.layer.borderWidth = 3.0f;
+     [[self view] addSubview:paintView];
+     
+     //[self drawRect:rect];
+     
+     }
+     */
     
     
-/*
-    
-    if (runOnce==FALSE)
-    {
-        runOnce=TRUE;
-        
-        paintView=[[UIView alloc]initWithFrame:CGRectMake(50, 100, 100, 200)];
-        //NSLog(@"******************cropDimension: %f ,%f ,%f, %f",cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height);
-        //paintView=[[UIView alloc]initWithFrame:CGRectMake(cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height)];
-        
-        [paintView setBackgroundColor:[UIColor clearColor]];
-        paintView.layer.borderColor = [UIColor redColor].CGColor;
-        paintView.layer.borderWidth = 3.0f;
-        [[self view] addSubview:paintView];
-        
-        //[self drawRect:rect];
-        
-    }
-*/
-    
-
     
     
     
@@ -202,14 +202,14 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     //[self.previewView.layer addSublayer:paintView.layer];
     //[[paintView superview] bringSubviewToFront:paintView];
     
- 
+    
     // Create the AVCaptureSession
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
     [self setSession:session];
     
     // Setup the preview view
     [[self previewView] setSession:session];
-     //NSLog(@"****************** previewView: %f ,%f ,%f, %f",self.previewView.layer.frame.origin.x, self.previewView.layer.frame.origin.y, self.previewView.layer.frame.size.width, self.previewView.layer.frame.size.height);
+    //NSLog(@"****************** previewView: %f ,%f ,%f, %f",self.previewView.layer.frame.origin.x, self.previewView.layer.frame.origin.y, self.previewView.layer.frame.size.width, self.previewView.layer.frame.size.height);
     
     
     // Check for device authorization
@@ -281,32 +281,31 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
         }
     });
     
- /*
-    NSDictionary* recorderSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                      [NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
-                                      [NSNumber numberWithInt:44100],AVSampleRateKey,
-                                      [NSNumber numberWithInt:1],AVNumberOfChannelsKey,
-                                      [NSNumber numberWithInt:16],AVLinearPCMBitDepthKey,
-                                      [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
-                                      [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
-                                      nil];
-    NSError* error = nil;
-    recorder = [[AVAudioRecorder alloc] initWithURL:[NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"tmp.caf"]]  settings:recorderSettings error:&error];
-    [recorder prepareToRecord];
-    recorder.meteringEnabled = YES;
-    //[recorder setDelegate:self];
-    [recorder record];
-    NSError *recorderror;
-    [[AVAudioSession sharedInstance]
+    /*
+     NSDictionary* recorderSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+     [NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
+     [NSNumber numberWithInt:44100],AVSampleRateKey,
+     [NSNumber numberWithInt:1],AVNumberOfChannelsKey,
+     [NSNumber numberWithInt:16],AVLinearPCMBitDepthKey,
+     [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
+     [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
+     nil];
+     NSError* error = nil;
+     recorder = [[AVAudioRecorder alloc] initWithURL:[NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"tmp.caf"]]  settings:recorderSettings error:&error];
+     [recorder prepareToRecord];
+     recorder.meteringEnabled = YES;
+     //[recorder setDelegate:self];
+     [recorder record];
+     NSError *recorderror;
+     [[AVAudioSession sharedInstance]
      setCategory:AVAudioSessionCategoryPlayAndRecord error:&recorderror];
-    
-    if (recorderror) {
-        NSLog(@"Error setting category: %@", [recorderror description]);
-    }
-
-    //gImage = [[UIImage alloc] initWithCGImage: gImage.CGImage];
-    gcamColor = [UIColor greenColor] ;
-*/
+     
+     if (recorderror) {
+     NSLog(@"Error setting category: %@", [recorderror description]);
+     }
+     //gImage = [[UIImage alloc] initWithCGImage: gImage.CGImage];
+     gcamColor = [UIColor greenColor] ;
+     */
     self.audioMeter = [[SCAudioMeter alloc] initWithSamplePeriod:0.05];
     [self.btnMic setTitle: @"Mic Off" forState: UIControlStateNormal];
     [self.btnMic setTitle: @"Mic On" forState: UIControlStateSelected];
@@ -315,36 +314,35 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     [self.btnCrop setTitle: @"Cropping" forState: UIControlStateSelected];
     // [self showButtonPressed:nil];
     /*
-    CGFloat tooltipWidth = 100.0f;
-    
-    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnLock.center.x,self.btnLock.center.y+15)  tooltipText:@"Lock Bulb Colour" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth];
-  
-    
-    //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMic.center.x,self.btnMic.center.y+15)  tooltipText:@"Vary Brightness with Audio Level " arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth+50];
-    
-    
-    //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
-   // [self.tooltipManager addTooltipWithTargetView:self.btnCrop hostView:self.view tooltipText:@"Limit Colour Calculation to a Crop-Box" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+100];
-
+     CGFloat tooltipWidth = 100.0f;
+     
+     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnLock.center.x,self.btnLock.center.y+15)  tooltipText:@"Lock Bulb Colour" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth];
+     
+     
+     //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMic.center.x,self.btnMic.center.y+15)  tooltipText:@"Vary Brightness with Audio Level " arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth+50];
+     
+     
+     //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+     // [self.tooltipManager addTooltipWithTargetView:self.btnCrop hostView:self.view tooltipText:@"Limit Colour Calculation to a Crop-Box" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+100];
      [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnCrop.center.x,self.btnCrop.center.y-20)  tooltipText:@"Limit Colour Calculation to Crop-Box Contents" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
+     
+     
+     //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:[self previewView] tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
+     
+     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.navigationItem.rightBarButtonItem.customView width:200];
+     
+     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
+     */
     
-    
-    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:[self previewView] tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
-    
-      [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.navigationItem.rightBarButtonItem.customView width:200];
-    
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
-    */
-
 }
 
 
 - (void)MicReadOnSeparateThread
 {
     NSLog(@"MicReadOnSeparateThread");
-   
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -352,7 +350,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     [super viewDidAppear:animated];
     NSLog(@"***viewDidAppear***");
     
-   // CGFloat tooltipWidth = 100.0f;
+    // CGFloat tooltipWidth = 100.0f;
     
     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
     [self.tooltipManager addTooltipWithTargetView:self.btnLock  hostView:self.view tooltipText:@"Lock Bulb Colour" arrowDirection:JDFTooltipViewArrowDirectionDown  width:100];
@@ -367,16 +365,16 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     
     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
     
-
-   
+    
+    
     
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     NSLog(@"***viewWillAppear***");
-     NSLog(@"%@", self);
-
+    NSLog(@"%@", self);
+    
     dispatch_async([self sessionQueue], ^{
         [self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:SessionRunningAndDeviceAuthorizedContext];
         [self addObserver:self forKeyPath:@"stillImageOutput.capturingStillImage" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:CapturingStillImageContext];
@@ -404,7 +402,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     {
         [self.btnLock setSelected:NO];
     }
-
+    
     if (gMicEnabled)
     {
         [self.btnMic setSelected:YES];
@@ -413,7 +411,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     {
         [self.btnMic setSelected:NO];
     }
-
+    
     if (gCropEnabled)
     {
         [self.btnCrop setSelected:YES];
@@ -422,15 +420,15 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     {
         [self.btnCrop setSelected:NO];
     }
-
+    
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     //spawn average colour effect thread
     camTimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(camTick:) userInfo: nil repeats:YES];
     //NSLog(@"Launching MicReadOnSeparateThread");
-
-
-
+    
+    
+    
     //[NSThread detachNewThreadSelector: @selector(MicReadOnSeparateThread) toTarget: self withObject:nil];
     [self.audioMeter beginAudioMeteringWithCallback:^(double value) {
         double dBValue = 10 * log10(value);
@@ -445,9 +443,9 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
         
     }];
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     
-
+    
+    
 }
 
 
@@ -484,8 +482,8 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
     
     [self.tooltipManager hideAllTooltipsAnimated:FALSE];
-
-
+    
+    
 }
 
 
@@ -546,12 +544,12 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 {
     if (context == CapturingStillImageContext)
     {   /*
-        BOOL isCapturingStillImage = [change[NSKeyValueChangeNewKey] boolValue];
-        
-        if (isCapturingStillImage)
-        {
-            [self runStillImageCaptureAnimation];
-        }
+         BOOL isCapturingStillImage = [change[NSKeyValueChangeNewKey] boolValue];
+         
+         if (isCapturingStillImage)
+         {
+         [self runStillImageCaptureAnimation];
+         }
          */
         
         //if (gCropEnabled) [self drawRect:cropDimension];
@@ -758,8 +756,8 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
         
         // Flash set to Auto for Still Capture..AVCaptureFlashModeOff AVCaptureFlashModeAuto
         //[CamViewController setFlashMode:AVCaptureFlashModeOff forDevice:[[self videoDeviceInput] device]];
-       
-       
+        
+        
         // Capture a still image.
         [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
             
@@ -769,41 +767,41 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
                 //UIImage *image = [[UIImage alloc] initWithData:imageData];
                 
                 myimage = [UIImage imageWithData:imageData];
-
+                
                 //cropImage = image;
-               // NSLog(@"original image size:%@",NSStringFromCGSize(image.size));
- /*
-                if (runOnce==FALSE)
-                {
-                    runOnce=TRUE;
-                    CGRect rect = self.previewView.bounds;
-                    NSLog(@"****************** rect: %f ,%f ,%f, %f",rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-                    //paintView=[[UIView alloc]initWithFrame:CGRectMake(50, 100, 100, 200)];
-                    //NSLog(@"******************cropDimension: %f ,%f ,%f, %f",cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height);
-                    //paintView=[[UIView alloc]initWithFrame:CGRectMake(cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height)];
-                    
-                    //[paintView setBackgroundColor:[UIColor clearColor]];
-                    //paintView.layer.borderColor = [UIColor redColor].CGColor;
-                    //paintView.layer.borderWidth = 3.0f;
-                    //[[self view] addSubview:paintView];
-                    
-                    //[self drawRect:rect];
-                    
-                }
-*/
+                // NSLog(@"original image size:%@",NSStringFromCGSize(image.size));
+                /*
+                 if (runOnce==FALSE)
+                 {
+                 runOnce=TRUE;
+                 CGRect rect = self.previewView.bounds;
+                 NSLog(@"****************** rect: %f ,%f ,%f, %f",rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+                 //paintView=[[UIView alloc]initWithFrame:CGRectMake(50, 100, 100, 200)];
+                 //NSLog(@"******************cropDimension: %f ,%f ,%f, %f",cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height);
+                 //paintView=[[UIView alloc]initWithFrame:CGRectMake(cropDimension.origin.x, cropDimension.origin.y, cropDimension.size.width, cropDimension.size.height)];
+                 
+                 //[paintView setBackgroundColor:[UIColor clearColor]];
+                 //paintView.layer.borderColor = [UIColor redColor].CGColor;
+                 //paintView.layer.borderWidth = 3.0f;
+                 //[[self view] addSubview:paintView];
+                 
+                 //[self drawRect:rect];
+                 
+                 }
+                 */
                 
                 
                 //******* process image
                 //NSLog(@"Process Image");
                 if (gCropEnabled)
                 {
-
-                   // NSLog(@"cropDimension:%@",NSStringFromCGRect(cropDimension));
+                    
+                    // NSLog(@"cropDimension:%@",NSStringFromCGRect(cropDimension));
                     
                     if (cropDimension.size.width==0) {NSLog(@"no cropping dimensions set");return;}
                     //NSLog(@"****************** viewCropSquare: %f ,%f ,%f, %f",self.viewCropSquare.frame.origin.x, self.viewCropSquare.frame.origin.y, self.viewCropSquare.frame.size.width, self.viewCropSquare.frame.size.height);
                     //NSLog(@"cropDimension: %@",NSStringFromCGRect(cropDimension));
-
+                    
                     
                     //UIImage *cropped = [self UIImageCrop:image rect:cropDimension];
                     myimage = [self UIImageCrop:myimage rect:cropDimension];
@@ -815,10 +813,10 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
                     //NSLog(@"image size:%@",NSStringFromCGSize(image.size));
                     //[self drawRect:cropDimension];
                     
-
+                    
                 }
                 
-               // NSLog(@"****************** image : %f ,%f ",myimage.size.width, myimage.size.height);
+                // NSLog(@"****************** image : %f ,%f ",myimage.size.width, myimage.size.height);
                 
                 self.myLabel.backgroundColor=[myimage mergedColor];
                 [self.myLabel.backgroundColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
@@ -826,30 +824,30 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
                 gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
                 if (!gLockEnabled)[localNetworkContext.allLightsCollection setColor:gcamLifxColor overDuration:0.5];
                 //********
-              
+                
                 //[[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
             }
         }];
     });
 }
 /*
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPathRef path = CGPathCreateWithRect(rect, NULL);
-    [[UIColor redColor] setFill];
-    [[UIColor greenColor] setStroke];
-    CGContextAddPath(context, path);
-    CGContextDrawPath(context, kCGPathFillStroke);
-    CGPathRelease(path);
-}
-*/
+ - (void)drawRect:(CGRect)rect
+ {
+ CGContextRef context = UIGraphicsGetCurrentContext();
+ CGPathRef path = CGPathCreateWithRect(rect, NULL);
+ [[UIColor redColor] setFill];
+ [[UIColor greenColor] setStroke];
+ CGContextAddPath(context, path);
+ CGContextDrawPath(context, kCGPathFillStroke);
+ CGPathRelease(path);
+ }
+ */
 /*
-inline double rad(double deg)
-{
-    return deg / 180.0 * M_PI;
-}
-*/
+ inline double rad(double deg)
+ {
+ return deg / 180.0 * M_PI;
+ }
+ */
 - (UIImage*) UIImageCrop:(UIImage*)img  rect:(CGRect)rect
 {
     CGAffineTransform rectTransform;
@@ -871,8 +869,8 @@ inline double rad(double deg)
     
     CGImageRef imageRef = CGImageCreateWithImageInRect([img CGImage], CGRectApplyAffineTransform(rect, rectTransform));
     UIImage *result = [UIImage imageWithCGImage:imageRef scale:img.scale orientation:img.imageOrientation];
-
-
+    
+    
     
     
     CGImageRelease(imageRef);
@@ -917,14 +915,13 @@ inline double rad(double deg)
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (IBAction)btnLockPressed:(id)sender {
     gLockEnabled = !gLockEnabled;
@@ -944,10 +941,10 @@ inline double rad(double deg)
     
     //[[paintView superview] bringSubviewToFront:paintView];
     //if (cropDimension.size.width==0) return;
- 
-   
-
-
+    
+    
+    
+    
     
 }
 
@@ -969,7 +966,7 @@ inline double rad(double deg)
 {
     self.btnHelp.selected = !self.btnHelp.selected;
     
-
+    
     
     if (self.btnHelp.selected)
     {
@@ -1012,7 +1009,7 @@ inline double rad(double deg)
             controller.blurredBackground = YES;
             [[self navigationController] pushViewController:controller animated:YES];
         }
-
+        
     }
     else
     {
@@ -1021,7 +1018,7 @@ inline double rad(double deg)
         //return;
     }
     //NSLog(@"****************** viewCropSquare: %f ,%f ,%f, %f",self.viewCropSquare.frame.origin.x, self.viewCropSquare.frame.origin.y, self.viewCropSquare.frame.size.width, self.viewCropSquare.frame.size.height);
-
+    
     
     
 }
@@ -1036,7 +1033,7 @@ inline double rad(double deg)
     NSLog(@"dimension: %@",NSStringFromCGRect(dimension));
     cropDimension = dimension;
     /////
-
+    
     /////
     [[self navigationController] popViewControllerAnimated:YES];
 }
@@ -1054,79 +1051,68 @@ inline double rad(double deg)
 /*
  
  
-
-- (IBAction)done:(id)sender
-{
-    
-    if ([self.delegate respondsToSelector:@selector(ImageCropViewController:didFinishCroppingImage:)])
-    {
-        UIImage *cropped;
-        if (self.image != nil){
-            CGRect CropRect = self.cropView.cropAreaInImage;
-            CGImageRef imageRef = CGImageCreateWithImageInRect([self.image CGImage], CropRect) ;
-            cropped = [UIImage imageWithCGImage:imageRef];
-            CGImageRelease(imageRef);
-        }
-        [self.delegate ImageCropViewController:self didFinishCroppingImage:cropped];
-    }
-    
-}
-
-
+ - (IBAction)done:(id)sender
+ {
+ 
+ if ([self.delegate respondsToSelector:@selector(ImageCropViewController:didFinishCroppingImage:)])
+ {
+ UIImage *cropped;
+ if (self.image != nil){
+ CGRect CropRect = self.cropView.cropAreaInImage;
+ CGImageRef imageRef = CGImageCreateWithImageInRect([self.image CGImage], CropRect) ;
+ cropped = [UIImage imageWithCGImage:imageRef];
+ CGImageRelease(imageRef);
+ }
+ [self.delegate ImageCropViewController:self didFinishCroppingImage:cropped];
+ }
+ 
+ }
  
  
-
-CGFloat kResizeThumbSize = 30.0f;
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [[event allTouches] anyObject];
-    touchStart = [[touches anyObject] locationInView:self.viewCropSquare];
-    isResizingLR = (self.viewCropSquare.bounds.size.width - touchStart.x < kResizeThumbSize && self.viewCropSquare.bounds.size.height - touchStart.y < kResizeThumbSize);
-    isResizingUL = (touchStart.x <kResizeThumbSize && touchStart.y <kResizeThumbSize);
-    isResizingUR = (self.viewCropSquare.bounds.size.width-touchStart.x < kResizeThumbSize && touchStart.y<kResizeThumbSize);
-    isResizingLL = (touchStart.x <kResizeThumbSize && self.viewCropSquare.bounds.size.height -touchStart.y <kResizeThumbSize);
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    CGPoint touchPoint = [[touches anyObject] locationInView:self.viewCropSquare];
-    CGPoint previous = [[touches anyObject] previousLocationInView:self.viewCropSquare];
-    
-    CGFloat deltaWidth = touchPoint.x - previous.x;
-    CGFloat deltaHeight = touchPoint.y - previous.y;
-    
-    // get the frame values so we can calculate changes below
-    CGFloat x = self.viewCropSquare.frame.origin.x;
-    CGFloat y = self.viewCropSquare.frame.origin.y;
-    CGFloat width = self.viewCropSquare.frame.size.width;
-    CGFloat height = self.viewCropSquare.frame.size.height;
-    
-    if (isResizingLR) {
-        self.viewCropSquare.frame = CGRectMake(x, y, touchPoint.x+deltaWidth, touchPoint.y+deltaWidth);
-    } else if (isResizingUL) {
-        self.viewCropSquare.frame = CGRectMake(x+deltaWidth, y+deltaHeight, width-deltaWidth, height-deltaHeight);
-    } else if (isResizingUR) {
-        self.viewCropSquare.frame = CGRectMake(x, y+deltaHeight, width+deltaWidth, height-deltaHeight);
-    } else if (isResizingLL) {
-        self.viewCropSquare.frame = CGRectMake(x+deltaWidth, y, width-deltaWidth, height+deltaHeight);
-    } else {
-        // not dragging from a corner -- move the view
-        self.viewCropSquare.center = CGPointMake(self.viewCropSquare.center.x + touchPoint.x - touchStart.x,
-                                                 self.viewCropSquare.center.y + touchPoint.y - touchStart.y);
-    }
-}
-
-
-+ (UIImage*)imageWithImage:(UIImage*)image
-              scaledToSize:(CGSize)newSize;
-{
-    UIGraphicsBeginImageContext( newSize );
-    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return newImage;
-}
-
-*/
-
-
+ CGFloat kResizeThumbSize = 30.0f;
+ - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+ UITouch *touch = [[event allTouches] anyObject];
+ touchStart = [[touches anyObject] locationInView:self.viewCropSquare];
+ isResizingLR = (self.viewCropSquare.bounds.size.width - touchStart.x < kResizeThumbSize && self.viewCropSquare.bounds.size.height - touchStart.y < kResizeThumbSize);
+ isResizingUL = (touchStart.x <kResizeThumbSize && touchStart.y <kResizeThumbSize);
+ isResizingUR = (self.viewCropSquare.bounds.size.width-touchStart.x < kResizeThumbSize && touchStart.y<kResizeThumbSize);
+ isResizingLL = (touchStart.x <kResizeThumbSize && self.viewCropSquare.bounds.size.height -touchStart.y <kResizeThumbSize);
+ }
+ - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+ CGPoint touchPoint = [[touches anyObject] locationInView:self.viewCropSquare];
+ CGPoint previous = [[touches anyObject] previousLocationInView:self.viewCropSquare];
+ 
+ CGFloat deltaWidth = touchPoint.x - previous.x;
+ CGFloat deltaHeight = touchPoint.y - previous.y;
+ 
+ // get the frame values so we can calculate changes below
+ CGFloat x = self.viewCropSquare.frame.origin.x;
+ CGFloat y = self.viewCropSquare.frame.origin.y;
+ CGFloat width = self.viewCropSquare.frame.size.width;
+ CGFloat height = self.viewCropSquare.frame.size.height;
+ 
+ if (isResizingLR) {
+ self.viewCropSquare.frame = CGRectMake(x, y, touchPoint.x+deltaWidth, touchPoint.y+deltaWidth);
+ } else if (isResizingUL) {
+ self.viewCropSquare.frame = CGRectMake(x+deltaWidth, y+deltaHeight, width-deltaWidth, height-deltaHeight);
+ } else if (isResizingUR) {
+ self.viewCropSquare.frame = CGRectMake(x, y+deltaHeight, width+deltaWidth, height-deltaHeight);
+ } else if (isResizingLL) {
+ self.viewCropSquare.frame = CGRectMake(x+deltaWidth, y, width-deltaWidth, height+deltaHeight);
+ } else {
+ // not dragging from a corner -- move the view
+ self.viewCropSquare.center = CGPointMake(self.viewCropSquare.center.x + touchPoint.x - touchStart.x,
+ self.viewCropSquare.center.y + touchPoint.y - touchStart.y);
+ }
+ }
+ + (UIImage*)imageWithImage:(UIImage*)image
+ scaledToSize:(CGSize)newSize;
+ {
+ UIGraphicsBeginImageContext( newSize );
+ [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+ UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+ UIGraphicsEndImageContext();
+ 
+ return newImage;
+ }
+ */
