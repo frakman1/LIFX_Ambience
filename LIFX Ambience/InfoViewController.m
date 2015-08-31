@@ -24,7 +24,8 @@
 
 - (BOOL) prefersStatusBarHidden {return YES;}
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -46,6 +47,42 @@
     [self.btnDonate.imageView startGlowingWithColor:[UIColor greenColor] intensity:5];
 
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    
+    [super viewDidAppear:animated];
+
+
+    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+
+ 
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:120];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnRate.center.x, self.btnRate.center.y) tooltipText:@"Rate App" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:[self.navigationController view] width:100];
+
+
+    [self.tooltipManager addTooltipWithTargetView:self.lblMail  hostView:self.view tooltipText:@"Shoot me an email if you have any questions. I'll try and get back to you as soon as I can" arrowDirection:JDFTooltipViewArrowDirectionUp  width:200];
+    
+    //[self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMail.center.x, self.btnMail.center.y+20) tooltipText:@"Shoot me an email if you have any questions. I'll try and get back to you as soon as I can" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self view] width:200];
+
+
+    [self.tooltipManager addTooltipWithTargetView:self.btnDonate  hostView:self.view tooltipText:@"If you like this app or find it useful, then please consider making a donation to support further development (or nourishment) " arrowDirection:JDFTooltipViewArrowDirectionDown  width:300];
+
+    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.navigationItem.leftBarButtonItem.customView hostView:self.view tooltipText:@"Toggle Light List and Controls. Green when lights are detected." arrowDirection:JDFTooltipViewArrowDirectionUp width:200 ];
+
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.tooltipManager hideAllTooltipsAnimated:FALSE];
+    [self.btnHelp setSelected:NO];
+    [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -127,5 +164,40 @@ NSString* deviceName()
     // Pass the selected object to the new view controller.
 }
 */
+
+
+- (IBAction)btnHelpPressed:(id)sender
+{
+    self.btnHelp.selected = !self.btnHelp.selected;
+    
+    if (self.btnHelp.selected)
+    {
+        [self.tooltipManager showAllTooltips];
+        [self.btnHelp setSelected:YES];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
+        
+    }
+    else
+    {
+        [self.tooltipManager hideAllTooltipsAnimated:TRUE];
+        [self.btnHelp setSelected:NO];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+        [sender removeFromSuperview];
+        sender = nil;
+        
+    }
+    
+}
+
+
+- (IBAction)btnRatePressed:(UIButton *)sender
+{
+   // NSLog(@"Rate App");
+   [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"itms-apps://itunes.apple.com/app/id1012474625"]];
+    
+    
+}
+
+
 
 @end

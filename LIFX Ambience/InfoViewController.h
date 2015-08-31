@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MFMailComposeViewController.h>
+#import "JDFTooltips.h"
 
 @interface InfoViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
@@ -17,4 +18,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblMail;
 @property (weak, nonatomic) IBOutlet UIButton *btnDonate;
 @property (weak, nonatomic) IBOutlet UIButton *btnMail;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
+@property (weak, nonatomic) IBOutlet UIButton *btnRate;
+@property (nonatomic, strong) JDFTooltipManager *tooltipManager;
+
+
+
 @end

@@ -154,7 +154,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="qxN-Jc-eSL">
                         <nil key="title"/>
-                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gb7-QK-U1h">
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Gb7-QK-U1h">
                             <rect key="frame" x="144" y="6" width="33" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="help">
@@ -377,7 +377,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="bO5-M5-QBN">
                         <nil key="title"/>
-                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wmH-ei-QFg">
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="wmH-ei-QFg">
                             <rect key="frame" x="144" y="6" width="33" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="help">
@@ -623,10 +623,36 @@
                             <constraint firstItem="xuO-MH-w2f" firstAttribute="leading" secondItem="PoP-Ka-j9k" secondAttribute="leadingMargin" constant="-20" id="yqC-li-UTx"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="VNQ-e4-Tjc"/>
+                    <navigationItem key="navigationItem" id="VNQ-e4-Tjc">
+                        <nil key="title"/>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="joD-PF-Xv4">
+                            <rect key="frame" x="144" y="6" width="33" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="help">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="btnHelpPressed:" destination="aDy-15-Ep7" eventType="touchUpInside" id="tUT-fm-DND"/>
+                            </connections>
+                        </button>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="C7A-FO-0Ct">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Hpb-Cb-Wok">
+                                <rect key="frame" x="233" y="7" width="31" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="rate">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnRatePressed:" destination="aDy-15-Ep7" eventType="touchUpInside" id="1UC-HN-g1X"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="btnDonate" destination="CpC-yr-SEC" id="FXY-za-9RI"/>
+                        <outlet property="btnHelp" destination="joD-PF-Xv4" id="HeC-yn-OtI"/>
                         <outlet property="btnMail" destination="Uyh-e7-wZP" id="agm-q0-9EN"/>
+                        <outlet property="btnRate" destination="Hpb-Cb-Wok" id="VVd-i6-viT"/>
                         <outlet property="lblDonate" destination="BmV-ah-Lc9" id="32k-pT-oT1"/>
                         <outlet property="lblMail" destination="T6P-EE-NrW" id="4hb-ij-70S"/>
                     </connections>
@@ -744,6 +770,7 @@
         <image name="music" width="89" height="89"/>
         <image name="play" width="28" height="28"/>
         <image name="playlist" width="23" height="32"/>
+        <image name="rate" width="31" height="31"/>
         <image name="repeat" width="60" height="32"/>
         <image name="right" width="32" height="32"/>
         <image name="save" width="32" height="32"/>

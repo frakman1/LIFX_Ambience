@@ -451,7 +451,7 @@ NSTimer *timer;
     [self.tooltipManager addTooltipWithTargetView:self.btnMusic  hostView:self.view tooltipText:@"Music Player.\nPulse your lights in time to the music." arrowDirection:JDFTooltipViewArrowDirectionUp  width:200];
     
     
-    [self.tooltipManager addTooltipWithTargetView:self.btnCam  hostView:self.view tooltipText:@"Camera.\nPoint the Camera at anything and instantly match the bulb colour to it." arrowDirection:JDFTooltipViewArrowDirectionDown  width:200];
+    [self.tooltipManager addTooltipWithTargetView:self.btnCam  hostView:self.view tooltipText:@"Camera.\nPoint the Camera at anything and instantly match the bulb colour to it." arrowDirection:JDFTooltipViewArrowDirectionDown  width:210];
     
     //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.navigationItem.leftBarButtonItem.customView hostView:self.view tooltipText:@"Toggle Light List and Controls. Green when lights are detected." arrowDirection:JDFTooltipViewArrowDirectionUp width:200 ];
   
