@@ -61,7 +61,7 @@
                                         </prototypes>
                                         <sections/>
                                     </tableView>
-                                    <button contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj">
+                                    <button contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj" userLabel="Cam Button">
                                         <rect key="frame" x="201" y="293" width="119" height="119"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" image="cam">
@@ -71,7 +71,7 @@
                                             <segue destination="beV-Dh-bsA" kind="push" id="AMS-OF-CFg"/>
                                         </connections>
                                     </button>
-                                    <button contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee">
+                                    <button contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee" userLabel="Music Button">
                                         <rect key="frame" x="8" y="293" width="119" height="119"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" image="music">
@@ -153,8 +153,19 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qxN-Jc-eSL">
+                        <nil key="title"/>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gb7-QK-U1h">
+                            <rect key="frame" x="144" y="6" width="33" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="help">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="btnHelpPressed:" destination="3SO-wL-eml" eventType="touchUpInside" id="AEK-nw-6Yc"/>
+                            </connections>
+                        </button>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="6ZR-kV-y7M">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="LOv-XK-NOL">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="LOv-XK-NOL" userLabel="Info Button">
                                 <rect key="frame" x="233" y="7" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -169,6 +180,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnCam" destination="9Rk-T0-rCj" id="wTq-Br-jcP"/>
+                        <outlet property="btnHelp" destination="Gb7-QK-U1h" id="KKC-XW-GS2"/>
+                        <outlet property="btnInfo" destination="LOv-XK-NOL" id="Y3y-Ee-T4M"/>
                         <outlet property="btnMusic" destination="ZQI-9p-Oee" id="mWW-0c-L44"/>
                         <outlet property="lblInfo" destination="o86-oX-Jlq" id="A44-n0-rqU"/>
                         <outlet property="sliderBrightness" destination="C8e-vI-cLQ" id="zqG-xZ-MG5"/>

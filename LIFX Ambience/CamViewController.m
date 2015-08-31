@@ -313,28 +313,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     [self.btnCrop setTitle: @"Crop" forState: UIControlStateNormal];
     [self.btnCrop setTitle: @"Cropping" forState: UIControlStateSelected];
     // [self showButtonPressed:nil];
-    /*
-     CGFloat tooltipWidth = 100.0f;
-     
-     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
-     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnLock.center.x,self.btnLock.center.y+15)  tooltipText:@"Lock Bulb Colour" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth];
-     
-     
-     //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
-     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMic.center.x,self.btnMic.center.y+15)  tooltipText:@"Vary Brightness with Audio Level " arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:tooltipWidth+50];
-     
-     
-     //self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
-     // [self.tooltipManager addTooltipWithTargetView:self.btnCrop hostView:self.view tooltipText:@"Limit Colour Calculation to a Crop-Box" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+100];
-     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnCrop.center.x,self.btnCrop.center.y-20)  tooltipText:@"Limit Colour Calculation to Crop-Box Contents" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
-     
-     
-     //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:[self previewView] tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
-     
-     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.navigationItem.rightBarButtonItem.customView width:200];
-     
-     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
-     */
+
     
 }
 
@@ -363,7 +342,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     
     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:200];
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results.\n\nTap screen to adjust focus" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
     
     
     

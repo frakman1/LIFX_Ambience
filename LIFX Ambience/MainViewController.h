@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JDFTooltips.h"
 
 
 @interface AKSingleSegmentedControl : UISegmentedControl
@@ -27,6 +28,12 @@
 @property (weak, nonatomic) IBOutlet UISlider *sliderValue;
 @property (weak, nonatomic) IBOutlet UILabel  *lblInfo;
 @property AKSingleSegmentedControl *seg;
+@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
+@property (weak, nonatomic) IBOutlet UIButton *btnInfo;
+
+
+@property (nonatomic, strong) JDFTooltipManager *tooltipManager;
+
 
 
 

@@ -316,7 +316,16 @@ NSTimer *timer;
     [self updateNavBar];
     [self updateLights];
     [self updateTags];
+    
 
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.tooltipManager hideAllTooltipsAnimated:FALSE];
+    [self.btnHelp setSelected:NO];
+    [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+    
 }
 
 
@@ -368,7 +377,7 @@ NSTimer *timer;
     
     // do this once per installation. Welcome/Instructions page.
     // currently using the UIAlertAction and hacking an image into it.
-    // TODO: need to find a better way to improve image so that it has colour etc.
+    // TODO: need to find a better way to improve images so that they have colour (instead of blue tint) etc.
     if (! [defaults boolForKey:@"alertShown"]) {
     
         //
@@ -430,6 +439,22 @@ NSTimer *timer;
     
 
     
+    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(30,40)  tooltipText:@"Toggle Light List and Controls.\nIcon will be green when lights are detected." arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:250];
+    
+    
+    //[self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:[self.navigationController view] width:150];
+    
+     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnInfo.center.x, self.btnInfo.center.y) tooltipText:@"Info Page" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:[self.navigationController view] width:100];
+    
+    [self.tooltipManager addTooltipWithTargetView:self.btnMusic  hostView:self.view tooltipText:@"Music Player.\nPulse your lights in time to the music." arrowDirection:JDFTooltipViewArrowDirectionUp  width:200];
+    
+    
+    [self.tooltipManager addTooltipWithTargetView:self.btnCam  hostView:self.view tooltipText:@"Camera.\nPoint the Camera at anything and instantly match the bulb colour to it." arrowDirection:JDFTooltipViewArrowDirectionDown  width:200];
+    
+    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.navigationItem.leftBarButtonItem.customView hostView:self.view tooltipText:@"Toggle Light List and Controls. Green when lights are detected." arrowDirection:JDFTooltipViewArrowDirectionUp width:200 ];
+  
     
 }
 
@@ -810,5 +835,29 @@ NSTimer *timer;
    
     
 }
+
+- (IBAction)btnHelpPressed:(id)sender
+{
+    self.btnHelp.selected = !self.btnHelp.selected;
+    
+    if (self.btnHelp.selected)
+    {
+        [self.tooltipManager showAllTooltips];
+        [self.btnHelp setSelected:YES];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help_on"] forState:UIControlStateNormal] ;
+        
+    }
+    else
+    {
+        [self.tooltipManager hideAllTooltipsAnimated:TRUE];
+        [self.btnHelp setSelected:NO];
+        [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+        [sender removeFromSuperview];
+        sender = nil;
+
+    }
+    
+}
+
 
 @end
