@@ -27,7 +27,6 @@
 @property (weak, nonatomic) IBOutlet UISlider *sliderSaturation;
 @property (weak, nonatomic) IBOutlet UISlider *sliderValue;
 @property (weak, nonatomic) IBOutlet UILabel  *lblInfo;
-@property AKSingleSegmentedControl *seg;
 @property (weak, nonatomic) IBOutlet UIButton *btnHelp;
 @property (weak, nonatomic) IBOutlet UIButton *btnInfo;
 

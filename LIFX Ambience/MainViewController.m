@@ -46,41 +46,6 @@ typedef NS_ENUM(NSInteger, TableSection) {
 
 @end
 
-@implementation AKSingleSegmentedControl
-
-- (id)initWithItem:(id)item {
-    NSArray *a = [NSArray arrayWithObject:item];
-    return [super initWithItems:a];
-}
-
-- (void)setSelectedSegmentIndex:(NSInteger)toValue {
-    NSLog(@"setSelectedSegmentIndex() self.selectedSegmentIndex:%ld",(long)self.selectedSegmentIndex);
-    NSInteger newValue = self.selectedSegmentIndex==0 ? -1 : 0;
-    [super setSelectedSegmentIndex:newValue];
-}
-
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    int oldValue = self.selectedSegmentIndex;
-    
-    NSLog(@"\n\ntouchesBegan.OldValue: %d", oldValue);
-    
-    [super touchesBegan:touches withEvent:event];
-    
-    NSLog(@"selectedSegmentIndex %ld", (long)self.selectedSegmentIndex);
-    
-    if ( oldValue == self.selectedSegmentIndex )
-    {
-        NSLog(@"oldValue == self.selectedSegmentIndex ");
-        [self setSelectedSegmentIndex:-1];
-
-        [self sendActionsForControlEvents:UIControlEventValueChanged];
-    }
-
-}
-
-
-@end
 
 
 @implementation MainViewController

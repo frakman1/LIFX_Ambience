@@ -446,6 +446,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
     
+    /*
     //restore volume
     MPVolumeView* volumeView = [[MPVolumeView alloc] init];
     //find the volumeSlider
@@ -459,6 +460,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     
     [volumeViewSlider setValue:0.5f animated:YES];
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+    */
     
     [self.tooltipManager hideAllTooltipsAnimated:FALSE];
     
