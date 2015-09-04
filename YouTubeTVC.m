@@ -19,6 +19,7 @@
 @interface YouTubeTVC ()
 {
     NSMutableArray *videos;
+    UIActivityIndicatorView *activityIndicator;
 }
 
 @end
@@ -39,9 +40,9 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //NSLog(@"***Overriding orientation.");
-   // NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
-   // [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    NSLog(@"***Overriding orientation.");
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     
     
 }
@@ -51,6 +52,15 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicator.center = CGPointMake(self.view.frame.size.width / 2.0, self.view.frame.size.height / 2.0);
+    [self.tableView addSubview: activityIndicator];
+    
+    dispatch_async(dispatch_get_main_queue(),
+   ^{
+       [activityIndicator startAnimating];
+   });
+
     
     // init the search bar
     self.mySearchBar = [[UISearchBar alloc] init];
@@ -65,15 +75,15 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     self.tableView.separatorColor = [UIColor clearColor];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
-                   ^{
-                       [self searchWithString:self.searchString];
-                       
-                       // dispatch_async(dispatch_get_main_queue(),
-                       // ^{
-                       
-                       //  });//main queue
-                       
-                   });//background queue
+   ^{
+       [self searchWithString:self.searchString];
+       
+       // dispatch_async(dispatch_get_main_queue(),
+       // ^{
+       
+       //  });//main queue
+       
+   });//background queue
     
 
     
@@ -85,6 +95,8 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 
 - (void) searchWithString:(NSMutableString *)searchString
 {
+    videos=nil;
+    
     NSString *urlString = [NSString stringWithFormat:@"%@%@%@&type=video&key=%@", @"https://www.googleapis.com/youtube/v3/", kParts2, searchString, kAPIKey];
     NSLog(@"%@",urlString);
     NSURL *url = [[NSURL alloc] initWithString:urlString];
@@ -97,6 +109,7 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     
      dispatch_async(dispatch_get_main_queue(),
      ^{
+         if (videos) [activityIndicator stopAnimating];
          [self.tableView reloadData];
      });//main queue
     
@@ -135,7 +148,12 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    dispatch_async(dispatch_get_main_queue(),
+    ^{
+        if (videos) [activityIndicator stopAnimating];
+    });
 
+    
     NSDictionary *video = [videos[indexPath.row] valueForKey:@"snippet"];
     
     
@@ -160,27 +178,8 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 {
     return YES;
 }
-/*
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    
-    NSDictionary *video = [videos[indexPath.row] valueForKey:@"snippet"];
-    
-    //NSDictionary *content = [video valueForKey:@"resourceId"];NSLog(@"content %@",content);
-    NSDictionary *id = [videos[indexPath.row] valueForKey:@"id"];
-    NSString *videoId = [id valueForKeyPath:@"videoId"];NSLog(@"videoId %@",videoId);
-    NSString *url = [NSString stringWithFormat:@"%@%@", baseVideoURL, videoId];NSLog(@"url %@",url);
-    
-    //NSDictionary *content2 = [video valueForKeyPath:@"media$group.media$player"][0];
-    //NSString *shareurl = [content2 valueForKeyPath:@"url"];
-    
-    YouTubeDVC *detailViewController = [segue destinationViewController];
-    detailViewController.url = url;
-    //detailViewController.shareurl = shareurl;
-    
-}
-*/
+
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
    //NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -308,6 +307,11 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     
      NSLog(@"after: %@",self.searchString);
     
+    dispatch_async(dispatch_get_main_queue(),
+    ^{
+            [activityIndicator startAnimating];
+    });//main queue
+
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
     ^{
@@ -323,4 +327,28 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 }
 
 @end
+
+
+
+/*
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+ 
+ NSDictionary *video = [videos[indexPath.row] valueForKey:@"snippet"];
+ 
+ //NSDictionary *content = [video valueForKey:@"resourceId"];NSLog(@"content %@",content);
+ NSDictionary *id = [videos[indexPath.row] valueForKey:@"id"];
+ NSString *videoId = [id valueForKeyPath:@"videoId"];NSLog(@"videoId %@",videoId);
+ NSString *url = [NSString stringWithFormat:@"%@%@", baseVideoURL, videoId];NSLog(@"url %@",url);
+ 
+ //NSDictionary *content2 = [video valueForKeyPath:@"media$group.media$player"][0];
+ //NSString *shareurl = [content2 valueForKeyPath:@"url"];
+ 
+ YouTubeDVC *detailViewController = [segue destinationViewController];
+ detailViewController.url = url;
+ //detailViewController.shareurl = shareurl;
+ 
+ }
+ */
 

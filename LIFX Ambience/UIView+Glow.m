@@ -46,7 +46,7 @@ static char* GLOWVIEW_KEY = "GLOWVIEW";
         
         [color setFill];
         
-        [path fillWithBlendMode:kCGBlendModeSourceAtop alpha:1.0];
+        [path fillWithBlendMode:kCGBlendModeSourceAtop alpha:0.5];
         
         
         image = UIGraphicsGetImageFromCurrentImageContext();

@@ -270,8 +270,8 @@
 			children = (
 				22C44C971B73BA5900F09113 /* MusicPlayer */,
 				22C44C981B73BA8900F09113 /* CameraViewer */,
-				224937691B39EDFE00699D59 /* MainViewController.h */,
 				2249376A1B39EDFE00699D59 /* MainViewController.m */,
+				224937691B39EDFE00699D59 /* MainViewController.h */,
 				221B11451B420C3E004F3122 /* InfoViewController.h */,
 				221B11461B420C3E004F3122 /* InfoViewController.m */,
 				224936DC1B389CD200699D59 /* main.m */,

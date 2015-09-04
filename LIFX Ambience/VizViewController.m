@@ -132,6 +132,11 @@ BOOL gRepeatEnabled = false;
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    
+    NSLog(@"***Overriding orientation.");
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+
     CGRect frame = self.view.frame;
    
     //NSLog (@"1");

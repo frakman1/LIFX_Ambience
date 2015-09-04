@@ -282,6 +282,11 @@ NSTimer *timer;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    NSLog(@"***Overriding orientation.");
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+
     [self updateNavBar];
     [self updateLights];
     [self updateTags];
@@ -309,9 +314,9 @@ NSTimer *timer;
     
 
     //[(UIImageView *)self.navigationItem.leftBarButtonItem.customView startGlowingWithColor:[UIColor whiteColor] intensity:5];
-    [self.btnMusic.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
-    [self.btnCam.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
-    [self.btnYT.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
+    [self.btnMusic.imageView startGlowingWithColor:[UIColor greenColor] intensity:1];
+    [self.btnCam.imageView startGlowingWithColor:[UIColor blueColor] intensity:1];
+    [self.btnYT.imageView startGlowingWithColor:[UIColor redColor] intensity:1];
     
     /*
     UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];

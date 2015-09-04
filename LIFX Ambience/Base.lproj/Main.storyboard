@@ -61,26 +61,6 @@
                                         </prototypes>
                                         <sections/>
                                     </tableView>
-                                    <button contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj" userLabel="Cam Button">
-                                        <rect key="frame" x="201" y="293" width="119" height="119"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="cam">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="beV-Dh-bsA" kind="push" id="AMS-OF-CFg"/>
-                                        </connections>
-                                    </button>
-                                    <button contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee" userLabel="Music Button">
-                                        <rect key="frame" x="8" y="293" width="119" height="119"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="music">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="2Ua-YC-BMe" kind="push" id="bRd-lM-23s"/>
-                                        </connections>
-                                    </button>
                                     <slider hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="C8e-vI-cLQ">
                                         <rect key="frame" x="20" y="22" width="288" height="31"/>
                                         <connections>
@@ -122,8 +102,28 @@
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj" userLabel="Cam Button">
+                                        <rect key="frame" x="198" y="212" width="119" height="119"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="camb">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="beV-Dh-bsA" kind="push" id="AMS-OF-CFg"/>
+                                        </connections>
+                                    </button>
+                                    <button contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee" userLabel="Music Button">
+                                        <rect key="frame" x="5" y="212" width="119" height="119"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="musicg">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="2Ua-YC-BMe" kind="push" id="bRd-lM-23s"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4o6-yF-2ft">
-                                        <rect key="frame" x="130" y="322" width="62" height="62"/>
+                                        <rect key="frame" x="102" y="213" width="119" height="119"/>
                                         <state key="normal" image="yt">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -959,7 +959,7 @@
         <image name="add" width="32" height="32"/>
         <image name="background2" width="320" height="480"/>
         <image name="blank" width="371" height="371"/>
-        <image name="cam" width="89" height="89"/>
+        <image name="camb" width="90" height="90"/>
         <image name="cancel" width="36" height="36"/>
         <image name="dollar" width="64" height="64"/>
         <image name="help" width="33" height="32"/>
@@ -967,7 +967,7 @@
         <image name="left" width="34" height="34"/>
         <image name="mail" width="64" height="39"/>
         <image name="mixer" width="32" height="32"/>
-        <image name="music" width="89" height="89"/>
+        <image name="musicg" width="90" height="90"/>
         <image name="play" width="28" height="28"/>
         <image name="playlist" width="23" height="32"/>
         <image name="rate" width="31" height="31"/>
