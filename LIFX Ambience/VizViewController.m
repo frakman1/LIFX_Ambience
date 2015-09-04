@@ -16,6 +16,7 @@
 #import "MarqueeLabel.h"
 #import "ANPopoverSlider.h"
 #import "JDFTooltips.h"
+#import "AppDelegate.h"
 
 @interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
 
@@ -266,6 +267,7 @@ BOOL gRepeatEnabled = false;
 {
     [super viewDidLoad];
     NSLog (@"****viewDidLoad****");
+    
     
     
     [self configureBars];
@@ -1381,5 +1383,14 @@ BOOL gRepeatEnabled = false;
     
 }
 
+- (BOOL) shouldAutorotate
+{
+    return NO;
+}
+
+- (NSUInteger) supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 @end

@@ -51,6 +51,9 @@
 		224937811B3A76AB00699D59 /* CamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937801B3A76AB00699D59 /* CamViewController.m */; };
 		224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937831B3A776D00699D59 /* AVCamPreviewView.m */; };
 		224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */; };
+		226018FD1B9807A900708332 /* YouTubeDVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 226018FC1B9807A900708332 /* YouTubeDVC.m */; };
+		226019001B9808F400708332 /* YouTubeTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 226018FF1B9808F400708332 /* YouTubeTVC.m */; };
+		226019031B982D6200708332 /* UINavigationController+rotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 226019021B982D6200708332 /* UINavigationController+rotation.m */; };
 		227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8531B3B2D17004EFFA7 /* camicon128.png */; };
 		227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8541B3B2D17004EFFA7 /* vizicon128.png */; };
 		22AEB37B1B6BECDA00915E8A /* UIImageResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB37A1B6BECDA00915E8A /* UIImageResizing.m */; };
@@ -147,6 +150,12 @@
 		224937831B3A776D00699D59 /* AVCamPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamPreviewView.m; sourceTree = "<group>"; };
 		224937851B3A779C00699D59 /* UIImageAverageColorAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageAverageColorAddition.h; sourceTree = "<group>"; };
 		224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageAverageColorAddition.m; sourceTree = "<group>"; };
+		226018FB1B9807A900708332 /* YouTubeDVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouTubeDVC.h; sourceTree = "<group>"; };
+		226018FC1B9807A900708332 /* YouTubeDVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YouTubeDVC.m; sourceTree = "<group>"; };
+		226018FE1B9808F400708332 /* YouTubeTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouTubeTVC.h; sourceTree = "<group>"; };
+		226018FF1B9808F400708332 /* YouTubeTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YouTubeTVC.m; sourceTree = "<group>"; };
+		226019011B982D6200708332 /* UINavigationController+rotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+rotation.h"; sourceTree = "<group>"; };
+		226019021B982D6200708332 /* UINavigationController+rotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+rotation.m"; sourceTree = "<group>"; };
 		227BB8531B3B2D17004EFFA7 /* camicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camicon128.png; sourceTree = "<group>"; };
 		227BB8541B3B2D17004EFFA7 /* vizicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vizicon128.png; sourceTree = "<group>"; };
 		22AEB3791B6BECDA00915E8A /* UIImageResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageResizing.h; sourceTree = "<group>"; };
@@ -228,9 +237,15 @@
 		224936CE1B389CD200699D59 = {
 			isa = PBXGroup;
 			children = (
+				226019011B982D6200708332 /* UINavigationController+rotation.h */,
+				226019021B982D6200708332 /* UINavigationController+rotation.m */,
 				221B11301B3E9405004F3122 /* Flurry */,
 				22C44C991B73BAD600F09113 /* Frameworks2 */,
 				224936E71B389CD200699D59 /* Main.storyboard */,
+				226018FE1B9808F400708332 /* YouTubeTVC.h */,
+				226018FF1B9808F400708332 /* YouTubeTVC.m */,
+				226018FB1B9807A900708332 /* YouTubeDVC.h */,
+				226018FC1B9807A900708332 /* YouTubeDVC.m */,
 				224936DB1B389CD200699D59 /* Info.plist */,
 				224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */,
 				224936D91B389CD200699D59 /* LIFX Ambience */,
@@ -590,6 +605,7 @@
 				2249377A1B3A592800699D59 /* MeterTable.cpp in Sources */,
 				22E5A1591B8CE6FE00EED439 /* UIView+JDFTooltips.m in Sources */,
 				221E329A1B85223D00108108 /* FXBlurView.m in Sources */,
+				226018FD1B9807A900708332 /* YouTubeDVC.m in Sources */,
 				224937741B3A568400699D59 /* VisualizerView.mm in Sources */,
 				22E5A1581B8CE6FE00EED439 /* UILabel+JDFTooltips.m in Sources */,
 				22E60BAB1B63ED4700E74219 /* SCAudioMeter.m in Sources */,
@@ -598,12 +614,14 @@
 				221068ED1B56A62900D12A3A /* MarqueeLabel.m in Sources */,
 				22FD06D21B8FAAFB004F71FD /* SPUserResizableView.m in Sources */,
 				224937711B3A54C800699D59 /* VizViewController.m in Sources */,
+				226019001B9808F400708332 /* YouTubeTVC.m in Sources */,
 				22E5A1561B8CE6FE00EED439 /* JDFTooltipManager.m in Sources */,
 				22AEB37B1B6BECDA00915E8A /* UIImageResizing.m in Sources */,
 				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
 				2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */,
 				221B114E1B4218FD004F3122 /* UIView+Glow.m in Sources */,
 				22AEB3831B726F3800915E8A /* ANPopoverView.m in Sources */,
+				226019031B982D6200708332 /* UINavigationController+rotation.m in Sources */,
 				22AEB3821B726F3800915E8A /* ANPopoverSlider.m in Sources */,
 				22E5A1551B8CE6FE00EED439 /* JDFSequentialTooltipManager.m in Sources */,
 				22F036E91B54062D008027FD /* TableViewController.m in Sources */,

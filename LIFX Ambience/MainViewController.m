@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIView+HierarchyLogging.h"
 //#import "Constants.h"
+#import "AppDelegate.h"
 
 
 
@@ -38,6 +39,8 @@ typedef NS_ENUM(NSInteger, TableSection) {
 @property (weak, nonatomic) IBOutlet UITableView * tableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnMusic;
 @property (weak, nonatomic) IBOutlet UIButton *btnCam;
+@property (weak, nonatomic) IBOutlet UIButton *btnYT;
+
 @property (strong,nonatomic) IBOutlet UIButton *someButton;
 @property (strong,nonatomic) IBOutlet UIButton *someButton2;
 @property (nonatomic, retain) UIBarButtonItem *tempButton;
@@ -129,6 +132,7 @@ NSTimer *timer;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     
     [self.sliderBrightness setThumbImage: [UIImage imageNamed:@"bright"] forState:UIControlStateNormal];
     [self.sliderHue setThumbImage: [UIImage imageNamed:@"hue"] forState:UIControlStateNormal];
@@ -307,6 +311,7 @@ NSTimer *timer;
     //[(UIImageView *)self.navigationItem.leftBarButtonItem.customView startGlowingWithColor:[UIColor whiteColor] intensity:5];
     [self.btnMusic.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
     [self.btnCam.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
+    [self.btnYT.imageView startGlowingWithColor:[UIColor whiteColor] intensity:5];
     
     /*
     UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -824,5 +829,14 @@ NSTimer *timer;
     
 }
 
+- (BOOL) shouldAutorotate
+{
+    return NO;
+}
+
+- (NSUInteger) supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 @end

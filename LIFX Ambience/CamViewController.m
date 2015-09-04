@@ -1022,6 +1022,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 - (void)ImageCropViewControllerDidCancel:(ImageCropViewController *)controller
 {
     //imageView.image = cropImage;
+    [self.btnCrop setSelected:NO];gCropEnabled = FALSE;
     [[self navigationController] popViewControllerAnimated:YES];
 }
 #endif
