@@ -18,6 +18,32 @@
 #import "JDFTooltips.h"
 #import "AppDelegate.h"
 
+@interface SystemVolumeView : MPVolumeView
+
+@end
+
+@implementation SystemVolumeView
+
+- (CGRect)volumeSliderRectForBounds:(CGRect)bounds {
+    CGRect newBounds=[super volumeSliderRectForBounds:bounds];
+    
+    newBounds.origin.y=bounds.origin.y;
+    newBounds.size.height=bounds.size.height;
+    
+    return newBounds;
+}
+
+- (CGRect) routeButtonRectForBounds:(CGRect)bounds {
+    CGRect newBounds=[super routeButtonRectForBounds:bounds];
+    
+    newBounds.origin.y=bounds.origin.y;
+    newBounds.size.height=bounds.size.height;
+    
+    return newBounds;
+}
+
+@end
+
 @interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UIView *backgroundView;
@@ -132,10 +158,13 @@ BOOL gRepeatEnabled = false;
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     
     NSLog(@"***Overriding orientation.");
+    
     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    
 
     CGRect frame = self.view.frame;
    
@@ -273,7 +302,7 @@ BOOL gRepeatEnabled = false;
     [super viewDidLoad];
     NSLog (@"****viewDidLoad****");
     
-    
+    //[self setCustomSlider];
     
     [self configureBars];
     
@@ -303,6 +332,14 @@ BOOL gRepeatEnabled = false;
     [self.playButton setShowsTouchWhenHighlighted:YES];
     [[self.powerLevel superview] bringSubviewToFront:self.powerLevel];
     [[self.imgBox superview] bringSubviewToFront:self.imgBox];
+    
+    [self.viewVolumeView setShowsVolumeSlider:YES];
+    [self.viewVolumeView setShowsRouteButton:YES];
+    [self.viewVolumeView sizeToFit];
+    [self.viewVolumeView setVolumeThumbImage: [UIImage imageNamed:@"vknob"] forState:UIControlStateNormal];
+    [[self.viewVolumeView superview] bringSubviewToFront:self.viewVolumeView];
+    
+    
     //[self.imgBox setImage:[UIImage imageNamed:@"play2"]];
    // UIImage *repeatOn = [UIImage imageNamed:@"repeat_on"];
     //UIImage *repeat   = [UIImage imageNamed:@"repeat"];
@@ -345,7 +382,7 @@ BOOL gRepeatEnabled = false;
     [myslider_threshold addTarget:self action:@selector(updateslider_threshold:) forControlEvents:UIControlEventValueChanged];
     myslider_threshold.hidden = TRUE;
     
-    imgOffset = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"offset"]];
+    //imgOffset = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"offset"]];
     //imgOffset.frame=CGRectMake(myslider_threshold.center.x-50, myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height+10, 101,62);
     //imgOffset.frame=CGRectMake(100,100 ,35,29);
     
@@ -383,7 +420,7 @@ BOOL gRepeatEnabled = false;
     
     NSLog (@"myslider_scale x:%f y:%f width:%f height:%f",myslider_scale.frame.origin.x,myslider_scale.frame.origin.y,myslider_scale.frame.size.width,myslider_scale.frame.size.height);
     
-    imgExpo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"expo"]];
+    //imgExpo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"expo"]];
     //imgExpo.frame=CGRectMake(myslider_scale.center.x-50, myslider_scale.frame.origin.y+myslider_scale.frame.size.height+10, 101, 62);
     
     
@@ -519,6 +556,7 @@ BOOL gRepeatEnabled = false;
     NSLog(@"***Finished viewDidLoad:");
     
 }
+
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
@@ -676,7 +714,7 @@ BOOL gRepeatEnabled = false;
     
     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:[self.navigationController view]];
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp2.center.x, self.btnHelp2.center.y+25) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:180];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp2.center.x, self.btnHelp2.center.y+25) tooltipText:@"Tap to dismiss" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:180];
     
     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnAddMusic.center.y) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:[self.navigationController view] width:80];
     
@@ -1291,6 +1329,7 @@ BOOL gRepeatEnabled = false;
     //imgOffset.hidden = !imgOffset.hidden;
     lblOffset.hidden = !lblOffset.hidden;
     lblExpo.hidden = !lblExpo.hidden;
+    self.viewVolumeView.hidden = !self.viewVolumeView.hidden;
     
     
     NSLog(@"btnMixerPressed. btnMixer.selected:%d ",self.btnMixer.selected);

@@ -48,4 +48,7 @@
 //@property (weak, nonatomic) IBOutlet UIView *viewCropSquare;
 //@property (assign,nonatomic) CGRect cropDimension;
 
+@property (weak, nonatomic) IBOutlet UISlider *powerLevel;
+
+
 @end

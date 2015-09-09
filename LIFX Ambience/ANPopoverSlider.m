@@ -61,7 +61,9 @@
     _popupView.alpha = 0.0;
     
     //FRAK (un)flip it so it doesn't look sideways
-    _popupView.transform = CGAffineTransformRotate(_popupView.transform, 0.5*M_PI);
+    {
+        _popupView.transform = CGAffineTransformRotate(_popupView.transform, 0.5*M_PI);
+    }
     [self addSubview:_popupView];
 }
 

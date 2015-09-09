@@ -13,6 +13,7 @@
 #import "UIView+HierarchyLogging.h"
 //#import "Constants.h"
 #import "AppDelegate.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 
 
@@ -132,7 +133,6 @@ NSTimer *timer;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
     [self.sliderBrightness setThumbImage: [UIImage imageNamed:@"bright"] forState:UIControlStateNormal];
     [self.sliderHue setThumbImage: [UIImage imageNamed:@"hue"] forState:UIControlStateNormal];
@@ -279,20 +279,28 @@ NSTimer *timer;
     
 }
 */
-- (void)viewWillAppear:(BOOL)animated
+
+-(void) mute
 {
-    [super viewWillAppear:animated];
+    MPVolumeView* volumeView;
+    volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews])
+    {
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"])
+        {
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    [volumeViewSlider setValue:0.0f animated:NO];
+    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
     
-    NSLog(@"***Overriding orientation.");
-    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
-    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-
-    [self updateNavBar];
-    [self updateLights];
-    [self updateTags];
     
-
 }
+
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -300,14 +308,36 @@ NSTimer *timer;
     [self.btnHelp setSelected:NO];
     [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
     
+    [super viewWillDisappear:animated];
+    
 }
 
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //[self mute];
+    
+    
+    NSLog(@"***Overriding orientation.");
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    
+    [self updateNavBar];
+    [self updateLights];
+    [self updateTags];
+    
+    
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
     
     [super viewDidAppear:animated];
     
+      //[self mute];
+
     //LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
     //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     //[localNetworkContext.allLightsCollection setColor:tmpColor];
@@ -347,13 +377,14 @@ NSTimer *timer;
     self.sliderValue.value = tmpColor.brightness;
 
     
-    
+ /*
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    
+ 
     // do this once per installation. Welcome/Instructions page.
     // currently using the UIAlertAction and hacking an image into it.
-    // TODO: need to find a better way to improve images so that they have colour (instead of blue tint) etc.
-    if (! [defaults boolForKey:@"alertShown"]) {
+    // TODO: need to find a better way to improve UIAlertView images so that they have colour (instead of blue tint) etc.
+    if (! [defaults boolForKey:@"alertShown"]) 
+  {
     
         //
         UIAlertController * alert=   [UIAlertController
@@ -411,7 +442,7 @@ NSTimer *timer;
     
         [defaults setBool:YES forKey:@"alertShown"];
     }
-    
+    */
 
     
     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];

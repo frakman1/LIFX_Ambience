@@ -10,5 +10,6 @@
 
 @property (nonatomic, readonly) CGRect thumbRect;
 
+
 @end
 

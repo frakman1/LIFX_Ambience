@@ -14,6 +14,8 @@
 #import <LIFXKit/LIFXKit.h>
 #import "UIImageAverageColorAddition.h"
 #import "AppDelegate.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 
 
 @interface YouTubeTVC ()
@@ -27,7 +29,7 @@
 static NSString *const kAPIKey = @"AIzaSyALnerjNgondj40BfKE2YZlUCaoAOFVSCY";
 static NSString *const kPlaylistID = @"PLeRz-61h_e8lAiYFT7k9Elxuw9RhT6TV0";
 static NSString *const kParts = @"playlistItems?part=snippet&playlistId=";
-static NSString *const kParts2 = @"search?part=snippet&maxResults=10&q=";
+static NSString *const kParts2 = @"search?part=snippet&maxResults=50&q=";
 //static NSString *const kSearchq = @"screen+color+test";
 
 static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
@@ -36,6 +38,18 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 //https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=dr+who&key={YOUR_API_KEY}
 
 @implementation YouTubeTVC
+
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    
+}
+
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -53,26 +67,17 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     // self.clearsSelectionOnViewWillAppear = NO;
     
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicator.color = [UIColor blueColor];
     activityIndicator.center = CGPointMake(self.view.frame.size.width / 2.0, self.view.frame.size.height / 2.0);
+    activityIndicator.transform = CGAffineTransformMakeScale(2, 2);
     [self.tableView addSubview: activityIndicator];
     
     dispatch_async(dispatch_get_main_queue(),
    ^{
        [activityIndicator startAnimating];
    });
-
     
-    // init the search bar
-    self.mySearchBar = [[UISearchBar alloc] init];
-    self.mySearchBar.delegate = self;
-    self.mySearchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    //self.mySearchBar.placeholder = NSLocalizedString(@"Search", @"Search");
-
     self.searchString = [[NSMutableString alloc] initWithFormat:@"Monitor+Color+Test+/+Monitor-Farbtest"];
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.tableView.separatorColor = [UIColor clearColor];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
    ^{
@@ -84,6 +89,21 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
        //  });//main queue
        
    });//background queue
+
+
+
+    
+    // init the search bar
+    self.mySearchBar = [[UISearchBar alloc] init];
+    self.mySearchBar.delegate = self;
+    self.mySearchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    //self.mySearchBar.placeholder = NSLocalizedString(@"Search", @"Search");
+
+    
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.separatorColor = [UIColor clearColor];
     
 
     
@@ -100,7 +120,9 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     NSString *urlString = [NSString stringWithFormat:@"%@%@%@&type=video&key=%@", @"https://www.googleapis.com/youtube/v3/", kParts2, searchString, kAPIKey];
     NSLog(@"%@",urlString);
     NSURL *url = [[NSURL alloc] initWithString:urlString];
-    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
+    
+    /*
+    NSData *data = [[NSData alloc] initWithContentsOfURL:url];  //TODO: This is a slow,blocking operation. Find a better way.
     NSString *jsonString = [[NSString alloc] initWithData: data encoding:NSUTF8StringEncoding];
     NSData *jsonData = [jsonString dataUsingEncoding:NSUnicodeStringEncoding];
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingAllowFragments error:nil];
@@ -112,8 +134,34 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
          if (videos) [activityIndicator stopAnimating];
          [self.tableView reloadData];
      });//main queue
+    */
     
+    ////////////
     
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (data)
+        {
+            NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];  // note the retain count here.
+            NSData *jsonData = [jsonString dataUsingEncoding:NSUnicodeStringEncoding];
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingAllowFragments error:nil];
+            NSLog(@"jsonDict:%@",jsonDict);
+            videos = [NSMutableArray arrayWithArray:[jsonDict valueForKey:@"items"]];NSLog(@"videos:%@",videos);
+        }
+        else
+        {
+            // handle error
+            NSLog(@"Error connecting to server");
+        }
+        
+        dispatch_async(dispatch_get_main_queue(),
+       ^{
+           if (videos) [activityIndicator stopAnimating];
+           [self.tableView reloadData];
+       });
+
+    }];
+    ////////////
     
 }
 
@@ -168,10 +216,25 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     cell.textLabel.numberOfLines = 0;
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.text = title;
+    if (!thumbnailImage) return;
     
-    NSURL *url = [[NSURL alloc] initWithString:thumbnailImage];
-    NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
-    cell.imageView.image = [UIImage imageWithData:imageData];
+    // This is the simple, straightforward way of doing it. No caching, sychronous, blocking. Amateur
+    //NSURL *url = [[NSURL alloc] initWithString:thumbnailImage];
+    //NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
+    //cell.imageView.image = [UIImage imageWithData:imageData];
+    
+    // This is slightly better but no point reinventing the wheel.
+    /*
+    [[ImageCache sharedInstance] downloadImageAtURL:url completionHandler:^(UIImage *image) {
+        cell.imageView.image = image;
+        //[self.tableView reloadData];
+        NSLog(@"cell size :%@",NSStringFromCGSize(cell.bounds.size));
+    }];
+     */
+    
+    //The best practice method."Everything will be handled for you, from async downloads to caching management."
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:thumbnailImage]
+                      placeholderImage:[UIImage imageNamed:@"loading"]];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -269,9 +332,10 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+    
     NSLog(@"***viewWillDisappear***");
 //    [self resignFirstResponder];
+    [super viewWillDisappear:animated];
 }
 
 
@@ -285,14 +349,17 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     return UIInterfaceOrientationMaskPortrait;
 }
 
-
-/*- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
      NSLog(@"searchBarTextDidBeginEditing ");
+    [searchBar setPlaceholder:@""];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     NSLog(@"Cancel clicked");
+     [searchBar setText:@""];
+    [searchBar setPlaceholder:@"Search YouTube"];
+    [searchBar resignFirstResponder];
 }
-*/
+
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -319,11 +386,7 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
         
      });//background queue
 
-    
-    
-    
-    
-    
+
 }
 
 @end

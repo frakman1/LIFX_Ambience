@@ -438,11 +438,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 224936FD1B389CD300699D59 /* Build configuration list for PBXNativeTarget "LIFX Ambience" */;
 			buildPhases = (
-				A30EF4E09A2C735A87476661 /* Check Pods Manifest.lock */,
 				224936D31B389CD200699D59 /* Sources */,
 				224936D41B389CD200699D59 /* Frameworks */,
 				224936D51B389CD200699D59 /* Resources */,
-				913D52C488168DC0F5502C8B /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -555,39 +553,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		913D52C488168DC0F5502C8B /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LIFX Ambience/Pods-LIFX Ambience-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A30EF4E09A2C735A87476661 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		224936D31B389CD200699D59 /* Sources */ = {
@@ -819,7 +784,6 @@
 					viPhone,
 					"$(PROJECT_DIR)/Flurry",
 				);
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",

@@ -19,6 +19,7 @@
 #import "SCAudioMeter.h"
 #import <QuartzCore/QuartzCore.h>
 #import "JDFTooltips.h"
+#import "ANPopoverSlider.h"
 
 
 
@@ -68,8 +69,14 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @end
 
 @implementation CamViewController
-
-
+{
+    ANPopoverSlider *myslider_threshold;
+    ANPopoverSlider *myslider_scale;
+    UIImageView *imgExpo;
+    UIImageView *imgOffset;
+    UILabel *lblOffset;
+    UILabel *lblExpo;
+}
 
 AVAudioRecorder* recorder;
 NSTimer *camTimer;
@@ -79,9 +86,14 @@ UIColor* gcamAverageColor;
 CGFloat red, green, blue;
 CGFloat hue, saturation, brightness, alpha;
 LFXHSBKColor *gcamLifxColor;
-//BOOL runOnce;
+CGFloat gMicBrightness;
+BOOL runOnce;
 
 //LFXHSBKColor *gColor;
+
+
+@synthesize powerLevel;
+
 
 -(void) camTick:(NSTimer *)timer
 {
@@ -148,11 +160,214 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     
     return captureDevice;
 }
+
+//update slider scale
+-(IBAction)updateslider_scale:(id)sender
+{
+    UISlider * slider = (UISlider*)sender;
+    NSLog(@"Scale Slider Value: %.2f", [slider value]);
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setFloat:[slider value] forKey:@"mymicScaler"];
+    [defaults synchronize];
+    
+}
+
+
+//update slider threshold
+-(IBAction)updateslider_threshold:(id)sender
+{
+    UISlider * slider = (UISlider*)sender;
+    NSLog(@"Threshold Slider Value: %.2f", [slider value]);
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setFloat:[slider value] forKey:@"mymicThreshold"];
+    [defaults synchronize];
+    
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     NSLog(@"***viewDidLoad***");
+    
+    
+    
+    
+    //myslider_threshold = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.origin.x-20, 270, 160, 30)];
+    myslider_threshold = [[ANPopoverSlider alloc] init];
+    
+    myslider_threshold.value=0.2;
+    myslider_threshold.transform = CGAffineTransformRotate(myslider_threshold.transform, -0.5*M_PI);
+    //myslider_threshold.transform = CGAffineTransformScale(myslider_threshold.transform, 1.0, -1.0);
+    [self.view addSubview:myslider_threshold];
+    [myslider_threshold addTarget:self action:@selector(updateslider_threshold:) forControlEvents:UIControlEventValueChanged];
+    myslider_threshold.hidden = TRUE;
+    
+    
+    lblOffset = [[UILabel alloc] init];
+    lblOffset.textColor = [UIColor whiteColor];
+    lblOffset.font=[lblOffset.font fontWithSize:15];
+    lblOffset.numberOfLines = 0;
+    [lblOffset sizeToFit];
+    lblOffset.textAlignment = NSTextAlignmentCenter;
+    //lblOffset.lineBreakMode= NSLineBreakByWordWrapping ;
+    lblOffset.text = @"Brightness \n Threshold";
+    //lblOffset.frame = CGRectMake(myslider_threshold.center.x-50, myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height-50, 90, 180);
+    
+    
+    lblOffset.hidden = TRUE;
+    [self.view addSubview:lblOffset];
+    
+    
+    //create vertical slider - Scaler
+    //myslider_scale = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.size.width-130, 270, 160, 30)];
+    myslider_scale = [[ANPopoverSlider alloc] init];
+
+    myslider_scale.maximumValue = 10;
+    myslider_scale.minimumValue = 1;
+    myslider_scale.value=1;
+    myslider_scale.transform = CGAffineTransformRotate(myslider_scale.transform, -0.5*M_PI);
+    [self.view addSubview:myslider_scale];
+    [myslider_scale addTarget:self action:@selector(updateslider_scale:) forControlEvents:UIControlEventValueChanged];
+    myslider_scale.hidden = TRUE;
+    
+    NSLog (@"myslider_scale x:%f y:%f width:%f height:%f",myslider_scale.frame.origin.x,myslider_scale.frame.origin.y,myslider_scale.frame.size.width,myslider_scale.frame.size.height);
+    
+   
+    lblExpo = [[UILabel alloc] init];
+    lblExpo.textColor = [UIColor whiteColor];
+    lblExpo.font=[lblExpo.font fontWithSize:15];
+    lblExpo.numberOfLines = 0;
+    [lblExpo sizeToFit];
+    lblExpo.textAlignment = NSTextAlignmentCenter;
+    lblExpo.text = @"Sensitivity";
+    //lblExpo.frame = CGRectMake(myslider_scale.center.x-50, lblOffset.frame.origin.y, 90, 180);
+    lblExpo.hidden = TRUE;
+    
+    [self.view addSubview:lblExpo];
+    
+    
+    //load saved slider Values
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    myslider_threshold.value = [defaults floatForKey:@"mymicThreshold"];
+    NSLog(@"Saved Threshold: %f",myslider_threshold.value);
+    if (myslider_threshold.value == 0.0)
+    {
+        NSLog(@" Threshold Invalid");
+        myslider_threshold.value = 0.2;
+    }
+    
+    //load saved slider Values
+    myslider_scale.value = [defaults floatForKey:@"mymicScaler"];
+    NSLog(@"Saved Scaler: %f",myslider_scale.value);
+    if (myslider_scale.value == 0.0)
+    {
+        NSLog(@" Scaler Invalid");
+        myslider_scale.value = 3;
+    }
+
+
+    
+    /*
+    NSLog(@"lblExpo  size:%@",NSStringFromCGSize(lblExpo.bounds.size));
+    
+    myslider_threshold.translatesAutoresizingMaskIntoConstraints = NO;
+    myslider_scale.translatesAutoresizingMaskIntoConstraints = NO;
+
+    NSDictionary *viewsDictionary = @{@"threshold":myslider_threshold,@"scale":myslider_scale,
+                                      @"tlbl":lblOffset,@"slbl":lblExpo};
+    
+   
+    NSArray *tconstraint_H = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[threshold(30)]"
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:viewsDictionary];
+    
+    NSArray *tconstraint_V = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[threshold(160)]"
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:viewsDictionary];
+    [myslider_threshold addConstraints:tconstraint_H];
+    [myslider_threshold addConstraints:tconstraint_V];
+    
+    NSArray *sconstraint_H = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[scale(30)]"
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:viewsDictionary];
+    
+    NSArray *sconstraint_V = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[scale(160)]"
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:viewsDictionary];
+    [myslider_scale addConstraints:sconstraint_H];
+    [myslider_scale addConstraints:sconstraint_V];
+ 
+    
+    
+    
+    NSArray *tlblconstraint_H = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[tlbl(180)]"
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:viewsDictionary];
+    
+    NSArray *tlblconstraint_V = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[tlbl(90)]"
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:viewsDictionary];
+    [lblOffset addConstraints:tlblconstraint_H];
+    [lblOffset addConstraints:tlblconstraint_V];
+    
+    NSArray *slblconstraint_H = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[slbl(180)]"
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:viewsDictionary];
+    
+    NSArray *slblconstraint_V = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[slbl(90)]"
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:viewsDictionary];
+    [lblExpo addConstraints:slblconstraint_H];
+    [lblExpo addConstraints:slblconstraint_V];
+    
+    
+    
+    //------------------------------------------------------------------------------------------------
+    
+    NSArray *tconstraint_POS_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[threshold][tlbl]-|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:viewsDictionary];
+    
+    NSArray *sconstraint_POS_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[scale][slbl]-|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:viewsDictionary];
+
+    
+    NSArray *tconstraint_POS_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[threshold]"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:viewsDictionary];
+    NSArray *sconstraint_POS_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[scale]|"
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewsDictionary];
+
+    
+    // 3.B ...and try to change the visual format string
+    //NSArray *constraint_POS_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[redView]-30-|" options:0 metrics:nil views:viewsDictionary];
+    //NSArray *constraint_POS_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[redView]" options:0 metrics:nil views:viewsDictionary];
+    
+    [self.view addConstraints:tconstraint_POS_H];
+    [self.view addConstraints:sconstraint_POS_H];
+
+    [self.view addConstraints:tconstraint_POS_V];
+    [self.view addConstraints:sconstraint_POS_V];
+     */
+
     //[self.btnCrop setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     //self.viewCropSquare.layer.borderColor = [UIColor redColor].CGColor;
     //self.viewCropSquare.layer.borderWidth = 3.0f;
@@ -318,12 +533,6 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 }
 
 
-- (void)MicReadOnSeparateThread
-{
-    NSLog(@"MicReadOnSeparateThread");
-    
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -335,12 +544,12 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     [self.tooltipManager addTooltipWithTargetView:self.btnLock  hostView:self.view tooltipText:@"Lock Bulb Colour" arrowDirection:JDFTooltipViewArrowDirectionDown  width:100];
     
     
-    [self.tooltipManager addTooltipWithTargetView:self.btnMic  hostView:self.view tooltipText:@"Vary Brightness with Audio Level" arrowDirection:JDFTooltipViewArrowDirectionDown  width:150];
+    [self.tooltipManager addTooltipWithTargetView:self.btnMic  hostView:self.view tooltipText:@"Vary Brightness with Microphone Level" arrowDirection:JDFTooltipViewArrowDirectionDown  width:160];
     
     [self.tooltipManager addTooltipWithTargetView:self.btnCrop  hostView:self.view tooltipText:@"Limit Colour Calculation to Crop-Box Contents" arrowDirection:JDFTooltipViewArrowDirectionDown  width:200];
     
     
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss all, or tap each one individually" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:200];
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp.center.x, self.btnHelp.center.y+20) tooltipText:@"Tap to dismiss" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:200];
     
     [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.previewView.center.x,self.previewView.center.y+60)  tooltipText:@"Point your camera at a TV for best results.\n\nTap screen to adjust focus" arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self previewView] width:200];
     
@@ -352,10 +561,11 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 {
     [super viewWillAppear:animated];
     NSLog(@"***viewWillAppear***");
-    NSLog(@"%@", self);
-    NSLog(@"***Overriding orientation.");
-    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
-    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    [UIView setAnimationsEnabled:NO];
+    //NSLog(@"%@", self);
+    //NSLog(@"***Overriding orientation.");
+    //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
 
     dispatch_async([self sessionQueue], ^{
         [self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:SessionRunningAndDeviceAuthorizedContext];
@@ -388,10 +598,21 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     if (gMicEnabled)
     {
         [self.btnMic setSelected:YES];
+        lblExpo.hidden = FALSE;
+        lblOffset.hidden = FALSE;
+        myslider_scale.hidden = FALSE;
+        myslider_threshold.hidden = FALSE;
+        self.powerLevel.hidden = FALSE;
     }
     else
     {
         [self.btnMic setSelected:NO];
+        lblExpo.hidden = TRUE;
+        lblOffset.hidden = TRUE;
+        myslider_scale.hidden = TRUE;
+        myslider_threshold.hidden = TRUE;
+        self.powerLevel.hidden = TRUE;
+
     }
     
     if (gCropEnabled)
@@ -407,26 +628,88 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     //spawn average colour effect thread
     camTimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(camTick:) userInfo: nil repeats:YES];
-    //NSLog(@"Launching MicReadOnSeparateThread");
     
     
     
-    //[NSThread detachNewThreadSelector: @selector(MicReadOnSeparateThread) toTarget: self withObject:nil];
     [self.audioMeter beginAudioMeteringWithCallback:^(double value) {
         double dBValue = 10 * log10(value);
         double sanval = fabs(dBValue);
-        double myval = (value+0.1) * 5; if (myval > 1) myval =1;
+        double myval = (value + myslider_threshold.value) ; if (myval > 1) myval =1;
+        myval = powf(myval, myslider_scale.value);
+        gMicBrightness = myval;
         //NSLog(@"Value: %0.2f   dBValue:%0.2f  sanval:%0.2f  myval:%0.2f", value,dBValue,sanval,myval);
         //NSLog(@"gMicEnabled:%d",gMicEnabled);
         //gcamLifxColor = [LFXHSBKColor colorWithHue:gcamLifxColor.hue saturation:gcamLifxColor.saturation brightness:myval];
-        gcamLifxColor = [gcamLifxColor colorWithBrightness:myval];
-        LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-        if (gMicEnabled)  [localNetworkContext.allLightsCollection setColor:gcamLifxColor];
+        //gcamLifxColor = [gcamLifxColor colorWithBrightness:myval];
+        //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+        //if (gMicEnabled)  [localNetworkContext.allLightsCollection setColor:gcamLifxColor];
         
     }];
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    //////////// constraints ///////////
     
+    
+    myslider_threshold.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSLayoutConstraint *myslider_thresholdHeight = [NSLayoutConstraint constraintWithItem:myslider_threshold attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:30];
+    
+    NSLayoutConstraint *myslider_thresholdWidth = [NSLayoutConstraint constraintWithItem:myslider_threshold attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:160];
+    
+    [myslider_threshold addConstraint:myslider_thresholdHeight]; [myslider_threshold addConstraint:myslider_thresholdWidth];
+    
+    NSLayoutConstraint *myslider_thresholdLeft = [NSLayoutConstraint constraintWithItem:myslider_threshold attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-30]; [self.view addConstraint:myslider_thresholdLeft];
+    
+    NSLayoutConstraint *myslider_thresholdBottom = [NSLayoutConstraint constraintWithItem:myslider_threshold attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]; [self.view addConstraint:myslider_thresholdBottom];
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    myslider_scale.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSLayoutConstraint *myslider_scaleHeight = [NSLayoutConstraint constraintWithItem:myslider_scale attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:30];
+    
+    NSLayoutConstraint *myslider_scaleWidth = [NSLayoutConstraint constraintWithItem:myslider_scale attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:160];
+    
+    [myslider_scale addConstraint:myslider_scaleHeight]; [myslider_scale addConstraint:myslider_scaleWidth];
+    
+    NSLayoutConstraint *myslider_scaleRight = [NSLayoutConstraint constraintWithItem:myslider_scale attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:50]; [self.view addConstraint:myslider_scaleRight];
+    
+    NSLayoutConstraint *myslider_scaleBottom = [NSLayoutConstraint constraintWithItem:myslider_scale attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]; [self.view addConstraint:myslider_scaleBottom];
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    lblOffset.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSLayoutConstraint *lblOffsetHeight = [NSLayoutConstraint constraintWithItem:lblOffset attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:180];
+    
+    NSLayoutConstraint *lblOffsetWidth = [NSLayoutConstraint constraintWithItem:lblOffset attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:90];
+    
+    [lblOffset addConstraint:lblOffsetHeight]; [lblOffset addConstraint:lblOffsetWidth];
+    
+    NSLayoutConstraint *lblOffsetLeft = [NSLayoutConstraint constraintWithItem:lblOffset attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]; [self.view addConstraint:lblOffsetLeft];
+    
+    NSLayoutConstraint *lblOffsetBottom = [NSLayoutConstraint constraintWithItem:lblOffset attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:-40]; [self.view addConstraint:lblOffsetBottom];
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    lblExpo.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSLayoutConstraint *lblExpoHeight = [NSLayoutConstraint constraintWithItem:lblExpo attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:180];
+    
+    NSLayoutConstraint *lblExpoWidth = [NSLayoutConstraint constraintWithItem:lblExpo attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:90];
+    
+    [lblExpo addConstraint:lblExpoHeight]; [lblExpo addConstraint:lblExpoWidth];
+    
+    NSLayoutConstraint *lblExpoRight = [NSLayoutConstraint constraintWithItem:lblExpo attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]; [self.view addConstraint:lblExpoRight];
+    
+    NSLayoutConstraint *lblExpoBottom = [NSLayoutConstraint constraintWithItem:lblExpo attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:-40]; [self.view addConstraint:lblExpoBottom];
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    
+    
+    
+    //////////// end of constraints ///////////
     
 }
 
@@ -437,43 +720,54 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 
 - (void)viewWillDisappear:(BOOL)animated {
     [self resignFirstResponder];
-    [super viewWillDisappear:animated];
+    
     NSLog(@"***viewWillDisappear***");
+    
+    
+    
     //[self.audioMeter.microphone stopFetchingAudio];
     [self.audioMeter endAudioMetering];
     [camTimer invalidate];
     camTimer = nil;
-    [NSThread sleepForTimeInterval:1];
+    //[NSThread sleepForTimeInterval:1];
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
     
-    /*
-    //restore volume
-    MPVolumeView* volumeView = [[MPVolumeView alloc] init];
+    [self.btnHelp setSelected:NO];
+    [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+    
+    [self.tooltipManager hideAllTooltipsAnimated:FALSE];
+    [self mute];
+    [super viewWillDisappear:animated];
+}
+
+
+
+-(void) mute
+{
+    MPVolumeView* volumeView;
+    volumeView = [[MPVolumeView alloc] init];
     //find the volumeSlider
     UISlider* volumeViewSlider = nil;
-    for (UIView *view in [volumeView subviews]){
-        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+    for (UIView *view in [volumeView subviews])
+    {
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"])
+        {
             volumeViewSlider = (UISlider*)view;
             break;
         }
     }
-    
-    [volumeViewSlider setValue:0.5f animated:YES];
+    [volumeViewSlider setValue:0.0f animated:NO];
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
-    */
     
-    [self.tooltipManager hideAllTooltipsAnimated:FALSE];
-    
-    
-}
 
+}
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
+    
     
     dispatch_async([self sessionQueue], ^{
         [[self session] stopRunning];
@@ -484,7 +778,12 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
         [self removeObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" context:SessionRunningAndDeviceAuthorizedContext];
         [self removeObserver:self forKeyPath:@"stillImageOutput.capturingStillImage" context:CapturingStillImageContext];
         [self removeObserver:self forKeyPath:@"movieFileOutput.recording" context:RecordingContext];
+        
     });
+    
+    [self mute];
+    
+    [super viewDidDisappear:animated];
 }
 - (BOOL)prefersStatusBarHidden
 {
@@ -500,6 +799,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
+    //return UIInterfaceOrientationLandscapeLeft ;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -583,7 +883,18 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 }
 
 #pragma mark UI
-
+/*
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    NSLog(@"%@",parent.title );
+    if (![parent isEqual:self.parentViewController])
+    {
+        NSLog(@"Back pressed");
+        [self mute];
+        
+    }
+}
+ */
 #pragma mark Actions
 
 - (IBAction)toggleMovieRecording:(id)sender
@@ -721,18 +1032,9 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 
 - (IBAction)snapStillImage:(id)sender
 {
-    MPVolumeView* volumeView = [[MPVolumeView alloc] init];
-    //find the volumeSlider
-    UISlider* volumeViewSlider = nil;
-    for (UIView *view in [volumeView subviews]){
-        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
-            volumeViewSlider = (UISlider*)view;
-            break;
-        }
-    }
+
+    [self mute];
     
-    [volumeViewSlider setValue:0.0f animated:YES];
-    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
     
     dispatch_async([self sessionQueue], ^{
         // Update the orientation on the still image output video connection before capturing.
@@ -747,7 +1049,8 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
             
             if (imageDataSampleBuffer)
             {
-                NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                static NSData *imageData;
+                imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                 //UIImage *image = [[UIImage alloc] initWithData:imageData];
                 
                 myimage = [UIImage imageWithData:imageData];
@@ -801,12 +1104,31 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
                 }
                 
                 // NSLog(@"****************** image : %f ,%f ",myimage.size.width, myimage.size.height);
-                
+                //NSLog(@"gMicBrightness:%f",gMicBrightness);
                 self.myLabel.backgroundColor=[myimage mergedColor];
                 [self.myLabel.backgroundColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-                LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-                gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
-                if (!gLockEnabled)[localNetworkContext.allLightsCollection setColor:gcamLifxColor overDuration:0.5];
+                
+                //gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
+                if (!gLockEnabled)
+                {
+                    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+                    
+                    if (gMicEnabled)
+                    {
+                        dispatch_async(dispatch_get_main_queue(),
+                       ^{
+                           self.powerLevel.value = gMicBrightness;
+                       });
+                        gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:gMicBrightness];
+                        
+                    }
+                    else
+                    {
+                        gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
+                    }
+                    
+                    [localNetworkContext.allLightsCollection setColor:gcamLifxColor overDuration:0.5];
+                }
                 //********
                 
                 //[[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
@@ -936,13 +1258,21 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 - (IBAction)btnMicPressed:(id)sender
 {
     gMicEnabled = !gMicEnabled;
+    myslider_threshold.hidden = !myslider_threshold.hidden;
+    myslider_scale.hidden = !myslider_scale.hidden;
+    self.powerLevel.hidden = !self.powerLevel.hidden;
+    lblOffset.hidden = !lblOffset.hidden;
+    lblExpo.hidden = !lblExpo.hidden;
+
     if (gMicEnabled)
     {
         [self.btnMic setSelected:YES];
+
     }
     else
     {
         [self.btnMic setSelected:NO];
+        
     }
 }
 
@@ -968,6 +1298,9 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
         [self.tooltipManager hideAllTooltipsAnimated:TRUE];
         [self.btnHelp setSelected:NO];
         [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+        [sender removeFromSuperview];
+        sender = nil;
+
         
     }
     

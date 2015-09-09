@@ -215,6 +215,7 @@
                     <navigationBar key="navigationBar" opaque="NO" alpha="0.0" contentMode="scaleToFill" barStyle="blackTranslucent" translucent="NO" id="Fwd-MM-UWL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.45149632462684897" green="0.65863141858326701" blue="0.93483339832144985" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="barTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -362,6 +363,10 @@
                                 <rect key="frame" x="74" y="201" width="171" height="171"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
+                            <view hidden="YES" clearsContextBeforeDrawing="NO" alpha="0.5" contentMode="scaleAspectFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4YC-1K-bve" customClass="SystemVolumeView">
+                                <rect key="frame" x="0.0" y="413" width="320" height="47"/>
+                                <color key="backgroundColor" red="0.039215686274509803" green="0.090196078431372548" blue="0.14509803921568629" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -372,11 +377,14 @@
                             <constraint firstAttribute="centerX" secondItem="aBq-FL-9bS" secondAttribute="centerX" id="Sl7-Ch-w9o"/>
                             <constraint firstItem="bmt-IR-ni6" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leadingMargin" constant="-9" id="Tb0-qn-BdE"/>
                             <constraint firstItem="h7n-MZ-8xd" firstAttribute="bottom" secondItem="F5m-G6-LOp" secondAttribute="top" id="V5h-q2-eI2"/>
+                            <constraint firstItem="h7n-MZ-8xd" firstAttribute="top" secondItem="4YC-1K-bve" secondAttribute="bottom" id="VvA-9r-Jz5"/>
                             <constraint firstItem="h7n-MZ-8xd" firstAttribute="centerX" secondItem="XrQ-Bk-Kb4" secondAttribute="centerX" id="Wnh-7o-07g"/>
                             <constraint firstItem="cbq-cK-tLI" firstAttribute="leading" secondItem="A6j-8u-4Ue" secondAttribute="trailing" constant="6" id="ZWg-9y-6Gp"/>
                             <constraint firstItem="GBE-oa-55V" firstAttribute="leading" secondItem="Dxt-7a-SeI" secondAttribute="trailing" constant="8" symbolic="YES" id="Zos-NO-n6N"/>
                             <constraint firstItem="A6j-8u-4Ue" firstAttribute="leading" secondItem="bmt-IR-ni6" secondAttribute="trailing" constant="8" id="c6r-e1-umr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4YC-1K-bve" secondAttribute="trailing" id="e98-o5-Dnq"/>
                             <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="iAb-br-qGv" secondAttribute="leading" id="eWC-H6-Bq6"/>
+                            <constraint firstItem="4YC-1K-bve" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leadingMargin" id="hXR-WR-qWC"/>
                             <constraint firstItem="mqs-A3-REf" firstAttribute="leading" secondItem="7kF-jk-FSj" secondAttribute="trailing" priority="250" constant="8" symbolic="YES" id="hyc-eK-kNh"/>
                             <constraint firstItem="h7n-MZ-8xd" firstAttribute="leading" secondItem="fuh-Uu-pS3" secondAttribute="leading" id="mmF-lx-Oz9"/>
                             <constraint firstAttribute="centerX" secondItem="XrQ-Bk-Kb4" secondAttribute="centerX" id="myQ-2k-aXm"/>
@@ -433,6 +441,7 @@
                         <outlet property="powerLevel" destination="XrQ-Bk-Kb4" id="hYn-qy-g6N"/>
                         <outlet property="timeElapsed" destination="mqs-A3-REf" id="H8f-b1-bv6"/>
                         <outlet property="toolbar" destination="h7n-MZ-8xd" id="5r7-mK-zR2"/>
+                        <outlet property="viewVolumeView" destination="4YC-1K-bve" id="0hj-xb-YZU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nDk-bM-3es" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -487,7 +496,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGM-Uc-f2G">
-                                        <rect key="frame" x="113" y="536" width="107" height="25"/>
+                                        <rect key="frame" x="113" y="547" width="107" height="25"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="tintColor" red="0.99871764520202022" green="0.22663641561938874" blue="0.26622435910062486" alpha="1" colorSpace="calibratedRGB"/>
@@ -498,6 +507,10 @@
                                             <action selector="cropBarButtonClick:" destination="beV-Dh-bsA" eventType="touchUpInside" id="Fs4-Hh-HHW"/>
                                         </connections>
                                     </button>
+                                    <slider hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="kvk-8e-byN">
+                                        <rect key="frame" x="26" y="509" width="292" height="31"/>
+                                        <color key="thumbTintColor" red="0.1058823529" green="0.29411764709999999" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    </slider>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -507,10 +520,12 @@
                                     <constraint firstAttribute="centerX" secondItem="MGM-Uc-f2G" secondAttribute="centerX" id="7lt-N7-hrX"/>
                                     <constraint firstAttribute="bottom" secondItem="8k0-1H-qdw" secondAttribute="bottom" constant="19" id="AcL-dL-tDz"/>
                                     <constraint firstItem="8k0-1H-qdw" firstAttribute="firstBaseline" secondItem="bm7-X8-kak" secondAttribute="baseline" id="IlZ-Cp-buq"/>
+                                    <constraint firstItem="MGM-Uc-f2G" firstAttribute="top" secondItem="kvk-8e-byN" secondAttribute="bottom" constant="8" id="Iqc-vg-5UV"/>
                                     <constraint firstItem="8k0-1H-qdw" firstAttribute="bottom" secondItem="bm7-X8-kak" secondAttribute="bottom" id="Jl8-1V-SUp"/>
                                     <constraint firstItem="tzL-Ow-623" firstAttribute="centerX" secondItem="UKW-oZ-bhA" secondAttribute="centerX" id="V9P-YV-Z9N"/>
                                     <constraint firstAttribute="trailing" secondItem="bm7-X8-kak" secondAttribute="trailing" constant="20" id="VaI-7X-Njb"/>
                                     <constraint firstItem="tzL-Ow-623" firstAttribute="leading" secondItem="8k0-1H-qdw" secondAttribute="trailing" constant="14" id="Ysf-YA-e2f"/>
+                                    <constraint firstAttribute="centerX" secondItem="kvk-8e-byN" secondAttribute="centerX" id="ggc-3X-F0b"/>
                                     <constraint firstItem="8k0-1H-qdw" firstAttribute="baseline" secondItem="bm7-X8-kak" secondAttribute="firstBaseline" id="iaT-xl-axm"/>
                                     <constraint firstItem="bm7-X8-kak" firstAttribute="leading" secondItem="tzL-Ow-623" secondAttribute="trailing" constant="8" symbolic="YES" id="ivD-8D-mNO"/>
                                     <constraint firstItem="8k0-1H-qdw" firstAttribute="leading" secondItem="UKW-oZ-bhA" secondAttribute="leading" constant="19" id="j2B-0c-jci"/>
@@ -549,6 +564,7 @@
                         <outlet property="btnLock" destination="8k0-1H-qdw" id="3u5-Lw-WSY"/>
                         <outlet property="btnMic" destination="bm7-X8-kak" id="Hzd-O6-3dl"/>
                         <outlet property="myLabel" destination="tzL-Ow-623" id="96a-d8-FlV"/>
+                        <outlet property="powerLevel" destination="kvk-8e-byN" id="in2-DK-8CG"/>
                         <outlet property="previewView" destination="UKW-oZ-bhA" id="xWf-7Q-RWD"/>
                     </connections>
                 </viewController>
@@ -681,9 +697,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" barStyle="blackTranslucent" id="4dd-gX-hVl">
+                        <searchBar key="tableHeaderView" contentMode="redraw" barStyle="blackTranslucent" placeholder="Seach YouTube" showsCancelButton="YES" id="4dd-gX-hVl">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="tintColor" red="0.4514963246" green="0.65863141859999996" blue="0.93483339830000001" alpha="1" colorSpace="calibratedRGB"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
                                 <outlet property="delegate" destination="0Ve-Iv-hCF" id="xbY-gG-uTJ"/>

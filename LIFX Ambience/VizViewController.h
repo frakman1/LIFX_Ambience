@@ -16,7 +16,7 @@
 @interface VizViewController : UIViewController <MPMediaPickerControllerDelegate, TableViewControllerDelegate>
 {
     //UISlider *powerLevel;
-    
+      
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *audioPlayerBackgroundLayer;
@@ -51,6 +51,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnAddMusic;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barbtnAddMusic;
 
+@property (weak, nonatomic) IBOutlet UISlider *volumeSlider;
+@property (weak, nonatomic) IBOutlet MPVolumeView *viewVolumeView;
 
 
 - (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;
