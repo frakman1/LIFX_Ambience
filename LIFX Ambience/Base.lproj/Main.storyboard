@@ -781,7 +781,7 @@
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fLE-KA-em4">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexBackgroundColor" red="0.12994581080000001" green="0.377105845" blue="0.59564393940000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="sectionIndexBackgroundColor" red="0.039215686274509803" green="0.090196078431372548" blue="0.14509803921568629" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" showsReorderControl="YES" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="SrS-5o-u9v" detailTextLabel="dm3-M8-MLG" style="IBUITableViewCellStyleSubtitle" id="jUm-G8-vNQ">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -806,7 +806,8 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.12994581080000001" green="0.377105845" blue="0.59564393940000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.039215686274509803" green="0.090196078431372548" blue="0.14509803921568629" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="0.1058823529" green="0.29411764709999999" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -814,9 +815,9 @@
                                     <outlet property="delegate" destination="RiO-wb-2AG" id="Ieg-mq-RUc"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2SS-k2-bua">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.49999999999999961" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2SS-k2-bua">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <color key="backgroundColor" red="0.062743442947277586" green="0.18208296925694215" blue="0.28760258838989905" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.047058823529411764" green="0.047058823529411764" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <barButtonItem image="save" id="QHY-83-nTJ">
                                         <connections>
@@ -837,10 +838,10 @@
                                     </barButtonItem>
                                 </items>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="barTintColor" red="0.062743442950000006" green="0.18208296930000001" blue="0.28760258840000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.047058823529411764" green="0.047058823529411764" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" red="0.12994581080000001" green="0.377105845" blue="0.59564393940000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.039215686274509803" green="0.090196078431372548" blue="0.14509803921568629" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="fLE-KA-em4" firstAttribute="top" secondItem="KXS-DY-ADr" secondAttribute="top" id="1GY-5l-m8O"/>
                             <constraint firstItem="2SS-k2-bua" firstAttribute="top" secondItem="fLE-KA-em4" secondAttribute="bottom" id="Cs6-Jm-Whh"/>
@@ -984,7 +985,7 @@
         <image name="left" width="34" height="34"/>
         <image name="mail" width="64" height="39"/>
         <image name="mixer" width="32" height="32"/>
-        <image name="musicg" width="90" height="90"/>
+        <image name="musicg" width="93" height="93"/>
         <image name="play" width="28" height="28"/>
         <image name="playlist" width="23" height="32"/>
         <image name="rate" width="31" height="31"/>

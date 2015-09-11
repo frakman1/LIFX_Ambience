@@ -40,6 +40,9 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 @implementation YouTubeTVC
 
 
+- (BOOL) prefersStatusBarHidden {return YES;}
+
+
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -268,7 +271,7 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
             }
             
             self.VidPlayer = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:videoId];
-            
+            self.VidPlayer.moviePlayer.backgroundView.backgroundColor = [UIColor colorWithRed:10 green:31 blue:49 alpha:1];
             [self presentMoviePlayerViewControllerAnimated:self.VidPlayer];
            
         }

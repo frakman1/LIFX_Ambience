@@ -48,6 +48,15 @@
 
 }
 
+- (void) viewWillAppear:(BOOL) animated
+{
+    [super viewWillAppear:animated];
+    NSLog(@"***Overriding orientation.");
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     

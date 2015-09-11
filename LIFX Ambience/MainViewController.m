@@ -375,14 +375,14 @@ NSTimer *timer;
     self.sliderHue.value = tmpColor.hue/360;
     self.sliderSaturation.value = tmpColor.saturation;
     self.sliderValue.value = tmpColor.brightness;
-
     
- /*
+    
+    /*
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
  
     // do this once per installation. Welcome/Instructions page.
     // currently using the UIAlertAction and hacking an image into it.
-    // TODO: need to find a better way to improve UIAlertView images so that they have colour (instead of blue tint) etc.
+    // TODO: need to find a better way to improve UIAlertView images so that they have colour (instead of blue tint) etc.*UPDATE* Done. using RenderingModes
     if (! [defaults boolForKey:@"alertShown"]) 
   {
     
@@ -416,12 +416,13 @@ NSTimer *timer;
                               style:UIAlertActionStyleDefault
                               handler:nil];
         
-        UIImage *image =  [UIImage imageNamed:@"bulb_off"]; [ok  setValue:image  forKey:@"image"];
-        UIImage *image2 = [UIImage imageNamed:@"bulb_on"]; [ok2 setValue:image2 forKey:@"image"];
-        UIImage *image3 = [UIImage imageNamed:@"music_sm"];[ok3 setValue:image3 forKey:@"image"];
+        UIImage *image =  [UIImage imageNamed:@"bulb_off"]; [ok  setValue:[image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
+        UIImage *image2 = [UIImage imageNamed:@"bulb_on"]; [ok2 setValue:[image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
+        UIImage *image3 = [UIImage imageNamed:@"music_sm"];[ok3 setValue:[image3 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
+      
         //UIImage* smallImage = [image3 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok3 setValue:smallImage forKey:@"image"];
         //UIImage *image3 = [UIImage imageNamed:@"music"];   [ok3 setValue:image3 forKey:@"image"];
-        UIImage *image4 = [UIImage imageNamed:@"cam_sm"];[ok4 setValue:image4 forKey:@"image"];
+        UIImage *image4 = [UIImage imageNamed:@"cam_sm"];[ok4 setValue:[image4 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
         //UIImage* smallImage2 = [image4 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok4 setValue:smallImage2 forKey:@"image"];
         
         [alert addAction:ok];  // add action to uialertcontroller
@@ -435,9 +436,9 @@ NSTimer *timer;
         //[alert.view addSubview:imgView];
         
         [self presentViewController:alert animated:YES completion:nil];
+     
         
-        
-        //
+      
     
     
         [defaults setBool:YES forKey:@"alertShown"];
@@ -589,6 +590,7 @@ NSTimer *timer;
         return @"No Lights Detected";
     }
     
+    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
@@ -615,6 +617,11 @@ NSTimer *timer;
         case TableSectionLights:
         {
             LFXLight *light = self.lights[indexPath.row];
+            if (light.powerState==LFXPowerStateOff)
+            {
+                NSLog(@"Bulb is Connected but in OFF State.Turning On...");
+                [light setPowerState:LFXPowerStateOn];
+            }
             //cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.textLabel.text = light.label;
             cell.detailTextLabel.text = light.deviceID;
