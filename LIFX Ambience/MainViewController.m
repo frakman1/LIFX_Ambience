@@ -14,6 +14,9 @@
 //#import "Constants.h"
 #import "AppDelegate.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <CoreMotion/CoreMotion.h>
+
+
 
 
 
@@ -47,6 +50,9 @@ typedef NS_ENUM(NSInteger, TableSection) {
 @property (nonatomic, retain) UIBarButtonItem *tempButton;
 @property (nonatomic, retain) UIBarButtonItem *tempButton2;
 
+@property (strong, nonatomic) CMMotionManager *motionManager;
+@property (strong, nonatomic) NSOperationQueue *deviceQueue;
+
 
 @end
 
@@ -77,6 +83,8 @@ NSTimer *timer;
 
 - (void)toggleLightList:(id)sender
 {
+    
+    if (self.btnMotion.selected) return;
     
     [UIView transitionWithView:self.tableView
                       duration:0.4
@@ -133,6 +141,13 @@ NSTimer *timer;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //setup motion detector
+    self.deviceQueue = [[NSOperationQueue alloc] init];
+    self.motionManager = [[CMMotionManager alloc] init];
+    self.motionManager.deviceMotionUpdateInterval = 5.0 / 60.0;
+    self.motionManager.gyroUpdateInterval = 0.1;
+    
     
     [self.sliderBrightness setThumbImage: [UIImage imageNamed:@"bright"] forState:UIControlStateNormal];
     [self.sliderHue setThumbImage: [UIImage imageNamed:@"hue"] forState:UIControlStateNormal];
@@ -301,10 +316,23 @@ NSTimer *timer;
 }
 
 
+
+
+
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    [self.tooltipManager hideAllTooltipsAnimated:FALSE];
+    
+    [self resignFirstResponder];
+    if (self.btnMotion.selected)
+    {
+        //[self.motionManager stopDeviceMotionUpdates];
+        //[self.btnMotion setSelected:NO];
+        //[self.btnMotion setImage: [UIImage imageNamed:@"motion"] forState:UIControlStateNormal] ;
+         [self.btnMotion sendActionsForControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    
+    [self.tooltipManager hideAllTooltipsAnimated:NO];
     [self.btnHelp setSelected:NO];
     [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
     
@@ -331,11 +359,16 @@ NSTimer *timer;
     
 }
 
+
+
+
+
+
 - (void)viewDidAppear:(BOOL)animated
 {
     
     [super viewDidAppear:animated];
-    
+    [self becomeFirstResponder];
       //[self mute];
 
     //LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
@@ -347,6 +380,7 @@ NSTimer *timer;
     [self.btnMusic.imageView startGlowingWithColor:[UIColor greenColor] intensity:1];
     [self.btnCam.imageView startGlowingWithColor:[UIColor blueColor] intensity:1];
     [self.btnYT.imageView startGlowingWithColor:[UIColor redColor] intensity:1];
+    [self.btnMotion.imageView startGlowingWithColor:[UIColor cyanColor] intensity:1];
     
     /*
     UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -458,9 +492,10 @@ NSTimer *timer;
     [self.tooltipManager addTooltipWithTargetView:self.btnMusic  hostView:self.view tooltipText:@"Music Player.\nPulse your lights in time to the music." arrowDirection:JDFTooltipViewArrowDirectionUp  width:200];
     
     
-    [self.tooltipManager addTooltipWithTargetView:self.btnCam  hostView:self.view tooltipText:@"Camera.\nPoint the Camera at anything and instantly match the bulb colour to it." arrowDirection:JDFTooltipViewArrowDirectionDown  width:210];
+    [self.tooltipManager addTooltipWithTargetView:self.btnCam  hostView:self.view tooltipText:@"Camera Viewer.\nPoint the Camera at anything and instantly match the bulb colour to it." arrowDirection:JDFTooltipViewArrowDirectionDown  width:210];
     
-    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.navigationItem.leftBarButtonItem.customView hostView:self.view tooltipText:@"Toggle Light List and Controls. Green when lights are detected." arrowDirection:JDFTooltipViewArrowDirectionUp width:200 ];
+    [self.tooltipManager addTooltipWithTargetView:self.btnMotion  hostView:self.view tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axis to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionUp  width:310];
+
   
     
 }
@@ -587,7 +622,7 @@ NSTimer *timer;
     else
     {
         self.lights=nil;
-        return @"No Lights Detected";
+        return @"No Lights";
     }
     
     
@@ -631,8 +666,8 @@ NSTimer *timer;
             //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];
             
             //update sliders. just do it once instead of on every row
-            if (indexPath.row==0)
-            {
+            if ( (indexPath.row==0) && (!self.btnMotion.selected) )
+            {   NSLog(@"Updating sliders");
                 self.sliderBrightness.value = light.color.brightness;
                 self.sliderSaturation.value = light.color.saturation;
                 self.sliderHue.value = light.color.hue/360;
@@ -699,13 +734,13 @@ NSTimer *timer;
     [super viewDidLayoutSubviews];
     CGRect frame = self.view.frame;
     
-    CGRect tableFrame = [self.tableView frame];
-    tableFrame.size.height = frame.size.height - self.tableView.frame.origin.y;
-    tableFrame.size.width = frame.size.width;
-    tableFrame.origin.x = frame.origin.x;
-    tableFrame.origin.y = self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height;
+    //CGRect tableFrame = [self.tableView frame];
+    //tableFrame.origin.x = frame.origin.x;
+    //tableFrame.origin.y = self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height;
+    //tableFrame.size.height = frame.size.height - self.tableView.frame.origin.y;
+    //tableFrame.size.width = frame.size.width/2 - 10;
     
-    [self.tableView setFrame:tableFrame];
+    //[self.tableView setFrame:tableFrame];
     
     
    /*
@@ -734,6 +769,7 @@ NSTimer *timer;
 
 - (IBAction)brightnessOrKelvinChanged:(UISlider *)sender
 {
+    NSLog(@"brightnessOrKelvinChanged()");
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:self.sliderBrightness.value  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
@@ -758,7 +794,7 @@ NSTimer *timer;
                     completion:NULL];
     
 
-    self.lblInfo.hidden=FALSE;
+    self.lblInfo.hidden=NO;
     NSString* s = [NSString stringWithFormat:@"White Brightness: %0.2f",self.sliderBrightness.value];
     [self.lblInfo setText:s ];
 }
@@ -766,6 +802,7 @@ NSTimer *timer;
 
 - (IBAction)HueChanged:(UISlider *)sender
 {
+    NSLog(@"HueChanged");
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
@@ -778,7 +815,7 @@ NSTimer *timer;
                     completion:NULL];
     
 
-    self.lblInfo.hidden=FALSE;
+    self.lblInfo.hidden=NO;
     if (self.sliderSaturation.value == 0.0f)
     {
         NSString* s1 = [NSString stringWithFormat:@"Hue (Colour): %0.2f \n(ensure Saturation is non-zero)",self.sliderHue.value];
@@ -797,6 +834,7 @@ NSTimer *timer;
 
 - (IBAction)SaturationChanged:(UISlider *)sender
 {
+    NSLog(@"SaturationChanged");
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
@@ -809,7 +847,7 @@ NSTimer *timer;
                     completion:NULL];
     
 
-    self.lblInfo.hidden=FALSE;
+    self.lblInfo.hidden=NO;
     NSString* s = [NSString stringWithFormat:@"Saturation (Intensity): %0.2f",self.sliderSaturation.value];
     [self.lblInfo setText:s ];
 
@@ -818,6 +856,7 @@ NSTimer *timer;
 
 - (IBAction)ValueChanged:(UISlider *)sender
 {
+    NSLog(@"ValueChanged");
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
@@ -830,7 +869,7 @@ NSTimer *timer;
                     completion:NULL];
     
 
-    self.lblInfo.hidden=FALSE;
+    self.lblInfo.hidden=NO;
     NSString* s = [NSString stringWithFormat:@"Value (Brightness): %0.2f",self.sliderValue.value];
     [self.lblInfo setText:s ];
 
@@ -862,7 +901,7 @@ NSTimer *timer;
     }
     else
     {
-        [self.tooltipManager hideAllTooltipsAnimated:TRUE];
+        [self.tooltipManager hideAllTooltipsAnimated:YES];
         [self.btnHelp setSelected:NO];
         [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
         [sender removeFromSuperview];
@@ -881,5 +920,180 @@ NSTimer *timer;
 {
     return UIInterfaceOrientationMaskPortrait;
 }
+
+
+
+
+
+
+
+-(BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+
+
+- (IBAction)motionButtonPressed:(id)sender
+{
+    NSLog(@"Motion Pressed");
+    //[self.someButton setHighlighted:YES]; [self.someButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.someButton setHighlighted:NO];
+    
+    self.btnMotion.selected = !self.btnMotion.selected;
+    
+    if (self.btnMotion.selected)
+    {
+        [self fade:NO];
+        
+        [self.btnMotion setSelected:YES];
+        [self.btnMotion setImage: [UIImage imageNamed:@"motion_on"] forState:UIControlStateNormal] ;
+        NSLog(@"DOING MOTION UPDATES");
+        self.sliderHue.minimumValue = -90.0f;
+        self.sliderHue.maximumValue = 90.0f;
+        self.sliderHue.userInteractionEnabled = NO;
+        self.sliderSaturation.minimumValue = -90.0f;
+        self.sliderSaturation.maximumValue = 90.0f;
+        self.sliderSaturation.userInteractionEnabled = NO;
+        self.sliderValue.minimumValue = -90.0f;
+        self.sliderValue.maximumValue = 90.0f;
+        self.sliderValue.userInteractionEnabled = NO;
+        self.sliderBrightness.minimumValue = -90.0f;
+        self.sliderBrightness.maximumValue = 90.0f;
+        self.sliderBrightness.userInteractionEnabled = NO;
+
+        
+        [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical
+                                                                toQueue:self.deviceQueue
+                                                            withHandler:^(CMDeviceMotion *motion, NSError *error)
+         {
+             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                 
+                 CGFloat brightness;
+                 CGFloat hue;
+                 CGFloat saturation;
+                 
+                 if (motion.userAcceleration.x < -2.0f)
+                 {
+                     NSLog(@"***********************************OUCH!");
+                 }
+                 
+                 
+                 
+                 CGFloat Roll =  motion.attitude.roll  * 180 / M_PI;
+                 CGFloat Pitch = motion.attitude.pitch * 180 / M_PI;
+                 CGFloat Yaw =   motion.attitude.yaw * 180 / M_PI;    if (Yaw>90)Yaw=90;
+                 
+                 //NSLog(@"Pitch %f ",motion.attitude.pitch * 180 / M_PI);
+                 NSLog(@"***********************************");
+                 NSLog(@"Roll  %f ",Roll);
+                 NSLog(@"Pitch %f ",Pitch);
+                 NSLog(@"Yaw %f ",Yaw);
+                 
+                 //NSLog(@"Yaw   %f ",motion.attitude.yaw * 180 / M_PI);
+                 
+                 //NSLog(@"x %f ",x);
+                 //NSLog(@"y %f ",y);
+                 //NSLog(@"z %f ",z);
+                 self.sliderBrightness.value = Roll;
+                 self.sliderValue.value = Roll;
+                 self.sliderHue.value = Pitch;
+                 self.sliderSaturation.value = Yaw;
+                 
+                 
+                 brightness= (Roll+90.0)/180.0;      if (brightness>1) brightness=1;if (brightness<0) brightness=0;
+                 hue = (Pitch + 90)*2;               if (hue>360) hue=360;if (hue<0) hue=0;
+                 saturation = fabs((Yaw-90.0)/180.0); if (saturation>1) saturation=1;if (saturation<0) saturation=0;
+                 
+                 NSLog(@"brightness:%f",brightness);
+                 NSLog(@"hue:%f",hue);
+                 NSLog(@"saturation:%f",saturation);
+                 
+                 LFXHSBKColor *colour = [LFXHSBKColor colorWithHue:hue saturation:saturation brightness:brightness];
+                 
+                 LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+                 [localNetworkContext.allLightsCollection setColor:colour];
+                 
+                 
+                 
+             }];
+         }];
+
+    }
+    else
+    {
+        [self fade:YES];
+        
+        [self.btnMotion setSelected:NO];
+        [self.motionManager stopDeviceMotionUpdates];
+        NSLog(@"STOPPING MOTION UPDATES");
+        self.sliderHue.minimumValue = 0.0f;
+        self.sliderHue.maximumValue = 1.0f;
+        self.sliderHue.userInteractionEnabled = YES;
+        self.sliderSaturation.minimumValue = 0.0f;
+        self.sliderSaturation.maximumValue = 1.0f;
+        self.sliderSaturation.userInteractionEnabled = YES;
+        self.sliderValue.minimumValue = 0.0f;
+        self.sliderValue.maximumValue = 1.0f;
+        self.sliderValue.userInteractionEnabled = YES;
+        self.sliderBrightness.minimumValue = 0.0f;
+        self.sliderBrightness.maximumValue = 1.0f;
+        self.sliderBrightness.userInteractionEnabled = YES;
+        
+        
+       
+        
+
+        [self.btnMotion setImage: [UIImage imageNamed:@"motion"] forState:UIControlStateNormal] ;
+        
+    }
+    
+    
+    
+}
+
+
+- (void)fade:(BOOL)Out
+{
+    
+     [UIView transitionWithView:self.tableView
+     duration:0.4
+     options:UIViewAnimationOptionTransitionCrossDissolve
+     animations:NULL
+     completion:NULL];
+     [UIView transitionWithView:self.sliderBrightness
+     duration:0.4
+     options:UIViewAnimationOptionTransitionCrossDissolve
+     animations:NULL
+     completion:NULL];
+     [UIView transitionWithView:self.sliderHue
+     duration:0.4
+     options:UIViewAnimationOptionTransitionCrossDissolve
+     animations:NULL
+     completion:NULL];
+     [UIView transitionWithView:self.sliderSaturation
+     duration:0.4
+     options:UIViewAnimationOptionTransitionCrossDissolve
+     animations:NULL
+     completion:NULL];
+     [UIView transitionWithView:self.sliderValue
+     duration:0.4
+     options:UIViewAnimationOptionTransitionCrossDissolve
+     animations:NULL
+     completion:NULL];
+     
+     
+     self.tableView.hidden = Out;
+     self.sliderBrightness.hidden = YES;
+     self.sliderHue.hidden = Out;
+     self.sliderSaturation.hidden = Out;
+     self.sliderValue.hidden = Out;
+    
+    self.lblInfo.hidden=Out;
+    NSString* s = [NSString stringWithFormat:@"X-axis (Roll) : Brightness\nY-axis (Yaw) : Saturation\nZ-axis (Pitch) : Hue"];
+    [self.lblInfo setText:s ];
+
+    
+    
+}
+
 
 @end

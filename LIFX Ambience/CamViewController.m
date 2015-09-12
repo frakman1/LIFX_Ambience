@@ -40,8 +40,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @property (nonatomic,weak) IBOutlet UILabel* myLabel;
 @property (nonatomic, strong) JDFTooltipManager *tooltipManager;
 
-@property (nonatomic, strong) UISlider *volumeSlider;
-
 - (IBAction)toggleMovieRecording:(id)sender;
 - (IBAction)changeCamera:(id)sender;
 - (IBAction)snapStillImage:(id)sender;
