@@ -61,6 +61,47 @@
                                         </prototypes>
                                         <sections/>
                                     </tableView>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj" userLabel="Cam Button">
+                                        <rect key="frame" x="226" y="249" width="93" height="90"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="93" id="nsK-V7-k9v"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="camb">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="beV-Dh-bsA" kind="push" id="AMS-OF-CFg"/>
+                                        </connections>
+                                    </button>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee" userLabel="Music Button">
+                                        <rect key="frame" x="10" y="248" width="93" height="93"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="musicg">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="2Ua-YC-BMe" kind="push" id="bRd-lM-23s"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wME-nt-RzG" userLabel="Motion Button">
+                                        <rect key="frame" x="226" y="349" width="93" height="93"/>
+                                        <state key="normal" image="motion">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="motionButtonPressed:" destination="3SO-wL-eml" eventType="touchUpInside" id="QD2-o1-Xze"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4o6-yF-2ft" userLabel="YouTube Button">
+                                        <rect key="frame" x="116" y="248" width="93" height="93"/>
+                                        <state key="normal" image="yt">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="0Ve-Iv-hCF" kind="push" id="eJS-4f-x4C"/>
+                                        </connections>
+                                    </button>
                                     <slider hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="C8e-vI-cLQ" userLabel="WhiteBrightnessSlider">
                                         <rect key="frame" x="20" y="20" width="288" height="31"/>
                                         <connections>
@@ -102,55 +143,11 @@
                                             <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpInside" id="ofB-9Y-Wd4"/>
                                         </connections>
                                     </slider>
-                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj" userLabel="Cam Button">
-                                        <rect key="frame" x="226" y="249" width="93" height="90"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="93" id="nsK-V7-k9v"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="camb">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="beV-Dh-bsA" kind="push" id="AMS-OF-CFg"/>
-                                        </connections>
-                                    </button>
-                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee" userLabel="Music Button">
-                                        <rect key="frame" x="10" y="248" width="93" height="93"/>
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="musicg">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="2Ua-YC-BMe" kind="push" id="bRd-lM-23s"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wME-nt-RzG" userLabel="Motion Button">
-                                        <rect key="frame" x="226" y="349" width="93" height="93"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="93" id="rXQ-FZ-5CG"/>
-                                        </constraints>
-                                        <state key="normal" image="motion">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="motionButtonPressed:" destination="3SO-wL-eml" eventType="touchUpInside" id="QD2-o1-Xze"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4o6-yF-2ft" userLabel="YouTube Button">
-                                        <rect key="frame" x="116" y="248" width="93" height="93"/>
-                                        <state key="normal" image="yt">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="0Ve-Iv-hCF" kind="push" id="eJS-4f-x4C"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerY" secondItem="ZQI-9p-Oee" secondAttribute="centerY" id="4m6-2g-mcs"/>
-                                    <constraint firstAttribute="bottom" secondItem="wME-nt-RzG" secondAttribute="bottom" constant="146" id="54h-6Y-ucI"/>
+                                    <constraint firstAttribute="bottom" secondItem="wME-nt-RzG" secondAttribute="bottom" priority="750" constant="146" id="54h-6Y-ucI"/>
                                     <constraint firstItem="heN-aR-VfS" firstAttribute="centerX" secondItem="t0k-fm-ghC" secondAttribute="centerX" id="8bH-Hy-O83"/>
                                     <constraint firstItem="cKV-bV-5Zu" firstAttribute="top" secondItem="wME-nt-RzG" secondAttribute="top" id="Ar5-vp-dHu"/>
                                     <constraint firstItem="C8e-vI-cLQ" firstAttribute="leading" secondItem="KOs-qU-nef" secondAttribute="leading" constant="22" id="EsC-I2-2LN"/>

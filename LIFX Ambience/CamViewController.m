@@ -1303,7 +1303,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     }
     
 }
-#if (CROP==1)
+#if !(TARGET_IPHONE_SIMULATOR)
 
 - (IBAction)cropBarButtonClick:(id)sender
 {

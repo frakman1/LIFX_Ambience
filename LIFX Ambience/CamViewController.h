@@ -7,20 +7,21 @@
 //
 
 //turn this off for simulator runs
-#define CROP 1
+
+
 
 #import <UIKit/UIKit.h>
-#if (CROP==1)
+#if !(TARGET_IPHONE_SIMULATOR)
 #import "ImageCropView.h"
 #endif
 
-#if (CROP==1)
+#if !(TARGET_IPHONE_SIMULATOR)
 @interface CamViewController : UIViewController <ImageCropViewControllerDelegate>
 #else
 @interface CamViewController : UIViewController
 #endif
 {
-#if (CROP==1)
+#if !(TARGET_IPHONE_SIMULATOR)
     ImageCropView* imageCropView;
 #endif
     UIImage* myimage;
