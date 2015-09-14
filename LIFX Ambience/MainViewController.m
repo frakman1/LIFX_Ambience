@@ -138,11 +138,10 @@ NSTimer *timer;
 - (BOOL) prefersStatusBarHidden {return YES;}
 
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+
     
     //setup motion detector
     self.deviceQueue = [[NSOperationQueue alloc] init];
@@ -206,6 +205,14 @@ NSTimer *timer;
     
     //myBtn setShowsTouchWhenHighlighted:YES];
     
+    //create header subview for table
+    CGFloat headerHeight = 20.0f;//self.tableView.tableHeaderView.frame.size.height;
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, headerHeight)];
+    UIView *headerContentView = [[UIView alloc] initWithFrame:headerView.bounds];
+    headerContentView.backgroundColor = [UIColor grayColor];
+    headerContentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [headerView addSubview:headerContentView];
+    self.tableView.tableHeaderView = headerView;
 
     
     [self.tableView setDelegate:self];
@@ -218,8 +225,7 @@ NSTimer *timer;
     [layer setMasksToBounds:YES];
     [layer setCornerRadius: 10.0];
     [layer setBorderWidth:3.0];
-    //colorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
-    [layer setBorderColor:[[UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:0.3f] CGColor]];
+    [layer setBorderColor:[[UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:0.1f] CGColor]];
     //self.tableView.bounces = NO;
     
     //yourItemsArray = [[NSMutableArray alloc] initWithObjects:@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",nil];
@@ -623,18 +629,36 @@ NSTimer *timer;
     //[self updateNavBar];
     //[self.tableView reloadData];
     
+    UIView *headerContentView = self.tableView.tableHeaderView.subviews[0];
+    
     if (isConnected)
     {
-        return @"Lights";
+        //return @"Lights";
+        headerContentView.backgroundColor = [UIColor greenColor];
+        
+        
     }
     else
     {
         self.lights=nil;
-        return @"No Lights";
+        //return @"No Lights";
+        headerContentView.backgroundColor = [UIColor grayColor];
     }
+   
+ 
     
-    
+    return @"";
 }
+
+//Note: UITableView is a subclass of UIScrollView, so we
+//      can use UIScrollViewDelegate methods.
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat offsetY = scrollView.contentOffset.y;
+    UIView *headerContentView = self.tableView.tableHeaderView.subviews[0];
+    headerContentView.transform = CGAffineTransformMakeTranslation(0, MIN(offsetY, 0));
+}
+
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
@@ -969,6 +993,18 @@ NSTimer *timer;
 {
     NSLog(@"Motion Pressed");
     //[self.someButton setHighlighted:YES]; [self.someButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.someButton setHighlighted:NO];
+    
+    //////////////toggle button effect
+    UIButton *btn = (UIButton*) sender;
+    btn.alpha = 0;
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1];
+    [UIView setAnimationDelegate:[UIApplication sharedApplication]];
+    [UIView setAnimationDidStopSelector:@selector(endIgnoringInteractionEvents)];
+    btn.alpha = 1;
+    [UIView commitAnimations];
+    //////////////////
     
     self.btnMotion.selected = !self.btnMotion.selected;
     
