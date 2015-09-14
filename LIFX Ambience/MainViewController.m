@@ -142,6 +142,8 @@ NSTimer *timer;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    
     //setup motion detector
     self.deviceQueue = [[NSOperationQueue alloc] init];
     self.motionManager = [[CMMotionManager alloc] init];
@@ -211,6 +213,13 @@ NSTimer *timer;
     
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.hidden = YES;
+    
+    CALayer *layer = self.tableView.layer;
+    [layer setMasksToBounds:YES];
+    [layer setCornerRadius: 10.0];
+    [layer setBorderWidth:3.0];
+    //colorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
+    [layer setBorderColor:[[UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:0.3f] CGColor]];
     //self.tableView.bounces = NO;
     
     //yourItemsArray = [[NSMutableArray alloc] initWithObjects:@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",nil];
@@ -495,7 +504,6 @@ NSTimer *timer;
     [self.tooltipManager addTooltipWithTargetView:self.btnCam  hostView:self.view tooltipText:@"Camera Viewer.\nPoint the Camera at anything and instantly match the bulb colour to it." arrowDirection:JDFTooltipViewArrowDirectionDown  width:210];
     
     [self.tooltipManager addTooltipWithTargetView:self.btnMotion  hostView:self.view tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axis to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionUp  width:310];
-
   
     
 }
@@ -734,6 +742,12 @@ NSTimer *timer;
     [super viewDidLayoutSubviews];
     CGRect frame = self.view.frame;
     
+    
+    
+
+    
+
+    
     //CGRect tableFrame = [self.tableView frame];
     //tableFrame.origin.x = frame.origin.x;
     //tableFrame.origin.y = self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height;
@@ -766,10 +780,19 @@ NSTimer *timer;
 */
 }
 
+-(void) updateLblInfo
+{
+    // change test lblInfo background colour to indicate change on device screen
+    self.lblInfo.backgroundColor = [UIColor colorWithHue:(self.sliderHue.value) saturation:self.sliderSaturation.value brightness:self.sliderValue.value alpha:1];
+
+    
+}
+
 
 - (IBAction)brightnessOrKelvinChanged:(UISlider *)sender
 {
     NSLog(@"brightnessOrKelvinChanged()");
+    //self.lblInfo.backgroundColor = [UIColor clearColor];
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:self.sliderBrightness.value  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     [localNetworkContext.allLightsCollection setColor:tmpColor];
@@ -797,12 +820,14 @@ NSTimer *timer;
     self.lblInfo.hidden=NO;
     NSString* s = [NSString stringWithFormat:@"White Brightness: %0.2f",self.sliderBrightness.value];
     [self.lblInfo setText:s ];
+    [self updateLblInfo];
 }
 
 
 - (IBAction)HueChanged:(UISlider *)sender
 {
     NSLog(@"HueChanged");
+    //self.lblInfo.backgroundColor = [UIColor clearColor];
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
@@ -826,6 +851,7 @@ NSTimer *timer;
         NSString* s2 = [NSString stringWithFormat:@"Hue (Colour): %0.2f",self.sliderHue.value];
         [self.lblInfo setText:s2 ];
     }
+    [self updateLblInfo];
     
     
 
@@ -835,6 +861,7 @@ NSTimer *timer;
 - (IBAction)SaturationChanged:(UISlider *)sender
 {
     NSLog(@"SaturationChanged");
+    //self.lblInfo.backgroundColor = [UIColor clearColor];
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
@@ -850,6 +877,8 @@ NSTimer *timer;
     self.lblInfo.hidden=NO;
     NSString* s = [NSString stringWithFormat:@"Saturation (Intensity): %0.2f",self.sliderSaturation.value];
     [self.lblInfo setText:s ];
+    [self updateLblInfo];
+    
 
     
 }
@@ -857,6 +886,7 @@ NSTimer *timer;
 - (IBAction)ValueChanged:(UISlider *)sender
 {
     NSLog(@"ValueChanged");
+    //self.lblInfo.backgroundColor = [UIColor clearColor];
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
@@ -872,6 +902,8 @@ NSTimer *timer;
     self.lblInfo.hidden=NO;
     NSString* s = [NSString stringWithFormat:@"Value (Brightness): %0.2f",self.sliderValue.value];
     [self.lblInfo setText:s ];
+    
+    [self updateLblInfo];
 
 }
 
@@ -1012,6 +1044,9 @@ NSTimer *timer;
                  LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
                  [localNetworkContext.allLightsCollection setColor:colour];
                  
+                 // change test lblInfo background colour to indicate change on device screen
+                 self.lblInfo.backgroundColor = [UIColor colorWithHue:(hue/360.0) saturation:saturation brightness:brightness alpha:1];
+                 
                  
                  
              }];
@@ -1037,7 +1072,8 @@ NSTimer *timer;
         self.sliderBrightness.minimumValue = 0.0f;
         self.sliderBrightness.maximumValue = 1.0f;
         self.sliderBrightness.userInteractionEnabled = YES;
-        
+
+        //self.lblInfo.backgroundColor = [UIColor clearColor];
         
        
         
@@ -1079,15 +1115,22 @@ NSTimer *timer;
      options:UIViewAnimationOptionTransitionCrossDissolve
      animations:NULL
      completion:NULL];
-     
-     
+     [UIView transitionWithView:self.lblInfo
+     duration:0.4
+     options:UIViewAnimationOptionTransitionCrossDissolve
+     animations:NULL
+     completion:NULL];
+     //completion:^(BOOL finished){if (finished) { self.lblInfo.backgroundColor = [UIColor clearColor]; }}];
+
+    
+    
      self.tableView.hidden = Out;
      self.sliderBrightness.hidden = YES;
      self.sliderHue.hidden = Out;
      self.sliderSaturation.hidden = Out;
      self.sliderValue.hidden = Out;
+     self.lblInfo.hidden=Out;
     
-    self.lblInfo.hidden=Out;
     NSString* s = [NSString stringWithFormat:@"X-axis (Roll) : Brightness\nY-axis (Yaw) : Saturation\nZ-axis (Pitch) : Hue"];
     [self.lblInfo setText:s ];
 

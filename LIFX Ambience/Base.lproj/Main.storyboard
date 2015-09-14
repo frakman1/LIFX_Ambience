@@ -25,12 +25,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KOs-qU-nef">
                                 <rect key="frame" x="-4" y="0.0" width="329" height="588"/>
                                 <subviews>
-                                    <tableView hidden="YES" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cKV-bV-5Zu">
-                                        <rect key="frame" x="8" y="349" width="154" height="219"/>
+                                    <tableView hidden="YES" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cKV-bV-5Zu">
+                                        <rect key="frame" x="8" y="349" width="154" height="239"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="154" id="XvJ-0x-Ado"/>
-                                        </constraints>
                                         <color key="sectionIndexColor" white="0.82185444080000003" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="Xe0-xM-Y7d" detailTextLabel="jM4-Tv-7eh" style="IBUITableViewCellStyleSubtitle" id="LbU-o5-fWJ">
@@ -159,7 +156,7 @@
                                     <constraint firstItem="C8e-vI-cLQ" firstAttribute="top" secondItem="KOs-qU-nef" secondAttribute="top" constant="20" symbolic="YES" id="Rzt-bD-dYb"/>
                                     <constraint firstAttribute="trailing" secondItem="60P-Zi-HdE" secondAttribute="trailing" constant="20" symbolic="YES" id="UUy-cB-y4f"/>
                                     <constraint firstItem="60P-Zi-HdE" firstAttribute="top" secondItem="o86-oX-Jlq" secondAttribute="bottom" constant="8" symbolic="YES" id="V2n-gN-qtz"/>
-                                    <constraint firstItem="cKV-bV-5Zu" firstAttribute="trailing" secondItem="4o6-yF-2ft" secondAttribute="centerX" priority="250" constant="-46" id="W4h-o9-SQ0"/>
+                                    <constraint firstItem="cKV-bV-5Zu" firstAttribute="trailing" secondItem="4o6-yF-2ft" secondAttribute="trailing" id="W4h-o9-SQ0"/>
                                     <constraint firstAttribute="centerY" secondItem="9Rk-T0-rCj" secondAttribute="centerY" id="Ytq-9m-0us"/>
                                     <constraint firstItem="heN-aR-VfS" firstAttribute="leading" secondItem="t0k-fm-ghC" secondAttribute="leading" id="Z1a-va-dwl"/>
                                     <constraint firstItem="cKV-bV-5Zu" firstAttribute="leading" secondItem="KOs-qU-nef" secondAttribute="leadingMargin" id="baB-34-OHt"/>
@@ -173,7 +170,7 @@
                                     <constraint firstItem="9Rk-T0-rCj" firstAttribute="centerX" secondItem="wME-nt-RzG" secondAttribute="centerX" id="pO1-1i-NCk"/>
                                     <constraint firstItem="t0k-fm-ghC" firstAttribute="top" secondItem="60P-Zi-HdE" secondAttribute="bottom" constant="8" symbolic="YES" id="qSG-Ll-6SL"/>
                                     <constraint firstItem="60P-Zi-HdE" firstAttribute="leading" secondItem="KOs-qU-nef" secondAttribute="leading" constant="20" symbolic="YES" id="rW1-qM-szL"/>
-                                    <constraint firstAttribute="bottom" secondItem="cKV-bV-5Zu" secondAttribute="bottom" constant="20" symbolic="YES" id="xH8-i7-hsp"/>
+                                    <constraint firstItem="cKV-bV-5Zu" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="KOs-qU-nef" secondAttribute="bottom" constant="-100" id="xH8-i7-hsp"/>
                                     <constraint firstAttribute="trailing" secondItem="o86-oX-Jlq" secondAttribute="trailing" constant="20" symbolic="YES" id="zyl-81-O6u"/>
                                 </constraints>
                             </view>
