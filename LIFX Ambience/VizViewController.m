@@ -581,13 +581,14 @@ BOOL gRepeatEnabled = false;
     {
         //playaudio
         [self.imgBox setImage:[UIImage imageNamed:@"play2"]];
+        self.imgBox.tag = 0;
         
     }
     else
     {
         //pause
         [self.imgBox setImage:[UIImage imageNamed:@"pause2"]];
-        
+         self.imgBox.tag = 1;
     }
     
     [self startFade];
@@ -1127,17 +1128,22 @@ BOOL gRepeatEnabled = false;
 }
 - (void) startFade
 {
-    [self.imgBox setAlpha:0.f];
+    [self.imgBox setAlpha:1.f];
     //NSLog(@"startFade1 alpha:%f",self.imgBox.alpha);
     
     [UIView animateWithDuration:0.5f
-                          delay:0.f
-                        options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse
+                          delay:0.5f
+                        options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
                      animations:^{
+                         if (self.imgBox.tag) {}
+                         else [UIView setAnimationRepeatCount:1.5];
                          //NSLog(@"in animation alpha:%f",self.imgBox.alpha);
-                         [self.imgBox setAlpha:1.f];
+                         [self.imgBox setAlpha:0.f];
                      }
-                     completion:^(BOOL finished) {[self.imgBox setAlpha:0.f];}];
+                     completion:^(BOOL finished){
+                         if (finished) NSLog(@"done");
+                         //[self.imgBox setAlpha:0.f];
+                     }];
 
     //[self.imgBox setAlpha:0.f];
 

@@ -26,6 +26,8 @@
     [Flurry setAppVersion:kAppVersion]; NSLog(@"kAppVersion:%@",kAppVersion);
     [Flurry startSession:@"SHY275WVSQH8FYKF63M6"];
     
+    application.applicationSupportsShakeToEdit = YES;
+    
      return YES;
 }
 

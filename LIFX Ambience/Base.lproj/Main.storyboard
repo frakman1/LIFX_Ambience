@@ -58,7 +58,7 @@
                                         </prototypes>
                                         <sections/>
                                     </tableView>
-                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj" userLabel="Cam Button">
+                                    <button tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rk-T0-rCj" userLabel="Cam Button">
                                         <rect key="frame" x="226" y="249" width="93" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="93" id="nsK-V7-k9v"/>
@@ -71,7 +71,7 @@
                                             <segue destination="beV-Dh-bsA" kind="push" id="AMS-OF-CFg"/>
                                         </connections>
                                     </button>
-                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee" userLabel="Music Button">
+                                    <button tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQI-9p-Oee" userLabel="Music Button">
                                         <rect key="frame" x="10" y="248" width="93" height="93"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" image="musicg">
@@ -81,7 +81,7 @@
                                             <segue destination="2Ua-YC-BMe" kind="push" id="bRd-lM-23s"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wME-nt-RzG" userLabel="Motion Button">
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wME-nt-RzG" userLabel="Motion Button">
                                         <rect key="frame" x="226" y="349" width="93" height="93"/>
                                         <state key="normal" image="motion">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -90,7 +90,7 @@
                                             <action selector="motionButtonPressed:" destination="3SO-wL-eml" eventType="touchUpInside" id="QD2-o1-Xze"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4o6-yF-2ft" userLabel="YouTube Button">
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4o6-yF-2ft" userLabel="YouTube Button">
                                         <rect key="frame" x="116" y="248" width="93" height="93"/>
                                         <state key="normal" image="yt">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -679,7 +679,7 @@
                     <navigationItem key="navigationItem" id="VNQ-e4-Tjc">
                         <nil key="title"/>
                         <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="joD-PF-Xv4">
-                            <rect key="frame" x="171" y="6" width="33" height="32"/>
+                            <rect key="frame" x="144" y="6" width="33" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="help">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -771,25 +771,6 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1123" y="-838"/>
-        </scene>
-        <!--You TubeDVC-->
-        <scene sceneID="fcA-65-Se6">
-            <objects>
-                <viewController id="YaN-4H-t6m" customClass="YouTubeDVC" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="qTc-bf-qnJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="A4R-gM-ZfO"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="GXr-Cj-oUx">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="9vV-Un-68c"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AFu-qT-6mO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1559" y="-840"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="dii-iv-bPe">

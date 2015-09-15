@@ -16,6 +16,9 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreMotion/CoreMotion.h>
 
+#import <sys/utsname.h> // import it in your header or implementation file.
+
+
 
 
 
@@ -31,7 +34,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
     UIBarButtonItem *tempButton;
     UIBarButtonItem *tempButton2;
     NSMutableArray *yourItemsArray;
-    
+
 
 }
 
@@ -67,7 +70,7 @@ UIImage* offImg;
 UIImage* onImg;
 
 NSTimer *timer;
-
+BOOL gShaken=NO;
 
 
 -(void)myTick:(NSTimer *)timer
@@ -141,7 +144,8 @@ NSTimer *timer;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-
+    gShaken = NO;
+    
     
     //setup motion detector
     self.deviceQueue = [[NSOperationQueue alloc] init];
@@ -155,22 +159,7 @@ NSTimer *timer;
     [self.sliderSaturation setThumbImage: [UIImage imageNamed:@"sat"] forState:UIControlStateNormal];
     [self.sliderValue setThumbImage: [UIImage imageNamed:@"value"] forState:UIControlStateNormal];
   
-    
-    // Do any additional setup after loading the view.
-    //[self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    //self.navigationController.navigationBar.shadowImage = [UIImage new];
-    //self.navigationController.navigationBar.translucent = YES;}
-    
-    //self.connectionStatusView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    //self.connectionStatusView.backgroundColor = [UIColor redColor];
-    //self.connectionStatusView.layer.cornerRadius = self.connectionStatusView.frame.size.height / 2.0;
-    //self.connectionStatusView.layer.borderWidth = 5.0 / [UIScreen mainScreen].scale;
-    //self.connectionStatusView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    //UITapGestureRecognizer *singleFingerTap =[[UITapGestureRecognizer alloc] initWithTarget:self  action:@selector (toggleLightList:)];
-    //[self.connectionStatusView addGestureRecognizer:singleFingerTap];
-    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.connectionStatusView];
-    
-    
+  
     offImg = [UIImage imageNamed:@"bulb_off"];
     onImg = [UIImage imageNamed:@"bulb_on"];
     CGRect frameimg = CGRectMake(0, 0, offImg.size.width, offImg.size.height);
@@ -182,29 +171,11 @@ NSTimer *timer;
     [self.someButton2 addTarget:self action:@selector(toggleLightList:) forControlEvents:UIControlEventTouchUpInside];
     [self.someButton setShowsTouchWhenHighlighted:YES];
     [self.someButton2 setShowsTouchWhenHighlighted:YES];
-    
-    //[self.btnMusic.imageView startGlowingWithColor:[UIColor whiteColor] intensity:0.5];
-    //[self.btnCam.imageView startGlowingWithColor:[UIColor whiteColor] intensity:0.5];
-    
-    //UIBarButtonItem *lightBarButton =[[UIBarButtonItem alloc] initWithCustomView:self.someButton];
-    tempButton = [[UIBarButtonItem alloc] initWithCustomView:self.someButton];
+      tempButton = [[UIBarButtonItem alloc] initWithCustomView:self.someButton];
     tempButton2 = [[UIBarButtonItem alloc] initWithCustomView:self.someButton2];
     self.navigationItem.leftBarButtonItem=tempButton;
     
                     
-    //self.navigationItem.rightBarButtonItem.target = self;
-    //self.navigationItem.rightBarButtonItem.action = @selector(toggleLightList:);
-    //[self.navigationItem.rightBarButtonItem setAction:@selector(toggleLightList:)];
-    
-    //UIBarButtonItem *item = (UIBarButtonItem *)self.navigationItem.rightBarButtonItem;
-    //UIBarButtonItem *item = self.navigationController.navigationBar.topItem.rightBarButtonItem;
-    //UIButton *myBtn = (UIButton *)item.customView;
-    //[myBtn setShowsTouchWhenHighlighted:YES];
-   
-    //[(UIButton *)(UIBarButtonItem *)self.navigationItem.rightBarButtonItem.customView setShowsTouchWhenHighlighted:YES];
-    
-    //myBtn setShowsTouchWhenHighlighted:YES];
-    
     //create header subview for table
     CGFloat headerHeight = 20.0f;//self.tableView.tableHeaderView.frame.size.height;
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, headerHeight)];
@@ -228,62 +199,16 @@ NSTimer *timer;
     [layer setBorderColor:[[UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:0.1f] CGColor]];
     //self.tableView.bounces = NO;
     
+    [[self.lblInfo layer] setCornerRadius:10];
+    self.lblInfo.clipsToBounds = YES;
+    self.lblInfo.layer.masksToBounds = YES;
+    UIFont* boldFont = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
+    [self.lblInfo setFont:boldFont];
+    
     //yourItemsArray = [[NSMutableArray alloc] initWithObjects:@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",nil];
     
     //self.navigationController.navigationBar.topItem.title = @"";
-    
-    //=======================================================================================================================================
-    /*
-    UIView * container = [[UIView alloc]initWithFrame:CGRectZero];
-    UIButton * button = [[UIButton alloc]initWithFrame:CGRectZero];
-    [button addTarget:self action:@selector(btnHelpPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [button setImage:[UIImage imageNamed:@"help"] forState:UIControlStateNormal];
-    [button sizeToFit];
-    [container addSubview:button];
-    [container sizeToFit];
-    self.navigationItem.titleView = container;
-    [[self.navigationItem.titleView superview] bringSubviewToFront:self.navigationItem.titleView];
-     */
-   // NSArray *itemArray = [NSArray arrayWithObjects: @"Example", nil];
-   // NSArray *itemArray = [NSArray arrayWithObjects: [UIImage imageNamed:@"help"],nil];
-   // self.seg = [[AKSingleSegmentedControl alloc] initWithItem:[UIImage imageNamed:@"help"]];
-    
-    //self.seg.segmentedControlStyle = UISegmentedControlStyleBar;
-    
-    //UIColor *newTintColor = [UIColor colorWithRed: 0/255.0 green:175/255.0 blue:0/255.0 alpha:1.0];
-    //self.seg.tintColor = newTintColor;
-    
-    //UIColor *newSelectedTintColor = [UIColor colorWithRed: 251/255.0 green:175/255.0 blue:93/255.0 alpha:1.0];
-    //[[[self.seg subviews] objectAtIndex:0] setTintColor:newSelectedTintColor];
-    
-    //self.seg.segmentedControlStyle = UISegmentedControlStylePlain;
-    //[self.seg addTarget:self action:@selector(btnHelpPressed:)
-                 //forControlEvents:UIControlEventValueChanged];
-    //self.seg.selectedSegmentIndex = -1;
-    
-    //self.navigationItem.titleView = self.seg;
-    
-    /* Make Button in Code
-    UIView *container = [[UIView alloc] init];
-    container.frame = CGRectMake(0, 0, 32, 32);
-    
-    // create a button and add it to the container
-    UIButton *notificationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [notificationButton setImage:[UIImage imageNamed:@"help"] forState:UIControlStateNormal];
-    notificationButton.frame = CGRectMake(0, 0, 32, 32);
-    [notificationButton addTarget:self
-                           action:@selector(btnHelpPressed:)
-                 forControlEvents:UIControlEventTouchUpInside];
-    [container addSubview:notificationButton];
-    
-    
-    
-    // Set the titleView to the container view
-    [self.navigationItem setTitleView:container];
-    */
-    
-    
-    //=======================================================================================================================================
+
 
     timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
 }
@@ -361,6 +286,7 @@ NSTimer *timer;
     [super viewWillAppear:animated];
     
     //[self mute];
+    gShaken = NO;
     
     
     NSLog(@"***Overriding orientation.");
@@ -504,12 +430,31 @@ NSTimer *timer;
     
      [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnInfo.center.x, self.btnInfo.center.y) tooltipText:@"Info Page" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:[self.navigationController view] width:100];
     
-    [self.tooltipManager addTooltipWithTargetView:self.btnMusic  hostView:self.view tooltipText:@"Music Player.\nPulse your lights in time to the music." arrowDirection:JDFTooltipViewArrowDirectionUp  width:200];
+    [self.tooltipManager addTooltipWithTargetView:self.btnMusic  hostView:self.view tooltipText:@"Music Player.\nPulse your lights in time to the music." arrowDirection:JDFTooltipViewArrowDirectionUp  width:280];
     
     
     [self.tooltipManager addTooltipWithTargetView:self.btnCam  hostView:self.view tooltipText:@"Camera Viewer.\nPoint the Camera at anything and instantly match the bulb colour to it." arrowDirection:JDFTooltipViewArrowDirectionDown  width:210];
     
-    [self.tooltipManager addTooltipWithTargetView:self.btnMotion  hostView:self.view tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axis to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionUp  width:310];
+    //[self.tooltipManager addTooltipWithTargetView:self.btnMotion  hostView:self.view tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axis to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionRight  width:310];
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString* hw = [NSString stringWithCString:systemInfo.machine
+                                      encoding:NSUTF8StringEncoding];
+    NSLog(@"Hardware: %@",hw);
+    if ( ([hw isEqualToString:@"iPhone4,1"]) || ([hw isEqualToString:@"iPhone3,1"]) )
+    {
+        NSLog(@"Running on iPhone 4/4S");
+        
+        [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMotion.center.x, self.btnMotion.center.y) tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axis to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.view width:310];
+    }
+    else
+    {
+         NSLog(@"NOT Running on iPhone 4/4S");
+        [self.tooltipManager addTooltipWithTargetView:self.btnMotion  hostView:self.view tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axis to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionRight  width:200];
+        
+        
+    }
+
   
     
 }
@@ -619,30 +564,30 @@ NSTimer *timer;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    //NSLog(@"titleForHeaderInSection :%d",section);
+
     //switch ((TableSection)section)
     {
         //case TableSectionLights:	return @"Lights";
         //case TableSectionTags:		return @"Tags";
     }
     BOOL isConnected = (self.lifxNetworkContext.connectionState == LFXConnectionStateConnected);
-    //[self updateLights];
-    //[self updateNavBar];
-    //[self.tableView reloadData];
+
     
     UIView *headerContentView = self.tableView.tableHeaderView.subviews[0];
     
     if (isConnected)
     {
-        //return @"Lights";
         headerContentView.backgroundColor = [UIColor greenColor];
+        //[headerContentView startGlowingWithColor:[UIColor greenColor] intensity:1];
         
         
     }
     else
     {
         self.lights=nil;
-        //return @"No Lights";
         headerContentView.backgroundColor = [UIColor grayColor];
+        //[headerContentView stopGlowing ] ;
     }
    
  
@@ -652,6 +597,7 @@ NSTimer *timer;
 
 //Note: UITableView is a subclass of UIScrollView, so we
 //      can use UIScrollViewDelegate methods.
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat offsetY = scrollView.contentOffset.y;
@@ -659,21 +605,32 @@ NSTimer *timer;
     headerContentView.transform = CGAffineTransformMakeTranslation(0, MIN(offsetY, 0));
 }
 
-
+/*
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
+    //NSLog(@"willDisplayHeaderView :%@  forsection :%d",view, section);
     // Background color
     //gColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:1.0f] ;
-    view.tintColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:0.3f] ;
+    //view.tintColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:0.3f] ;
     
     // Text Color
-    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    [header.textLabel setTextColor:[UIColor grayColor]];
+    //UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    //[header.textLabel setTextColor:[UIColor grayColor]];
     
     // Another way to set the background color
     // Note: does not preserve gradient effect of original header
     // header.contentView.backgroundColor = [UIColor blackColor];
+
 }
+*/
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+    
+    //return self.tableView.tableHeaderView.subviews[0];
+
+    
+    
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -683,30 +640,37 @@ NSTimer *timer;
     {
         case TableSectionLights:
         {
-            LFXLight *light = self.lights[indexPath.row];
-            if (light.powerState==LFXPowerStateOff)
-            {
-                NSLog(@"Bulb is Connected but in OFF State.Turning On...");
-                [light setPowerState:LFXPowerStateOn];
-            }
-            //cell.textLabel.textAlignment = NSTextAlignmentCenter;
-            cell.textLabel.text = light.label;
-            cell.detailTextLabel.text = light.deviceID;
-            //NSLog(@"color:%ld",(long)indexPath.row);
-            cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
-        
-            //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];
+            //NSLog(@"indexPath.row=%d",indexPath.row);
             
-            //update sliders. just do it once instead of on every row
-            if ( (indexPath.row==0) && (!self.btnMotion.selected) )
-            {   NSLog(@"Updating sliders");
-                self.sliderBrightness.value = light.color.brightness;
-                self.sliderSaturation.value = light.color.saturation;
-                self.sliderHue.value = light.color.hue/360;
-                self.sliderValue.value = light.color.brightness;
-            }
+            
+                LFXLight *light = self.lights[indexPath.row];
+                //@synchronized (self){
+                    if ((light.powerState==LFXPowerStateOff) && (!gShaken))
+                    {
+                        NSLog(@"Bulb is Connected but in OFF State.Turning On...");
+                        [light setPowerState:LFXPowerStateOn];
+                    }
+                //}
+                //cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                cell.textLabel.text = light.label;
+                cell.detailTextLabel.text = light.deviceID;
+                //NSLog(@"color:%ld",(long)indexPath.row);
+                cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+            
+                //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];
+                
+                //update sliders. just do it once instead of on every row
+                if ( (indexPath.row==0) && (!self.btnMotion.selected) )
+                {   //NSLog(@"Updating sliders");
+                    self.sliderBrightness.value = light.color.brightness;
+                    self.sliderSaturation.value = light.color.saturation;
+                    self.sliderHue.value = light.color.hue/360;
+                    self.sliderValue.value = light.color.brightness;
+                }
 
-            break;
+                break;
+            
+           
         }
 /*
         case TableSectionTags:
@@ -755,6 +719,8 @@ NSTimer *timer;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    //UIButton *btn = (UIButton*)sender;
+    NSLog(@"prepareForSegue. tag number%d",[(UIButton *)sender tag]);
 
 }
 
@@ -806,13 +772,38 @@ NSTimer *timer;
 
 -(void) updateLblInfo
 {
+    NSLog(@"updateLblInfo()");
+    self.lblInfo.alpha=1;
+    self.lblInfo.hidden=NO;
     // change test lblInfo background colour to indicate change on device screen
     self.lblInfo.backgroundColor = [UIColor colorWithHue:(self.sliderHue.value) saturation:self.sliderSaturation.value brightness:self.sliderValue.value alpha:1];
 
     
 }
 
+-(void) turnOnLights
+{
+    NSLog(@"turnOnLights()");
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
+    {
+        [aLight setPowerState:LFXPowerStateOn];
+        
+    }// end for
 
+}
+
+-(void) toggleLights
+{
+    NSLog(@"***SHAKE SHAKE SHAKE***gShaken:%d",gShaken); gShaken = !gShaken;
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
+    {
+        aLight.powerState  = !aLight.powerState;
+        
+    }// end for
+    
+}
 - (IBAction)brightnessOrKelvinChanged:(UISlider *)sender
 {
     NSLog(@"brightnessOrKelvinChanged()");
@@ -841,10 +832,11 @@ NSTimer *timer;
                     completion:NULL];
     
 
-    self.lblInfo.hidden=NO;
+    
     NSString* s = [NSString stringWithFormat:@"White Brightness: %0.2f",self.sliderBrightness.value];
     [self.lblInfo setText:s ];
     [self updateLblInfo];
+    [self turnOnLights];
 }
 
 
@@ -864,7 +856,7 @@ NSTimer *timer;
                     completion:NULL];
     
 
-    self.lblInfo.hidden=NO;
+    
     if (self.sliderSaturation.value == 0.0f)
     {
         NSString* s1 = [NSString stringWithFormat:@"Hue (Colour): %0.2f \n(ensure Saturation is non-zero)",self.sliderHue.value];
@@ -876,6 +868,7 @@ NSTimer *timer;
         [self.lblInfo setText:s2 ];
     }
     [self updateLblInfo];
+    [self turnOnLights];
     
     
 
@@ -898,10 +891,11 @@ NSTimer *timer;
                     completion:NULL];
     
 
-    self.lblInfo.hidden=NO;
+    
     NSString* s = [NSString stringWithFormat:@"Saturation (Intensity): %0.2f",self.sliderSaturation.value];
     [self.lblInfo setText:s ];
     [self updateLblInfo];
+    [self turnOnLights];
     
 
     
@@ -923,11 +917,12 @@ NSTimer *timer;
                     completion:NULL];
     
 
-    self.lblInfo.hidden=NO;
+    
     NSString* s = [NSString stringWithFormat:@"Value (Brightness): %0.2f",self.sliderValue.value];
     [self.lblInfo setText:s ];
     
     [self updateLblInfo];
+    [self turnOnLights];
 
 }
 
@@ -940,6 +935,7 @@ NSTimer *timer;
                     completion:NULL];
     
     self.lblInfo.hidden = YES;
+    
    
     
 }
@@ -1173,6 +1169,67 @@ NSTimer *timer;
     
     
 }
+
+
+-(void) animateOn
+{
+    NSLog(@"***animating ***");
+    
+    self.lblInfo.backgroundColor = [UIColor redColor];
+    self.lblInfo.textColor = [UIColor whiteColor];
+   
+
+    NSString* s = [NSString stringWithFormat:@"Shake to Toggle Lights Activated"];
+    [self.lblInfo setText:s ];
+    self.lblInfo.hidden = NO;
+    [self.lblInfo setAlpha:1.f];
+    
+    //////////////toggle lblInfo effect
+    [UIView animateWithDuration:0.5f
+                          delay:0.5f
+                        options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
+                     animations:^{
+                          [UIView setAnimationRepeatCount:2.5];
+                         //NSLog(@"in animation alpha:%f",self.imgBox.alpha);
+                         [self.lblInfo setAlpha:0.f];
+                     }
+                     completion:^(BOOL finished){
+                         if (finished) NSLog(@"done");
+                         //[self.imgBox setAlpha:0.f];
+                     }];
+    
+
+     //////////////////
+
+    
+}
+
+
+
+
+
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+//@synchronized (self){
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        
+       
+        [self toggleLights];
+        
+        
+    }//end if
+    
+    NSLog(@"**motionEnded");
+    
+   [self animateOn];
+    
+    
+//}// end @syncronized
+    
+}
+
 
 
 @end
