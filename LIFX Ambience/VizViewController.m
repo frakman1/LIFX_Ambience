@@ -98,6 +98,10 @@ BOOL gRepeatEnabled = false;
 - (void) startPlaying
 {
     NSLog(@"startPlaying() gcurrentSong:%d",gcurrenSong);
+    
+    [self.imgBox.layer removeAllAnimations];
+
+    
     MPMediaItem *item = [[playlist items] objectAtIndex:gcurrenSong];
     NSURL *myurl = [item valueForProperty:MPMediaItemPropertyAssetURL];
     NSLog(@"url:%@",myurl);
@@ -575,11 +579,12 @@ BOOL gRepeatEnabled = false;
 
 - (void)handleTap:(UITapGestureRecognizer *)sender
 {
-     NSLog(@"handleTap ");
+     NSLog(@"handleTap (doubletap actually) ");
     
     if (!self.isPaused)
     {
         //playaudio
+        NSLog(@"play");
         [self.imgBox setImage:[UIImage imageNamed:@"play2"]];
         self.imgBox.tag = 0;
         
@@ -587,13 +592,16 @@ BOOL gRepeatEnabled = false;
     else
     {
         //pause
+        NSLog(@"pause");
         [self.imgBox setImage:[UIImage imageNamed:@"pause2"]];
          self.imgBox.tag = 1;
     }
     
+        [self.playButton setHighlighted:YES]; [self.playButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.playButton setHighlighted:NO];
+    
     [self startFade];
     
-    [self.playButton setHighlighted:YES]; [self.playButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.playButton setHighlighted:NO];
+
 
     //self.imgBox.hidden = !self.imgBox.hidden;
     //self.imgBox.alpha=1;
@@ -619,6 +627,7 @@ BOOL gRepeatEnabled = false;
     
     [self.imgBox setImage:[UIImage imageNamed:@"volumeUp"]];
     
+    self.imgBox.tag = 0;
     [self startFade];
 
 }
@@ -640,7 +649,7 @@ BOOL gRepeatEnabled = false;
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
     
     [self.imgBox setImage:[UIImage imageNamed:@"volumeDown"]];
-    
+    self.imgBox.tag = 0;
     [self startFade];
    
 }
@@ -652,7 +661,7 @@ BOOL gRepeatEnabled = false;
     [self.btnnext setHighlighted:YES]; [self.btnnext sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnnext setHighlighted:NO];
   //[self btnnextPressed:nil];
     [self.imgBox setImage:[UIImage imageNamed:@"right2"]];
-    
+    self.imgBox.tag = 0;
     [self startFade];
     
 }
@@ -664,30 +673,13 @@ BOOL gRepeatEnabled = false;
     [self.btnprevious setHighlighted:YES]; [self.btnprevious sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnprevious setHighlighted:NO];
   //[self btnpreviousPressed:nil];
     [self.imgBox setImage:[UIImage imageNamed:@"left2"]];
-    
+    self.imgBox.tag = 0;
     [self startFade];
 
     
 }
 
-/*
-- (void)handleTapGesture:(UITapGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateRecognized) {
-        // handling code
-        NSLog(@"double tap detected");
-        //[self pause:self];
-        if ([self isPlaying])
-        {
-            [self pause:self];
-        }
-        else
-        {
-            [self play:self];
-        }
-        
-    }
-}
-*/
+
 
 - (void)viewDidAppear:(BOOL)animated {
     NSLog (@"***viewDidAppear***");
@@ -1092,13 +1084,14 @@ BOOL gRepeatEnabled = false;
 - (IBAction)playAudioPressed:(id)playButton
 {
     NSLog(@"Entering %s()",__FUNCTION__);
-    
+   
 
     
     //NSLog(@"BEFORE:_isPlaying=%d",_isPlaying);
     [self.timer invalidate];
     //play audio for the first time or if pause was pressed
     if (!self.isPaused) {
+         [self.imgBox.layer removeAllAnimations];
        
         [self.playButton setBackgroundImage:[UIImage imageNamed:@"pause"]
                                    forState:UIControlStateNormal];
@@ -1128,6 +1121,9 @@ BOOL gRepeatEnabled = false;
 }
 - (void) startFade
 {
+    
+    [self.imgBox.layer removeAllAnimations];
+    
     [self.imgBox setAlpha:1.f];
     //NSLog(@"startFade1 alpha:%f",self.imgBox.alpha);
     
@@ -1141,7 +1137,7 @@ BOOL gRepeatEnabled = false;
                          [self.imgBox setAlpha:0.f];
                      }
                      completion:^(BOOL finished){
-                         if (finished) NSLog(@"done");
+                         if (finished) {NSLog(@"done");}
                          //[self.imgBox setAlpha:0.f];
                      }];
 
@@ -1343,7 +1339,7 @@ BOOL gRepeatEnabled = false;
 - (IBAction)btnnextPressed:(UIButton *)sender
 {
     NSLog(@"\n\nbtnnextPressed. gcurrentSong:%d",gcurrenSong);
-    
+    [self.imgBox.layer removeAllAnimations];
     int index = 0;
     for (MPMediaItem *item in playlist.items)
     {
@@ -1369,6 +1365,7 @@ BOOL gRepeatEnabled = false;
 {
     
     NSLog(@"\n\nbtnpreviousPressed. gcurrentSong:%d",gcurrenSong);
+    [self.imgBox.layer removeAllAnimations];
     
     int index = 0;
     for (MPMediaItem *item in playlist.items)
