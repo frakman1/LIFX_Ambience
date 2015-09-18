@@ -1060,7 +1060,7 @@ BOOL gShaken=NO;
                  self.sliderBrightness.value = Roll;
                  self.sliderValue.value = Roll;
                  self.sliderHue.value = Pitch;
-                 self.sliderSaturation.value = Yaw;
+                 self.sliderSaturation.value = (-1)*Yaw;
                  
                  
                  brightness= (Roll+90.0)/180.0;      if (brightness>1) brightness=1;if (brightness<0) brightness=0;
