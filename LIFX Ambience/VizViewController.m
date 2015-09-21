@@ -168,6 +168,9 @@ BOOL gRepeatEnabled = false;
     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     
+    
+     _visualizer.sliderThresholdValue = myslider_threshold.value;
+    _visualizer.vizInputLights = self.inputLights;
 
     CGRect frame = self.view.frame;
    
@@ -266,7 +269,14 @@ BOOL gRepeatEnabled = false;
         
         LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
         LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-        [localNetworkContext.allLightsCollection setColor:tmpColor];
+        //[localNetworkContext.allLightsCollection setColor:tmpColor];
+        NSLog(@"self.inputLights:%@",self.inputLights);
+        for (NSString *aDevID in self.inputLights)
+        {
+            LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+            [aLight setColor:tmpColor];
+        }
+
    
     }
 }

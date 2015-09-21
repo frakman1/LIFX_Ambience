@@ -17,4 +17,5 @@
 
 @property (strong,nonatomic) NSMutableArray *filteredVideosArray;
 @property IBOutlet UISearchBar *mySearchBar;
+@property (nonatomic) NSMutableArray *ytInputLights;
 @end

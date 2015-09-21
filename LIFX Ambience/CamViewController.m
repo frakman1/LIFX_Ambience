@@ -564,6 +564,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     //NSLog(@"***Overriding orientation.");
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    NSLog(@"inputLights:%@",self.inputLights);
 
     dispatch_async([self sessionQueue], ^{
         [self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:SessionRunningAndDeviceAuthorizedContext];
@@ -1125,7 +1126,12 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
                         gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
                     }
                     
-                    [localNetworkContext.allLightsCollection setColor:gcamLifxColor overDuration:0.5];
+                    //[localNetworkContext.allLightsCollection setColor:gcamLifxColor overDuration:0.5];
+                    for (NSString *aDevID in self.inputLights)
+                    {
+                        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+                        [aLight setColor:gcamLifxColor overDuration:0.5];
+                    }
                 }
                 //********
                 

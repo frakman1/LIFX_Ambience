@@ -45,10 +45,17 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
 
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    for (NSString *aDevID in self.ytInputLights)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setColor:tmpColor overDuration:0.5];
+    }
+
     
 }
 
@@ -271,6 +278,7 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
             
             self.VidPlayer = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:videoId];
             self.VidPlayer.moviePlayer.backgroundView.backgroundColor = [UIColor colorWithRed:10 green:31 blue:49 alpha:1];
+            self.VidPlayer.ytpInputLights = self.ytInputLights;
             [self presentMoviePlayerViewControllerAnimated:self.VidPlayer];
            
         }

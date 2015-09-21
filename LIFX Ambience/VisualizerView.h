@@ -11,6 +11,7 @@
 @property (nonatomic) float sliderThresholdValue;
 
 @property (nonatomic) float LevelValue;
+@property (nonatomic) NSMutableArray *vizInputLights;
 
 
 - (void) vizStop;

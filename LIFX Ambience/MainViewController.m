@@ -15,6 +15,9 @@
 #import "AppDelegate.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreMotion/CoreMotion.h>
+#import "VizViewController.h"
+#import "CamViewController.h"
+#import "YouTubeTVC.h"
 
 #import <sys/utsname.h> // import it in your header or implementation file.
 
@@ -55,6 +58,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
 
 @property (strong, nonatomic) CMMotionManager *motionManager;
 @property (strong, nonatomic) NSOperationQueue *deviceQueue;
+@property (nonatomic) NSMutableArray *selectedIndexes;
 
 
 @end
@@ -75,7 +79,8 @@ BOOL gShaken=NO;
 
 -(void)myTick:(NSTimer *)timer
 {
-    //NSLog(@"myTick..\n\n");
+    NSLog(@"myTick..\n\n");
+    NSLog(@"SelectedIndexes:%@",self.selectedIndexes);
     [self updateLights];
     [self updateNavBar];
     [self.tableView reloadData];
@@ -146,6 +151,7 @@ BOOL gShaken=NO;
     
     gShaken = NO;
     
+    self.selectedIndexes = [[NSMutableArray alloc] init];
     
     //setup motion detector
     self.deviceQueue = [[NSOperationQueue alloc] init];
@@ -189,6 +195,8 @@ BOOL gShaken=NO;
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     
+    self.tableView.allowsMultipleSelection = YES;
+    [self.tableView setAllowsSelection:YES];
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.hidden = YES;
     
@@ -346,7 +354,13 @@ BOOL gShaken=NO;
     self.sliderBrightness.value = 1;
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    for (NSString *aDevID in self.selectedIndexes)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setColor:tmpColor overDuration:0.5];
+    }
+
     self.sliderHue.value = tmpColor.hue/360;
     self.sliderSaturation.value = tmpColor.saturation;
     self.sliderValue.value = tmpColor.brightness;
@@ -531,6 +545,7 @@ BOOL gShaken=NO;
 - (void)lightCollection:(LFXLightCollection *)lightCollection didAddLight:(LFXLight *)light
 {
     NSLog(@"Light Collection: %@ Did Add Light: %@", lightCollection, light);
+    [self.selectedIndexes addObject:light.deviceID];
     [light addLightObserver:self];
     [self updateLights];
     [self updateNavBar];
@@ -540,6 +555,7 @@ BOOL gShaken=NO;
 - (void)lightCollection:(LFXLightCollection *)lightCollection didRemoveLight:(LFXLight *)light
 {
     NSLog(@"Light Collection: %@ Did Remove Light: %@", lightCollection, light);
+    [self.selectedIndexes removeObject:light.deviceID];
     [light removeLightObserver:self];
     [self updateLights];
     [self updateNavBar];
@@ -632,6 +648,34 @@ BOOL gShaken=NO;
     
 //}
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"didSelectRowAtIndexPath()  indexPath.row:%ld",(long)indexPath.row);
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if ([selectedCell accessoryType] == UITableViewCellAccessoryNone)
+    {
+        NSLog(@"UITableViewCellAccessoryNone: ");
+        [selectedCell setAccessoryType:UITableViewCellAccessoryCheckmark];
+        //[self.selectedIndexes addObject:[NSNumber numberWithInt:indexPath.row] ];
+        [self.selectedIndexes addObject: selectedCell.detailTextLabel.text];
+    } else
+    {
+        NSLog(@"else: ");
+        [selectedCell setAccessoryType:UITableViewCellAccessoryNone];
+        [self.selectedIndexes removeObject:selectedCell.detailTextLabel.text];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+}
+/*
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"editingStyleForRowAtIndexPath()  indexPath.row:%ld",(long)indexPath.row);
+    return 3; // Undocumented constant
+}
+*/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
@@ -641,36 +685,40 @@ BOOL gShaken=NO;
         case TableSectionLights:
         {
             //NSLog(@"indexPath.row=%d",indexPath.row);
-            
-            
-                LFXLight *light = self.lights[indexPath.row];
-                //@synchronized (self){
-                    if ((light.powerState==LFXPowerStateOff) && (!gShaken))
-                    {
-                        NSLog(@"Bulb is Connected but in OFF State.Turning On...");
-                        [light setPowerState:LFXPowerStateOn];
-                    }
-                //}
-                //cell.textLabel.textAlignment = NSTextAlignmentCenter;
-                cell.textLabel.text = light.label;
-                cell.detailTextLabel.text = light.deviceID;
-                //NSLog(@"color:%ld",(long)indexPath.row);
-                cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
-            
-                //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];
-                
-                //update sliders. just do it once instead of on every row
-                if ( (indexPath.row==0) && (!self.btnMotion.selected) )
-                {   //NSLog(@"Updating sliders");
-                    self.sliderBrightness.value = light.color.brightness;
-                    self.sliderSaturation.value = light.color.saturation;
-                    self.sliderHue.value = light.color.hue/360;
-                    self.sliderValue.value = light.color.brightness;
+            if ([self.selectedIndexes containsObject:cell.textLabel.text])
+            {
+                NSLog(@"cellForRowAtIndexPath() ...saved...");
+                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+            }
+            LFXLight *light = self.lights[indexPath.row];
+            //@synchronized (self){
+                if ((light.powerState==LFXPowerStateOff) && (!gShaken))
+                {
+                    NSLog(@"Bulb is Connected but in OFF State.Turning On...");
+                    [light setPowerState:LFXPowerStateOn];
                 }
-
-                break;
+            //}
+            //cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.textLabel.text = light.label;
+            cell.detailTextLabel.text = light.deviceID;
+            //NSLog(@"color:%ld",(long)indexPath.row);
+            cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        
+            //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];
             
-           
+            //update sliders. just do it once instead of on every row
+           /* 
+            if ( (indexPath.row==0) && (!self.btnMotion.selected) )
+            {   NSLog(@"Updating sliders");
+                self.sliderBrightness.value = light.color.brightness;
+                self.sliderSaturation.value = light.color.saturation;
+                self.sliderHue.value = light.color.hue/360;
+                self.sliderValue.value = light.color.brightness;
+            }
+            */
+            break;
+        
+       
         }
 /*
         case TableSectionTags:
@@ -686,23 +734,27 @@ BOOL gShaken=NO;
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.contentView.backgroundColor = [UIColor clearColor];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    
+    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.tintColor = [UIColor greenColor];
     cell.detailTextLabel.textColor = [UIColor grayColor];
 
 
     
     return cell;
 }
-
+/*
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    if(cell.selectionStyle == UITableViewCellSelectionStyleNone){
+    if(cell.selectionStyle == UITableViewCellSelectionStyleNone)
+    {
+        NSLog(@"willSelectRowAtIndexPath 1");
         return nil;
     }
+     NSLog(@"willSelectRowAtIndexPath 2");
     return indexPath;
 }
+ */
 #pragma mark - LFXLightObserver
 
 - (void)light:(LFXLight *)light didChangeLabel:(NSString *)label
@@ -719,8 +771,28 @@ BOOL gShaken=NO;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    //UIButton *btn = (UIButton*)sender;
-    NSLog(@"prepareForSegue. tag number%d",[(UIButton *)sender tag]);
+    UIButton *btn = (UIButton*)sender;
+    NSLog(@"prepareForSegue. tag number:%d",[(UIButton *)sender tag]);
+    if (btn.tag == 3)
+    {
+        NSLog(@"going to cam player");
+        CamViewController *destination = segue.destinationViewController;
+        destination.inputLights = self.selectedIndexes;
+    }
+    else if (btn.tag == 1)
+    {
+        NSLog(@"going to music player");
+        VizViewController *vizDestination = segue.destinationViewController;
+        vizDestination.inputLights = self.selectedIndexes;
+    }
+    else if (btn.tag==2)
+    {
+        NSLog(@"going to youtube player");
+        YouTubeTVC *ytDestination = segue.destinationViewController;
+        ytDestination.ytInputLights = self.selectedIndexes;
+        
+    }
+
 
 }
 
@@ -733,41 +805,7 @@ BOOL gShaken=NO;
     CGRect frame = self.view.frame;
     
     
-    
 
-    
-
-    
-    //CGRect tableFrame = [self.tableView frame];
-    //tableFrame.origin.x = frame.origin.x;
-    //tableFrame.origin.y = self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height;
-    //tableFrame.size.height = frame.size.height - self.tableView.frame.origin.y;
-    //tableFrame.size.width = frame.size.width/2 - 10;
-    
-    //[self.tableView setFrame:tableFrame];
-    
-    
-   /*
-    self.tableView.frame = CGRectMake(0,
-                                      self.btnMusic.frame.origin.y + self.btnMusic.frame.size.height,
-                                      frame.size.width,
-                                      frame.size.height
-                                      );
-    */
-    
-    //frame.origin.x + (float)frame.size.height - (float) self.tableView.frame.size.height;
-/*
-    self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width ,self.audioPlayerBackgroundLayer.frame.size.height);
-    self.lblSongTitle.frame = CGRectMake(self.lblSongTitle.frame.origin.x, self.lblSongTitle.frame.origin.y, frame.size.width ,self.lblSongTitle.frame.size.height);
-    
-    
-    self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
-    CGPoint mypoint;
-    mypoint.x = (self.audioPlayerBackgroundLayer.frame.origin.x + self.audioPlayerBackgroundLayer.frame.size.width)-50;
-    mypoint.y = self.audioPlayerBackgroundLayer.center.y;
-    self.duration.center = mypoint;
-    
-*/
 }
 
 -(void) updateLblInfo
@@ -799,7 +837,18 @@ BOOL gShaken=NO;
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     for (LFXLight *aLight in localNetworkContext.allLightsCollection)
     {
-        aLight.powerState  = !aLight.powerState;
+        for (NSString *aDevID in self.selectedIndexes)
+        {
+            //LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+            if ([aLight.deviceID isEqualToString:aDevID])
+            {
+                aLight.powerState  = !aLight.powerState;
+            }
+            
+        }
+
+        
+        
         
     }// end for
     
@@ -810,7 +859,13 @@ BOOL gShaken=NO;
     //self.lblInfo.backgroundColor = [UIColor clearColor];
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:self.sliderBrightness.value  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    for (NSString *aDevID in self.selectedIndexes)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setColor:tmpColor overDuration:0.5];
+    }
+
     
    /*
     LFXHSBKColor *colour = [LFXHSBKColor colorWithHue:self.selectedLight.color.hue
@@ -847,7 +902,13 @@ BOOL gShaken=NO;
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    for (NSString *aDevID in self.selectedIndexes)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setColor:tmpColor overDuration:0.5];
+    }
+
     
     [UIView transitionWithView:self.lblInfo
                       duration:0.4
@@ -882,7 +943,13 @@ BOOL gShaken=NO;
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    for (NSString *aDevID in self.selectedIndexes)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setColor:tmpColor overDuration:0.5];
+    }
+
     
     [UIView transitionWithView:self.lblInfo
                       duration:0.4
@@ -908,7 +975,13 @@ BOOL gShaken=NO;
     
     LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:self.sliderHue.value * 360 saturation:self.sliderSaturation.value brightness:self.sliderValue.value];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    for (NSString *aDevID in self.selectedIndexes)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setColor:tmpColor overDuration:0.5];
+    }
+
     
     [UIView transitionWithView:self.lblInfo
                       duration:0.4
@@ -1074,7 +1147,13 @@ BOOL gShaken=NO;
                  LFXHSBKColor *colour = [LFXHSBKColor colorWithHue:hue saturation:saturation brightness:brightness];
                  
                  LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-                 [localNetworkContext.allLightsCollection setColor:colour];
+                 //[localNetworkContext.allLightsCollection setColor:colour];
+                 for (NSString *aDevID in self.selectedIndexes)
+                 {
+                     LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+                     [aLight setColor:colour overDuration:0.5];
+                 }
+
                  
                  // change test lblInfo background colour to indicate change on device screen
                  self.lblInfo.backgroundColor = [UIColor colorWithHue:(hue/360.0) saturation:saturation brightness:brightness alpha:1];

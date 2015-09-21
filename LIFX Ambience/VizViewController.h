@@ -55,6 +55,9 @@
 @property (weak, nonatomic) IBOutlet MPVolumeView *viewVolumeView;
 
 
+@property (nonatomic) NSMutableArray *inputLights;
+
+
 - (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;
 - (IBAction) btnnextPressed:(UIButton *)sender;
 - (void) startPlaying;

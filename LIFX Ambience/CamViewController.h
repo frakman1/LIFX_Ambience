@@ -51,5 +51,7 @@
 
 @property (weak, nonatomic) IBOutlet UISlider *powerLevel;
 
+@property (nonatomic) NSMutableArray *inputLights;
+
 
 @end

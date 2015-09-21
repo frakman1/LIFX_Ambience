@@ -54,8 +54,16 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
     [gColor getHue:&starthue saturation:&saturation brightness:&brightness alpha:&alpha];
     gLifxColor = [LFXHSBKColor colorWithHue:(starthue*360) saturation:saturation brightness:brightness];
     NSLog(@"starting hue:%f  ",starthue);
+    NSLog(@"vizInputLights:%@ ",self.vizInputLights);
+    
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:gLifxColor];
+    //[localNetworkContext.allLightsCollection setColor:gLifxColor];
+    for (NSString *aDevID in self.vizInputLights)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setColor:gLifxColor];
+    }
+    
     saturation = 0.8;
     gIncrement = 0.001;
 
@@ -225,7 +233,13 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         //NSLog(@"level:%f    scaled:%f   calcbrightness:%f   clamped:%f",level, scale, calcBrightness, clamped);
 
         gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:clamped];
-        [localNetworkContext.allLightsCollection setColor:gLifxColor];
+        //[localNetworkContext.allLightsCollection setColor:gLifxColor];
+        for (NSString *aDevID in self.vizInputLights)
+        {
+            LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+            [aLight setColor:gLifxColor];
+        }
+        
         
         //self.glevel = level;
         
