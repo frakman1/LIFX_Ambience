@@ -102,8 +102,14 @@
 - (IBAction) donateButtonTapped:(id)sender
 {
     NSURL *url = [ [ NSURL alloc ] initWithString: @"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WU67ZQDC8CEZQ" ];
-    
+    //UIButton* btn = (UIButton*)sender;
+    //NSLog(@"btn.tag:%d",btn.tag);
     [[UIApplication sharedApplication] openURL:url];
+    
+    // !HACK ALERT! getting a reference to parent view controller to access its elements.
+    MainViewController *parentViewController = (MainViewController*)[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    [parentViewController logIt:@"DonateButtonPressed" withTag:6];
+    
 }
 
 
@@ -115,6 +121,9 @@
      NSLog(@"%@",theMessage);
      [ProofingLabel setText:theMessage];
      */
+    
+    //UIButton* btn = (UIButton*)sender;
+
     
     if ([MFMailComposeViewController canSendMail])
     {
@@ -141,6 +150,10 @@
     }
     
     NSLog(@"Email sent");
+    // !HACK ALERT! getting a reference to parent view controller to access its elements.
+    MainViewController *parentViewController = (MainViewController*)[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+    [parentViewController logIt:@"EmailButtonPressed" withTag:5];
+
     
 }
 

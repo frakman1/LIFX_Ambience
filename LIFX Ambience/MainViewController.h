@@ -17,6 +17,7 @@
 
 - (id)initWithItem:(id)item;
 
+
 @end
 
 
@@ -35,7 +36,7 @@
 
 @property (nonatomic, strong) JDFTooltipManager *tooltipManager;
 
-
+- (void)logIt:(NSString*) event withTag:(NSInteger)tag;
 
 
 @end

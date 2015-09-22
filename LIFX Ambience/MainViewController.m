@@ -18,6 +18,7 @@
 #import "VizViewController.h"
 #import "CamViewController.h"
 #import "YouTubeTVC.h"
+#import "Flurry/Flurry.h"
 
 #import <sys/utsname.h> // import it in your header or implementation file.
 
@@ -37,7 +38,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
     UIBarButtonItem *tempButton;
     UIBarButtonItem *tempButton2;
     NSMutableArray *yourItemsArray;
-
+    
 
 }
 
@@ -75,6 +76,7 @@ UIImage* onImg;
 
 NSTimer *timer;
 BOOL gShaken=NO;
+CGFloat prevBrightness;
 
 
 -(void)myTick:(NSTimer *)timer
@@ -148,6 +150,10 @@ BOOL gShaken=NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *id=appdel.udid;
+    NSLog(@"UDID: %@",id);
     
     gShaken = NO;
     
@@ -780,22 +786,99 @@ BOOL gShaken=NO;
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:rowIndex inSection:TableSectionLights]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
--(BOOL) checkIfSelected
+
+
+//Flurry Event Logger
+
+- (void)logIt:(NSString*) event withTag:(NSInteger)tag
+{
+    NSString* tagName= [[NSString alloc]init];
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *id=appdel.udid;
+    NSLog(@"Logging Event:%@ withTag:%d for UDID: %@",event,tag,id);
+    switch (tag)
+    {
+            
+        case 0:
+        {
+                
+                tagName=@"info";
+                NSLog(@"tag=%d tagName:%@",tag,tagName);
+                break;
+        }
+        case 1:
+        {
+            
+            tagName=@"music";
+            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            break;
+        }
+        case 2:
+        {
+            
+            tagName=@"youtube";
+            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            break;
+        }
+        case 3:
+        {
+            
+            tagName=@"camera";
+            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            break;
+        }
+        case 4:
+        {
+            
+            tagName=@"gyro";
+            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            break;
+        }
+        case 5:
+        {
+            
+            tagName=@"email";
+            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            break;
+        }
+            
+        case 6:
+        {
+            
+            tagName=@"donate";
+            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            break;
+        }
+            
+
+            
+    }
+    [Flurry logEvent:event withParameters:@{id:@"userID",tagName:@"withTag"} timed:YES];
+
+    
+}
+
+
+-(BOOL) checkIfSelected:(NSInteger)tag
 {
     BOOL isConnected = (self.lifxNetworkContext.connectionState == LFXConnectionStateConnected);
     
     if ( (isConnected) && (self.selectedIndexes.count==0))
     {
         NSLog(@"No can do, compadré");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Can Do, Compadre" message:@"Please select at least one bulb" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Bulbs Selected" message:@"Please select at least one bulb" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         
         alert.tag = 0;
         
         [alert show];
+        
+        [self logIt:@"NoLightsSelectedTransitionAttempt" withTag:tag];
+        
         return NO;
     }
     else
     {
+        [self logIt:@"SuccessfullTransition" withTag:tag];
         return YES;
     }
 
@@ -806,16 +889,19 @@ BOOL gShaken=NO;
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     UIButton *btn = (UIButton*)sender;
+    
     // if any of the mini-App buttons got pressed, check for light selection.
     if ( (btn.tag == 1) || (btn.tag == 2) || (btn.tag == 3) )
     {
-       return [self checkIfSelected];
+        return [self checkIfSelected:btn.tag];
     }
     else
     {
+       [self logIt:@"SuccessfullTransition" withTag:btn.tag];
        return YES;
     }
 }
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
@@ -897,8 +983,6 @@ BOOL gShaken=NO;
             
         }
 
-        
-        
         
     }// end for
     
@@ -1111,12 +1195,13 @@ BOOL gShaken=NO;
 - (IBAction)motionButtonPressed:(id)sender
 {
     NSLog(@"Motion Pressed");
+    UIButton *btn = (UIButton*)sender;
     //[self.someButton setHighlighted:YES]; [self.someButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.someButton setHighlighted:NO];
-    if (![self checkIfSelected]) return;
+    if (![self checkIfSelected:btn.tag]) return;
     
         
     //////////////toggle button effect
-    UIButton *btn = (UIButton*) sender;
+    //UIButton *btn = (UIButton*) sender;
     btn.alpha = 0;
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     [UIView beginAnimations:nil context:nil];
@@ -1131,8 +1216,10 @@ BOOL gShaken=NO;
     
     if (self.btnMotion.selected)
     {
+        // dont allow table interaction
         self.tableView.allowsSelection = NO;
         
+        // show sliders,table etc
         [self fade:NO];
         
         [self.btnMotion setSelected:YES];
@@ -1144,8 +1231,8 @@ BOOL gShaken=NO;
         self.sliderSaturation.minimumValue = -90.0f;
         self.sliderSaturation.maximumValue = 90.0f;
         self.sliderSaturation.userInteractionEnabled = NO;
-        self.sliderValue.minimumValue = -90.0f;
-        self.sliderValue.maximumValue = 90.0f;
+        self.sliderValue.minimumValue = -180.0f;
+        self.sliderValue.maximumValue = 180.0f;
         self.sliderValue.userInteractionEnabled = NO;
         self.sliderBrightness.minimumValue = -90.0f;
         self.sliderBrightness.maximumValue = 90.0f;
@@ -1174,29 +1261,36 @@ BOOL gShaken=NO;
                  CGFloat Yaw =   motion.attitude.yaw * 180 / M_PI;    if (Yaw>90)Yaw=90;
                  
                  //NSLog(@"Pitch %f ",motion.attitude.pitch * 180 / M_PI);
-                 NSLog(@"***********************************");
-                 NSLog(@"Roll  %f ",Roll);
-                 NSLog(@"Pitch %f ",Pitch);
-                 NSLog(@"Yaw %f ",Yaw);
+                 //NSLog(@"***********************************");
+                 //NSLog(@"Roll  %f ",Roll);
+                 //NSLog(@"Pitch %f ",Pitch);
+                 //NSLog(@"Yaw %f ",Yaw);
                  
                  //NSLog(@"Yaw   %f ",motion.attitude.yaw * 180 / M_PI);
                  
-                 //NSLog(@"x %f ",x);
-                 //NSLog(@"y %f ",y);
-                 //NSLog(@"z %f ",z);
                  self.sliderBrightness.value = Roll;
                  self.sliderValue.value = Roll;
                  self.sliderHue.value = Pitch;
                  self.sliderSaturation.value = (-1)*Yaw;
                  
                  
-                 brightness= (Roll+90.0)/180.0;      if (brightness>1) brightness=1;if (brightness<0) brightness=0;
+                 //brightness= (Roll+90.0)/180.0;  NSLog(@"unfiltered brightness:%f",brightness);    if (brightness>1) brightness=1;if (brightness<0) brightness=0;
+                 brightness= (Roll+180.0)/360.0;   if (brightness>1) brightness=1;if (brightness<0) brightness=0;
+
                  hue = (Pitch + 90)*2;               if (hue>360) hue=360;if (hue<0) hue=0;
                  saturation = fabs((Yaw-90.0)/180.0); if (saturation>1) saturation=1;if (saturation<0) saturation=0;
-                 
-                 NSLog(@"brightness:%f",brightness);
-                 NSLog(@"hue:%f",hue);
-                 NSLog(@"saturation:%f",saturation);
+                
+                 //NSLog(@"before check prevBrightness:%f",prevBrightness);
+                 if ( (brightness < 0.1) && (prevBrightness>0.9) )
+                 {
+                     //NSLog(@"****Saving brightness");
+                     brightness = 1;
+                     
+                 }
+                 //NSLog(@"brightness:%f",brightness);NSLog(@"prevBrightness:%f",prevBrightness);
+                 prevBrightness = brightness;
+                 //NSLog(@"hue:%f",hue);
+                 //NSLog(@"saturation:%f",saturation);
                  
                  LFXHSBKColor *colour = [LFXHSBKColor colorWithHue:hue saturation:saturation brightness:brightness];
                  
@@ -1313,7 +1407,7 @@ BOOL gShaken=NO;
     self.lblInfo.textColor = [UIColor whiteColor];
    
 
-    NSString* s = [NSString stringWithFormat:@"Shake to Toggle Lights Activated"];
+    NSString* s = [NSString stringWithFormat:@"Shake to Toggle Lights Activated\n(Shake again to turn them back on)"];
     [self.lblInfo setText:s ];
     self.lblInfo.hidden = NO;
     [self.lblInfo setAlpha:1.f];
@@ -1323,7 +1417,7 @@ BOOL gShaken=NO;
                           delay:0.5f
                         options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
                      animations:^{
-                          [UIView setAnimationRepeatCount:2.5];
+                          [UIView setAnimationRepeatCount:4.5];
                          //NSLog(@"in animation alpha:%f",self.imgBox.alpha);
                          [self.lblInfo setAlpha:0.f];
                      }
@@ -1345,22 +1439,19 @@ BOOL gShaken=NO;
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-//@synchronized (self){
+    NSLog(@"**motionEnded()");
+    if (self.btnMotion.selected) return;
+
     if (motion == UIEventSubtypeMotionShake)
     {
-        
-       
         [self toggleLights];
-        
-        
-    }//end if
-    
-    NSLog(@"**motionEnded");
-    
-   [self animateOn];
+        [self animateOn];
+    }
     
     
-//}// end @syncronized
+    
+    
+
     
 }
 

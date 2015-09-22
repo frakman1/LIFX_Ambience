@@ -17,7 +17,7 @@
 @end
 
 @implementation AppDelegate
-
+@synthesize udid;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -25,6 +25,10 @@
     application.applicationSupportsShakeToEdit = YES;
     [Flurry setAppVersion:kAppVersion]; NSLog(@"kAppVersion:%@",kAppVersion);
     [Flurry startSession:@"SHY275WVSQH8FYKF63M6"];
+    // UDID: C85A28A4-77CD-418D-9ED4-A0A77D4DDC19 my iphone5
+    // UDID: 57279C44-3E61-4E30-A0A9-1EEC861A8258 Shell iPhone4S
+    self.udid = [UIDevice currentDevice].identifierForVendor.UUIDString;
+    NSLog(@"UDID: %@",udid);
     
     application.applicationSupportsShakeToEdit = YES;
     

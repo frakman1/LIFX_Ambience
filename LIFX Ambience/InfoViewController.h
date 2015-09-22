@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "JDFTooltips.h"
+#import "MainViewController.h"
 
 @interface InfoViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
