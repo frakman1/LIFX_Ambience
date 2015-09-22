@@ -171,6 +171,7 @@ BOOL gRepeatEnabled = false;
     
      _visualizer.sliderThresholdValue = myslider_threshold.value;
     _visualizer.vizInputLights = self.inputLights;
+    NSLog(@"Received input lights list: %@",self.inputLights);
 
     CGRect frame = self.view.frame;
    

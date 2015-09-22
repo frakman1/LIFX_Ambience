@@ -271,6 +271,8 @@ BOOL gShaken=NO;
 {
     
     [self resignFirstResponder];
+    NSLog(@"***viewWillDisappear().");
+
     if (self.btnMotion.selected)
     {
         //[self.motionManager stopDeviceMotionUpdates];
@@ -292,7 +294,7 @@ BOOL gShaken=NO;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    NSLog(@"***viewWillAppear().");
     //[self mute];
     gShaken = NO;
     
@@ -318,6 +320,8 @@ BOOL gShaken=NO;
     
     [super viewDidAppear:animated];
     [self becomeFirstResponder];
+    NSLog(@"***viewDidAppear().");
+
       //[self mute];
 
     //LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
@@ -459,7 +463,7 @@ BOOL gShaken=NO;
     {
         NSLog(@"Running on iPhone 4/4S");
         
-        [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMotion.center.x, self.btnMotion.center.y) tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axis to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.view width:310];
+        [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMotion.center.x, self.btnMotion.center.y) tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axes to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.view width:310];
     }
     else
     {
@@ -651,6 +655,8 @@ BOOL gShaken=NO;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"didSelectRowAtIndexPath()  indexPath.row:%ld",(long)indexPath.row);
+    //if (self.btnMotion.selected) {return;}
+    
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     
     if ([selectedCell accessoryType] == UITableViewCellAccessoryNone)
@@ -659,11 +665,21 @@ BOOL gShaken=NO;
         [selectedCell setAccessoryType:UITableViewCellAccessoryCheckmark];
         //[self.selectedIndexes addObject:[NSNumber numberWithInt:indexPath.row] ];
         [self.selectedIndexes addObject: selectedCell.detailTextLabel.text];
+        //selectedCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        {   NSLog(@"Updating sliders");
+            LFXLight *light = self.lights[indexPath.row];
+            self.sliderBrightness.value = light.color.brightness;
+            self.sliderSaturation.value = light.color.saturation;
+            self.sliderHue.value = light.color.hue/360;
+            self.sliderValue.value = light.color.brightness;
+        }
+        
     } else
     {
         NSLog(@"else: ");
         [selectedCell setAccessoryType:UITableViewCellAccessoryNone];
         [self.selectedIndexes removeObject:selectedCell.detailTextLabel.text];
+       // selectedCell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -764,13 +780,47 @@ BOOL gShaken=NO;
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:rowIndex inSection:TableSectionLights]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
+-(BOOL) checkIfSelected
+{
+    BOOL isConnected = (self.lifxNetworkContext.connectionState == LFXConnectionStateConnected);
+    
+    if ( (isConnected) && (self.selectedIndexes.count==0))
+    {
+        NSLog(@"No can do, compadré");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Can Do, Compadre" message:@"Please select at least one bulb" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        
+        alert.tag = 0;
+        
+        [alert show];
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+
+    
+}
 
 #pragma mark - Navigation
-
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    UIButton *btn = (UIButton*)sender;
+    // if any of the mini-App buttons got pressed, check for light selection.
+    if ( (btn.tag == 1) || (btn.tag == 2) || (btn.tag == 3) )
+    {
+       return [self checkIfSelected];
+    }
+    else
+    {
+       return YES;
+    }
+}
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
     UIButton *btn = (UIButton*)sender;
     NSLog(@"prepareForSegue. tag number:%d",[(UIButton *)sender tag]);
     if (btn.tag == 3)
@@ -1062,7 +1112,9 @@ BOOL gShaken=NO;
 {
     NSLog(@"Motion Pressed");
     //[self.someButton setHighlighted:YES]; [self.someButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.someButton setHighlighted:NO];
+    if (![self checkIfSelected]) return;
     
+        
     //////////////toggle button effect
     UIButton *btn = (UIButton*) sender;
     btn.alpha = 0;
@@ -1079,6 +1131,8 @@ BOOL gShaken=NO;
     
     if (self.btnMotion.selected)
     {
+        self.tableView.allowsSelection = NO;
+        
         [self fade:NO];
         
         [self.btnMotion setSelected:YES];
@@ -1166,6 +1220,7 @@ BOOL gShaken=NO;
     }
     else
     {
+        self.tableView.allowsSelection = YES;
         [self fade:YES];
         
         [self.btnMotion setSelected:NO];
