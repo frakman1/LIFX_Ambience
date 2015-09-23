@@ -1274,18 +1274,20 @@ CGFloat prevBrightness;
                  self.sliderSaturation.value = (-1)*Yaw;
                  
                  
-                 //brightness= (Roll+90.0)/180.0;  NSLog(@"unfiltered brightness:%f",brightness);    if (brightness>1) brightness=1;if (brightness<0) brightness=0;
+                 brightness= (Roll+90.0)/180.0;  /*NSLog(@"unfiltered brightness:%f",brightness); */   if (brightness>1) brightness=1;if (brightness<0) brightness=0;
                  brightness= (Roll+180.0)/360.0;   if (brightness>1) brightness=1;if (brightness<0) brightness=0;
 
                  hue = (Pitch + 90)*2;               if (hue>360) hue=360;if (hue<0) hue=0;
                  saturation = fabs((Yaw-90.0)/180.0); if (saturation>1) saturation=1;if (saturation<0) saturation=0;
                 
                  //NSLog(@"before check prevBrightness:%f",prevBrightness);
-                 if ( (brightness < 0.1) && (prevBrightness>0.9) )
+                 if (
+                     ( (brightness < 0.1) && (prevBrightness>0.9) ) ||
+                     ( (brightness > 0.9) && (prevBrightness<0.1) )
+                     )
                  {
                      //NSLog(@"****Saving brightness");
-                     brightness = 1;
-                     
+                     brightness = prevBrightness;
                  }
                  //NSLog(@"brightness:%f",brightness);NSLog(@"prevBrightness:%f",prevBrightness);
                  prevBrightness = brightness;
