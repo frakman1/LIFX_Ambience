@@ -166,8 +166,22 @@ CGFloat prevBrightness;
     self.motionManager.gyroUpdateInterval = 0.1;
     
     
+    
+    
+   
+    [self.sliderHue setMaximumTrackImage:[[UIImage imageNamed:@"huescale2"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch]  forState:UIControlStateNormal];
+    [self.sliderHue setMinimumTrackImage:[[UIImage imageNamed:@"huescale2"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeTile]  forState:UIControlStateNormal];
+
+    [self.sliderBrightness setMaximumTrackImage:[[UIImage imageNamed:@"whitebrightscale"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch]  forState:UIControlStateNormal];
+    [self.sliderBrightness setMinimumTrackImage:[[UIImage imageNamed:@"whitebrightscale"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeTile]  forState:UIControlStateNormal];
+
+    
+    
     [self.sliderBrightness setThumbImage: [UIImage imageNamed:@"bright"] forState:UIControlStateNormal];
     [self.sliderHue setThumbImage: [UIImage imageNamed:@"hue"] forState:UIControlStateNormal];
+
+
+    
     [self.sliderSaturation setThumbImage: [UIImage imageNamed:@"sat"] forState:UIControlStateNormal];
     [self.sliderValue setThumbImage: [UIImage imageNamed:@"value"] forState:UIControlStateNormal];
   
@@ -1043,6 +1057,9 @@ CGFloat prevBrightness;
         [aLight setColor:tmpColor overDuration:0.5];
     }
 
+    //NSLog(@"hue:%f sat:%f val:%f",self.sliderHue.value,self.sliderSaturation.value,self.sliderValue.value);
+    //[self.sliderHue setTintColor:[UIColor colorWithHue:self.sliderHue.value  saturation:self.sliderSaturation.value brightness:self.sliderValue.value alpha:1.0]];
+    
     
     [UIView transitionWithView:self.lblInfo
                       duration:0.4
