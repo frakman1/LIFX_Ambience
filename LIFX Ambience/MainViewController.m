@@ -1242,8 +1242,8 @@ CGFloat prevBrightness;
         [self.btnMotion setSelected:YES];
         [self.btnMotion setImage: [UIImage imageNamed:@"motion_on"] forState:UIControlStateNormal] ;
         NSLog(@"DOING MOTION UPDATES");
-        self.sliderHue.minimumValue = -90.0f;
-        self.sliderHue.maximumValue = 90.0f;
+        self.sliderHue.minimumValue = 0.0f;
+        self.sliderHue.maximumValue = 360.0f;
         self.sliderHue.userInteractionEnabled = NO;
         self.sliderSaturation.minimumValue = -90.0f;
         self.sliderSaturation.maximumValue = 90.0f;
@@ -1275,27 +1275,30 @@ CGFloat prevBrightness;
                  
                  CGFloat Roll =  motion.attitude.roll  * 180 / M_PI;
                  CGFloat Pitch = motion.attitude.pitch * 180 / M_PI;
-                 CGFloat Yaw =   motion.attitude.yaw * 180 / M_PI;    if (Yaw>90)Yaw=90;
+                 CGFloat Yaw =   motion.attitude.yaw * 180 / M_PI;    //if (Yaw>90)Yaw=90;
                  
                  //NSLog(@"Pitch %f ",motion.attitude.pitch * 180 / M_PI);
                  //NSLog(@"***********************************");
                  //NSLog(@"Roll  %f ",Roll);
-                 //NSLog(@"Pitch %f ",Pitch);
+                 //NSLog(@"\nPitch %f \n",Pitch);
+                 CGFloat Yaw360 = Yaw;
                  //NSLog(@"Yaw %f ",Yaw);
+                 if (Yaw<0) Yaw360=360+Yaw;
+                 //NSLog(@"Yaw360 %f ",Yaw360);
                  
-                 //NSLog(@"Yaw   %f ",motion.attitude.yaw * 180 / M_PI);
+                 
                  
                  self.sliderBrightness.value = Roll;
                  self.sliderValue.value = Roll;
-                 self.sliderHue.value = Pitch;
-                 self.sliderSaturation.value = (-1)*Yaw;
+                 self.sliderHue.value = Yaw360;
+                 self.sliderSaturation.value = Pitch;
                  
                  
-                 brightness= (Roll+90.0)/180.0;  /*NSLog(@"unfiltered brightness:%f",brightness); */   if (brightness>1) brightness=1;if (brightness<0) brightness=0;
-                 brightness= (Roll+180.0)/360.0;   if (brightness>1) brightness=1;if (brightness<0) brightness=0;
+                 brightness= (Roll+90.0)/180.0;/*NSLog(@"unfiltered brightness:%f",brightness); */   if (brightness>1) brightness=1;if (brightness<0) brightness=0;
+                 brightness= (Roll+180.0)/360.0; if (brightness>1) brightness=1;if (brightness<0) brightness=0;
 
-                 hue = (Pitch + 90)*2;               if (hue>360) hue=360;if (hue<0) hue=0;
-                 saturation = fabs((Yaw-90.0)/180.0); if (saturation>1) saturation=1;if (saturation<0) saturation=0;
+                 hue = Yaw360 ;               //if (hue>360) hue=360;if (hue<0) hue=0;
+                 saturation = (Pitch + 90)/180; if (saturation>1) saturation=1;if (saturation<0) saturation=0;
                 
                  //NSLog(@"before check prevBrightness:%f",prevBrightness);
                  if (
@@ -1410,7 +1413,7 @@ CGFloat prevBrightness;
      self.sliderValue.hidden = Out;
      self.lblInfo.hidden=Out;
     
-    NSString* s = [NSString stringWithFormat:@"X-axis (Roll) : Brightness\nY-axis (Yaw) : Saturation\nZ-axis (Pitch) : Hue"];
+    NSString* s = [NSString stringWithFormat:@"X-axis (Roll) : Brightness\nY-axis (Yaw) : Hue\nZ-axis (Pitch) : Saturation"];
     [self.lblInfo setText:s ];
 
     
