@@ -37,6 +37,7 @@
 @property (nonatomic, strong) JDFTooltipManager *tooltipManager;
 
 - (void)logIt:(NSString*) event withTag:(NSInteger)tag;
+- (void)logIt:(NSString*) event ;
 
 
 @end

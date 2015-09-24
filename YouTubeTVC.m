@@ -155,8 +155,8 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
             NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];  // note the retain count here.
             NSData *jsonData = [jsonString dataUsingEncoding:NSUnicodeStringEncoding];
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingAllowFragments error:nil];
-            NSLog(@"jsonDict:%@",jsonDict);
-            videos = [NSMutableArray arrayWithArray:[jsonDict valueForKey:@"items"]];NSLog(@"videos:%@",videos);
+            //NSLog(@"jsonDict:%@",jsonDict);
+            videos = [NSMutableArray arrayWithArray:[jsonDict valueForKey:@"items"]];//NSLog(@"videos:%@",videos);
         }
         else
         {

@@ -108,7 +108,7 @@
     
     // !HACK ALERT! getting a reference to parent view controller to access its elements.
     MainViewController *parentViewController = (MainViewController*)[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
-    [parentViewController logIt:@"DonateButtonPressed" withTag:6];
+    [parentViewController logIt:@"DonateButtonPressed" ];
     
 }
 
@@ -152,7 +152,7 @@
     NSLog(@"Email sent");
     // !HACK ALERT! getting a reference to parent view controller to access its elements.
     MainViewController *parentViewController = (MainViewController*)[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
-    [parentViewController logIt:@"EmailButtonPressed" withTag:5];
+    [parentViewController logIt:@"EmailButtonPressed"];
 
     
 }

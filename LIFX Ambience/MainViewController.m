@@ -81,8 +81,8 @@ CGFloat prevBrightness;
 
 -(void)myTick:(NSTimer *)timer
 {
-    NSLog(@"myTick..\n\n");
-    NSLog(@"SelectedIndexes:%@",self.selectedIndexes);
+    //NSLog(@"myTick..\n\n");
+    //NSLog(@"SelectedIndexes:%@",self.selectedIndexes);
     [self updateLights];
     [self updateNavBar];
     [self.tableView reloadData];
@@ -802,80 +802,130 @@ CGFloat prevBrightness;
 
 
 
-//Flurry Event Logger
-
-- (void)logIt:(NSString*) event withTag:(NSInteger)tag
+-(NSString *) tagToText:(NSInteger)tag
 {
     NSString* tagName= [[NSString alloc]init];
-    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSString *id=appdel.udid;
-    NSLog(@"Logging Event:%@ withTag:%d for UDID: %@",event,tag,id);
+
+    NSLog(@" tagToText() input tag:%d ",tag);
     switch (tag)
     {
             
         case 0:
         {
-                
-                tagName=@"info";
-                NSLog(@"tag=%d tagName:%@",tag,tagName);
-                break;
+            
+            tagName=@"Info";
+            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            //[Flurry logEvent:@"Info" withParameters:@{id:@"userID"} timed:YES];
+            break;
         }
         case 1:
         {
             
-            tagName=@"music";
+            tagName=@"MusicPlayer";
             NSLog(@"tag=%d tagName:%@",tag,tagName);
+            //[Flurry logEvent:@"MusicPlayer" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
         case 2:
         {
             
-            tagName=@"youtube";
+            tagName=@"YouTubePlayer";
             NSLog(@"tag=%d tagName:%@",tag,tagName);
+            //[Flurry logEvent:@"YouTubePlayer" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
         case 3:
         {
             
-            tagName=@"camera";
+            tagName=@"CameraViewer";
             NSLog(@"tag=%d tagName:%@",tag,tagName);
+            //[Flurry logEvent:@"CameraViewer" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
         case 4:
         {
             
-            tagName=@"gyro";
+            tagName=@"Gyro";
             NSLog(@"tag=%d tagName:%@",tag,tagName);
+            //[Flurry logEvent:@"Gyro" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
         case 5:
         {
             
-            tagName=@"email";
+            tagName=@"Email";
             NSLog(@"tag=%d tagName:%@",tag,tagName);
+            //[Flurry logEvent:@"Email" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
             
         case 6:
         {
             
-            tagName=@"donate";
+            tagName=@"Donate";
             NSLog(@"tag=%d tagName:%@",tag,tagName);
+            //[Flurry logEvent:@"Donate" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
             
-
+        case 7:
+        {
+            
+            tagName=@"Info";
+            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            //[Flurry logEvent:@"Donate" withParameters:@{id:@"userID"} timed:YES];
+            break;
+        }
+        
+        default:
+        {
+            NSLog(@"unknown tag");
+            tagName=@"UnknownTag";
+            //[Flurry logEvent:@"Unknown" withParameters:@{id:@"userID"} timed:YES];
+            break;
+        }
+            
             
     }
-    [Flurry logEvent:event withParameters:@{id:@"userID",tagName:@"withTag"} timed:YES];
+    
+    return tagName;
+}
+
+
+//Flurry Event Logger
+
+- (void)logIt:(NSString*) event withTag:(NSString*)tagName
+{
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *id=appdel.udid;
+    NSLog(@"Logging Event:%@ withTag:%@ for UDID: %@",event,tagName,id);
+
+   [Flurry logEvent:event withParameters:@{id:@"userID",tagName:@"withTag"} timed:YES];
 
     
 }
 
 
--(BOOL) checkIfSelected:(NSInteger)tag
+- (void)logIt:(NSString*) event
 {
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *id=appdel.udid;
+    NSLog(@"Logging Event:%@  for UDID: %@",event,id);
+    
+    [Flurry logEvent:event withParameters:@{id:@"userID"} timed:YES];
+    
+    
+}
+
+
+-(BOOL) checkIfSelected:(NSString*)buttonName
+{
+    NSLog(@"checkIfSelected()");
     BOOL isConnected = (self.lifxNetworkContext.connectionState == LFXConnectionStateConnected);
+    //NSString *buttonName = [NSString alloc];
+    //buttonName = [self tagToText:tag];
+    NSLog(@"buttonName:%@",buttonName);
+    //[self logIt:buttonName ];
     
     if ( (isConnected) && (self.selectedIndexes.count==0))
     {
@@ -886,13 +936,13 @@ CGFloat prevBrightness;
         
         [alert show];
         
-        [self logIt:@"NoLightsSelectedTransitionAttempt" withTag:tag];
+        [self logIt:@"NoLightsSelectedTransitionAttempt" withTag:buttonName];
         
         return NO;
     }
     else
     {
-        [self logIt:@"SuccessfullTransition" withTag:tag];
+        [self logIt:buttonName];
         return YES;
     }
 
@@ -902,16 +952,19 @@ CGFloat prevBrightness;
 #pragma mark - Navigation
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
+    NSLog(@"shouldPerformSegueWithIdentifier()");
     UIButton *btn = (UIButton*)sender;
-    
+    NSString *btnName = [NSString alloc];
+    btnName = [self tagToText:btn.tag]; NSLog(@"btnName:%@",btnName);
+
     // if any of the mini-App buttons got pressed, check for light selection.
     if ( (btn.tag == 1) || (btn.tag == 2) || (btn.tag == 3) )
     {
-        return [self checkIfSelected:btn.tag];
+        return [self checkIfSelected:btnName];
     }
-    else
+    else //currently the only other segue is the info button
     {
-       [self logIt:@"SuccessfullTransition" withTag:btn.tag];
+       [self logIt:btnName];
        return YES;
     }
 }
@@ -1213,8 +1266,11 @@ CGFloat prevBrightness;
 {
     NSLog(@"Motion Pressed");
     UIButton *btn = (UIButton*)sender;
+    NSString *BtnName = [NSString alloc];
+    BtnName = [self tagToText:btn.tag]; NSLog(@"BtnName:%@",BtnName);
+
     //[self.someButton setHighlighted:YES]; [self.someButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.someButton setHighlighted:NO];
-    if (![self checkIfSelected:btn.tag]) return;
+    if (![self checkIfSelected:BtnName]) return;
     
         
     //////////////toggle button effect
