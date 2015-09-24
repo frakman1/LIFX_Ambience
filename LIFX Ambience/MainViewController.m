@@ -1245,8 +1245,8 @@ CGFloat prevBrightness;
         self.sliderHue.minimumValue = 0.0f;
         self.sliderHue.maximumValue = 360.0f;
         self.sliderHue.userInteractionEnabled = NO;
-        self.sliderSaturation.minimumValue = -90.0f;
-        self.sliderSaturation.maximumValue = 90.0f;
+        self.sliderSaturation.minimumValue = 0.0f;
+        self.sliderSaturation.maximumValue = 1.0f;
         self.sliderSaturation.userInteractionEnabled = NO;
         self.sliderValue.minimumValue = -180.0f;
         self.sliderValue.maximumValue = 180.0f;
@@ -1280,25 +1280,30 @@ CGFloat prevBrightness;
                  //NSLog(@"Pitch %f ",motion.attitude.pitch * 180 / M_PI);
                  //NSLog(@"***********************************");
                  //NSLog(@"Roll  %f ",Roll);
-                 //NSLog(@"\nPitch %f \n",Pitch);
+                 NSLog(@"\nPitch %f \n",Pitch);
                  CGFloat Yaw360 = Yaw;
                  //NSLog(@"Yaw %f ",Yaw);
                  if (Yaw<0) Yaw360=360+Yaw;
                  //NSLog(@"Yaw360 %f ",Yaw360);
                  
-                 
-                 
+                 Pitch  = fabsf(Pitch); if (Pitch > 90.0) Pitch = 90;
+                 NSLog(@"\n normalised Pitch %f \n",Pitch);
                  self.sliderBrightness.value = Roll;
                  self.sliderValue.value = Roll;
                  self.sliderHue.value = Yaw360;
-                 self.sliderSaturation.value = Pitch;
+                 
+                 
+                 
                  
                  
                  brightness= (Roll+90.0)/180.0;/*NSLog(@"unfiltered brightness:%f",brightness); */   if (brightness>1) brightness=1;if (brightness<0) brightness=0;
                  brightness= (Roll+180.0)/360.0; if (brightness>1) brightness=1;if (brightness<0) brightness=0;
 
                  hue = Yaw360 ;               //if (hue>360) hue=360;if (hue<0) hue=0;
-                 saturation = (Pitch + 90)/180; if (saturation>1) saturation=1;if (saturation<0) saturation=0;
+                 
+                 saturation = 1-(Pitch/90.0); if (saturation>1) saturation=1;if (saturation<0) saturation=0;
+                 self.sliderSaturation.value = saturation;
+                 NSLog(@"\n saturation  %f \n",saturation);
                 
                  //NSLog(@"before check prevBrightness:%f",prevBrightness);
                  if (
@@ -1368,7 +1373,7 @@ CGFloat prevBrightness;
     
 }
 
-
+// used to fade in/out UI elements for Motion Controller function
 - (void)fade:(BOOL)Out
 {
     
