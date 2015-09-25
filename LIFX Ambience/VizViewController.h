@@ -11,6 +11,7 @@
 #include "FSAudioPlayer.h"
 #import "TableViewController.h"
 #import "MarqueeLabel.h"
+#import "LARSBar.h"
 
 
 @interface VizViewController : UIViewController <MPMediaPickerControllerDelegate, TableViewControllerDelegate>
@@ -42,7 +43,7 @@
 @property BOOL isPaused;
 @property BOOL scrubbing;
 
-@property (weak, nonatomic) IBOutlet UISlider *powerLevel;
+@property (weak, nonatomic) IBOutlet LARSBar *powerLevel;
 @property (weak, nonatomic) IBOutlet UIImageView *imgBox;
 //@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
 @property (weak, nonatomic) IBOutlet UIButton *btnHelp2;
@@ -53,7 +54,7 @@
 
 @property (weak, nonatomic) IBOutlet UISlider *volumeSlider;
 @property (weak, nonatomic) IBOutlet MPVolumeView *viewVolumeView;
-
+//@property (weak, nonatomic) IBOutlet LARSBar *eqSlider;
 
 @property (nonatomic) NSMutableArray *inputLights;
 

@@ -213,8 +213,8 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         float level = meterTable.ValueAt(power);
          //NSLog(@"level:%f",level);
         
-       // NSLog(@" Scaling   value is: %f ",self.sliderScaleValue);
-        //NSLog(@" Threshold value is: %f ",self.sliderThresholdValue);
+        //NSLog(@"update() Scaling   value is: %f ",self.sliderScaleValue);
+        //NSLog(@"update() Threshold value is: %f ",self.sliderThresholdValue);
         
         scale = level * 5;
         //calcBrightness = self.sliderThresholdValue + (level * self.sliderScaleValue);

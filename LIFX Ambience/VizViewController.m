@@ -18,6 +18,7 @@
 #import "JDFTooltips.h"
 #import "AppDelegate.h"
 
+
 @interface SystemVolumeView : MPVolumeView
 
 @end
@@ -93,6 +94,9 @@ BOOL gRepeatEnabled = false;
 {
     //NSLog(@"myTick");
     self.powerLevel.value = self.visualizer.LevelValue;
+    self.powerLevel.leftChannelLevel = self.visualizer.LevelValue;
+    self.powerLevel.rightChannelLevel = self.visualizer.LevelValue;
+
 }
 
 - (void) startPlaying
@@ -367,7 +371,19 @@ BOOL gRepeatEnabled = false;
     
     //NSString *filename = [self.gameSelection stringByAppendingString:@".mp3"];
     //NSLog(@"crafed filename: %@",filename);
-    //[self.currentTimeSlider setThumbImage: [UIImage imageNamed:@"knob2.png"] forState:UIControlStateNormal];
+    [self.currentTimeSlider setThumbImage: [UIImage imageNamed:@"metalknob"] forState:UIControlStateNormal];
+    [self.currentTimeSlider setMaximumTrackImage:[UIImage imageNamed:@"whitetrack"]   forState:UIControlStateNormal];
+    [self.currentTimeSlider setMinimumTrackImage:[[UIImage imageNamed:@"bluetrack"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4)]   forState:UIControlStateNormal];
+    
+    //self.powerLevel setThumbImage: [UIImage imageNamed:@"metalknob2"] forState:UIControlStateNormal];
+    //[self.powerLevel setMaximumTrackImage:[UIImage imageNamed:@"whitetrack"]   forState:UIControlStateNormal];
+    //[self.powerLevel setMinimumTrackImage:[[UIImage imageNamed:@"purpletrack"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4) resizingMode:UIImageResizingModeTile]  forState:UIControlStateNormal];
+    
+    [self.powerLevel setThumbImage: [UIImage imageNamed:@"slider-knob"] forState:UIControlStateNormal];
+    [self.powerLevel setMaximumTrackImage:[UIImage imageNamed:@"nil"]   forState:UIControlStateNormal];
+    [self.powerLevel setMinimumTrackImage:[[UIImage imageNamed:@"nil"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4) resizingMode:UIImageResizingModeTile]  forState:UIControlStateNormal];
+
+    
     
     
     // Setup MArquee as Continuous Type
@@ -394,6 +410,10 @@ BOOL gRepeatEnabled = false;
     myslider_threshold.transform = CGAffineTransformRotate(myslider_threshold.transform, -0.5*M_PI);
     [self.view addSubview:myslider_threshold];
     [myslider_threshold addTarget:self action:@selector(updateslider_threshold:) forControlEvents:UIControlEventValueChanged];
+    [myslider_threshold setThumbImage: [UIImage imageNamed:@"metalknob"] forState:UIControlStateNormal];
+    [myslider_threshold setMaximumTrackImage:[UIImage imageNamed:@"whitetrack"]   forState:UIControlStateNormal];
+    [myslider_threshold setMinimumTrackImage:[[UIImage imageNamed:@"greentrack"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4)]   forState:UIControlStateNormal];
+
     myslider_threshold.hidden = TRUE;
     
     //imgOffset = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"offset"]];
@@ -430,6 +450,10 @@ BOOL gRepeatEnabled = false;
     myslider_scale.transform = CGAffineTransformRotate(myslider_scale.transform, -0.5*M_PI);
     [self.view addSubview:myslider_scale];
     [myslider_scale addTarget:self action:@selector(updateslider_scale:) forControlEvents:UIControlEventValueChanged];
+    [myslider_scale setThumbImage: [UIImage imageNamed:@"metalknob"] forState:UIControlStateNormal];
+    [myslider_scale setMaximumTrackImage:[UIImage imageNamed:@"whitetrack"]   forState:UIControlStateNormal];
+    [myslider_scale setMinimumTrackImage:[[UIImage imageNamed:@"greentrack"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4)]    forState:UIControlStateNormal];
+
     myslider_scale.hidden = TRUE;
     
     NSLog (@"myslider_scale x:%f y:%f width:%f height:%f",myslider_scale.frame.origin.x,myslider_scale.frame.origin.y,myslider_scale.frame.size.width,myslider_scale.frame.size.height);
@@ -492,7 +516,7 @@ BOOL gRepeatEnabled = false;
     NSData *data = [defaults objectForKey:@"myplaylist"];
     MPMediaItemCollection *mymediaItemCollection = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
-    //load saved slider Values
+    //load saved Threshold slider Value
     myslider_threshold.value = [defaults floatForKey:@"myThreshold"];
     NSLog(@"Saved Threshold: %f",myslider_threshold.value);
     if (myslider_threshold.value == 0.0)
@@ -500,8 +524,9 @@ BOOL gRepeatEnabled = false;
         NSLog(@" Threshold Invalid");
         myslider_threshold.value = 0.2;
     }
+     _visualizer.sliderThresholdValue = myslider_threshold.value;
     
-    //load saved slider Values
+    //load saved Scale slider Value
     myslider_scale.value = [defaults floatForKey:@"myScaler"];
     NSLog(@"Saved Scaler: %f",myslider_scale.value);
     if (myslider_scale.value == 0.0)
@@ -509,7 +534,8 @@ BOOL gRepeatEnabled = false;
         NSLog(@" Scaler Invalid");
         myslider_scale.value = 3;
     }
-
+    _visualizer.sliderScaleValue = myslider_scale.value;
+    
     int index = 0;
     for (MPMediaItem *item in mymediaItemCollection.items)
     {

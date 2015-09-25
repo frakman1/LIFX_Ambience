@@ -23,6 +23,9 @@
 		221B11501B42DAFE004F3122 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 221B114F1B42DAFE004F3122 /* info.png */; };
 		221E32971B851F1A00108108 /* ImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 221E32961B851F1A00108108 /* ImageCropView.m */; };
 		221E329A1B85223D00108108 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 221E32991B85223D00108108 /* FXBlurView.m */; };
+		2220AEB81BB5C1EE00B97437 /* LARSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2220AEB71BB5C1EE00B97437 /* LARSBar.m */; };
+		2220AEBB1BB5D1AF00B97437 /* eq-slider-border@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2220AEB91BB5D1AF00B97437 /* eq-slider-border@2x.png */; };
+		2220AEBC1BB5D1AF00B97437 /* slider-knob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2220AEBA1BB5D1AF00B97437 /* slider-knob@2x.png */; };
 		224936DD1B389CD200699D59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DC1B389CD200699D59 /* main.m */; };
 		224936E01B389CD200699D59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224936DF1B389CD200699D59 /* AppDelegate.m */; };
 		224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */; };
@@ -112,6 +115,10 @@
 		221E32961B851F1A00108108 /* ImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropView.m; sourceTree = "<group>"; };
 		221E32981B85223D00108108 /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
 		221E32991B85223D00108108 /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
+		2220AEB61BB5C1EE00B97437 /* LARSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LARSBar.h; sourceTree = "<group>"; };
+		2220AEB71BB5C1EE00B97437 /* LARSBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LARSBar.m; sourceTree = "<group>"; };
+		2220AEB91BB5D1AF00B97437 /* eq-slider-border@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eq-slider-border@2x.png"; sourceTree = "<group>"; };
+		2220AEBA1BB5D1AF00B97437 /* slider-knob@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-knob@2x.png"; sourceTree = "<group>"; };
 		224936D71B389CD200699D59 /* LIFX Ambience.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LIFX Ambience.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224936DB1B389CD200699D59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "LIFX Ambience/Info.plist"; sourceTree = "<group>"; };
 		224936DC1B389CD200699D59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -288,6 +295,8 @@
 			isa = PBXGroup;
 			children = (
 				224936EA1B389CD200699D59 /* Images.xcassets */,
+				2220AEB91BB5D1AF00B97437 /* eq-slider-border@2x.png */,
+				2220AEBA1BB5D1AF00B97437 /* slider-knob@2x.png */,
 				2249377D1B3A5E0A00699D59 /* particleTexture.png */,
 				221068E71B5456C200D12A3A /* next.png */,
 				221068E81B5456C200D12A3A /* previous.png */,
@@ -333,6 +342,8 @@
 		22C44C961B73BA1900F09113 /* ExternalCode */ = {
 			isa = PBXGroup;
 			children = (
+				2220AEB61BB5C1EE00B97437 /* LARSBar.h */,
+				2220AEB71BB5C1EE00B97437 /* LARSBar.m */,
 				2265FEFB1BA79167006DD173 /* LNBRippleEffect.h */,
 				2265FEFC1BA79167006DD173 /* LNBRippleEffect.m */,
 				22FD06D01B8FAAFB004F71FD /* SPUserResizableView.h */,
@@ -523,9 +534,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */,
+				2220AEBC1BB5D1AF00B97437 /* slider-knob@2x.png in Resources */,
 				227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */,
 				221B114B1B42100C004F3122 /* dollar.png in Resources */,
 				2249377E1B3A5E0A00699D59 /* particleTexture.png in Resources */,
+				2220AEBB1BB5D1AF00B97437 /* eq-slider-border@2x.png in Resources */,
 				221068E51B54544A00D12A3A /* audioplayer_pause.png in Resources */,
 				221068E61B54544A00D12A3A /* audioplayer_play.png in Resources */,
 				224937631B39CB7400699D59 /* Default@2x.png in Resources */,
@@ -588,6 +601,7 @@
 				22AEB37B1B6BECDA00915E8A /* UIImageResizing.m in Sources */,
 				224936E31B389CD200699D59 /* LIFX_Ambience.xcdatamodeld in Sources */,
 				2249376B1B39EDFE00699D59 /* MainViewController.m in Sources */,
+				2220AEB81BB5C1EE00B97437 /* LARSBar.m in Sources */,
 				221B114E1B4218FD004F3122 /* UIView+Glow.m in Sources */,
 				22AEB3831B726F3800915E8A /* ANPopoverView.m in Sources */,
 				226019031B982D6200708332 /* UINavigationController+rotation.m in Sources */,
