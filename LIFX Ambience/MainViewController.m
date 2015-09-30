@@ -60,6 +60,8 @@ typedef NS_ENUM(NSInteger, TableSection) {
 @property (strong, nonatomic) CMMotionManager *motionManager;
 @property (strong, nonatomic) NSOperationQueue *deviceQueue;
 @property (nonatomic) NSMutableArray *selectedIndexes;
+@property (nonatomic) NSMutableArray *mainSelectedLights;
+@property (nonatomic) NSMutableArray *backupLights;
 
 
 @end
@@ -158,6 +160,8 @@ CGFloat prevBrightness;
     gShaken = NO;
     
     self.selectedIndexes = [[NSMutableArray alloc] init];
+    self.mainSelectedLights = [[NSMutableArray alloc] init];
+    self.backupLights = [[NSMutableArray alloc] init];
     
     //setup motion detector
     self.deviceQueue = [[NSOperationQueue alloc] init];
@@ -315,6 +319,8 @@ CGFloat prevBrightness;
 {
     [super viewWillAppear:animated];
     NSLog(@"***viewWillAppear().");
+    [UIView setAnimationsEnabled:YES];
+    
     //[self mute];
     gShaken = NO;
     
@@ -331,16 +337,13 @@ CGFloat prevBrightness;
 }
 
 
-
-
-
-
 - (void)viewDidAppear:(BOOL)animated
 {
     
     [super viewDidAppear:animated];
     [self becomeFirstResponder];
     NSLog(@"***viewDidAppear().");
+    NSLog(@"***backedupLights:%@",self.backupLights);
 
       //[self mute];
 
@@ -379,12 +382,21 @@ CGFloat prevBrightness;
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     //[localNetworkContext.allLightsCollection setColor:tmpColor];
+    
     for (NSString *aDevID in self.selectedIndexes)
     {
         LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
         [aLight setColor:tmpColor overDuration:0.5];
     }
-
+    
+    /*
+    for (LFXLight *aLight in self.backupLights)
+    {
+        NSString *aDevID = aLight.deviceID; NSLog(@" aDevID:%@",aDevID);
+        LFXLight *Light = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID]; NSLog(@" Light:%@",Light);
+        [Light setColor:aLight.color];
+    }
+*/
     self.sliderHue.value = tmpColor.hue/360;
     self.sliderSaturation.value = tmpColor.saturation;
     self.sliderValue.value = tmpColor.brightness;
@@ -570,6 +582,7 @@ CGFloat prevBrightness;
 {
     NSLog(@"Light Collection: %@ Did Add Light: %@", lightCollection, light);
     [self.selectedIndexes addObject:light.deviceID];
+    [self.mainSelectedLights addObject:light];
     [light addLightObserver:self];
     [self updateLights];
     [self updateNavBar];
@@ -580,6 +593,7 @@ CGFloat prevBrightness;
 {
     NSLog(@"Light Collection: %@ Did Remove Light: %@", lightCollection, light);
     [self.selectedIndexes removeObject:light.deviceID];
+    [self.mainSelectedLights removeObject:light];
     [light removeLightObserver:self];
     [self updateLights];
     [self updateNavBar];
@@ -683,11 +697,11 @@ CGFloat prevBrightness;
     {
         NSLog(@"UITableViewCellAccessoryNone: ");
         [selectedCell setAccessoryType:UITableViewCellAccessoryCheckmark];
-        //[self.selectedIndexes addObject:[NSNumber numberWithInt:indexPath.row] ];
         [self.selectedIndexes addObject: selectedCell.detailTextLabel.text];
-        //selectedCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         {   NSLog(@"Updating sliders");
             LFXLight *light = self.lights[indexPath.row];
+            [self.mainSelectedLights addObject:light];
             self.sliderBrightness.value = light.color.brightness;
             self.sliderSaturation.value = light.color.saturation;
             self.sliderHue.value = light.color.hue/360;
@@ -699,7 +713,9 @@ CGFloat prevBrightness;
         NSLog(@"else: ");
         [selectedCell setAccessoryType:UITableViewCellAccessoryNone];
         [self.selectedIndexes removeObject:selectedCell.detailTextLabel.text];
-       // selectedCell.selectionStyle = UITableViewCellSelectionStyleGray;
+        LFXLight *light = self.lights[indexPath.row];
+        [self.mainSelectedLights removeObject:light];
+        
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -976,6 +992,9 @@ CGFloat prevBrightness;
     
     UIButton *btn = (UIButton*)sender;
     NSLog(@"prepareForSegue. tag number:%d",[(UIButton *)sender tag]);
+    //[self.backupLights addObjectsFromArray:self.mainSelectedLights];
+    //NSLog(@"Saving light state: %@",self.backupLights);
+    
     if (btn.tag == 3)
     {
         NSLog(@"going to cam player");
@@ -987,6 +1006,7 @@ CGFloat prevBrightness;
         NSLog(@"going to music player");
         VizViewController *vizDestination = segue.destinationViewController;
         vizDestination.inputLights = self.selectedIndexes;
+        vizDestination.inputLights2= self.mainSelectedLights;
     }
     else if (btn.tag==2)
     {
@@ -1379,11 +1399,17 @@ CGFloat prevBrightness;
                  
                  LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
                  //[localNetworkContext.allLightsCollection setColor:colour];
-                 for (NSString *aDevID in self.selectedIndexes)
+                 /*for (NSString *aDevID in self.selectedIndexes)
                  {
                      LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
                      [aLight setColor:colour overDuration:0.5];
                  }
+                  */
+                 for (LFXLight *aLight in self.mainSelectedLights)
+                  {
+                  [aLight setColor:colour overDuration:0.5];
+                  }
+                  
 
                  
                  // change test lblInfo background colour to indicate change on device screen

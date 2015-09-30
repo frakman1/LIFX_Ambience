@@ -49,7 +49,6 @@
 		224937761B3A56B100699D59 /* MeterTable in Resources */ = {isa = PBXBuildFile; fileRef = 224937751B3A56B100699D59 /* MeterTable */; };
 		224937781B3A57CD00699D59 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224937771B3A57CD00699D59 /* QuartzCore.framework */; };
 		2249377A1B3A592800699D59 /* MeterTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 224937791B3A592800699D59 /* MeterTable.cpp */; };
-		2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2249377B1B3A5A3F00699D59 /* DemoSong.m4a */; };
 		2249377E1B3A5E0A00699D59 /* particleTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 2249377D1B3A5E0A00699D59 /* particleTexture.png */; };
 		224937811B3A76AB00699D59 /* CamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937801B3A76AB00699D59 /* CamViewController.m */; };
 		224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937831B3A776D00699D59 /* AVCamPreviewView.m */; };
@@ -150,7 +149,6 @@
 		224937751B3A56B100699D59 /* MeterTable */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MeterTable; sourceTree = "<group>"; };
 		224937771B3A57CD00699D59 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		224937791B3A592800699D59 /* MeterTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MeterTable.cpp; path = MeterTable/MeterTable.cpp; sourceTree = "<group>"; };
-		2249377B1B3A5A3F00699D59 /* DemoSong.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DemoSong.m4a; sourceTree = "<group>"; };
 		2249377D1B3A5E0A00699D59 /* particleTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = particleTexture.png; path = MeterTable/particleTexture.png; sourceTree = "<group>"; };
 		2249377F1B3A76AB00699D59 /* CamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamViewController.h; sourceTree = "<group>"; };
 		224937801B3A76AB00699D59 /* CamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CamViewController.m; sourceTree = "<group>"; };
@@ -310,7 +308,6 @@
 				22F76A181B3D9D0F00EE3AFD /* knob2.png */,
 				22F76A161B3D907600EE3AFD /* knob.png */,
 				22AEB37C1B6FCD6700915E8A /* dragon.mp3 */,
-				2249377B1B3A5A3F00699D59 /* DemoSong.m4a */,
 				224937621B39CB7400699D59 /* Default@2x.png */,
 				224937271B38FADA00699D59 /* cam_128.png */,
 				224937281B38FADA00699D59 /* mic_128.png */,
@@ -547,7 +544,6 @@
 				221B11491B420EB2004F3122 /* mail.png in Resources */,
 				221B11501B42DAFE004F3122 /* info.png in Resources */,
 				22AEB37D1B6FCD6700915E8A /* dragon.mp3 in Resources */,
-				2249377C1B3A5A3F00699D59 /* DemoSong.m4a in Resources */,
 				2249372A1B38FADA00699D59 /* cam_128.png in Resources */,
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
 				221068E91B5456C200D12A3A /* next.png in Resources */,

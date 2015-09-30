@@ -80,10 +80,15 @@
 }
 
 -(void)positionAndUpdatePopupView {
+    //NSLog(@"*** slider rect:%@",NSStringFromCGRect(self.frame));
     CGRect zeThumbRect = self.thumbRect;
-    CGRect popupRect = CGRectOffset(zeThumbRect, 0, -floor(zeThumbRect.size.height * 1.2));
+    CGRect popupRect = CGRectOffset(zeThumbRect, floor(zeThumbRect.size.width * 1.2),0);
     _popupView.frame = CGRectInset(popupRect, -20, -10);
     _popupView.value = self.value;
+    //NSLog(@"*** _popupView frame rect:%@",NSStringFromCGRect(_popupView.frame));
+
+    _popupView.value = self.value;
+    [[_popupView superview] bringSubviewToFront:_popupView];
     
 
 }

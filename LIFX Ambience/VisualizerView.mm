@@ -27,6 +27,8 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
     CADisplayLink *dpLink;
     
 }
+BOOL vizRunOnce;
+
 
 + (Class)layerClass {
     return [CAEmitterLayer class];
@@ -49,12 +51,12 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
 - (id)initWithFrame:(CGRect)frame
 {
     stopFlag = FALSE;
-    
+    vizRunOnce = FALSE;
+    NSLog(@"initWithFrame()");
     gColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:1.0f] ;
     [gColor getHue:&starthue saturation:&saturation brightness:&brightness alpha:&alpha];
     gLifxColor = [LFXHSBKColor colorWithHue:(starthue*360) saturation:saturation brightness:brightness];
     NSLog(@"starting hue:%f  ",starthue);
-    NSLog(@"vizInputLights:%@ ",self.vizInputLights);
     
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     //[localNetworkContext.allLightsCollection setColor:gLifxColor];
@@ -90,7 +92,7 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         childCell.birthRate = 60.0f;
         childCell.velocity = 0.0f;
         
-        childCell.contents = (id)[[UIImage imageNamed:@"particleTexture.png"] CGImage];
+        childCell.contents = (id)[[UIImage imageNamed:@"particle"] CGImage];
         
         cell.emitterCells = @[childCell];
         
@@ -124,6 +126,8 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         [dpLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         
     }
+    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    
     return self;
 }
 
@@ -133,6 +137,17 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
     float scale = 0.5;
     float calcBrightness = 1;
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    
+ 
+    if (vizRunOnce==FALSE)
+    {
+        vizRunOnce=TRUE;
+        NSLog(@"vizInputLights:%@ ",self.vizInputLights);
+        NSLog(@"vizInputLights2:%@ ",self.vizInputLights2);
+
+ 
+    }
+  
     if (stopFlag==TRUE)
     {
         
@@ -168,7 +183,7 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         childCell.birthRate = 60.0f;
         childCell.velocity = 0.0f;
         
-        childCell.contents = (id)[[UIImage imageNamed:@"particleTexture.png"] CGImage];
+        childCell.contents = (id)[[UIImage imageNamed:@"particle"] CGImage];
         
         cell.emitterCells = @[childCell];
         
@@ -187,8 +202,8 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         cell.blueSpeed = -0.25f;
         cell.alphaSpeed = 0.15f;
         
-        cell.scale = 0.5f;
-        cell.scaleRange = 0.5f;
+        cell.scale = 0.25f;
+        cell.scaleRange = 0.25f;
         
         cell.lifetime = 1.0f;
         cell.lifetimeRange = .25f;
@@ -233,16 +248,23 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         //NSLog(@"level:%f    scaled:%f   calcbrightness:%f   clamped:%f",level, scale, calcBrightness, clamped);
 
         gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:clamped];
+/*
         //[localNetworkContext.allLightsCollection setColor:gLifxColor];
         for (NSString *aDevID in self.vizInputLights)
         {
             LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
             [aLight setColor:gLifxColor];
         }
+ */
         
-        
-        //self.glevel = level;
-        
+      dispatch_async(dispatch_get_main_queue(),
+        ^{
+            for (LFXLight *aLight in self.vizInputLights2)
+            {
+                [aLight setColor:gLifxColor];
+            }
+        });
+
         
     }
     else

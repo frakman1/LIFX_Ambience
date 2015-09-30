@@ -57,6 +57,7 @@
 //@property (weak, nonatomic) IBOutlet LARSBar *eqSlider;
 
 @property (nonatomic) NSMutableArray *inputLights;
+@property (atomic) NSMutableArray *inputLights2;
 
 
 - (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;

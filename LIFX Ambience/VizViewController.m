@@ -93,9 +93,13 @@ BOOL gRepeatEnabled = false;
 - (void) myTick:(NSTimer *)timer
 {
     //NSLog(@"myTick");
-    self.powerLevel.value = self.visualizer.LevelValue;
-    self.powerLevel.leftChannelLevel = self.visualizer.LevelValue;
-    self.powerLevel.rightChannelLevel = self.visualizer.LevelValue;
+ //   dispatch_async(dispatch_get_main_queue(),
+   //    ^{
+           self.powerLevel.value = self.visualizer.LevelValue;
+           self.powerLevel.leftChannelLevel = self.visualizer.LevelValue;
+           //self.powerLevel.rightChannelLevel = self.visualizer.LevelValue;
+     //  });
+    
 
 }
 
@@ -166,16 +170,19 @@ BOOL gRepeatEnabled = false;
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    NSLog(@"viewWillAppear()");
     NSLog(@"***Overriding orientation.");
+    [UIView setAnimationsEnabled:YES];
     
     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     
     
      _visualizer.sliderThresholdValue = myslider_threshold.value;
-    _visualizer.vizInputLights = self.inputLights;
+    _visualizer.vizInputLights  = self.inputLights;
+    _visualizer.vizInputLights2 = self.inputLights2;
     NSLog(@"Received input lights list: %@",self.inputLights);
+    NSLog(@"Received input lights2 list: %@",self.inputLights2);
 
     CGRect frame = self.view.frame;
    
@@ -379,14 +386,16 @@ BOOL gRepeatEnabled = false;
     //[self.powerLevel setMaximumTrackImage:[UIImage imageNamed:@"whitetrack"]   forState:UIControlStateNormal];
     //[self.powerLevel setMinimumTrackImage:[[UIImage imageNamed:@"purpletrack"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4) resizingMode:UIImageResizingModeTile]  forState:UIControlStateNormal];
     
-    [self.powerLevel setThumbImage: [UIImage imageNamed:@"slider-knob"] forState:UIControlStateNormal];
+    //[self.powerLevel setThumbImage: [UIImage imageNamed:@"slider-knob"] forState:UIControlStateNormal];
+    [self.powerLevel setThumbImage: [UIImage new] forState:UIControlStateNormal];
+
     [self.powerLevel setMaximumTrackImage:[UIImage imageNamed:@"nil"]   forState:UIControlStateNormal];
     [self.powerLevel setMinimumTrackImage:[[UIImage imageNamed:@"nil"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4) resizingMode:UIImageResizingModeTile]  forState:UIControlStateNormal];
 
     
     
     
-    // Setup MArquee as Continuous Type
+    // Setup Marquee as Continuous Type
     self.mlblSongTitle.tag = 101;
     self.mlblSongTitle.marqueeType = MLContinuous;
     self.mlblSongTitle.scrollDuration = 6.0;
@@ -405,7 +414,7 @@ BOOL gRepeatEnabled = false;
     
     
     //create vertical slider - Threshold (DC Offset)
-    myslider_threshold = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.origin.x-20, 270, 160, 30)];
+    myslider_threshold = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.origin.x-70, 240, 200, 30)];
     myslider_threshold.value=0.2; _visualizer.sliderThresholdValue = myslider_threshold.value;
     myslider_threshold.transform = CGAffineTransformRotate(myslider_threshold.transform, -0.5*M_PI);
     [self.view addSubview:myslider_threshold];
@@ -427,9 +436,9 @@ BOOL gRepeatEnabled = false;
     [lblOffset sizeToFit];
     lblOffset.textAlignment = NSTextAlignmentCenter;
     //lblOffset.lineBreakMode= NSLineBreakByWordWrapping ;
-    lblOffset.text = @"Brightness \n Threshold";
-    lblOffset.frame = CGRectMake(myslider_threshold.center.x-50,
-                             myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height-50,
+    lblOffset.text = @"Brightness \nThreshold";
+    lblOffset.frame = CGRectMake(myslider_threshold.center.x-30,
+                             myslider_threshold.frame.origin.y+myslider_threshold.frame.size.height-60,
                              90,
                              180);
     
@@ -443,7 +452,7 @@ BOOL gRepeatEnabled = false;
     
     
     //create vertical slider - Scaler
-    myslider_scale = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.size.width-130, 270, 160, 30)];
+    myslider_scale = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.size.width-130, 240, 200, 30)];
     myslider_scale.maximumValue = 10;
     myslider_scale.minimumValue = 1;
     myslider_scale.value=1;  _visualizer.sliderScaleValue =  myslider_scale.value;
@@ -589,9 +598,7 @@ BOOL gRepeatEnabled = false;
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
 
 
-    //JDFTooltipView* tooltip = [self.tooltipManager.tooltips objectAtIndex:2];
-    //tooltip.alpha = 0.5;
-    // [[self.tooltipManager.tooltips setObjec:2] setAlpha:0.5] ;
+
     
     NSLog(@"***Finished viewDidLoad:");
     
@@ -721,6 +728,7 @@ BOOL gRepeatEnabled = false;
 - (void)viewDidAppear:(BOOL)animated {
     NSLog (@"***viewDidAppear***");
     [super viewDidAppear:animated];
+    
     //[self toggleBars];
     //[self.visualizer vizStart];
     //spawn average colour effect thread

@@ -231,18 +231,19 @@ const CGFloat TOLTargetLightPadding = -3.f;
         CGFloat x = actualPadding*(lightNum+1) + lightWidth*lightNum + (lightWidth/2);
         CGFloat centerLineHeight = CGRectGetHeight(self.bounds)/2;
         CGFloat yOffset = 2.f + TOLLightLayerSize.height/2;
-        CGPoint topCenter = CGPointMake(x, centerLineHeight - yOffset);
+        CGPoint topCenter = CGPointMake(x, centerLineHeight);
         CGPoint bottomCenter = CGPointMake(x, centerLineHeight + yOffset);
         
         [self layoutLightNumber:lightNum
                          center:topCenter
                    storageArray:self.leftChannelLightLayers
                     totalLights:numberOfLights];
-        
+        /*
         [self layoutLightNumber:lightNum
                          center:bottomCenter
                    storageArray:self.rightChannelLightLayers
                     totalLights:numberOfLights];
+         */
     }
 }
 

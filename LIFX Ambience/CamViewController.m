@@ -520,8 +520,8 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
      gcamColor = [UIColor greenColor] ;
      */
     self.audioMeter = [[SCAudioMeter alloc] initWithSamplePeriod:0.05];
-    [self.btnMic setTitle: @"Mic Off" forState: UIControlStateNormal];
-    [self.btnMic setTitle: @"Mic On" forState: UIControlStateSelected];
+    //[self.btnMic setTitle: @"Mic Off" forState: UIControlStateNormal];
+    //[self.btnMic setTitle: @"Mic On" forState: UIControlStateSelected];
     
     [self.btnCrop setTitle: @"Crop" forState: UIControlStateNormal];
     [self.btnCrop setTitle: @"Cropping" forState: UIControlStateSelected];
@@ -588,15 +588,18 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     if (gLockEnabled)
     {
         [self.btnLock setSelected:YES];
+        [self.btnLock setImage: [UIImage imageNamed:@"lifxlockon"] forState:UIControlStateNormal] ;
     }
     else
     {
         [self.btnLock setSelected:NO];
+        [self.btnLock setImage: [UIImage imageNamed:@"lifxlockoff"] forState:UIControlStateNormal] ;
     }
     
     if (gMicEnabled)
     {
         [self.btnMic setSelected:YES];
+        [self.btnMic setImage: [UIImage imageNamed:@"micon"] forState:UIControlStateNormal] ;
         lblExpo.hidden = FALSE;
         lblOffset.hidden = FALSE;
         myslider_scale.hidden = FALSE;
@@ -606,6 +609,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     else
     {
         [self.btnMic setSelected:NO];
+        [self.btnMic setImage: [UIImage imageNamed:@"micoff"] forState:UIControlStateNormal] ;
         lblExpo.hidden = TRUE;
         lblOffset.hidden = TRUE;
         myslider_scale.hidden = TRUE;
@@ -617,10 +621,12 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     if (gCropEnabled)
     {
         [self.btnCrop setSelected:YES];
+        
     }
     else
     {
         [self.btnCrop setSelected:NO];
+        
     }
     
     
@@ -1238,10 +1244,12 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     if (gLockEnabled)
     {
         [self.btnLock setSelected:YES];
+         [self.btnLock setImage: [UIImage imageNamed:@"lifxlockon"] forState:UIControlStateNormal] ;
     }
     else
     {
         [self.btnLock setSelected:NO];
+         [self.btnLock setImage: [UIImage imageNamed:@"lifxlockoff"] forState:UIControlStateNormal] ;
     }
     
     
@@ -1271,11 +1279,13 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     if (gMicEnabled)
     {
         [self.btnMic setSelected:YES];
+        [self.btnMic setImage: [UIImage imageNamed:@"micon"] forState:UIControlStateNormal] ;
 
     }
     else
     {
         [self.btnMic setSelected:NO];
+        [self.btnMic setImage: [UIImage imageNamed:@"micoff"] forState:UIControlStateNormal] ;
         
     }
 }

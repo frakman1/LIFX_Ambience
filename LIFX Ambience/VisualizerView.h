@@ -12,7 +12,7 @@
 
 @property (nonatomic) float LevelValue;
 @property (nonatomic) NSMutableArray *vizInputLights;
-
+@property (atomic) NSMutableArray *vizInputLights2;
 
 - (void) vizStop;
 - (void) vizStart;
