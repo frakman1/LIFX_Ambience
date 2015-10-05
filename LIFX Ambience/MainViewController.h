@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "JDFTooltips.h"
+#import <AVFoundation/AVFoundation.h>
+
 
 
 
@@ -32,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnHelp;
 @property (weak, nonatomic) IBOutlet UIButton *btnInfo;
 @property (weak, nonatomic) IBOutlet UIButton *btnMotion;
+@property (weak, nonatomic) IBOutlet UIButton *btnSiren;
+
 
 
 @property (nonatomic, strong) JDFTooltipManager *tooltipManager;

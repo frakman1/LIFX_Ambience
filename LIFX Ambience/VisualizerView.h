@@ -2,6 +2,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import <LIFXKit/LFXLightCollection.h>
 
 @interface VisualizerView : UIView
 
@@ -13,6 +14,7 @@
 @property (nonatomic) float LevelValue;
 @property (nonatomic) NSMutableArray *vizInputLights;
 @property (atomic) NSMutableArray *vizInputLights2;
+@property (atomic) LFXLightCollection* myCollection;
 
 - (void) vizStop;
 - (void) vizStart;

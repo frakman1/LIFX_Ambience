@@ -20,6 +20,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong,nonatomic) NSString *udid;
+@property (nonatomic) NSMutableDictionary *backupLights;
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 

@@ -736,9 +736,10 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     camTimer = nil;
     //[NSThread sleepForTimeInterval:1];
     
-    LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setColor:tmpColor];
+    //reset lights
+    //LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
+    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //[localNetworkContext.allLightsCollection setColor:tmpColor];
     
     [self.btnHelp setSelected:NO];
     [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
@@ -1240,6 +1241,8 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
  */
 
 - (IBAction)btnLockPressed:(id)sender {
+
+
     gLockEnabled = !gLockEnabled;
     if (gLockEnabled)
     {
@@ -1269,6 +1272,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 
 - (IBAction)btnMicPressed:(id)sender
 {
+    
     gMicEnabled = !gMicEnabled;
     myslider_threshold.hidden = !myslider_threshold.hidden;
     myslider_scale.hidden = !myslider_scale.hidden;

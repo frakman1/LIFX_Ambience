@@ -158,6 +158,47 @@ BOOL gRepeatEnabled = false;
 
 
 
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog (@"***viewDidAppear***");
+    [super viewDidAppear:animated];
+    
+    if (!self.tickerTimer.isValid)
+    {
+        NSLog(@"creating ticker timer");
+        self.tickerTimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+    }
+    else
+    {
+        NSLog(@"no need for new timer");
+    }
+    //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
+    //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    
+    CGFloat tooltipWidth = 100.0f;
+    self.tooltipManager1 = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    
+    [self.tooltipManager1 addTooltipWithTargetView:self.btnMixer hostView:self.view tooltipText:@"Tweak Sensitivity" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+20];
+    
+    [self.tooltipManager1 addTooltipWithTargetView:self.btnRepeat hostView:self.view tooltipText:@"Repeat Song" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
+    
+    //CGRectMake(30, CGRectGetMaxY(label1.frame) + 100.0f, labelWidth, labelHeight)
+    
+    //[self.tooltipManager addTooltipWithTargetPoint:CGPointMake( CGRectGetMaxX(self.toolbar.frame) , self.toolbar.frame.origin.y  )  tooltipText:@"Playlist" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:self.toolbar width:100];
+    
+    [self.tooltipManager1 addTooltipWithTargetView:self.btnPlaylist hostView:self.view tooltipText:@"Playlist" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
+    
+    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:[self.navigationController view]];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp2.center.x, self.btnHelp2.center.y+25) tooltipText:@"Tap to dismiss" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:180];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnAddMusic.center.y) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:[self.navigationController view] width:80];
+    
+    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake((self.view.bounds.size.width / 2.0), (self.view.bounds.size.height / 2.0) + 20 ) tooltipText:@"Tap and Swipe here\n\n↑: Volume Up.\n↓: Volume Down.\n← : Next Song.\n→ : Previous Song.\nDouble Tap : Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self.navigationController view] width:300];
+    
+}
+
 //This function gets called AFTER autolayout/contraint has finished and BEFORE viewWillAppear
 - (void)viewDidLayoutSubviews
 {
@@ -181,59 +222,13 @@ BOOL gRepeatEnabled = false;
      _visualizer.sliderThresholdValue = myslider_threshold.value;
     _visualizer.vizInputLights  = self.inputLights;
     _visualizer.vizInputLights2 = self.inputLights2;
+    
+
+    
     NSLog(@"Received input lights list: %@",self.inputLights);
     NSLog(@"Received input lights2 list: %@",self.inputLights2);
 
-    CGRect frame = self.view.frame;
-   
-    //NSLog (@"1");
-    self.audioPlayerBackgroundLayer.frame = CGRectMake(self.audioPlayerBackgroundLayer.frame.origin.x, self.audioPlayerBackgroundLayer.frame.origin.y, frame.size.width, self.audioPlayerBackgroundLayer.frame.size.height);
-    //NSLog (@"2. %@", NSStringfromCGRect(self.audioPlayerBackgroundLayer.frame));
-    //NSLog (@"2.audioPlayerBackgroundLayer x:%f y:%f width:%f height:%f",self.audioPlayerBackgroundLayer.frame.origin.x,self.audioPlayerBackgroundLayer.frame.origin.y,self.audioPlayerBackgroundLayer.frame.size.width,self.audioPlayerBackgroundLayer.frame.size.height);
-    
-    //self.lbltitleBackground.frame = CGRectMake(self.lbltitleBackground.frame.origin.x, self.lbltitleBackground.frame.origin.y, frame.size.width ,self.lbltitleBackground.frame.size.height);
-    //NSLog (@"3. %@",NSStringfromCGRect(self.lbltitleBackground.frame));
-   // NSLog (@"3.lbltitleBackground x:%f y:%f width:%f height:%f",self.lbltitleBackground.frame.origin.x,self.lbltitleBackground.frame.origin.y,self.lbltitleBackground.frame.size.width,self.lbltitleBackground.frame.size.height);
-    
-    self.mlblSongTitle.frame = CGRectMake(self.btnprevious.frame.size.width,  self.mlblSongTitle.frame.origin.y, frame.size.width - self.btnnext.frame.size.width - self.btnprevious.frame.size.width ,self.mlblSongTitle.frame.size.height);
-   // NSLog (@"4.mlblSongTitle x:%f y:%f width:%f height:%f",self.mlblSongTitle.frame.origin.x,self.mlblSongTitle.frame.origin.y,self.mlblSongTitle.frame.size.width,self.mlblSongTitle.frame.size.height);
-    //NSLog (@"4. %@",NSStringfromCGRect(self.mlblSongTitle.frame));
-    
-    
-    self.mlblSongArtist.frame = CGRectMake(self.mlblSongArtist.frame.origin.x, self.mlblSongArtist.frame.origin.y, frame.size.width ,self.mlblSongArtist.frame.size.height);
-    //NSLog (@"5.lblSongArtist x:%f y:%f width:%f height:%f",self.lblSongArtist.frame.origin.x,self.lblSongArtist.frame.origin.y,self.lblSongArtist.frame.size.width,self.lblSongArtist.frame.size.height);
-    
-    //self.currentTimeSlider.center = self.audioPlayerBackgroundLayer.center;
-   // CGPoint mypoint;
-  //  mypoint.x = (self.currentTimeSlider.frame.origin.x + self.currentTimeSlider.frame.size.width)+50 ;
-   // mypoint.y = self.currentTimeSlider.center.y;
-   // self.duration.frame = CGRectMake(CGRectGetMaxX(self.currentTimeSlider.frame)+150 ,self.currentTimeSlider.center.y,self.duration.frame.size.width,self.duration.frame.size.height);
-    //self.duration.center = mypoint;
-   // NSLog (@"6.currentTimeSlider x:%f y:%f width:%f height:%f",self.currentTimeSlider.frame.origin.x,self.currentTimeSlider.frame.origin.y,self.currentTimeSlider.frame.size.width,self.currentTimeSlider.frame.size.height);
 
-   // NSLog (@"7.duration x:%f y:%f width:%f height:%f",self.duration.frame.origin.x,self.duration.frame.origin.y,self.duration.frame.size.width,self.duration.frame.size.height);
-   // NSLog(@"8. MAX X of slider:%f",CGRectGetMaxX(self.currentTimeSlider.frame));
-    
-    //self.playButton.frame = CGRectMake(self.playButton.frame.origin.x-10,self.playButton.frame.origin.y,self.playButton.frame.size.width,self.playButton.frame.size.height);
-    //self.timeElapsed.frame = CGRectMake(self.timeElapsed.frame.origin.x+10,self.timeElapsed.frame.origin.y,self.timeElapsed.frame.size.width,self.timeElapsed.frame.size.height);
-    
-    //mypoint.x = (self.mlblSongTitle.frame.origin.x + self.mlblSongTitle.frame.size.width)-30;
-    //mypoint.y = self.mlblSongTitle.center.y;
-    //self.btnnext.center = mypoint;
-    
-    //self.currentTimeSlider.frame = CGRectMake(self.timeElapsed.frame.origin.x+self.timeElapsed.frame.size.width+10,self.timeElapsed.frame.origin.y,frame.size.width - (self.timeElapsed.frame.origin.x)*2,self.currentTimeSlider.frame.size.height);
-    
-    
-    //self.lblSongTitle.adjustsFontSizeToFitWidth = YES;
-    
-    // [self showButtonPressed:nil];
-    //CGFloat tooltipWidth = 100.0f;
-    
-    
-    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnAddMusic hostView:self.lbltitleBackground tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionUp width:150];
-    
-    //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.barbtnHelp hostView:self.view tooltipText:@"Tap to dismiss all" arrowDirection:JDFTooltipViewArrowDirectionUp width:tooltipWidth];
-    
     
 }
 
@@ -278,7 +273,7 @@ BOOL gRepeatEnabled = false;
             [v removeFromSuperview];
         }
         
-        
+        /*
         LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
         LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
         //[localNetworkContext.allLightsCollection setColor:tmpColor];
@@ -288,6 +283,8 @@ BOOL gRepeatEnabled = false;
             LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
             [aLight setColor:tmpColor];
         }
+        */
+         //NSLog(@"Received input lights2 list: %@",self.inputLights2);
 
    
     }
@@ -332,6 +329,10 @@ BOOL gRepeatEnabled = false;
     [self configureBars];
     
     [self configureAudioSession];
+    
+   // self.tickerTimer=nil;[self.tickerTimer invalidate];
+    NSLog(@"creating ticker timer");
+    self.tickerTimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
     
    // self.visualizer = [[VisualizerView alloc] initWithFrame:self.view.frame];
     self.visualizer = [[VisualizerView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -725,42 +726,6 @@ BOOL gRepeatEnabled = false;
 
 
 
-- (void)viewDidAppear:(BOOL)animated {
-    NSLog (@"***viewDidAppear***");
-    [super viewDidAppear:animated];
-    
-    //[self toggleBars];
-    //[self.visualizer vizStart];
-    //spawn average colour effect thread
-    self.tickerTimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
-    //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
-    //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-    
-    CGFloat tooltipWidth = 100.0f;
-    self.tooltipManager1 = [[JDFTooltipManager alloc] initWithHostView:self.view];
-    
-    [self.tooltipManager1 addTooltipWithTargetView:self.btnMixer hostView:self.view tooltipText:@"Tweak Sensitivity" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth+20];
-    
-    [self.tooltipManager1 addTooltipWithTargetView:self.btnRepeat hostView:self.view tooltipText:@"Repeat Song" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
-    
-    //CGRectMake(30, CGRectGetMaxY(label1.frame) + 100.0f, labelWidth, labelHeight)
-    
-    //[self.tooltipManager addTooltipWithTargetPoint:CGPointMake( CGRectGetMaxX(self.toolbar.frame) , self.toolbar.frame.origin.y  )  tooltipText:@"Playlist" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:self.toolbar width:100];
-    
-    [self.tooltipManager1 addTooltipWithTargetView:self.btnPlaylist hostView:self.view tooltipText:@"Playlist" arrowDirection:JDFTooltipViewArrowDirectionDown width:tooltipWidth];
-    
-    self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:[self.navigationController view]];
-    
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnHelp2.center.x, self.btnHelp2.center.y+25) tooltipText:@"Tap to dismiss" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self.navigationController view] width:180];
-    
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnAddMusic.center.x, self.btnAddMusic.center.y) tooltipText:@"Add Songs" arrowDirection:JDFTooltipViewArrowDirectionRight hostView:[self.navigationController view] width:80];
-    
-    [self.tooltipManager addTooltipWithTargetPoint:CGPointMake((self.view.bounds.size.width / 2.0), (self.view.bounds.size.height / 2.0) + 20 ) tooltipText:@"Tap and Swipe here\n\n↑: Volume Up.\n↓: Volume Down.\n← : Next Song.\n→ : Previous Song.\nDouble Tap : Toggle Play/Pause." arrowDirection:JDFTooltipViewArrowDirectionDown hostView:[self.navigationController view] width:300];
-    
-    
-
-}
-
 - (void)configureBars {
     [self.view setBackgroundColor:[UIColor blackColor]];
     
@@ -832,7 +797,10 @@ BOOL gRepeatEnabled = false;
     [picker setDelegate:self];
     [picker setAllowsPickingMultipleItems: YES];
     [picker setShowsCloudItems:NO];
-    [self presentViewController:picker animated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(),
+    ^{
+        [self presentViewController:picker animated:YES completion:nil];
+    });
     
     //[picker setAllowsPickingMultipleItems:YES];
     
@@ -841,33 +809,9 @@ BOOL gRepeatEnabled = false;
     
 }
 
-- (IBAction)barbtnSearchPressed:(UIButton *)sender
-{
-    MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
-    picker.prompt = @"Add songs to play";
-    [picker setDelegate:self];
-    [picker setAllowsPickingMultipleItems: YES];
-    [picker setShowsCloudItems:NO];
-    [self presentViewController:picker animated:YES completion:nil];
-    
-    //[picker setAllowsPickingMultipleItems:YES];
-    
-    //[self presentModalViewController:picker animated: YES];
 
-}
 
-/*
- * This method is called when the user presses the magnifier button (because this selector was used
- * to create the button in configureBars, defined earlier in this file). It displays a media picker
- * screen to the user configured to show only audio files.
- 
-- (void)pickSong {
-    MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
-    [picker setDelegate:self];
-    [picker setAllowsPickingMultipleItems: NO];
-    [self presentViewController:picker animated:YES completion:NULL];
-}
-*/
+
 
 #pragma mark - UIAlertView Delegate
 
@@ -1059,8 +1003,8 @@ BOOL gRepeatEnabled = false;
     if ([self.myaudioPlayer isPlaying]) { return;}
     self.myaudioPlayer = [[FSAudioPlayer alloc] init];
     //self.myaudioPlayer.audioPlayer.delegate = self;
-    //NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@".m4a"];
-    NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"dragon" withExtension:@".mp3"];
+    NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@".m4a"];
+    //NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"dragon" withExtension:@".mp3"];
     [self setupAudioPlayer:audioFileLocationURL];
     
     [_myaudioPlayer.audioPlayer setNumberOfLoops:-1];

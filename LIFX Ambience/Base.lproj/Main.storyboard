@@ -138,12 +138,26 @@
                                             <action selector="sliderBrightnessReleased:forEvent:" destination="3SO-wL-eml" eventType="touchUpInside" id="ofB-9Y-Wd4"/>
                                         </connections>
                                     </slider>
+                                    <button opaque="NO" tag="8" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPV-vH-843">
+                                        <rect key="frame" x="241" y="455" width="63" height="41"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="41" id="9IU-JC-6Gf"/>
+                                            <constraint firstAttribute="width" constant="63" id="ibC-ex-HwA"/>
+                                        </constraints>
+                                        <state key="normal" image="siren">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnSirenPressed:" destination="3SO-wL-eml" eventType="touchUpInside" id="lZ3-qj-n03"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.14901960780000001" blue="0.19215686269999999" alpha="0.80000000000000004" colorSpace="deviceRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerY" secondItem="ZQI-9p-Oee" secondAttribute="centerY" id="4m6-2g-mcs"/>
                                     <constraint firstAttribute="bottom" secondItem="wME-nt-RzG" secondAttribute="bottom" priority="750" constant="146" id="54h-6Y-ucI"/>
                                     <constraint firstItem="heN-aR-VfS" firstAttribute="centerX" secondItem="t0k-fm-ghC" secondAttribute="centerX" id="8bH-Hy-O83"/>
+                                    <constraint firstItem="9Rk-T0-rCj" firstAttribute="centerX" secondItem="LPV-vH-843" secondAttribute="centerX" id="Af9-wg-Frg"/>
                                     <constraint firstItem="cKV-bV-5Zu" firstAttribute="top" secondItem="wME-nt-RzG" secondAttribute="top" id="Ar5-vp-dHu"/>
                                     <constraint firstItem="C8e-vI-cLQ" firstAttribute="leading" secondItem="KOs-qU-nef" secondAttribute="leading" constant="22" id="EsC-I2-2LN"/>
                                     <constraint firstAttribute="trailing" secondItem="C8e-vI-cLQ" secondAttribute="trailing" constant="23" id="Irm-pf-htd"/>
@@ -166,6 +180,7 @@
                                     <constraint firstAttribute="trailing" secondItem="9Rk-T0-rCj" secondAttribute="trailing" priority="750" constant="10" id="nvw-SX-zoM"/>
                                     <constraint firstItem="9Rk-T0-rCj" firstAttribute="leading" secondItem="4o6-yF-2ft" secondAttribute="trailing" priority="250" constant="8" symbolic="YES" id="oG2-42-m27"/>
                                     <constraint firstItem="9Rk-T0-rCj" firstAttribute="centerX" secondItem="wME-nt-RzG" secondAttribute="centerX" id="pO1-1i-NCk"/>
+                                    <constraint firstItem="LPV-vH-843" firstAttribute="top" secondItem="wME-nt-RzG" secondAttribute="bottom" priority="250" constant="8" symbolic="YES" id="q3g-2g-67E"/>
                                     <constraint firstItem="t0k-fm-ghC" firstAttribute="top" secondItem="60P-Zi-HdE" secondAttribute="bottom" constant="8" symbolic="YES" id="qSG-Ll-6SL"/>
                                     <constraint firstItem="60P-Zi-HdE" firstAttribute="leading" secondItem="KOs-qU-nef" secondAttribute="leading" constant="20" symbolic="YES" id="rW1-qM-szL"/>
                                     <constraint firstItem="cKV-bV-5Zu" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="KOs-qU-nef" secondAttribute="bottom" constant="-100" id="xH8-i7-hsp"/>
@@ -217,6 +232,7 @@
                         <outlet property="btnInfo" destination="LOv-XK-NOL" id="Y3y-Ee-T4M"/>
                         <outlet property="btnMotion" destination="wME-nt-RzG" id="x2U-1t-Ykh"/>
                         <outlet property="btnMusic" destination="ZQI-9p-Oee" id="mWW-0c-L44"/>
+                        <outlet property="btnSiren" destination="LPV-vH-843" id="yyh-gX-6oz"/>
                         <outlet property="btnYT" destination="4o6-yF-2ft" id="VU3-8T-Ry4"/>
                         <outlet property="lblInfo" destination="o86-oX-Jlq" id="A44-n0-rqU"/>
                         <outlet property="sliderBrightness" destination="C8e-vI-cLQ" id="zqG-xZ-MG5"/>
@@ -522,8 +538,8 @@
                                         <color key="textColor" white="0.82185444078947367" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bm7-X8-kak">
-                                        <rect key="frame" x="252" y="526" width="81" height="85"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bm7-X8-kak">
+                                        <rect key="frame" x="252" y="526" width="37" height="44"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" image="micoff">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -533,8 +549,8 @@
                                             <action selector="btnMicPressed:" destination="beV-Dh-bsA" eventType="touchUpInside" id="Mgn-nZ-A3v"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8k0-1H-qdw">
-                                        <rect key="frame" x="15" y="524" width="68" height="85"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8k0-1H-qdw">
+                                        <rect key="frame" x="15" y="524" width="27" height="42"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" image="lifxlockoff">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1007,7 +1023,7 @@
         <image name="help" width="33" height="32"/>
         <image name="info" width="32" height="32"/>
         <image name="left" width="34" height="34"/>
-        <image name="lifxlockoff" width="56" height="84"/>
+        <image name="lifxlockoff" width="27" height="42"/>
         <image name="mail" width="64" height="39"/>
         <image name="micoff" width="37" height="44"/>
         <image name="mixer" width="32" height="32"/>
@@ -1020,6 +1036,7 @@
         <image name="right" width="32" height="32"/>
         <image name="save" width="32" height="32"/>
         <image name="shuffle" width="46" height="34"/>
+        <image name="siren" width="66" height="45"/>
         <image name="yt" width="93" height="93"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

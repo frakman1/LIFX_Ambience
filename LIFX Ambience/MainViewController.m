@@ -21,6 +21,9 @@
 #import "Flurry/Flurry.h"
 
 #import <sys/utsname.h> // import it in your header or implementation file.
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
+
 
 
 
@@ -38,7 +41,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
     UIBarButtonItem *tempButton;
     UIBarButtonItem *tempButton2;
     NSMutableArray *yourItemsArray;
-    
+    AVAudioPlayer *mysoundaudioPlayer;
 
 }
 
@@ -61,7 +64,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
 @property (strong, nonatomic) NSOperationQueue *deviceQueue;
 @property (nonatomic) NSMutableArray *selectedIndexes;
 @property (nonatomic) NSMutableArray *mainSelectedLights;
-@property (nonatomic) NSMutableArray *backupLights;
+
 
 
 @end
@@ -97,6 +100,7 @@ CGFloat prevBrightness;
 {
     
     if (self.btnMotion.selected) return;
+    if (gShaken) return;
     
     [UIView transitionWithView:self.tableView
                       duration:0.4
@@ -152,6 +156,7 @@ CGFloat prevBrightness;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"***viewDidLoad()***");
     
     AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *id=appdel.udid;
@@ -159,9 +164,10 @@ CGFloat prevBrightness;
     
     gShaken = NO;
     
+    
     self.selectedIndexes = [[NSMutableArray alloc] init];
     self.mainSelectedLights = [[NSMutableArray alloc] init];
-    self.backupLights = [[NSMutableArray alloc] init];
+    
     
     //setup motion detector
     self.deviceQueue = [[NSOperationQueue alloc] init];
@@ -170,7 +176,14 @@ CGFloat prevBrightness;
     self.motionManager.gyroUpdateInterval = 0.1;
     
     
-    
+    //audio controls
+    [self MainConfigureAudioSession];
+    NSString *path = [NSString stringWithFormat:@"%@/alarm.mp3",[[NSBundle mainBundle] resourcePath]];
+    NSURL *soundUrl = [NSURL fileURLWithPath:path];
+    NSLog(@"path:%@  soundUrl:%@",path,soundUrl);
+    mysoundaudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
+        
+
     
    
     [self.sliderHue setMaximumTrackImage:[[UIImage imageNamed:@"huescale2"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch]  forState:UIControlStateNormal];
@@ -284,6 +297,24 @@ CGFloat prevBrightness;
     [volumeViewSlider setValue:0.0f animated:NO];
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
     
+}
+
+-(void) setVolume:(CGFloat)volume
+{
+    MPVolumeView* volumeView;
+    volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews])
+    {
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"])
+        {
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    [volumeViewSlider setValue:volume animated:NO];
+    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -343,52 +374,46 @@ CGFloat prevBrightness;
     [super viewDidAppear:animated];
     [self becomeFirstResponder];
     NSLog(@"***viewDidAppear().");
-    NSLog(@"***backedupLights:%@",self.backupLights);
-
-      //[self mute];
-
-    //LFXHSBKColor* tmpColor = [LFXHSBKColor colorWithHue:(200) saturation:0.6 brightness:0.35];
-    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    //[localNetworkContext.allLightsCollection setColor:tmpColor];
     
 
-    //[(UIImageView *)self.navigationItem.leftBarButtonItem.customView startGlowingWithColor:[UIColor whiteColor] intensity:5];
     [self.btnMusic.imageView startGlowingWithColor:[UIColor greenColor] intensity:1];
     [self.btnCam.imageView startGlowingWithColor:[UIColor blueColor] intensity:1];
     [self.btnYT.imageView startGlowingWithColor:[UIColor redColor] intensity:1];
     [self.btnMotion.imageView startGlowingWithColor:[UIColor cyanColor] intensity:1];
     
-    /*
-    UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-    
-    //UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
-    //self.navigationItem.rightBarButtonItem=barButton;
-    [(UIImageView *)self.navigationItem.rightBarButtonItem.customView setImage:infoButton.imageView.image];
-     */
-    /*
-    NSLog(@"Looking for BUTTON!");
-    //if ([self.navigationItem.rightBarButtonItem.customView.subviews.lastObject isKindOfClass:[UIButton class]])
-    {
-        NSLog(@"FOUND BUTTON!");
-        UIButton * btn = ((UIButton *)(self.navigationItem.rightBarButtonItem.customView ));
-        [btn setShowsTouchWhenHighlighted:YES];
-    }
-    NSLog(@" type: %@",self.navigationItem.rightBarButtonItem.customView);
-    [[self.view]  logViewHierarchy];
-    */
-    
+   
     //reset the lights
-    self.sliderBrightness.value = 1;
-    LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
+    //self.sliderBrightness.value = 1;
+    //LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     //[localNetworkContext.allLightsCollection setColor:tmpColor];
     
+    //restore lights
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSLog(@"***restoredLights:%@",appdel.backupLights);
+    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
+    {
+        NSLog(@"aLight:%@",aLight);
+        for (NSString *aDevID in [appdel.backupLights allKeys])
+        {
+            NSLog(@"aDevID:%@",aDevID);
+            //LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+            if ([aLight.deviceID isEqualToString:aDevID])
+            {
+                 NSLog(@"appdel.backupLights objectForKey:aDevID: %@",[appdel.backupLights objectForKey:aDevID]);
+                [aLight setColor:[appdel.backupLights objectForKey:aDevID]];
+            }
+            
+        }
+    }// end for
+
+    /*
     for (NSString *aDevID in self.selectedIndexes)
     {
-        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        LFXLight *aLight =  [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
         [aLight setColor:tmpColor overDuration:0.5];
     }
-    
+    */
     /*
     for (LFXLight *aLight in self.backupLights)
     {
@@ -397,9 +422,9 @@ CGFloat prevBrightness;
         [Light setColor:aLight.color];
     }
 */
-    self.sliderHue.value = tmpColor.hue/360;
-    self.sliderSaturation.value = tmpColor.saturation;
-    self.sliderValue.value = tmpColor.brightness;
+    //self.sliderHue.value = tmpColor.hue/360;
+    //self.sliderSaturation.value = tmpColor.saturation;
+    //self.sliderValue.value = tmpColor.brightness;
     
     
     /*
@@ -500,7 +525,7 @@ CGFloat prevBrightness;
     else
     {
          NSLog(@"NOT Running on iPhone 4/4S");
-        [self.tooltipManager addTooltipWithTargetView:self.btnMotion  hostView:self.view tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axis to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionRight  width:200];
+        [self.tooltipManager addTooltipWithTargetView:self.btnMotion  hostView:self.view tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axes to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionRight  width:200];
         
         
     }
@@ -822,7 +847,7 @@ CGFloat prevBrightness;
 {
     NSString* tagName= [[NSString alloc]init];
 
-    NSLog(@" tagToText() input tag:%d ",tag);
+    NSLog(@" tagToText() input tag:%ld ",(long)tag);
     switch (tag)
     {
             
@@ -830,7 +855,7 @@ CGFloat prevBrightness;
         {
             
             tagName=@"Info";
-            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
             //[Flurry logEvent:@"Info" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
@@ -838,7 +863,7 @@ CGFloat prevBrightness;
         {
             
             tagName=@"MusicPlayer";
-            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
             //[Flurry logEvent:@"MusicPlayer" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
@@ -846,7 +871,7 @@ CGFloat prevBrightness;
         {
             
             tagName=@"YouTubePlayer";
-            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
             //[Flurry logEvent:@"YouTubePlayer" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
@@ -854,7 +879,7 @@ CGFloat prevBrightness;
         {
             
             tagName=@"CameraViewer";
-            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
             //[Flurry logEvent:@"CameraViewer" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
@@ -862,7 +887,7 @@ CGFloat prevBrightness;
         {
             
             tagName=@"Gyro";
-            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
             //[Flurry logEvent:@"Gyro" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
@@ -870,7 +895,7 @@ CGFloat prevBrightness;
         {
             
             tagName=@"Email";
-            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
             //[Flurry logEvent:@"Email" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
@@ -879,7 +904,7 @@ CGFloat prevBrightness;
         {
             
             tagName=@"Donate";
-            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
             //[Flurry logEvent:@"Donate" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
@@ -888,7 +913,7 @@ CGFloat prevBrightness;
         {
             
             tagName=@"Info";
-            NSLog(@"tag=%d tagName:%@",tag,tagName);
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
             //[Flurry logEvent:@"Donate" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
@@ -933,7 +958,7 @@ CGFloat prevBrightness;
     
 }
 
-
+// Make sure at least one bulb is selected
 -(BOOL) checkIfSelected:(NSString*)buttonName
 {
     NSLog(@"checkIfSelected()");
@@ -980,6 +1005,9 @@ CGFloat prevBrightness;
     }
     else //currently the only other segue is the info button
     {
+       if (gShaken) return NO;
+       if (self.btnMotion.selected) return NO;
+        
        [self logIt:btnName];
        return YES;
     }
@@ -991,9 +1019,23 @@ CGFloat prevBrightness;
     // Pass the selected object to the new view controller.
     
     UIButton *btn = (UIButton*)sender;
-    NSLog(@"prepareForSegue. tag number:%d",[(UIButton *)sender tag]);
-    //[self.backupLights addObjectsFromArray:self.mainSelectedLights];
-    //NSLog(@"Saving light state: %@",self.backupLights);
+    NSLog(@"prepareForSegue. tag number:%ld",(long)[(UIButton *)sender tag]);
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
+    {
+        [appdel.backupLights setObject:aLight.color forKey:aLight.deviceID];
+    }
+    NSLog(@"Saving light state: %@", appdel.backupLights);
+    
+    
+    //if ( appdel.backupLights>0) [ appdel.backupLights removeAllObjects];
+    //[ appdel.backupLights addObjectsFromArray:self.mainSelectedLights];
+    //NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    //[userDefaults setObject:self.backupLights forKey:@"backupLights"];
+    //[userDefaults synchronize];
+    
+    
     
     if (btn.tag == 3)
     {
@@ -1054,26 +1096,7 @@ CGFloat prevBrightness;
 
 }
 
--(void) toggleLights
-{
-    NSLog(@"***SHAKE SHAKE SHAKE***gShaken:%d",gShaken); gShaken = !gShaken;
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
-    {
-        for (NSString *aDevID in self.selectedIndexes)
-        {
-            //LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
-            if ([aLight.deviceID isEqualToString:aDevID])
-            {
-                aLight.powerState  = !aLight.powerState;
-            }
-            
-        }
 
-        
-    }// end for
-    
-}
 - (IBAction)brightnessOrKelvinChanged:(UISlider *)sender
 {
     NSLog(@"brightnessOrKelvinChanged()");
@@ -1270,13 +1293,17 @@ CGFloat prevBrightness;
     return UIInterfaceOrientationMaskPortrait;
 }
 
+- (void)MainConfigureAudioSession {
+    NSError *error;
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+    
+    if (error) {
+        NSLog(@"Error setting category: %@", [error description]);
+    }
+}
 
-
-
-
-
-
--(BOOL)canBecomeFirstResponder {
+-(BOOL)canBecomeFirstResponder
+{
     return YES;
 }
 
@@ -1290,6 +1317,7 @@ CGFloat prevBrightness;
     BtnName = [self tagToText:btn.tag]; NSLog(@"BtnName:%@",BtnName);
 
     //[self.someButton setHighlighted:YES]; [self.someButton sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.someButton setHighlighted:NO];
+    //check if any light bulbs are selected first
     if (![self checkIfSelected:BtnName]) return;
     
         
@@ -1313,7 +1341,20 @@ CGFloat prevBrightness;
         self.tableView.allowsSelection = NO;
         
         // show sliders,table etc
-        [self fade:NO];
+        //[self myfade:NO];
+        [self fadeView:self.tableView Out:NO];
+        [self fadeView:self.sliderBrightness Out:YES];
+        [self fadeView:self.sliderHue Out:NO];
+        [self fadeView:self.sliderSaturation Out:NO];
+        [self fadeView:self.sliderValue Out:NO];
+        [self fadeView:self.lblInfo Out:NO];
+        [self fadeView:self.btnCam Out:YES];
+        [self fadeView:self.btnMusic Out:YES];
+        [self fadeView:self.btnYT Out:YES];
+        [self fadeView:self.btnSiren Out:YES];
+        NSString* s = [NSString stringWithFormat:@"X-axis (Roll) : Brightness\nY-axis (Yaw) : Hue\nZ-axis (Pitch) : Saturation"];
+        [self.lblInfo setText:s ];
+
         
         [self.btnMotion setSelected:YES];
         [self.btnMotion setImage: [UIImage imageNamed:@"motion_on"] forState:UIControlStateNormal] ;
@@ -1330,6 +1371,7 @@ CGFloat prevBrightness;
         self.sliderBrightness.minimumValue = -90.0f;
         self.sliderBrightness.maximumValue = 90.0f;
         self.sliderBrightness.userInteractionEnabled = NO;
+        
 
         
         [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical
@@ -1424,7 +1466,20 @@ CGFloat prevBrightness;
     else
     {
         self.tableView.allowsSelection = YES;
-        [self fade:YES];
+        //[self myfade:YES];
+        [self fadeView:self.tableView Out:YES];
+        [self fadeView:self.sliderBrightness Out:YES];
+        [self fadeView:self.sliderHue Out:YES];
+        [self fadeView:self.sliderSaturation Out:YES];
+        [self fadeView:self.sliderValue Out:YES];
+        [self fadeView:self.lblInfo Out:YES];
+        [self fadeView:self.btnCam Out:NO];
+        [self fadeView:self.btnMusic Out:NO];
+        [self fadeView:self.btnYT Out:NO];
+        [self fadeView:self.btnSiren Out:NO];
+        NSString* s = [NSString stringWithFormat:@""];
+        [self.lblInfo setText:s ];
+
         
         [self.btnMotion setSelected:NO];
         [self.motionManager stopDeviceMotionUpdates];
@@ -1444,6 +1499,8 @@ CGFloat prevBrightness;
 
         //self.lblInfo.backgroundColor = [UIColor clearColor];
         
+
+        
        
         
 
@@ -1455,57 +1512,21 @@ CGFloat prevBrightness;
     
 }
 
-// used to fade in/out UI elements for Motion Controller function
-- (void)fade:(BOOL)Out
+// used to fade views in and out.
+- (void) fadeView:(UIView *)myView Out:(BOOL)Out
 {
     
-     [UIView transitionWithView:self.tableView
-     duration:0.4
-     options:UIViewAnimationOptionTransitionCrossDissolve
-     animations:NULL
-     completion:NULL];
-     [UIView transitionWithView:self.sliderBrightness
-     duration:0.4
-     options:UIViewAnimationOptionTransitionCrossDissolve
-     animations:NULL
-     completion:NULL];
-     [UIView transitionWithView:self.sliderHue
-     duration:0.4
-     options:UIViewAnimationOptionTransitionCrossDissolve
-     animations:NULL
-     completion:NULL];
-     [UIView transitionWithView:self.sliderSaturation
-     duration:0.4
-     options:UIViewAnimationOptionTransitionCrossDissolve
-     animations:NULL
-     completion:NULL];
-     [UIView transitionWithView:self.sliderValue
-     duration:0.4
-     options:UIViewAnimationOptionTransitionCrossDissolve
-     animations:NULL
-     completion:NULL];
-     [UIView transitionWithView:self.lblInfo
-     duration:0.4
-     options:UIViewAnimationOptionTransitionCrossDissolve
-     animations:NULL
-     completion:NULL];
-     //completion:^(BOOL finished){if (finished) { self.lblInfo.backgroundColor = [UIColor clearColor]; }}];
+    [UIView transitionWithView:myView
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+    myView.hidden = Out;
+    
 
-    
-    
-     self.tableView.hidden = Out;
-     self.sliderBrightness.hidden = YES;
-     self.sliderHue.hidden = Out;
-     self.sliderSaturation.hidden = Out;
-     self.sliderValue.hidden = Out;
-     self.lblInfo.hidden=Out;
-    
-    NSString* s = [NSString stringWithFormat:@"X-axis (Roll) : Brightness\nY-axis (Yaw) : Hue\nZ-axis (Pitch) : Saturation"];
-    [self.lblInfo setText:s ];
-
-    
-    
 }
+
 
 
 -(void) animateOn
@@ -1526,7 +1547,7 @@ CGFloat prevBrightness;
                           delay:0.5f
                         options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
                      animations:^{
-                          [UIView setAnimationRepeatCount:4.5];
+                          //[UIView setAnimationRepeatCount:4.5];
                          //NSLog(@"in animation alpha:%f",self.imgBox.alpha);
                          [self.lblInfo setAlpha:0.f];
                      }
@@ -1541,9 +1562,75 @@ CGFloat prevBrightness;
     
 }
 
+-(void) toggleLights
+{
+    static BOOL saved_tableView;
+    static BOOL saved_sliderBrightness;
+    static BOOL saved_sliderHue;
+    static BOOL saved_sliderSaturation;
+    static BOOL saved_sliderValue;
+    static BOOL saved_lblInfo;
+    //static BOOL saved_tableView;
+    //static BOOL saved_tableView;
+    
+    NSLog(@"***SHAKE SHAKE SHAKE***gShaken:%d",gShaken); gShaken = !gShaken;
+    if (!gShaken)
+    {
+        [self.lblInfo.layer removeAllAnimations];
+        [self fadeView:self.tableView Out:saved_tableView];
+        [self fadeView:self.sliderBrightness Out:saved_sliderBrightness];
+        [self fadeView:self.sliderHue Out:saved_sliderHue];
+        [self fadeView:self.sliderSaturation Out:saved_sliderSaturation];
+        [self fadeView:self.sliderValue Out:saved_sliderValue];
+        [self fadeView:self.lblInfo Out:NO];
+        
+        [self fadeView:self.btnCam Out:NO];
+        [self fadeView:self.btnMusic Out:NO];
+        [self fadeView:self.btnYT Out:NO];
+        [self fadeView:self.btnMotion Out:NO];
+        [self fadeView:self.btnSiren Out:NO];
+        
+        
+    }
+    else
+    {
+        [self animateOn];
+        saved_tableView = self.tableView.hidden;
+        saved_sliderBrightness = self.sliderBrightness.hidden;
+        saved_sliderHue = self.sliderHue.hidden;
+        saved_sliderSaturation = self.sliderSaturation.hidden;
+        saved_sliderValue = self.sliderValue.hidden;
 
+        
+        [self fadeView:self.tableView Out:YES];
+        [self fadeView:self.sliderBrightness Out:YES];
+        [self fadeView:self.sliderHue Out:YES];
+        [self fadeView:self.sliderSaturation Out:YES];
+        [self fadeView:self.sliderValue Out:YES];
+        [self fadeView:self.btnCam Out:YES];
+        [self fadeView:self.btnMusic Out:YES];
+        [self fadeView:self.btnYT Out:YES];
+        [self fadeView:self.btnMotion Out:YES];
+        [self fadeView:self.btnSiren Out:YES];
 
-
+        
+    }
+    
+    
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
+    {
+        for (NSString *aDevID in self.selectedIndexes)
+        {
+            //LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+            if ([aLight.deviceID isEqualToString:aDevID])
+            {
+                aLight.powerState  = !aLight.powerState;
+            }
+            
+        }
+    }// end for
+}
 
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
@@ -1554,7 +1641,8 @@ CGFloat prevBrightness;
     if (motion == UIEventSubtypeMotionShake)
     {
         [self toggleLights];
-        [self animateOn];
+       
+        [self logIt:@"ShakeToToggle"];
     }
     
     
@@ -1564,6 +1652,109 @@ CGFloat prevBrightness;
     
 }
 
+- (IBAction)btnSirenPressed:(UIButton *)sender
+{
+    NSLog(@"***btnSirenPressed()");
+    //////////////toggle button effect
+    //UIButton *btn = (UIButton*) sender;
+    sender.alpha = 0;
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1];
+    [UIView setAnimationDelegate:[UIApplication sharedApplication]];
+    [UIView setAnimationDidStopSelector:@selector(endIgnoringInteractionEvents)];
+    sender.alpha = 1;
+    [UIView commitAnimations];
+    //////////////////
+    
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    for (LFXLight *aLight in self.mainSelectedLights)
+    {
+        [appdel.backupLights setObject:aLight.color forKey:aLight.deviceID];
+    }
+    NSLog(@"Saving light state: %@", appdel.backupLights);
+
+    mysoundaudioPlayer.currentTime = 0;
+    [mysoundaudioPlayer play];
+    
+
+    
+    [NSThread detachNewThreadSelector: @selector(FlashLightOnSeparateThread:) toTarget: self withObject:nil];
+    
+    /*
+    self.btnSiren.selected = !self.btnSiren.selected;
+    if (self.btnSiren.selected)
+    {
+        
+        [self.btnSiren setSelected:YES];
+        
+    }
+    else
+    {
+        
+        [self.btnSiren setSelected:NO];
+        
+    }
+    */
+
+    
+}
+- (void)FlashLightOnSeparateThread: (UIImageView *) myX
+//- (void)FlashLightOnSeparateThread
+{
+    NSLog (@"Flashing... ");
+    
+    //CGFloat hue, saturation, brightness, alpha;
+    
+  
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    [localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOn];
+    
+    LFXHSBKColor *color = localNetworkContext.allLightsCollection.color;
+    color.hue = 1;
+    color.brightness = 1;
+    color.saturation = 1;
+    [localNetworkContext.allLightsCollection setColor:color];
+    //usleep(500000);
+    sleep(1);
+    //color.hue = 0.1;
+    color.brightness = 0.1;
+    //color.saturation = 0.1;
+    [localNetworkContext.allLightsCollection setColor:color] ;
+    //usleep(500000);
+    sleep(1);
+    color.hue = 1;
+    color.brightness = 1;
+    color.saturation = 1;
+    [localNetworkContext.allLightsCollection setColor:color];
+    //usleep(500000);
+    sleep(1);
+    [localNetworkContext.allLightsCollection setColor:color];
+    //usleep(500000);
+    // sleep(1);
+    //LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
+   // LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+   // [localNetworkContext.allLightsCollection setColor:tmpColor overDuration:2];
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
+    {
+        NSLog(@"aLight:%@",aLight);
+        for (NSString *aDevID in [appdel.backupLights allKeys])
+        {
+            NSLog(@"aDevID:%@",aDevID);
+            //LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+            if ([aLight.deviceID isEqualToString:aDevID])
+            {
+                NSLog(@"appdel.backupLights objectForKey:aDevID: %@",[appdel.backupLights objectForKey:aDevID]);
+                [aLight setColor:[appdel.backupLights objectForKey:aDevID]];
+            }
+            
+        }
+    }// end for
+
+    
+}
 
 
 @end

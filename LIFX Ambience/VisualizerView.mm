@@ -16,8 +16,7 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
 })
 
 @implementation VisualizerView {
-    CAEmitterLayer *emitterLayer;
-    MeterTable meterTable;
+        MeterTable meterTable;
     UIColor *gColor ;
     LFXHSBKColor* gLifxColor ;
     CGFloat hue, saturation, brightness, alpha;
@@ -26,8 +25,18 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
     BOOL stopFlag ;
     CADisplayLink *dpLink;
     
+    // cell constants
+    CAEmitterLayer *emitterLayer;
+    CAEmitterCell *cell ;
+    CAEmitterCell *childCell ;
+    
 }
 BOOL vizRunOnce;
+
+double round(double d)
+{
+    return floor(d + 0.5);
+}
 
 
 + (Class)layerClass {
@@ -83,10 +92,10 @@ BOOL vizRunOnce;
         emitterLayer.emitterShape = kCAEmitterLayerCircle;
         emitterLayer.renderMode = kCAEmitterLayerAdditive;
         
-        CAEmitterCell *cell = [CAEmitterCell emitterCell];
+        cell = [CAEmitterCell emitterCell];
         cell.name = @"cell";
         
-        CAEmitterCell *childCell = [CAEmitterCell emitterCell];
+        childCell = [CAEmitterCell emitterCell];
         childCell.name = @"childCell";
         childCell.lifetime = 1.0f / 60.0f;
         childCell.birthRate = 60.0f;
@@ -109,8 +118,8 @@ BOOL vizRunOnce;
         cell.blueSpeed = -0.25f;
         cell.alphaSpeed = 0.15f;
         
-        cell.scale = 0.5f;
-        cell.scaleRange = 0.5f;
+        cell.scale = 0.25f;
+        cell.scaleRange = 0.25f;
         
         cell.lifetime = 1.0f;
         cell.lifetimeRange = .25f;
@@ -136,7 +145,7 @@ BOOL vizRunOnce;
     
     float scale = 0.5;
     float calcBrightness = 1;
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     
  
     if (vizRunOnce==FALSE)
@@ -144,9 +153,7 @@ BOOL vizRunOnce;
         vizRunOnce=TRUE;
         NSLog(@"vizInputLights:%@ ",self.vizInputLights);
         NSLog(@"vizInputLights2:%@ ",self.vizInputLights2);
-
- 
-    }
+     }
   
     if (stopFlag==TRUE)
     {
@@ -174,47 +181,11 @@ BOOL vizRunOnce;
         //----------------------------------------------------
         
         //NSLog(@"hue:%f  saturation:%f",hue,saturation);
-        CAEmitterCell *cell = [CAEmitterCell emitterCell];
-        cell.name = @"cell";
-        
-        CAEmitterCell *childCell = [CAEmitterCell emitterCell];
-        childCell.name = @"childCell";
-        childCell.lifetime = 1.0f / 60.0f;
-        childCell.birthRate = 60.0f;
-        childCell.velocity = 0.0f;
-        
-        childCell.contents = (id)[[UIImage imageNamed:@"particle"] CGImage];
-        
-        cell.emitterCells = @[childCell];
-        
+      
         //------------ Update cell colour ------------------------------------------------------------------------
         cell.color = [[UIColor colorWithHue: hue/360.0 saturation: saturation brightness: 1.0 alpha: 1.0]CGColor] ;
         //---------------------------------------------------------------------------------------------------------
-
-        
-        cell.redRange = 0.46f;
-        cell.greenRange = 0.49f;
-        cell.blueRange = 0.67f;
-        cell.alphaRange = 0.55f;
-        
-        cell.redSpeed = 0.11f;
-        cell.greenSpeed = 0.07f;
-        cell.blueSpeed = -0.25f;
-        cell.alphaSpeed = 0.15f;
-        
-        cell.scale = 0.25f;
-        cell.scaleRange = 0.25f;
-        
-        cell.lifetime = 1.0f;
-        cell.lifetimeRange = .25f;
-        cell.birthRate = 80;
-        
-        cell.velocity = 100.0f;
-        cell.velocityRange = 300.0f;
-        cell.emissionRange = M_PI * 2;
-        
-        emitterLayer.emitterCells = @[cell];
-        
+       
         
         [_audioPlayer updateMeters];
         
@@ -226,19 +197,19 @@ BOOL vizRunOnce;
         power /= [_audioPlayer numberOfChannels];
         
         float level = meterTable.ValueAt(power);
-         //NSLog(@"level:%f",level);
+       // NSLog(@"level:%f",level);
         
         //NSLog(@"update() Scaling   value is: %f ",self.sliderScaleValue);
         //NSLog(@"update() Threshold value is: %f ",self.sliderThresholdValue);
         
         scale = level * 5;
-        //calcBrightness = self.sliderThresholdValue + (level * self.sliderScaleValue);
+
         level = level + self.sliderThresholdValue;
         calcBrightness = powf(level,self.sliderScaleValue);
         
         if (calcBrightness > 1.0)
         {
-            NSLog(@"CLIP DETECTED!");
+            //NSLog(@"CLIP DETECTED! calcBrightness:%f ",calcBrightness);
         }
         
         float clamped = CLAMP(calcBrightness,0,1);
@@ -246,17 +217,18 @@ BOOL vizRunOnce;
         
         
         //NSLog(@"level:%f    scaled:%f   calcbrightness:%f   clamped:%f",level, scale, calcBrightness, clamped);
-
-        gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:clamped];
-/*
-        //[localNetworkContext.allLightsCollection setColor:gLifxColor];
-        for (NSString *aDevID in self.vizInputLights)
-        {
-            LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
-            [aLight setColor:gLifxColor];
-        }
- */
         
+        gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:clamped];
+
+        /*
+         //[localNetworkContext.allLightsCollection setColor:gLifxColor];
+         for (NSString *aDevID in self.vizInputLights)
+         {
+         LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+         [aLight setColor:gLifxColor];
+         }
+         */
+  
       dispatch_async(dispatch_get_main_queue(),
         ^{
             for (LFXLight *aLight in self.vizInputLights2)

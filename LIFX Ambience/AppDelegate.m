@@ -31,6 +31,7 @@
     NSLog(@"UDID: %@",udid);
     
     application.applicationSupportsShakeToEdit = YES;
+    self.backupLights = [[NSMutableDictionary alloc] init];
     
      return YES;
 }
