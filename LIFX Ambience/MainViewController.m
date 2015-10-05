@@ -381,120 +381,6 @@ CGFloat prevBrightness;
     [self.btnYT.imageView startGlowingWithColor:[UIColor redColor] intensity:1];
     [self.btnMotion.imageView startGlowingWithColor:[UIColor cyanColor] intensity:1];
     
-   
-    //reset the lights
-    //self.sliderBrightness.value = 1;
-    //LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    //[localNetworkContext.allLightsCollection setColor:tmpColor];
-    
-    //restore lights
-    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSLog(@"***restoredLights:%@",appdel.backupLights);
-    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
-    {
-        NSLog(@"aLight:%@",aLight);
-        for (NSString *aDevID in [appdel.backupLights allKeys])
-        {
-            NSLog(@"aDevID:%@",aDevID);
-            //LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
-            if ([aLight.deviceID isEqualToString:aDevID])
-            {
-                 NSLog(@"appdel.backupLights objectForKey:aDevID: %@",[appdel.backupLights objectForKey:aDevID]);
-                [aLight setColor:[appdel.backupLights objectForKey:aDevID]];
-            }
-            
-        }
-    }// end for
-
-    /*
-    for (NSString *aDevID in self.selectedIndexes)
-    {
-        LFXLight *aLight =  [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
-        [aLight setColor:tmpColor overDuration:0.5];
-    }
-    */
-    /*
-    for (LFXLight *aLight in self.backupLights)
-    {
-        NSString *aDevID = aLight.deviceID; NSLog(@" aDevID:%@",aDevID);
-        LFXLight *Light = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID]; NSLog(@" Light:%@",Light);
-        [Light setColor:aLight.color];
-    }
-*/
-    //self.sliderHue.value = tmpColor.hue/360;
-    //self.sliderSaturation.value = tmpColor.saturation;
-    //self.sliderValue.value = tmpColor.brightness;
-    
-    
-    /*
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
- 
-    // do this once per installation. Welcome/Instructions page.
-    // currently using the UIAlertAction and hacking an image into it.
-    // TODO: need to find a better way to improve UIAlertView images so that they have colour (instead of blue tint) etc.*UPDATE* Done. using RenderingModes
-    if (! [defaults boolForKey:@"alertShown"]) 
-  {
-    
-        //
-        UIAlertController * alert=   [UIAlertController
-                                      alertControllerWithTitle:@"LIFX Ambience\rQuick Guide"
-                                      message:nil
-                                      preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* ok = [UIAlertAction
-                             actionWithTitle:@"No LIFX bulbs detected"
-                             style:UIAlertActionStyleDefault
-                             handler:nil];
-        
-        UIAlertAction* ok2 = [UIAlertAction
-                             actionWithTitle:@"LIFX bulb(s) detected"
-                             style:UIAlertActionStyleDefault
-                             handler:nil];
-        
-        UIAlertAction* ok3 = [UIAlertAction
-                             actionWithTitle:@"Music Player"
-                             style:UIAlertActionStyleDefault
-                             handler:nil];
-        
-        UIAlertAction* ok4 = [UIAlertAction
-                              actionWithTitle:@"Camera Viewer"
-                              style:UIAlertActionStyleDefault
-                              handler:nil];
-              
-        UIAlertAction* ok5 = [UIAlertAction
-                              actionWithTitle:@"OK"
-                              style:UIAlertActionStyleDefault
-                              handler:nil];
-        
-        UIImage *image =  [UIImage imageNamed:@"bulb_off"]; [ok  setValue:[image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
-        UIImage *image2 = [UIImage imageNamed:@"bulb_on"]; [ok2 setValue:[image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
-        UIImage *image3 = [UIImage imageNamed:@"music_sm"];[ok3 setValue:[image3 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
-      
-        //UIImage* smallImage = [image3 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok3 setValue:smallImage forKey:@"image"];
-        //UIImage *image3 = [UIImage imageNamed:@"music"];   [ok3 setValue:image3 forKey:@"image"];
-        UIImage *image4 = [UIImage imageNamed:@"cam_sm"];[ok4 setValue:[image4 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
-        //UIImage* smallImage2 = [image4 scaleToSize:CGSizeMake(40.0f,40.0f)];[ok4 setValue:smallImage2 forKey:@"image"];
-        
-        [alert addAction:ok];  // add action to uialertcontroller
-        [alert addAction:ok2]; // add action to uialertcontroller
-        [alert addAction:ok3]; // add action to uialertcontroller
-        [alert addAction:ok4]; // add action to uialertcontroller
-        [alert addAction:ok5]; // add action to uialertcontroller
-        
-        //UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        //imgView.image = [UIImage imageNamed:@"music"];
-        //[alert.view addSubview:imgView];
-        
-        [self presentViewController:alert animated:YES completion:nil];
-     
-        
-      
-    
-    
-        [defaults setBool:YES forKey:@"alertShown"];
-    }
-    */
-
     
     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
     
@@ -529,8 +415,17 @@ CGFloat prevBrightness;
         
         
     }
+    
+    // Delay execution of block for 1 seconds.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        NSLog(@"delayed operation...");
+        
+        [self restoreLightState];
+        
+    });
+    
+    
 
-  
     
 }
 
@@ -1013,13 +908,8 @@ CGFloat prevBrightness;
     }
 }
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-    UIButton *btn = (UIButton*)sender;
-    NSLog(@"prepareForSegue. tag number:%ld",(long)[(UIButton *)sender tag]);
+-(void) saveLightState
+{
     AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     for (LFXLight *aLight in localNetworkContext.allLightsCollection)
@@ -1027,14 +917,39 @@ CGFloat prevBrightness;
         [appdel.backupLights setObject:aLight.color forKey:aLight.deviceID];
     }
     NSLog(@"Saving light state: %@", appdel.backupLights);
+}
+
+-(void) restoreLightState
+{
+  
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSLog(@"***restoredLights:%@",appdel.backupLights);
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     
+    for (NSString *aDevID in [appdel.backupLights allKeys])
+    {
+        NSLog(@"aDevID:%@",aDevID);
+        LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        //if ([aLight.deviceID isEqualToString:aDevID])
+        {
+            NSLog(@"appdel.backupLights objectForKey:aDevID: %@",[appdel.backupLights objectForKey:aDevID]);
+            [aSelLight setColor:[appdel.backupLights objectForKey:aDevID]];
+        }
+        
+    }
+
     
-    //if ( appdel.backupLights>0) [ appdel.backupLights removeAllObjects];
-    //[ appdel.backupLights addObjectsFromArray:self.mainSelectedLights];
-    //NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    //[userDefaults setObject:self.backupLights forKey:@"backupLights"];
-    //[userDefaults synchronize];
+}
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
     
+    UIButton *btn = (UIButton*)sender;
+    NSLog(@"prepareForSegue. tag number:%ld",(long)[(UIButton *)sender tag]);
+    
+    [self saveLightState];
     
     
     if (btn.tag == 3)
@@ -1667,13 +1582,9 @@ CGFloat prevBrightness;
     [UIView commitAnimations];
     //////////////////
     
-    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    for (LFXLight *aLight in self.mainSelectedLights)
-    {
-        [appdel.backupLights setObject:aLight.color forKey:aLight.deviceID];
-    }
-    NSLog(@"Saving light state: %@", appdel.backupLights);
 
+    [self saveLightState];
+    
     mysoundaudioPlayer.currentTime = 0;
     [mysoundaudioPlayer play];
     
@@ -1735,24 +1646,8 @@ CGFloat prevBrightness;
     //LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
    // LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
    // [localNetworkContext.allLightsCollection setColor:tmpColor overDuration:2];
-    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-    for (LFXLight *aLight in localNetworkContext.allLightsCollection)
-    {
-        NSLog(@"aLight:%@",aLight);
-        for (NSString *aDevID in [appdel.backupLights allKeys])
-        {
-            NSLog(@"aDevID:%@",aDevID);
-            //LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
-            if ([aLight.deviceID isEqualToString:aDevID])
-            {
-                NSLog(@"appdel.backupLights objectForKey:aDevID: %@",[appdel.backupLights objectForKey:aDevID]);
-                [aLight setColor:[appdel.backupLights objectForKey:aDevID]];
-            }
-            
-        }
-    }// end for
-
+    [self restoreLightState];
     
 }
 

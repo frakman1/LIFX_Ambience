@@ -532,7 +532,7 @@ BOOL gRepeatEnabled = false;
     if (myslider_threshold.value == 0.0)
     {
         NSLog(@" Threshold Invalid");
-        myslider_threshold.value = 0.2;
+        myslider_threshold.value = 0.3;
     }
      _visualizer.sliderThresholdValue = myslider_threshold.value;
     
@@ -542,7 +542,7 @@ BOOL gRepeatEnabled = false;
     if (myslider_scale.value == 0.0)
     {
         NSLog(@" Scaler Invalid");
-        myslider_scale.value = 3;
+        myslider_scale.value = 5;
     }
     _visualizer.sliderScaleValue = myslider_scale.value;
     
