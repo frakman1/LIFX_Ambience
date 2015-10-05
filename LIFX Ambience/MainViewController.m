@@ -318,6 +318,24 @@ CGFloat prevBrightness;
     
 }
 
+-(CGFloat) getVolume
+{
+    MPVolumeView* volumeView;
+    volumeView = [[MPVolumeView alloc] init];
+    //find the volumeSlider
+    UISlider* volumeViewSlider = nil;
+    for (UIView *view in [volumeView subviews])
+    {
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"])
+        {
+            volumeViewSlider = (UISlider*)view;
+            break;
+        }
+    }
+    return volumeViewSlider.value;
+    
+}
+
 
 
 
@@ -415,7 +433,7 @@ CGFloat prevBrightness;
         
         
     }
-    
+
     // Delay execution of block for 1 seconds.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         NSLog(@"delayed operation...");
@@ -564,8 +582,7 @@ CGFloat prevBrightness;
         //[headerContentView stopGlowing ] ;
     }
    
- 
-    
+
     return @"";
 }
 
@@ -938,7 +955,8 @@ CGFloat prevBrightness;
         
     }
 
-    
+
+       
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -1570,6 +1588,7 @@ CGFloat prevBrightness;
 - (IBAction)btnSirenPressed:(UIButton *)sender
 {
     NSLog(@"***btnSirenPressed()");
+    CGFloat savedVolume=0;
     //////////////toggle button effect
     //UIButton *btn = (UIButton*) sender;
     sender.alpha = 0;
@@ -1581,16 +1600,19 @@ CGFloat prevBrightness;
     sender.alpha = 1;
     [UIView commitAnimations];
     //////////////////
-    
-
+   savedVolume = [self getVolume];
+//    NSLog(@"savedVolume:%f",savedVolume);
     [self saveLightState];
     
+   [self setVolume:1.0f];
+     NSLog(@"current Playing volume:%f",[self getVolume]);
     mysoundaudioPlayer.currentTime = 0;
     [mysoundaudioPlayer play];
     
-
+    //[self setVolume:savedVolume];
     
-    [NSThread detachNewThreadSelector: @selector(FlashLightOnSeparateThread:) toTarget: self withObject:nil];
+    
+    [NSThread detachNewThreadSelector: @selector(FlashLightOnSeparateThread:) toTarget: self withObject:[NSNumber numberWithFloat:savedVolume]];
     
     /*
     self.btnSiren.selected = !self.btnSiren.selected;
@@ -1610,7 +1632,7 @@ CGFloat prevBrightness;
 
     
 }
-- (void)FlashLightOnSeparateThread: (UIImageView *) myX
+- (void)FlashLightOnSeparateThread: (NSNumber *) myX
 //- (void)FlashLightOnSeparateThread
 {
     NSLog (@"Flashing... ");
@@ -1648,6 +1670,9 @@ CGFloat prevBrightness;
    // [localNetworkContext.allLightsCollection setColor:tmpColor overDuration:2];
 
     [self restoreLightState];
+    [self setVolume:[myX floatValue] ];
+    
+   
     
 }
 
