@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "JDFTooltips.h"
 #import <AVFoundation/AVFoundation.h>
+#import "MKNumberBadgeView.h"
 
 
 
@@ -36,12 +37,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnMotion;
 @property (weak, nonatomic) IBOutlet UIButton *btnSiren;
 
-
+@property (retain) IBOutlet MKNumberBadgeView* badgeOne;
 
 @property (nonatomic, strong) JDFTooltipManager *tooltipManager;
 
 - (void)logIt:(NSString*) event withTag:(NSInteger)tag;
 - (void)logIt:(NSString*) event ;
+- (void) restoreLightState;
+- (void) saveLightState;
 
 
 @end

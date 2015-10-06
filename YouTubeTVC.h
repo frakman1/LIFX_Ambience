@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCDYouTubeKit/XCDYouTubeKit.h>
+#import "MainViewController.h"
 
 
 @interface YouTubeTVC : UITableViewController <UISearchBarDelegate>

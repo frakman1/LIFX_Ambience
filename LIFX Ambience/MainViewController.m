@@ -254,7 +254,13 @@ CGFloat prevBrightness;
     
     //self.navigationController.navigationBar.topItem.title = @"";
 
-
+    self.badgeOne = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(self.someButton2.frame.size.width - 12,
+                                                                         -10,
+                                                                         44,
+                                                                         40)];
+    [self.someButton2 addSubview:self.badgeOne];
+    
+    
     timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
 }
 /*
@@ -468,7 +474,8 @@ CGFloat prevBrightness;
 {
     //NSLog(@"updateLights()");
     self.lights = self.lifxNetworkContext.allLightsCollection.lights;
-    [self.tableView reloadData];
+    self.badgeOne.value = self.lights.count;
+    //[self.tableView reloadData];
     //LFXLight * tmplight = self.lights.lastObject;
     //self.sliderBrightness.value = tmplight.color.brightness;
     //self.sliderSaturation.value = tmplight.color.saturation;
@@ -950,7 +957,7 @@ CGFloat prevBrightness;
         //if ([aLight.deviceID isEqualToString:aDevID])
         {
             NSLog(@"appdel.backupLights objectForKey:aDevID: %@",[appdel.backupLights objectForKey:aDevID]);
-            [aSelLight setColor:[appdel.backupLights objectForKey:aDevID]];
+            [aSelLight setColor:[appdel.backupLights objectForKey:aDevID] overDuration:2];
         }
         
     }
@@ -1270,6 +1277,8 @@ CGFloat prevBrightness;
     
     if (self.btnMotion.selected)
     {
+        [self saveLightState];
+        
         // dont allow table interaction
         self.tableView.allowsSelection = NO;
         
@@ -1431,14 +1440,10 @@ CGFloat prevBrightness;
         self.sliderBrightness.userInteractionEnabled = YES;
 
         //self.lblInfo.backgroundColor = [UIColor clearColor];
-        
-
-        
-       
-        
 
         [self.btnMotion setImage: [UIImage imageNamed:@"motion"] forState:UIControlStateNormal] ;
         
+        [self restoreLightState];
     }
     
     
@@ -1461,7 +1466,7 @@ CGFloat prevBrightness;
 }
 
 
-
+//ShakeToToggle animation
 -(void) animateOn
 {
     NSLog(@"***animating ***");
@@ -1509,6 +1514,7 @@ CGFloat prevBrightness;
     NSLog(@"***SHAKE SHAKE SHAKE***gShaken:%d",gShaken); gShaken = !gShaken;
     if (!gShaken)
     {
+        //stop the flashing red alert
         [self.lblInfo.layer removeAllAnimations];
         [self fadeView:self.tableView Out:saved_tableView];
         [self fadeView:self.sliderBrightness Out:saved_sliderBrightness];
@@ -1527,7 +1533,9 @@ CGFloat prevBrightness;
     }
     else
     {
+        // start flashing red animation
         [self animateOn];
+        
         saved_tableView = self.tableView.hidden;
         saved_sliderBrightness = self.sliderBrightness.hidden;
         saved_sliderHue = self.sliderHue.hidden;
@@ -1578,20 +1586,15 @@ CGFloat prevBrightness;
         [self logIt:@"ShakeToToggle"];
     }
     
-    
-    
-    
-
-    
 }
 
 - (IBAction)btnSirenPressed:(UIButton *)sender
 {
     NSLog(@"***btnSirenPressed()");
     CGFloat savedVolume=0;
+    
     //////////////toggle button effect
-    //UIButton *btn = (UIButton*) sender;
-    sender.alpha = 0;
+       sender.alpha = 0;
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:1];
@@ -1600,8 +1603,8 @@ CGFloat prevBrightness;
     sender.alpha = 1;
     [UIView commitAnimations];
     //////////////////
-   savedVolume = [self getVolume];
-//    NSLog(@"savedVolume:%f",savedVolume);
+    
+    savedVolume = [self getVolume];
     [self saveLightState];
     
    [self setVolume:1.0f];
@@ -1632,7 +1635,7 @@ CGFloat prevBrightness;
 
     
 }
-- (void)FlashLightOnSeparateThread: (NSNumber *) myX
+- (void)FlashLightOnSeparateThread: (NSNumber *) restoreVolume
 //- (void)FlashLightOnSeparateThread
 {
     NSLog (@"Flashing... ");
@@ -1648,29 +1651,24 @@ CGFloat prevBrightness;
     color.brightness = 1;
     color.saturation = 1;
     [localNetworkContext.allLightsCollection setColor:color];
-    //usleep(500000);
+    
     sleep(1);
     //color.hue = 0.1;
     color.brightness = 0.1;
     //color.saturation = 0.1;
     [localNetworkContext.allLightsCollection setColor:color] ;
-    //usleep(500000);
+    
     sleep(1);
     color.hue = 1;
     color.brightness = 1;
     color.saturation = 1;
     [localNetworkContext.allLightsCollection setColor:color];
-    //usleep(500000);
+    
     sleep(1);
     [localNetworkContext.allLightsCollection setColor:color];
-    //usleep(500000);
-    // sleep(1);
-    //LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
-   // LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-   // [localNetworkContext.allLightsCollection setColor:tmpColor overDuration:2];
 
     [self restoreLightState];
-    [self setVolume:[myX floatValue] ];
+    [self setVolume:[restoreVolume floatValue] ];
     
    
     

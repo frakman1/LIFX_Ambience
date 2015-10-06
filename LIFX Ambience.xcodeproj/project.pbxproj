@@ -53,6 +53,7 @@
 		224937811B3A76AB00699D59 /* CamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937801B3A76AB00699D59 /* CamViewController.m */; };
 		224937841B3A776D00699D59 /* AVCamPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937831B3A776D00699D59 /* AVCamPreviewView.m */; };
 		224937871B3A779C00699D59 /* UIImageAverageColorAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */; };
+		224B6C501BC460490057A08C /* MKNumberBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 224B6C4F1BC460490057A08C /* MKNumberBadgeView.m */; };
 		2257A2211BA375AE001C61D0 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2257A2201BA375AE001C61D0 /* CoreMotion.framework */; };
 		226019001B9808F400708332 /* YouTubeTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 226018FF1B9808F400708332 /* YouTubeTVC.m */; };
 		226019031B982D6200708332 /* UINavigationController+rotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 226019021B982D6200708332 /* UINavigationController+rotation.m */; };
@@ -157,6 +158,8 @@
 		224937831B3A776D00699D59 /* AVCamPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamPreviewView.m; sourceTree = "<group>"; };
 		224937851B3A779C00699D59 /* UIImageAverageColorAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageAverageColorAddition.h; sourceTree = "<group>"; };
 		224937861B3A779C00699D59 /* UIImageAverageColorAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageAverageColorAddition.m; sourceTree = "<group>"; };
+		224B6C4E1BC460490057A08C /* MKNumberBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKNumberBadgeView.h; sourceTree = "<group>"; };
+		224B6C4F1BC460490057A08C /* MKNumberBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKNumberBadgeView.m; sourceTree = "<group>"; };
 		2257A2201BA375AE001C61D0 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		226018FE1B9808F400708332 /* YouTubeTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouTubeTVC.h; sourceTree = "<group>"; };
 		226018FF1B9808F400708332 /* YouTubeTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YouTubeTVC.m; sourceTree = "<group>"; };
@@ -342,6 +345,8 @@
 		22C44C961B73BA1900F09113 /* ExternalCode */ = {
 			isa = PBXGroup;
 			children = (
+				224B6C4E1BC460490057A08C /* MKNumberBadgeView.h */,
+				224B6C4F1BC460490057A08C /* MKNumberBadgeView.m */,
 				2220AEB61BB5C1EE00B97437 /* LARSBar.h */,
 				2220AEB71BB5C1EE00B97437 /* LARSBar.m */,
 				2265FEFB1BA79167006DD173 /* LNBRippleEffect.h */,
@@ -585,6 +590,7 @@
 				22E5A1571B8CE6FE00EED439 /* JDFTooltipView.m in Sources */,
 				22E60BA81B63E41F00E74219 /* UIView+HierarchyLogging.m in Sources */,
 				22F76A151B3CAF1100EE3AFD /* FSAudioPlayer.m in Sources */,
+				224B6C501BC460490057A08C /* MKNumberBadgeView.m in Sources */,
 				2249377A1B3A592800699D59 /* MeterTable.cpp in Sources */,
 				22E5A1591B8CE6FE00EED439 /* UIView+JDFTooltips.m in Sources */,
 				221E329A1B85223D00108108 /* FXBlurView.m in Sources */,

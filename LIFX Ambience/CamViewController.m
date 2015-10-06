@@ -1111,7 +1111,12 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
                 
                 // NSLog(@"****************** image : %f ,%f ",myimage.size.width, myimage.size.height);
                 //NSLog(@"gMicBrightness:%f",gMicBrightness);
+                
+                //Calculate Average Colour.
+                //***************************************************************************************//
                 self.myLabel.backgroundColor=[myimage mergedColor];
+                //***************************************************************************************//
+                
                 [self.myLabel.backgroundColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
                 
                 //gcamLifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];

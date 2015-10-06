@@ -46,7 +46,7 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
 {
     [super viewDidAppear:animated];
     
-
+/*
     LFXHSBKColor* tmpColor = [LFXHSBKColor whiteColorWithBrightness:1  kelvin:3500];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     //[localNetworkContext.allLightsCollection setColor:tmpColor];
@@ -56,8 +56,19 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
         LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
         [aLight setColor:tmpColor overDuration:0.5];
     }
-
+*/
+    // !HACK ALERT! getting a reference to parent view controller to access its elements.
+    MainViewController *parentViewController = (MainViewController*)[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     
+    // Delay execution of block for 1 seconds.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        NSLog(@"delayed operation...");
+        
+        [parentViewController restoreLightState];
+        
+    });
+
+
 }
 
 
