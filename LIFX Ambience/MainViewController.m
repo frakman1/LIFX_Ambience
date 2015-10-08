@@ -25,12 +25,6 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 
-
-
-
-
-
-
 typedef NS_ENUM(NSInteger, TableSection) {
     TableSectionLights = 0,
     //TableSectionTags = 1,
@@ -140,6 +134,7 @@ CGFloat prevBrightness;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
+    NSLog(@"***mainVC_initWithCoder()***");
     if ((self = [super initWithCoder:aDecoder]))
     {
         self.lifxNetworkContext = [LFXClient sharedClient].localNetworkContext;
@@ -253,15 +248,20 @@ CGFloat prevBrightness;
     //yourItemsArray = [[NSMutableArray alloc] initWithObjects:@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",@"item 01", @"item 02", @"item 03",@"item 04",@"item 05",nil];
     
     //self.navigationController.navigationBar.topItem.title = @"";
-
-    self.badgeOne = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(self.someButton2.frame.size.width - 12,
-                                                                         -10,
-                                                                         44,
-                                                                         40)];
+    
+    //set up Badge for number of lights detected
+    self.badgeOne = [[MKNumberBadgeView alloc] initWithFrame:CGRectMake(self.someButton2.frame.size.width - 12, -10, 44, 40)];
     [self.someButton2 addSubview:self.badgeOne];
     
+    // Delay execution of block for 1 seconds.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        NSLog(@"delayed launch myTick...");
+        
+        timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+        
+    });
     
-    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+
 }
 /*
 - (IBAction)btnHelpPressed:(UIButton *)sender
@@ -384,9 +384,9 @@ CGFloat prevBrightness;
     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     
-    [self updateNavBar];
-    [self updateLights];
-    [self updateTags];
+    //[self updateNavBar];
+    //[self updateLights];
+    //[self updateTags];
     
     
 }
@@ -404,6 +404,7 @@ CGFloat prevBrightness;
     [self.btnCam.imageView startGlowingWithColor:[UIColor blueColor] intensity:1];
     [self.btnYT.imageView startGlowingWithColor:[UIColor redColor] intensity:1];
     [self.btnMotion.imageView startGlowingWithColor:[UIColor cyanColor] intensity:1];
+    [self.btnSiren.imageView startGlowingWithColor:[UIColor redColor] intensity:1];
     
     
     self.tooltipManager = [[JDFTooltipManager alloc] initWithHostView:self.view];
@@ -431,25 +432,17 @@ CGFloat prevBrightness;
         NSLog(@"Running on iPhone 4/4S");
         
         [self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMotion.center.x, self.btnMotion.center.y) tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axes to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionUp hostView:self.view width:310];
+        
     }
     else
     {
          NSLog(@"NOT Running on iPhone 4/4S");
         [self.tooltipManager addTooltipWithTargetView:self.btnMotion  hostView:self.view tooltipText:@"Gyroscopic Motion Controller.\nMove your phone along its 3 axes to control Hue, Saturation and Brightness " arrowDirection:JDFTooltipViewArrowDirectionRight  width:200];
         
-        
     }
-
-    // Delay execution of block for 1 seconds.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        NSLog(@"delayed operation...");
         
-        [self restoreLightState];
+    [self restoreLightState];
         
-    });
-    
-    
-
     
 }
 
@@ -945,25 +938,30 @@ CGFloat prevBrightness;
 
 -(void) restoreLightState
 {
-  
-    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSLog(@"***restoredLights:%@",appdel.backupLights);
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    
-    for (NSString *aDevID in [appdel.backupLights allKeys])
-    {
-        NSLog(@"aDevID:%@",aDevID);
-        LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
-        //if ([aLight.deviceID isEqualToString:aDevID])
-        {
-            NSLog(@"appdel.backupLights objectForKey:aDevID: %@",[appdel.backupLights objectForKey:aDevID]);
-            [aSelLight setColor:[appdel.backupLights objectForKey:aDevID] overDuration:2];
-        }
+    NSLog(@"restoreLightState()");
+    // Delay execution of block for x seconds.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(),
+    ^{
+        NSLog(@"delayed operation...");
         
-    }
-
-
+        AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSLog(@"***restoredLights:%@",appdel.backupLights);
+        LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+        
+        for (NSString *aDevID in [appdel.backupLights allKeys])
+        {
+            NSLog(@"aDevID:%@",aDevID);
+            LFXLight *aSelLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+            //if ([aLight.deviceID isEqualToString:aDevID])
+            {
+                NSLog(@"appdel.backupLights objectForKey:aDevID: %@",[appdel.backupLights objectForKey:aDevID]);
+                [aSelLight setColor:[appdel.backupLights objectForKey:aDevID] overDuration:2];
+            }
+        }
        
+    });//end blaock
+    
+    
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

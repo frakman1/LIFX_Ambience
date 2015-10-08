@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *audioPlayerBackgroundLayer;
 
 @property (weak, nonatomic) IBOutlet UISlider *currentTimeSlider;
+@property (weak, nonatomic) IBOutlet UISlider *colourSlider;
+
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UILabel *duration;
 @property (weak, nonatomic) IBOutlet UILabel *timeElapsed;
@@ -38,10 +40,12 @@
 @property (weak, nonatomic)   IBOutlet UIButton *btnRepeat;
 @property (weak, nonatomic) IBOutlet UIButton *btnMixer;
 @property (weak, nonatomic) IBOutlet UIButton *btnPlaylist;
+@property (weak, nonatomic) IBOutlet UIButton *btnLock;
 
 
 @property BOOL isPaused;
 @property BOOL scrubbing;
+@property BOOL colourizing;
 
 @property (weak, nonatomic) IBOutlet LARSBar *powerLevel;
 @property (weak, nonatomic) IBOutlet UIImageView *imgBox;
@@ -66,6 +70,7 @@
 - (IBAction) btnpreviousPressed:(UIButton *)sender;
 - (IBAction)btnMixerPressed:(UIBarButtonItem *)sender;
 - (IBAction)btnHelpPressed:(UIButton *)sender;
+- (IBAction)btnLockPressed:(UIButton *)sender;
 
 
 //TableViewController Delegate

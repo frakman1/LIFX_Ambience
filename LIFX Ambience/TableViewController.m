@@ -278,6 +278,7 @@ NSLog(@"index: %d",index);
 {
     //[self.delegate ModalTableViewDidClickCancel];
     NSLog(@"Every Day I'm Shuff-a-ling");
+    if (playlist.items.count<2) return;
     
     NSMutableArray *tempPlayist = [[NSMutableArray alloc]initWithArray:playlist.items copyItems:TRUE]; 
     

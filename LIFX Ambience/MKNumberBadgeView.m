@@ -97,7 +97,7 @@
 	self.alignment = NSTextAlignmentCenter;
 	self.fillColor = [UIColor redColor];
 	self.strokeColor = [UIColor whiteColor];
-	self.strokeWidth = 2.0;
+	self.strokeWidth = 1.0;
 	self.textColor = [UIColor whiteColor];
     self.hideWhenZero = NO;
 	self.adjustOffset = CGPointZero;

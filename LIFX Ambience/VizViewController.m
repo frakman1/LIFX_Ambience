@@ -17,7 +17,7 @@
 #import "ANPopoverSlider.h"
 #import "JDFTooltips.h"
 #import "AppDelegate.h"
-
+#import <QuartzCore/QuartzCore.h>
 
 @interface SystemVolumeView : MPVolumeView
 
@@ -85,6 +85,7 @@
     UILabel *lblOffset;
     UILabel *lblExpo;
     BOOL firstTime;
+    CGFloat gLockedHue;
 }
 @synthesize playlist,limboPlaylist,toolbar,powerLevel;
 
@@ -343,7 +344,6 @@ BOOL gRepeatEnabled = false;
     //[self.view sendSubviewToBack:_visualizer];
     [[self.audioPlayerBackgroundLayer superview] bringSubviewToFront:self.audioPlayerBackgroundLayer];
     [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
-    [[self.currentTimeSlider superview] bringSubviewToFront:self.currentTimeSlider];
     [[self.duration superview] bringSubviewToFront:self.duration];
     [[self.timeElapsed superview] bringSubviewToFront:self.timeElapsed];
     
@@ -362,8 +362,9 @@ BOOL gRepeatEnabled = false;
     [self.viewVolumeView setShowsVolumeSlider:YES];
     [self.viewVolumeView setShowsRouteButton:YES];
     [self.viewVolumeView sizeToFit];
-    [self.viewVolumeView setVolumeThumbImage: [UIImage imageNamed:@"vknob"] forState:UIControlStateNormal];
+    [self.viewVolumeView setVolumeThumbImage: [UIImage imageNamed:@"vknob2"] forState:UIControlStateNormal];
     [[self.viewVolumeView superview] bringSubviewToFront:self.viewVolumeView];
+    [[self.colourSlider superview] bringSubviewToFront:self.colourSlider];
     
     
     //[self.imgBox setImage:[UIImage imageNamed:@"play2"]];
@@ -382,6 +383,13 @@ BOOL gRepeatEnabled = false;
     [self.currentTimeSlider setThumbImage: [UIImage imageNamed:@"metalknob"] forState:UIControlStateNormal];
     [self.currentTimeSlider setMaximumTrackImage:[UIImage imageNamed:@"whitetrack"]   forState:UIControlStateNormal];
     [self.currentTimeSlider setMinimumTrackImage:[[UIImage imageNamed:@"bluetrack"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4)]   forState:UIControlStateNormal];
+    
+    [self.colourSlider setThumbImage: [UIImage imageNamed:@"metalknob"] forState:UIControlStateNormal];
+    //[self.colourSlider setMaximumTrackImage:[UIImage imageNamed:@"colourtrack"] forState:UIControlStateNormal];
+    [self.colourSlider setMaximumTrackImage:[[UIImage imageNamed:@"colourtracklong"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeStretch]  forState:UIControlStateNormal];
+    [self.colourSlider setMinimumTrackImage:[[UIImage imageNamed:@"colourtracklong"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeTile]  forState:UIControlStateNormal];
+
+
     
     //self.powerLevel setThumbImage: [UIImage imageNamed:@"metalknob2"] forState:UIControlStateNormal];
     //[self.powerLevel setMaximumTrackImage:[UIImage imageNamed:@"whitetrack"]   forState:UIControlStateNormal];
@@ -598,7 +606,38 @@ BOOL gRepeatEnabled = false;
     [volumeViewSlider setValue:gSavedVolume animated:YES];
     [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
 
+    //restore colour lock if any
+    self.btnLock.layer.cornerRadius = 10;
+    self.btnLock.clipsToBounds = YES;
+    self.btnLock.selected = [defaults boolForKey:@"HueLock"];
+    NSLog(@"HueLock: %d: ",self.btnLock.selected);
+    if (self.btnLock.selected)
+    {
+        self.colourSlider.userInteractionEnabled = NO;
+        self.colourSlider.alpha = 0.5;
+        [self.colourSlider setThumbImage: [UIImage imageNamed:@"lifxlockon_redsm"] forState:UIControlStateNormal];
 
+        [self.btnLock setSelected:YES];
+        [self.btnLock setImage: [UIImage imageNamed:@"lifxlockon_red"] forState:UIControlStateNormal] ;
+        //gLockedHue = (self.currentTimeSlider.value * 360)/(self.currentTimeSlider.maximumValue);
+        gLockedHue = [defaults floatForKey:@"myHue"];
+        self.btnLock.backgroundColor = [UIColor colorWithHue:gLockedHue/360 saturation:1 brightness:1 alpha:1];
+        self.colourSlider.value = gLockedHue/360;
+        _visualizer.hue = gLockedHue;
+        NSLog(@"Restored gLockedHue:%f",gLockedHue);
+       
+    }
+    else
+    {
+        self.colourSlider.userInteractionEnabled = YES;
+        self.colourSlider.alpha = 1;
+        [self.colourSlider setThumbImage: [UIImage imageNamed:@"metalknob"] forState:UIControlStateNormal];
+
+        [self.btnLock setSelected:NO];
+        [self.btnLock setImage: [UIImage imageNamed:@"lifxlockoff"] forState:UIControlStateNormal] ;
+        self.btnLock.backgroundColor = [UIColor clearColor];
+        
+    }
 
     
     NSLog(@"***Finished viewDidLoad:");
@@ -1047,6 +1086,7 @@ BOOL gRepeatEnabled = false;
     //[self.audioPlayer initPlayer:fileName fileExtension:fileExtension];
     self.myaudioPlayer.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:&error];
     self.currentTimeSlider.maximumValue = [self.myaudioPlayer getAudioDuration];
+    //NSLog(@"self.currentTimeSlider.maximumValue:%f",self.currentTimeSlider.maximumValue);
     
     //init the current timedisplay and the labels. if a current time was stored
     //for this player then take it and update the time display
@@ -1108,32 +1148,6 @@ BOOL gRepeatEnabled = false;
 
 
 }
-- (void) startFade
-{
-    
-    [self.imgBox.layer removeAllAnimations];
-    
-    [self.imgBox setAlpha:1.f];
-    //NSLog(@"startFade1 alpha:%f",self.imgBox.alpha);
-    
-    [UIView animateWithDuration:0.5f
-                          delay:0.5f
-                        options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
-                     animations:^{
-                         if (self.imgBox.tag) {}
-                         else [UIView setAnimationRepeatCount:1.5];
-                         //NSLog(@"in animation alpha:%f",self.imgBox.alpha);
-                         [self.imgBox setAlpha:0.f];
-                     }
-                     completion:^(BOOL finished){
-                         if (finished) {NSLog(@"done");}
-                         //[self.imgBox setAlpha:0.f];
-                     }];
-
-    //[self.imgBox setAlpha:0.f];
-
-    //NSLog(@"startFade2 alpha:%f",self.imgBox.alpha);
-}
 
 /*
  * Updates the time label display and
@@ -1146,6 +1160,21 @@ BOOL gRepeatEnabled = false;
     if (!self.scrubbing)
     {
         self.currentTimeSlider.value = [self.myaudioPlayer getCurrentAudioTime];
+        
+        if (!self.colourizing)
+        {
+            // lock the colour by sending the same hue to the visualizer
+            if (self.btnLock.selected)
+            {
+                _visualizer.hue = gLockedHue;
+            }
+            else
+            {
+                // update slider to indicate present colour
+                 //NSLog(@"updateTime() : _visualizer.hue:%f",_visualizer.hue);
+                self.colourSlider.value = _visualizer.hue/360.0;
+            }
+        }
     }
     self.timeElapsed.text = [NSString stringWithFormat:@"%@",
                              [self.myaudioPlayer timeFormat:[self.myaudioPlayer getCurrentAudioTime]]];
@@ -1192,7 +1221,30 @@ BOOL gRepeatEnabled = false;
 - (IBAction)userIsScrubbing:(id)sender
 {
     self.scrubbing = TRUE;
+    
 }
+- (IBAction)colourSelected:(UISlider *)sender
+{
+   // NSLog(@"colourSelected() self.colourSlider.value:%f",self.colourSlider.value);
+    _visualizer.hue = self.colourSlider.value*360;
+    //self.btnLock.backgroundColor = [UIColor colorWithHue:(_visualizer.hue/360.0) saturation:0.8 brightness:1 alpha:1];
+    if (self.btnLock.selected)
+    {
+        self.colourSlider.value = gLockedHue/360;
+    }
+    NSLog(@"_visualizer.hue:%f",_visualizer.hue);
+    self.colourizing = FALSE;
+
+
+}
+
+- (IBAction)colourSelecting:(UISlider *)sender
+{
+    self.colourizing = TRUE;
+    _visualizer.hue = self.colourSlider.value*360;
+    NSLog(@"colourSelecting()_visualizer.hue:%f",_visualizer.hue);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1209,14 +1261,14 @@ BOOL gRepeatEnabled = false;
 
     if (self.btnRepeat.selected)
     {
-         NSLog(@"Repeating Song. gcurrentSong unchanged ",gcurrenSong);
+         NSLog(@"Repeating Song. gcurrentSong unchanged ");
     }
     else
     {
         gcurrenSong++;
     }
     
-    NSLog(@"next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
+   // NSLog(@"next gcurrentSong:%d . playlist length:%lu",gcurrenSong, (unsigned long)[playlist count]);
     if (gcurrenSong > ([playlist count] - 1))
     {
         gcurrenSong =0 ;
@@ -1276,6 +1328,34 @@ BOOL gRepeatEnabled = false;
 
 }
 
+// blinky UI box in the middle
+- (void) startFade
+{
+    
+    [self.imgBox.layer removeAllAnimations];
+    
+    [self.imgBox setAlpha:1.f];
+    //NSLog(@"startFade1 alpha:%f",self.imgBox.alpha);
+    
+    [UIView animateWithDuration:0.5f
+                          delay:0.5f
+                        options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
+                     animations:^{
+                         if (self.imgBox.tag) {}
+                         else [UIView setAnimationRepeatCount:1.5];
+                         //NSLog(@"in animation alpha:%f",self.imgBox.alpha);
+                         [self.imgBox setAlpha:0.f];
+                     }
+                     completion:^(BOOL finished){
+                         if (finished) {NSLog(@"done");}
+                         //[self.imgBox setAlpha:0.f];
+                     }];
+    
+    //[self.imgBox setAlpha:0.f];
+    
+    //NSLog(@"startFade2 alpha:%f",self.imgBox.alpha);
+}
+
 
 - (IBAction)btnRepeatPressed:(UIButton *)sender
 {
@@ -1299,14 +1379,22 @@ BOOL gRepeatEnabled = false;
 
 - (IBAction)btnMixerPressed:(UIButton *)sender
 {
+    [UIView transitionWithView:myslider_threshold duration:0.4 options:UIViewAnimationOptionTransitionCrossDissolve animations:NULL completion:NULL];
+    [UIView transitionWithView:myslider_scale duration:0.4 options:UIViewAnimationOptionTransitionCrossDissolve animations:NULL completion:NULL];
+    [UIView transitionWithView:self.powerLevel duration:0.4 options:UIViewAnimationOptionTransitionCrossDissolve animations:NULL completion:NULL];
+    [UIView transitionWithView:lblOffset duration:0.4 options:UIViewAnimationOptionTransitionCrossDissolve animations:NULL completion:NULL];
+    [UIView transitionWithView:lblExpo duration:0.4 options:UIViewAnimationOptionTransitionCrossDissolve animations:NULL completion:NULL];
+    [UIView transitionWithView:self.viewVolumeView duration:0.4 options:UIViewAnimationOptionTransitionCrossDissolve animations:NULL completion:NULL];
+    [UIView transitionWithView:self.colourSlider duration:0.4 options:UIViewAnimationOptionTransitionCrossDissolve animations:NULL completion:NULL];
+
+    
     myslider_threshold.hidden = !myslider_threshold.hidden;
     myslider_scale.hidden = !myslider_scale.hidden;
     self.powerLevel.hidden = !self.powerLevel.hidden;
-    //imgExpo.hidden = !imgExpo.hidden;
-    //imgOffset.hidden = !imgOffset.hidden;
     lblOffset.hidden = !lblOffset.hidden;
     lblExpo.hidden = !lblExpo.hidden;
     self.viewVolumeView.hidden = !self.viewVolumeView.hidden;
+    self.colourSlider.hidden = !self.colourSlider.hidden;
     
     
     NSLog(@"btnMixerPressed. btnMixer.selected:%d ",self.btnMixer.selected);
@@ -1365,7 +1453,7 @@ BOOL gRepeatEnabled = false;
     
     
     gcurrenSong--;
-    NSLog(@" next gcurrentSong:%d . playlist length:%d",gcurrenSong, [playlist count]);
+    //NSLog(@" next gcurrentSong:%d . playlist length:%lu",gcurrenSong, (unsigned long)[playlist count]);
     if (gcurrenSong < 0)
     {
         gcurrenSong = 0 ;
@@ -1403,6 +1491,39 @@ BOOL gRepeatEnabled = false;
     }
 
     
+}
+
+- (IBAction)btnLockPressed:(UIButton *)sender
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.btnLock.selected = !self.btnLock.selected;
+  
+    if (self.btnLock.selected)
+    {
+        self.colourSlider.userInteractionEnabled = NO;
+        self.colourSlider.alpha = 0.5;
+        [self.colourSlider setThumbImage: [UIImage imageNamed:@"lifxlockon_redsm"] forState:UIControlStateNormal];
+        [self.btnLock setSelected:YES]; 
+        [self.btnLock setImage: [UIImage imageNamed:@"lifxlockon_red"] forState:UIControlStateNormal] ;
+        //gLockedHue = (self.currentTimeSlider.value * 360)/(self.currentTimeSlider.maximumValue);
+        gLockedHue = self.colourSlider.value*360;
+        self.btnLock.backgroundColor = [UIColor colorWithHue:self.colourSlider.value saturation:1 brightness:1 alpha:1];
+        NSLog(@"gLockedHue:%f",gLockedHue);
+        [defaults setBool:YES forKey:@"HueLock"];
+        [defaults setFloat:gLockedHue forKey:@"myHue"];
+        [defaults synchronize];
+    }
+    else
+    {
+        self.colourSlider.userInteractionEnabled = YES;
+        self.colourSlider.alpha = 1;
+        [self.colourSlider setThumbImage: [UIImage imageNamed:@"metalknob"] forState:UIControlStateNormal];
+        [self.btnLock setSelected:NO];
+        [self.btnLock setImage: [UIImage imageNamed:@"lifxlockoff"] forState:UIControlStateNormal] ;
+        self.btnLock.backgroundColor =[UIColor clearColor];
+        [defaults setBool:NO forKey:@"HueLock"];
+        [defaults synchronize];
+    }
 }
 
 - (BOOL) shouldAutorotate

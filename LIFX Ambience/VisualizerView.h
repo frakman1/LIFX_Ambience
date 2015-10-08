@@ -15,6 +15,7 @@
 @property (nonatomic) NSMutableArray *vizInputLights;
 @property (atomic) NSMutableArray *vizInputLights2;
 @property (atomic) LFXLightCollection* myCollection;
+@property (nonatomic) CGFloat hue;
 
 - (void) vizStop;
 - (void) vizStart;

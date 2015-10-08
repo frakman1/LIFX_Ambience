@@ -19,7 +19,7 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
         MeterTable meterTable;
     UIColor *gColor ;
     LFXHSBKColor* gLifxColor ;
-    CGFloat hue, saturation, brightness, alpha;
+    CGFloat saturation, brightness, alpha;
     CGFloat gIncrement;
     CGFloat starthue;
     BOOL stopFlag ;
@@ -62,18 +62,18 @@ double round(double d)
     stopFlag = FALSE;
     vizRunOnce = FALSE;
     NSLog(@"initWithFrame()");
-    gColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:1.0f] ;
-    [gColor getHue:&starthue saturation:&saturation brightness:&brightness alpha:&alpha];
-    gLifxColor = [LFXHSBKColor colorWithHue:(starthue*360) saturation:saturation brightness:brightness];
-    NSLog(@"starting hue:%f  ",starthue);
+   // gColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:1.0f] ;
+   // [gColor getHue:&starthue saturation:&saturation brightness:&brightness alpha:&alpha];
+   // gLifxColor = [LFXHSBKColor colorWithHue:(starthue*360) saturation:saturation brightness:brightness];
+   // NSLog(@"starting hue:%f  ",starthue);
     
-    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+   // LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
     //[localNetworkContext.allLightsCollection setColor:gLifxColor];
-    for (NSString *aDevID in self.vizInputLights)
-    {
-        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
-        [aLight setColor:gLifxColor];
-    }
+   // for (NSString *aDevID in self.vizInputLights)
+   // {
+    //    LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+    //    [aLight setColor:gLifxColor];
+   // }
     
     saturation = 0.8;
     gIncrement = 0.001;
@@ -172,7 +172,7 @@ double round(double d)
         //----------------------------------------------------
         //--------- Update Colours ---------------------------
 
-        hue = (hue + 0.1);if (hue>360) hue=1;
+        _hue = (_hue + 0.1);if (_hue>360) _hue=1;
         saturation= saturation+gIncrement;
         if ( (saturation>0.9999)|| (saturation<0.5) )
         {
@@ -183,7 +183,7 @@ double round(double d)
         //NSLog(@"hue:%f  saturation:%f",hue,saturation);
       
         //------------ Update cell colour ------------------------------------------------------------------------
-        cell.color = [[UIColor colorWithHue: hue/360.0 saturation: saturation brightness: 1.0 alpha: 1.0]CGColor] ;
+        cell.color = [[UIColor colorWithHue: _hue/360.0 saturation: saturation brightness: 1.0 alpha: 1.0]CGColor] ;
         //---------------------------------------------------------------------------------------------------------
        
         
@@ -218,7 +218,7 @@ double round(double d)
         
         //NSLog(@"level:%f    scaled:%f   calcbrightness:%f   clamped:%f",level, scale, calcBrightness, clamped);
         
-        gLifxColor = [LFXHSBKColor colorWithHue:(hue) saturation:saturation brightness:clamped];
+        gLifxColor = [LFXHSBKColor colorWithHue:(_hue) saturation:saturation brightness:clamped];
 
         /*
          //[localNetworkContext.allLightsCollection setColor:gLifxColor];
