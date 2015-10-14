@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		051CC5620CA879DE4B92481A /* libPods-LIFX Ambience.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0502F57349B114B47B82E1A7 /* libPods-LIFX Ambience.a */; };
+		220B5C9B1BCD5C9500FDB95F /* br.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 220B5C9A1BCD5C9500FDB95F /* br.mp3 */; };
 		221068E51B54544A00D12A3A /* audioplayer_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 221068E31B54544A00D12A3A /* audioplayer_pause.png */; };
 		221068E61B54544A00D12A3A /* audioplayer_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 221068E41B54544A00D12A3A /* audioplayer_play.png */; };
 		221068E91B5456C200D12A3A /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = 221068E71B5456C200D12A3A /* next.png */; };
@@ -61,8 +62,8 @@
 		227964931BBDEFE70087FE24 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 227964921BBDEFE70087FE24 /* alarm.mp3 */; };
 		227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8531B3B2D17004EFFA7 /* camicon128.png */; };
 		227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8541B3B2D17004EFFA7 /* vizicon128.png */; };
+		229F784B1BCC1676002980C0 /* DemoSong.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 229F784A1BCC1676002980C0 /* DemoSong.m4a */; };
 		22AEB37B1B6BECDA00915E8A /* UIImageResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB37A1B6BECDA00915E8A /* UIImageResizing.m */; };
-		22AEB37D1B6FCD6700915E8A /* dragon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 22AEB37C1B6FCD6700915E8A /* dragon.mp3 */; };
 		22AEB3821B726F3800915E8A /* ANPopoverSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB37F1B726F3800915E8A /* ANPopoverSlider.m */; };
 		22AEB3831B726F3800915E8A /* ANPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB3811B726F3800915E8A /* ANPopoverView.m */; };
 		22DCE2031B50E075002506AD /* UIAlertView+NSCookbook.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DCE2021B50E074002506AD /* UIAlertView+NSCookbook.m */; };
@@ -94,6 +95,7 @@
 
 /* Begin PBXFileReference section */
 		0502F57349B114B47B82E1A7 /* libPods-LIFX Ambience.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LIFX Ambience.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		220B5C9A1BCD5C9500FDB95F /* br.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = br.mp3; sourceTree = "<group>"; };
 		221068E31B54544A00D12A3A /* audioplayer_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_pause.png; sourceTree = "<group>"; };
 		221068E41B54544A00D12A3A /* audioplayer_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_play.png; sourceTree = "<group>"; };
 		221068E71B5456C200D12A3A /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
@@ -170,9 +172,9 @@
 		227964921BBDEFE70087FE24 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 		227BB8531B3B2D17004EFFA7 /* camicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camicon128.png; sourceTree = "<group>"; };
 		227BB8541B3B2D17004EFFA7 /* vizicon128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vizicon128.png; sourceTree = "<group>"; };
+		229F784A1BCC1676002980C0 /* DemoSong.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DemoSong.m4a; sourceTree = "<group>"; };
 		22AEB3791B6BECDA00915E8A /* UIImageResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageResizing.h; sourceTree = "<group>"; };
 		22AEB37A1B6BECDA00915E8A /* UIImageResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageResizing.m; sourceTree = "<group>"; };
-		22AEB37C1B6FCD6700915E8A /* dragon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dragon.mp3; sourceTree = "<group>"; };
 		22AEB37E1B726F3800915E8A /* ANPopoverSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANPopoverSlider.h; sourceTree = "<group>"; };
 		22AEB37F1B726F3800915E8A /* ANPopoverSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANPopoverSlider.m; sourceTree = "<group>"; };
 		22AEB3801B726F3800915E8A /* ANPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANPopoverView.h; sourceTree = "<group>"; };
@@ -258,7 +260,6 @@
 				226018FE1B9808F400708332 /* YouTubeTVC.h */,
 				226018FF1B9808F400708332 /* YouTubeTVC.m */,
 				224936DB1B389CD200699D59 /* Info.plist */,
-				224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */,
 				224936D91B389CD200699D59 /* LIFX Ambience */,
 				224936F61B389CD300699D59 /* LIFX AmbienceTests */,
 				224936D81B389CD200699D59 /* Products */,
@@ -298,7 +299,9 @@
 			isa = PBXGroup;
 			children = (
 				224936EA1B389CD200699D59 /* Images.xcassets */,
+				229F784A1BCC1676002980C0 /* DemoSong.m4a */,
 				227964921BBDEFE70087FE24 /* alarm.mp3 */,
+				220B5C9A1BCD5C9500FDB95F /* br.mp3 */,
 				2220AEB91BB5D1AF00B97437 /* eq-slider-border@2x.png */,
 				2220AEBA1BB5D1AF00B97437 /* slider-knob@2x.png */,
 				2249377D1B3A5E0A00699D59 /* particleTexture.png */,
@@ -313,7 +316,6 @@
 				221B11391B41C18E004F3122 /* lightbulb_icon.png */,
 				22F76A181B3D9D0F00EE3AFD /* knob2.png */,
 				22F76A161B3D907600EE3AFD /* knob.png */,
-				22AEB37C1B6FCD6700915E8A /* dragon.mp3 */,
 				224937621B39CB7400699D59 /* Default@2x.png */,
 				224937271B38FADA00699D59 /* cam_128.png */,
 				224937281B38FADA00699D59 /* mic_128.png */,
@@ -389,6 +391,7 @@
 		22C44C971B73BA5900F09113 /* MusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				224936E11B389CD200699D59 /* LIFX_Ambience.xcdatamodeld */,
 				224937701B3A54C800699D59 /* VizViewController.m */,
 				2249376F1B3A54C800699D59 /* VizViewController.h */,
 				22F036E71B54062D008027FD /* TableViewController.h */,
@@ -538,6 +541,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				220B5C9B1BCD5C9500FDB95F /* br.mp3 in Resources */,
 				227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */,
 				2220AEBC1BB5D1AF00B97437 /* slider-knob@2x.png in Resources */,
 				227BB8551B3B2D17004EFFA7 /* camicon128.png in Resources */,
@@ -551,13 +555,13 @@
 				221B113A1B41C18E004F3122 /* lightbulb_icon.png in Resources */,
 				221B11491B420EB2004F3122 /* mail.png in Resources */,
 				221B11501B42DAFE004F3122 /* info.png in Resources */,
-				22AEB37D1B6FCD6700915E8A /* dragon.mp3 in Resources */,
 				2249372A1B38FADA00699D59 /* cam_128.png in Resources */,
 				224936E91B389CD200699D59 /* Main.storyboard in Resources */,
 				221068E91B5456C200D12A3A /* next.png in Resources */,
 				22F76A191B3D9D0F00EE3AFD /* knob2.png in Resources */,
 				22F76A0B1B3C8F1400EE3AFD /* Info.plist in Resources */,
 				22F76A171B3D907600EE3AFD /* knob.png in Resources */,
+				229F784B1BCC1676002980C0 /* DemoSong.m4a in Resources */,
 				227964931BBDEFE70087FE24 /* alarm.mp3 in Resources */,
 				221B11421B420ADA004F3122 /* lightbulb_on.png in Resources */,
 				221068EA1B5456C200D12A3A /* previous.png in Resources */,
@@ -746,6 +750,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/frak/Documents/LIFXKit-cnsblnuqrwxhuicgndijkotbdhas/Build/Products/Release-iphonesimulator",
@@ -774,6 +779,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "\"/Users/frak/Documents/XcodeProjects/LIFX Ambience/LIFX Ambience\"/**";
 			};
 			name = Debug;
 		};
@@ -786,6 +792,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/frak/Documents/LIFXKit-cnsblnuqrwxhuicgndijkotbdhas/Build/Products/Release-iphonesimulator",
@@ -814,6 +821,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "\"/Users/frak/Documents/XcodeProjects/LIFX Ambience/LIFX Ambience\"/**";
 			};
 			name = Release;
 		};
@@ -890,8 +898,7 @@
 				224936E21B389CD200699D59 /* LIFX_Ambience.xcdatamodel */,
 			);
 			currentVersion = 224936E21B389CD200699D59 /* LIFX_Ambience.xcdatamodel */;
-			name = LIFX_Ambience.xcdatamodeld;
-			path = "LIFX Ambience/LIFX_Ambience.xcdatamodeld";
+			path = LIFX_Ambience.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

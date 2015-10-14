@@ -14,6 +14,7 @@
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "ImageCropView.h"
 #endif
+#import "LARSBar.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 @interface CamViewController : UIViewController <ImageCropViewControllerDelegate>
@@ -49,7 +50,7 @@
 //@property (weak, nonatomic) IBOutlet UIView *viewCropSquare;
 //@property (assign,nonatomic) CGRect cropDimension;
 
-@property (weak, nonatomic) IBOutlet UISlider *powerLevel;
+@property (weak, nonatomic) IBOutlet LARSBar *powerLevel;
 
 @property (nonatomic) NSMutableArray *inputLights;
 

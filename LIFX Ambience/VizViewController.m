@@ -1041,9 +1041,9 @@ BOOL gRepeatEnabled = false;
 - (void)configuremyAudioPlayer {
     if ([self.myaudioPlayer isPlaying]) { return;}
     self.myaudioPlayer = [[FSAudioPlayer alloc] init];
-    //self.myaudioPlayer.audioPlayer.delegate = self;
-    NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"DemoSong" withExtension:@".m4a"];
-    //NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"dragon" withExtension:@".mp3"];
+
+    NSURL *audioFileLocationURL = [[NSBundle mainBundle] URLForResource:@"br" withExtension:@".mp3"];
+
     [self setupAudioPlayer:audioFileLocationURL];
     
     [_myaudioPlayer.audioPlayer setNumberOfLoops:-1];
@@ -1359,7 +1359,7 @@ BOOL gRepeatEnabled = false;
 
 - (IBAction)btnRepeatPressed:(UIButton *)sender
 {
-    NSLog(@"btnRepeatPressed. self.btnRepeat.selected:%d ",self.btnRepeat.selected);
+    //NSLog(@"btnRepeatPressed. self.btnRepeat.selected:%d ",!self.btnRepeat.selected);
     self.btnRepeat.selected = !self.btnRepeat.selected;
     if (self.btnRepeat.selected)
     {
@@ -1397,7 +1397,7 @@ BOOL gRepeatEnabled = false;
     self.colourSlider.hidden = !self.colourSlider.hidden;
     
     
-    NSLog(@"btnMixerPressed. btnMixer.selected:%d ",self.btnMixer.selected);
+    NSLog(@"btnMixerPressed. btnMixer.selected:%d ",!self.btnMixer.selected);
     self.btnMixer.selected = !self.btnMixer.selected;
     if (self.btnMixer.selected)
     {

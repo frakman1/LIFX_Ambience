@@ -191,7 +191,7 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
 
     NSLog(@"***viewDidLoad***");
     
-    
+    [self.powerLevel setThumbImage: [UIImage new] forState:UIControlStateNormal];
     
     
     //myslider_threshold = [[ANPopoverSlider alloc] initWithFrame:CGRectMake(self.view.frame.origin.x-20, 270, 160, 30)];

@@ -393,8 +393,7 @@ CGFloat prevBrightness;
 
 
 - (void)viewDidAppear:(BOOL)animated
-{
-    
+{//test
     [super viewDidAppear:animated];
     [self becomeFirstResponder];
     NSLog(@"***viewDidAppear().");

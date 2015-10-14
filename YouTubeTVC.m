@@ -275,35 +275,26 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     NSString *videoId = [id valueForKeyPath:@"videoId"];NSLog(@"videoId %@",videoId);
     NSString *url = [NSString stringWithFormat:@"%@%@", baseVideoURL, videoId];NSLog(@"url %@",url);
     
+    XCDYouTubeVideoPlayerViewController *videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:videoId];
+    videoPlayerViewController.ytpInputLights = self.ytInputLights;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayerPlaybackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:videoPlayerViewController.moviePlayer];
+    [self presentMoviePlayerViewControllerAnimated:videoPlayerViewController];
+
     
-    [[XCDYouTubeClient defaultClient] getVideoWithIdentifier:videoId completionHandler:^(XCDYouTubeVideo *video, NSError *error) {
-        if (video)
-        {
-            //NSLog(@"vidtimer:%@",vidtimer);
-            
-            // Do something with the `video` object
-            //if (vidtimer==nil)
-            {
-                
-            //vidtimer = [NSTimer scheduledTimerWithTimeInterval: 0.2 target: self selector:@selector(myvidTick:) userInfo: nil repeats:YES];
-            }
-            
-            self.VidPlayer = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:videoId];
-            self.VidPlayer.moviePlayer.backgroundView.backgroundColor = [UIColor colorWithRed:10 green:31 blue:49 alpha:1];
-            self.VidPlayer.ytpInputLights = self.ytInputLights;
-            [self presentMoviePlayerViewControllerAnimated:self.VidPlayer];
-           
-        }
-        else
-        {
-            // Handle error
-            NSLog(@"***ERROR LOADING VIDEO ***");
-        }
-    }];
-   
+
 }
 
-
+- (void) moviePlayerPlaybackDidFinish:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:notification.object];
+    MPMovieFinishReason finishReason = [notification.userInfo[MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] integerValue];
+    if (finishReason == MPMovieFinishReasonPlaybackError)
+    {
+        NSError *error = notification.userInfo[XCDMoviePlayerPlaybackDidFinishErrorUserInfoKey];
+        // Handle error
+         NSLog(@"*** ERROR LOADING VIDEO ***\n Error:%@",error);
+    }
+}
 
 
 
