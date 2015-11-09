@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <LIFXKit/LIFXKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
@@ -20,9 +21,12 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong,nonatomic) NSString *udid;
+
+//used to save the state of the light in main page before leaving
 @property (nonatomic) NSMutableDictionary *backupLights;
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
+@property (nonatomic) LFXTaggedLightCollection *tagged;
 
 @end

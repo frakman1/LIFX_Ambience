@@ -228,7 +228,7 @@ BOOL gRepeatEnabled = false;
     
     NSLog(@"Received input lights list: %@",self.inputLights);
     NSLog(@"Received input lights2 list: %@",self.inputLights2);
-
+    
 
     
 }

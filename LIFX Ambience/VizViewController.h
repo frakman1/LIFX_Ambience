@@ -14,6 +14,7 @@
 #import "LARSBar.h"
 
 
+
 @interface VizViewController : UIViewController <MPMediaPickerControllerDelegate, TableViewControllerDelegate>
 {
     //UISlider *powerLevel;
@@ -62,6 +63,7 @@
 
 @property (nonatomic) NSMutableArray *inputLights;
 @property (atomic) NSMutableArray *inputLights2;
+
 
 
 - (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;

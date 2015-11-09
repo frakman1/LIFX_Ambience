@@ -3,6 +3,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <LIFXKit/LFXLightCollection.h>
+#import "AppDelegate.h"
 
 @interface VisualizerView : UIView
 
@@ -16,6 +17,7 @@
 @property (atomic) NSMutableArray *vizInputLights2;
 @property (atomic) LFXLightCollection* myCollection;
 @property (nonatomic) CGFloat hue;
+@property (nonatomic) LFXTaggedLightCollection *vizTagged;
 
 - (void) vizStop;
 - (void) vizStart;

@@ -181,6 +181,7 @@ NSString *const XCDYouTubeVideoUserInfoKey = @"Video";
 NSTimer *vidtimer;
 -(void)myvidTick:(NSTimer *)timer
 {
+    
     //NSLog(@"myvidTick..");
     UIImage *capturedScreen = [ self.moviePlayer thumbnailImageAtTime:(self.moviePlayer.currentPlaybackTime+0.25)*1.0f timeOption:MPMovieTimeOptionNearestKeyFrame];
 

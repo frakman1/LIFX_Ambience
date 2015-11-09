@@ -10,7 +10,8 @@
 #import "JDFTooltips.h"
 #import <AVFoundation/AVFoundation.h>
 #import "MKNumberBadgeView.h"
-
+#import "MWPhotoBrowser.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 
 
@@ -40,6 +41,15 @@
 @property (retain) IBOutlet MKNumberBadgeView* badgeOne;
 
 @property (nonatomic, strong) JDFTooltipManager *tooltipManager;
+
+
+@property (nonatomic, strong) NSMutableArray *photos;
+@property (nonatomic, strong) NSMutableArray *thumbs;
+@property (nonatomic, strong) NSMutableArray *assets;
+
+@property (nonatomic, strong) ALAssetsLibrary *ALAssetsLibrary;
+
+- (void)loadAssets;
 
 - (void)logIt:(NSString*) event withTag:(NSInteger)tag;
 - (void)logIt:(NSString*) event ;

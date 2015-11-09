@@ -24,22 +24,34 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "FlurryAdBanner.h"
+#import "FlurryAdBannerDelegate.h"
+#import "FlurryAdInterstitial.h"
+#import "FlurryAdInterstitialDelegate.h"
+
+#import "FlurryAds.h"
+#import "AwesomeMenu.h"
+#import "SDImageCache.h"
+
 
 typedef NS_ENUM(NSInteger, TableSection) {
     TableSectionLights = 0,
     //TableSectionTags = 1,
 };
 
-@interface MainViewController () <UITableViewDataSource, UITableViewDelegate,LFXNetworkContextObserver, LFXLightCollectionObserver, LFXLightObserver>
+@interface MainViewController () <UITableViewDataSource, UITableViewDelegate,LFXNetworkContextObserver, LFXLightCollectionObserver, LFXLightObserver, FlurryAdBannerDelegate,AwesomeMenuDelegate, MWPhotoBrowserDelegate>
 {
     UIBarButtonItem *tempButton;
     UIBarButtonItem *tempButton2;
     NSMutableArray *yourItemsArray;
     AVAudioPlayer *mysoundaudioPlayer;
+    AwesomeMenu *menu;
+     NSMutableArray *_selections;
 
 }
 
 @property (nonatomic) LFXNetworkContext *lifxNetworkContext;
+
 
 @property (nonatomic) UIView *connectionStatusView;
 @property (nonatomic) NSArray *lights;
@@ -67,6 +79,8 @@ typedef NS_ENUM(NSInteger, TableSection) {
 
 @implementation MainViewController
 
+
+
 @synthesize tempButton;
 @synthesize tempButton2;
 
@@ -77,16 +91,21 @@ NSTimer *timer;
 BOOL gShaken=NO;
 CGFloat prevBrightness;
 
+NSString *adSpaceName = @"BottomBannerAd";
+FlurryAdBanner* adBanner = nil;
 
 -(void)myTick:(NSTimer *)timer
 {
-    //NSLog(@"myTick..\n\n");
+   // static int count = 0;
+   // NSLog(@"myTick..count:%d\n\n",count);
     //NSLog(@"SelectedIndexes:%@",self.selectedIndexes);
     [self updateLights];
     [self updateNavBar];
     [self.tableView reloadData];
     //[self updateTags];
- 
+    //count++;
+    //if (count >=6) count = 0;
+    
     
 }
 
@@ -140,6 +159,12 @@ CGFloat prevBrightness;
         self.lifxNetworkContext = [LFXClient sharedClient].localNetworkContext;
         [self.lifxNetworkContext addNetworkContextObserver:self];
         [self.lifxNetworkContext.allLightsCollection addLightCollectionObserver:self];
+        
+        // Clear cache for testing
+        [[SDImageCache sharedImageCache] clearDisk];
+        [[SDImageCache sharedImageCache] clearMemory];
+        [self loadAssets];
+        
     }
     return self;
 }
@@ -152,7 +177,7 @@ CGFloat prevBrightness;
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"***viewDidLoad()***");
-    
+
     AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *id=appdel.udid;
     NSLog(@"UDID: %@",id);
@@ -261,8 +286,202 @@ CGFloat prevBrightness;
         
     });
     
-
+    [self addChooseButton];
 }
+
+- (void)addChooseButton {
+    
+    UIImage *storyMenuItemImage        = [UIImage imageNamed:@"bg-menuitem.png"];
+    UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
+    UIImage *starImage                 = [UIImage imageNamed:@"icon-star.png"];
+    
+    AwesomeMenuItem *starMenuItem1 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"music_sm"]
+                                                           highlightedImage:[UIImage imageNamed:@"music_smh"]
+                                                               ContentImage:nil
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem2 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"yt_sm"]
+                                                           highlightedImage:[UIImage imageNamed:@"yt_smh"]
+                                                               ContentImage:nil
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem3 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"cam_sm"]
+                                                           highlightedImage:[UIImage imageNamed:@"camb_smh"]
+                                                               ContentImage:nil
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem4 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"motion_sm"]
+                                                           highlightedImage:[UIImage imageNamed:@"motion_smh"]
+                                                               ContentImage:nil
+                                                    highlightedContentImage:nil];
+    AwesomeMenuItem *starMenuItem5 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"siren_sm"]
+                                                           highlightedImage:[UIImage imageNamed:@"siren_smh"]
+                                                               ContentImage:nil
+                                                    highlightedContentImage:nil];
+
+    AwesomeMenuItem *starMenuItem6 = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"album_sm"]
+                                                           highlightedImage:[UIImage imageNamed:@"album_smh"]
+                                                               ContentImage:nil
+                                                    highlightedContentImage:nil];
+   
+    NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, starMenuItem5,starMenuItem6, nil];
+   // AwesomeMenu *menu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds startItem:starMenuItem1 menuItems:menus];
+    menu = [[AwesomeMenu alloc] initWithFrame:self.view.bounds menus:menus];
+
+    menu.rotateAngle    = -M_PI_2;    //to set the rotate angle:
+    menu.delegate       = self;
+    menu.menuWholeAngle = 2*M_PI;   //to set the whole menu angle:
+    menu.endRadius      = 100.0f;   //to set the distance between the "Add" button and Menu Items:
+    menu.farRadius      = 110.0f;   //to adjust the bounce animation:
+    menu.nearRadius     = 90.0f;    //to adjust the bounce animation:
+    //menu.timeOffset = 0.036f;    //to set the delay of every menu flying out animation:
+    
+    menu.startPoint     = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);
+
+    
+    [self.view addSubview:menu];
+    
+}
+
+- (void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx
+{
+     NSLog(@"AwesomeMenu didSelectIndex");
+    switch (idx) {
+        case 0:
+        {
+            //[self performSegueWithIdentifier:@"toMusic" sender:nil];
+            [self.btnMusic sendActionsForControlEvents: UIControlEventTouchUpInside];
+            NSLog(@"case 0().");
+
+        }
+            break;
+            
+        case 1:
+        {
+            //[self performSegueWithIdentifier:@"toYouTube" sender:nil];
+            [self.btnYT sendActionsForControlEvents: UIControlEventTouchUpInside];
+            NSLog(@"case 1().");
+            
+        }
+            break;
+
+        case 2:
+        {
+            //[self performSegueWithIdentifier:@"toCamera" sender:nil];
+            [self.btnCam sendActionsForControlEvents: UIControlEventTouchUpInside];
+            NSLog(@"case 2().");
+
+        }
+            break;
+            
+        case 3:
+        {
+            [self.btnMotion sendActionsForControlEvents: UIControlEventTouchUpInside];
+            NSLog(@"case 3().");
+            
+        }
+            break;
+            
+        case 4:
+        {
+            [self.btnSiren sendActionsForControlEvents: UIControlEventTouchUpInside];
+            NSLog(@"case 4().");
+            
+        }
+            break;
+            
+        case 5:
+        {
+            [self logIt:@"AlbumBrowser"];
+            [self saveLightState];
+            
+            // Browser
+            NSMutableArray *photos = [[NSMutableArray alloc] init];
+            NSMutableArray *thumbs = [[NSMutableArray alloc] init];
+           
+            BOOL displayActionButton = YES;
+            BOOL displaySelectionButtons = NO;
+            BOOL displayNavArrows = YES;
+            BOOL enableGrid = YES;
+            BOOL startOnGrid = YES;
+            BOOL autoPlayOnAppear = NO;
+
+            //[self.btnSiren sendActionsForControlEvents: UIControlEventTouchUpInside];
+            NSLog(@"case 5().");
+            
+            @synchronized(_assets)
+            {
+                NSMutableArray *copy = [_assets copy];
+                if (NSClassFromString(@"PHAsset"))
+                {
+                    // Photos library
+                    UIScreen *screen = [UIScreen mainScreen];
+                    CGFloat scale = screen.scale;
+                    // Sizing is very rough... more thought required in a real implementation
+                    CGFloat imageSize = MAX(screen.bounds.size.width, screen.bounds.size.height) * 1.5;
+                    CGSize imageTargetSize = CGSizeMake(imageSize * scale, imageSize * scale);
+                    CGSize thumbTargetSize = CGSizeMake(imageSize / 3.0 * scale, imageSize / 3.0 * scale);
+                    for (PHAsset *asset in copy)
+                    {
+                        [photos addObject:[MWPhoto photoWithAsset:asset targetSize:imageTargetSize]];
+                        [thumbs addObject:[MWPhoto photoWithAsset:asset targetSize:thumbTargetSize]];
+                    }
+                }
+                else
+                {
+                    // Assets library
+                    for (ALAsset *asset in copy)
+                    {
+                        MWPhoto *photo = [MWPhoto photoWithURL:asset.defaultRepresentation.url];
+                        [photos addObject:photo];
+                        MWPhoto *thumb = [MWPhoto photoWithImage:[UIImage imageWithCGImage:asset.thumbnail]];
+                        [thumbs addObject:thumb];
+                        if ([asset valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo)
+                        {
+                            photo.videoURL = asset.defaultRepresentation.url;
+                            thumb.isVideo = true;
+                        }
+                    }
+                }
+            }
+            
+            self.photos = photos; NSLog(@"self.photos :%d",[self.photos count]);
+            self.thumbs = thumbs; NSLog(@"self.photos :%d",[self.photos count]);
+            
+            // Create browser
+            MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+            browser.displayActionButton = displayActionButton;
+            browser.displayNavArrows = displayNavArrows;
+            browser.displaySelectionButtons = displaySelectionButtons;
+            browser.alwaysShowControls = displaySelectionButtons;
+            browser.zoomPhotosToFill = YES;
+            browser.enableGrid = enableGrid;
+            browser.startOnGrid = startOnGrid;
+            browser.enableSwipeToDismiss = NO;
+            browser.autoPlayOnAppear = autoPlayOnAppear;
+            [browser setCurrentPhotoIndex:0];
+            browser.mwbInputLights = self.selectedIndexes;
+            
+            // Reset selections
+            if (displaySelectionButtons)
+            {
+                _selections = [NSMutableArray new];
+                for (int i = 0; i < photos.count; i++)
+                {
+                    [_selections addObject:[NSNumber numberWithBool:NO]];
+                }
+            }
+            
+             [self.navigationController pushViewController:browser animated:YES];
+            
+            
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
 /*
 - (IBAction)btnHelpPressed:(UIButton *)sender
 {
@@ -397,6 +616,14 @@ CGFloat prevBrightness;
     [super viewDidAppear:animated];
     [self becomeFirstResponder];
     NSLog(@"***viewDidAppear().");
+    
+    /*
+    adBanner = [[FlurryAdBanner alloc] initWithSpace:adSpaceName];
+    adBanner.adDelegate = self;
+    [adBanner fetchAndDisplayAdInView:self.view viewControllerForPresentation:self];
+    [FlurryAds fetchAndDisplayAdForSpace:@"BottomBannerAd" view:self.view viewController:self size:BANNER_BOTTOM];
+     */
+
     
 
     [self.btnMusic.imageView startGlowingWithColor:[UIColor greenColor] intensity:1];
@@ -642,6 +869,7 @@ CGFloat prevBrightness;
             self.sliderSaturation.value = light.color.saturation;
             self.sliderHue.value = light.color.hue/360;
             self.sliderValue.value = light.color.brightness;
+            
         }
         
     } else
@@ -655,7 +883,6 @@ CGFloat prevBrightness;
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
 }
 /*
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -828,6 +1055,16 @@ CGFloat prevBrightness;
             //[Flurry logEvent:@"Donate" withParameters:@{id:@"userID"} timed:YES];
             break;
         }
+            
+        case 8:
+        {
+            
+            tagName=@"Siren";
+            NSLog(@"tag=%ld tagName:%@",(long)tag,tagName);
+            //[Flurry logEvent:@"Donate" withParameters:@{id:@"userID"} timed:YES];
+            break;
+        }
+
         
         default:
         {
@@ -967,6 +1204,8 @@ CGFloat prevBrightness;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+
     
     UIButton *btn = (UIButton*)sender;
     NSLog(@"prepareForSegue. tag number:%ld",(long)[(UIButton *)sender tag]);
@@ -986,6 +1225,8 @@ CGFloat prevBrightness;
         VizViewController *vizDestination = segue.destinationViewController;
         vizDestination.inputLights = self.selectedIndexes;
         vizDestination.inputLights2= self.mainSelectedLights;
+        
+        
     }
     else if (btn.tag==2)
     {
@@ -1297,6 +1538,7 @@ CGFloat prevBrightness;
         
         [self.btnMotion setSelected:YES];
         [self.btnMotion setImage: [UIImage imageNamed:@"motion_on"] forState:UIControlStateNormal] ;
+        self.btnMotion.alpha = 1 ;
         NSLog(@"DOING MOTION UPDATES");
         self.sliderHue.minimumValue = 0.0f;
         self.sliderHue.maximumValue = 360.0f;
@@ -1310,6 +1552,7 @@ CGFloat prevBrightness;
         self.sliderBrightness.minimumValue = -90.0f;
         self.sliderBrightness.maximumValue = 90.0f;
         self.sliderBrightness.userInteractionEnabled = NO;
+        menu.hidden=YES;
         
 
         
@@ -1439,6 +1682,9 @@ CGFloat prevBrightness;
         //self.lblInfo.backgroundColor = [UIColor clearColor];
 
         [self.btnMotion setImage: [UIImage imageNamed:@"motion"] forState:UIControlStateNormal] ;
+        self.btnMotion.alpha = 0;
+
+         menu.hidden=NO;
         
         [self restoreLightState];
     }
@@ -1590,8 +1836,13 @@ CGFloat prevBrightness;
     NSLog(@"***btnSirenPressed()");
     CGFloat savedVolume=0;
     
+    UIButton *btn = (UIButton*)sender;
+    NSString *btnName = [NSString alloc];
+    btnName = [self tagToText:btn.tag]; NSLog(@"btnName:%@",btnName);
+    [self logIt:btnName];
+    /*
     //////////////toggle button effect
-       sender.alpha = 0;
+    sender.alpha = 0;
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:1];
@@ -1600,7 +1851,7 @@ CGFloat prevBrightness;
     sender.alpha = 1;
     [UIView commitAnimations];
     //////////////////
-    
+    */
     savedVolume = [self getVolume];
     [self saveLightState];
     
@@ -1670,6 +1921,286 @@ CGFloat prevBrightness;
    
     
 }
+
+
+
+-(void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    // Do not set ad delegate to nil and
+    // Do not remove ad in the viewWillDisappear or viewDidDisappear method
+    
+}
+
+
+
+#pragma mark - Load Assets
+
+- (void)loadAssets {
+    if (NSClassFromString(@"PHAsset")) {
+        
+        // Check library permissions
+        PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+        if (status == PHAuthorizationStatusNotDetermined) {
+            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+                if (status == PHAuthorizationStatusAuthorized) {
+                    [self performLoadAssets];
+                }
+            }];
+        } else if (status == PHAuthorizationStatusAuthorized) {
+            [self performLoadAssets];
+        }
+        
+    } else {
+        
+        // Assets library
+        [self performLoadAssets];
+        
+    }
+}
+
+- (void)performLoadAssets {
+    
+    // Initialise
+    _assets = [NSMutableArray new];
+    
+    // Load
+    if (NSClassFromString(@"PHAsset")) {
+        
+        // Photos library iOS >= 8
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            PHFetchOptions *options = [PHFetchOptions new];
+            options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+            PHFetchResult *fetchResults = [PHAsset fetchAssetsWithOptions:options];
+            [fetchResults enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [_assets addObject:obj];
+            }];
+            if (fetchResults.count > 0) {
+                [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+            }
+        });
+        
+    } else {
+        
+        // Assets Library iOS < 8
+        _ALAssetsLibrary = [[ALAssetsLibrary alloc] init];
+        
+        // Run in the background as it takes a while to get all assets from the library
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            NSMutableArray *assetGroups = [[NSMutableArray alloc] init];
+            NSMutableArray *assetURLDictionaries = [[NSMutableArray alloc] init];
+            
+            // Process assets
+            void (^assetEnumerator)(ALAsset *, NSUInteger, BOOL *) = ^(ALAsset *result, NSUInteger index, BOOL *stop) {
+                if (result != nil) {
+                    NSString *assetType = [result valueForProperty:ALAssetPropertyType];
+                    if ([assetType isEqualToString:ALAssetTypePhoto] || [assetType isEqualToString:ALAssetTypeVideo]) {
+                        [assetURLDictionaries addObject:[result valueForProperty:ALAssetPropertyURLs]];
+                        NSURL *url = result.defaultRepresentation.url;
+                        [_ALAssetsLibrary assetForURL:url
+                                          resultBlock:^(ALAsset *asset) {
+                                              if (asset) {
+                                                  @synchronized(_assets) {
+                                                      [_assets addObject:asset];
+                                                      if (_assets.count == 1) {
+                                                          // Added first asset so reload data
+                                                          [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                         failureBlock:^(NSError *error){
+                                             NSLog(@"operation was not successfull!");
+                                         }];
+                        
+                    }
+                }
+            };
+            
+            // Process groups
+            void (^ assetGroupEnumerator) (ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop) {
+                if (group != nil) {
+                    [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:assetEnumerator];
+                    [assetGroups addObject:group];
+                }
+            };
+            
+            // Process!
+            [_ALAssetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll
+                                            usingBlock:assetGroupEnumerator
+                                          failureBlock:^(NSError *error) {
+                                              NSLog(@"There is an error");
+                                          }];
+            
+        });
+        
+    }
+    
+}
+
+
+#pragma mark - MWPhotoBrowserDelegate
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _photos.count)
+        return [_photos objectAtIndex:index];
+    return nil;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
+    if (index < _thumbs.count)
+        return [_thumbs objectAtIndex:index];
+    return nil;
+}
+
+//- (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index {
+//    MWPhoto *photo = [self.photos objectAtIndex:index];
+//    MWCaptionView *captionView = [[MWCaptionView alloc] initWithPhoto:photo];
+//    return [captionView autorelease];
+//}
+
+//- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
+//    NSLog(@"ACTION!");
+//}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
+    NSLog(@"Did start viewing photo at index %lu", (unsigned long)index);
+    
+}
+
+- (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
+    return [[_selections objectAtIndex:index] boolValue];
+}
+
+//- (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtIndex:(NSUInteger)index {
+//    return [NSString stringWithFormat:@"Photo %lu", (unsigned long)index+1];
+//}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
+    [_selections replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:selected]];
+    NSLog(@"Photo at index %lu selected %@", (unsigned long)index, selected ? @"YES" : @"NO");
+}
+
+- (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    // If we subscribe to this method we must dismiss the view controller ourselves
+    NSLog(@"Did finish modal presentation");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+#pragma mark - FlurryAds
+
+
+
+
+-(IBAction) showAdClickedButton:(id)sender
+{
+    NSLog(@"showAdClickedButton()");
+    
+    // Check if ad is ready. If so, display the ad
+    
+    //if ([adInterstitial ready]) {
+    //  NSLog(@"adInterstitial ready");
+    //[adInterstitial presentWithViewController:self];
+    //} else {
+    //   NSLog(@"adInterstitial NOT ready");
+    
+    //[adInterstitial fetchAd];
+    //}
+    
+    
+    [FlurryAds fetchAndDisplayAdForSpace:@"BottomBannerAd" view:self.view viewController:self size:BANNER_BOTTOM];
+    
+}
+
+- (void) adInterstitialDidFetchAd:(FlurryAdInterstitial*)interstitialAd
+{
+    NSLog(@"adInterstitialDidFetchAd()");
+    
+    // you can choose to present the ad as soon as it is received
+    [interstitialAd presentWithViewController:self];
+}
+
+//  Invoked when the interstitial ad is rendered.
+- (void) adInterstitialDidRender:(FlurryAdInterstitial *)interstitialAd
+{
+    NSLog(@"adInterstitialDidRender()");
+    
+}
+
+//Informs the app that a video associated with this ad has finished playing.
+//Only present for rewarded & client-side rewarded ad spaces
+- (void) adInterstitialVideoDidFinish:(FlurryAdInterstitial *)interstitialAd
+{
+    NSLog(@"adInterstitialVideoDidFinish()");
+    
+}
+
+//Informational callback invoked when there is an ad error
+- (void) adInterstitial:(FlurryAdInterstitial*)interstitialAd
+                adError:(FlurryAdError) adError
+       errorDescription:(NSError*) errorDescription
+{
+    // @param interstitialAd The interstitial ad object associated with the error
+    // @param adError an enum that gives the reason for the error.
+    // @param errorDescription An error object that gives additional information on the cause of the ad error.
+    NSLog(@"adInterstitial errro(): ad:%@ adError:%d   desc:%@",interstitialAd,adError,errorDescription);
+    
+}
+
+- (void) adBanner:		(FlurryAdBanner *) 	bannerAd
+          adError:		(FlurryAdError) 	adError
+ errorDescription:		(NSError *) 	errorDescription
+{
+    NSLog(@"adBanner errro(): ad:%@ adError:%d   desc:%@",bannerAd,adError,errorDescription);
+}
+- (void) adBannerDidDismissFullscreen:		(FlurryAdBanner *) 	bannerAd
+{
+    NSLog(@"%s()",__FUNCTION__);
+}
+- (void) adBannerDidFetchAd:		(FlurryAdBanner *) 	bannerAd
+{
+    NSLog(@"%s() bannerAd:%@",__FUNCTION__,bannerAd);
+    
+}
+- (void) adBannerDidReceiveClick:		(FlurryAdBanner *) 	bannerAd
+{
+    NSLog(@"%s()",__FUNCTION__);
+    
+}
+- (void) adBannerDidRender:		(FlurryAdBanner *) 	bannerAd
+{
+    NSLog(@"%s()",__FUNCTION__);
+    
+}
+- (void) adBannerVideoDidFinish:		(FlurryAdBanner *) 	bannerAd
+{
+    NSLog(@"%s()",__FUNCTION__);
+    
+}
+- (void) adBannerWillDismissFullscreen:		(FlurryAdBanner *) 	bannerAd
+{
+    NSLog(@"%s()",__FUNCTION__);
+    
+}
+- (void) adBannerWillLeaveApplication:		(FlurryAdBanner *) 	bannerAd
+{
+    NSLog(@"%s()",__FUNCTION__);
+    
+}
+- (void) adBannerWillPresentFullscreen:		(FlurryAdBanner *) 	bannerAd
+{
+    NSLog(@"%s()",__FUNCTION__);
+    
+}
+
+
 
 
 @end

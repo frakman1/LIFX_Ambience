@@ -30,6 +30,8 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
     CAEmitterCell *cell ;
     CAEmitterCell *childCell ;
     
+    
+    
 }
 BOOL vizRunOnce;
 
@@ -62,6 +64,10 @@ double round(double d)
     stopFlag = FALSE;
     vizRunOnce = FALSE;
     NSLog(@"initWithFrame()");
+    //vizTagged.lights = [[NSArray alloc] initWithArray:self.vizInputLights2];
+    
+    
+
    // gColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:1.0f] ;
    // [gColor getHue:&starthue saturation:&saturation brightness:&brightness alpha:&alpha];
    // gLifxColor = [LFXHSBKColor colorWithHue:(starthue*360) saturation:saturation brightness:brightness];

@@ -28,10 +28,13 @@
     // UDID: C85A28A4-77CD-418D-9ED4-A0A77D4DDC19 my iphone5
     // UDID: 57279C44-3E61-4E30-A0A9-1EEC861A8258 Shell iPhone4S
     self.udid = [UIDevice currentDevice].identifierForVendor.UUIDString;
+    [Flurry setUserID:udid];
     NSLog(@"UDID: %@",udid);
     
     application.applicationSupportsShakeToEdit = YES;
     self.backupLights = [[NSMutableDictionary alloc] init];
+    self.tagged = [[LFXTaggedLightCollection alloc] init];
+    [self.tagged renameWithNewTag:@"selected"];
     
      return YES;
 }
