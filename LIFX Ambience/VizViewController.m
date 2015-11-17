@@ -18,6 +18,9 @@
 #import "JDFTooltips.h"
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MBProgressHUD.h"
+
+
 
 @interface SystemVolumeView : MPVolumeView
 
@@ -45,7 +48,7 @@
 
 @end
 
-@interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate>
+@interface VizViewController () </*UITableViewDataSource, UITableViewDelegate,*/ AVAudioPlayerDelegate,UIAlertViewDelegate,UIGestureRecognizerDelegate,MBProgressHUDDelegate>
 
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIToolbar *toolBar;
@@ -86,6 +89,7 @@
     UILabel *lblExpo;
     BOOL firstTime;
     CGFloat gLockedHue;
+    MBProgressHUD *hud ;
 }
 @synthesize playlist,limboPlaylist,toolbar,powerLevel;
 
@@ -164,7 +168,7 @@ BOOL gRepeatEnabled = false;
 - (void)viewDidAppear:(BOOL)animated {
     NSLog (@"***viewDidAppear***");
     [super viewDidAppear:animated];
-    
+    //[MBProgressHUD hideHUDForView:self.view animated:YES];
     if (!self.tickerTimer.isValid)
     {
         NSLog(@"creating ticker timer");
@@ -220,7 +224,7 @@ BOOL gRepeatEnabled = false;
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     
     
-     _visualizer.sliderThresholdValue = myslider_threshold.value;
+    _visualizer.sliderThresholdValue = myslider_threshold.value;
     _visualizer.vizInputLights  = self.inputLights;
     _visualizer.vizInputLights2 = self.inputLights2;
     
@@ -229,6 +233,7 @@ BOOL gRepeatEnabled = false;
     NSLog(@"Received input lights list: %@",self.inputLights);
     NSLog(@"Received input lights2 list: %@",self.inputLights2);
     
+    //[MBProgressHUD hideHUDForView:self.visualizer animated:YES];
 
     
 }
@@ -295,6 +300,7 @@ BOOL gRepeatEnabled = false;
 -(void) viewWillDisappear:(BOOL)animated
 {
     NSLog (@"***viewWillDisappear***");
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self.tooltipManager hideAllTooltipsAnimated:FALSE];
     [self.tooltipManager1 hideAllTooltipsAnimated:FALSE];
     
@@ -323,11 +329,14 @@ BOOL gRepeatEnabled = false;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog (@"****viewDidLoad****");
+    NSLog (@"");
+    
+    
     
     //[self setCustomSlider];
     
     [self configureBars];
+    
     
     [self configureAudioSession];
     
@@ -340,6 +349,10 @@ BOOL gRepeatEnabled = false;
     NSLog (@"***width:%f  height:%f ***",self.view.frame.size.width,self.view.frame.size.height);
     [_visualizer setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin];
     [_backgroundView addSubview:_visualizer];
+    
+    //hud = [MBProgressHUD showHUDAddedTo:self.visualizer animated:YES];
+    //hud.labelText = @"Loading...";
+
     //[_backgroundView sendSubviewToBack:_visualizer];
     //[self.view sendSubviewToBack:_visualizer];
     [[self.audioPlayerBackgroundLayer superview] bringSubviewToFront:self.audioPlayerBackgroundLayer];
@@ -639,8 +652,7 @@ BOOL gRepeatEnabled = false;
         
     }
 
-    
-    NSLog(@"***Finished viewDidLoad:");
+        NSLog(@"***Finished viewDidLoad:");
     
 }
 
@@ -808,7 +820,8 @@ BOOL gRepeatEnabled = false;
 
 #pragma mark - Music control
 
-- (void)myplayURL:(NSURL *)url {
+- (void)myplayURL:(NSURL *)url
+{
     NSLog(@"myplayURL() ");
     // Add audioPlayer configurations here
     [self setupAudioPlayer:url];
@@ -831,6 +844,10 @@ BOOL gRepeatEnabled = false;
 
 - (IBAction)btnSearchPressed:(UIButton *)sender
 {
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.delegate = self;
+    hud.labelText = @"Loading...";
+    
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
     picker.prompt = @"Add songs to play";
     [picker setDelegate:self];
@@ -1534,6 +1551,15 @@ BOOL gRepeatEnabled = false;
 - (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+
+#pragma mark - MBProgressHUDDelegate
+
+- (void)hudWasHidden:(MBProgressHUD *)hud2 {
+    // Remove HUD from screen when the HUD was hidded
+    [hud2 removeFromSuperview];
+    hud2 = nil;
 }
 
 @end

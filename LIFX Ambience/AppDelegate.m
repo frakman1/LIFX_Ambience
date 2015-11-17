@@ -20,6 +20,13 @@
 @synthesize udid;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil];
+    [[UINavigationBar appearance] setTitleTextAttributes:attributes];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    
+    
     // Override point for customization after application launch.
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     application.applicationSupportsShakeToEdit = YES;

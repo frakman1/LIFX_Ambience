@@ -32,6 +32,9 @@
 #import "FlurryAds.h"
 #import "AwesomeMenu.h"
 #import "SDImageCache.h"
+#import "MBProgressHUD.h"
+
+#define NSLog(__FORMAT__, ...) NSLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
 typedef NS_ENUM(NSInteger, TableSection) {
@@ -39,7 +42,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
     //TableSectionTags = 1,
 };
 
-@interface MainViewController () <UITableViewDataSource, UITableViewDelegate,LFXNetworkContextObserver, LFXLightCollectionObserver, LFXLightObserver, FlurryAdBannerDelegate,AwesomeMenuDelegate, MWPhotoBrowserDelegate>
+@interface MainViewController () <UITableViewDataSource, UITableViewDelegate,LFXNetworkContextObserver, LFXLightCollectionObserver, LFXLightObserver, FlurryAdBannerDelegate,AwesomeMenuDelegate, MWPhotoBrowserDelegate,MBProgressHUDDelegate>
 {
     UIBarButtonItem *tempButton;
     UIBarButtonItem *tempButton2;
@@ -47,6 +50,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
     AVAudioPlayer *mysoundaudioPlayer;
     AwesomeMenu *menu;
      NSMutableArray *_selections;
+    MBProgressHUD *hud ;
 
 }
 
@@ -340,33 +344,72 @@ FlurryAdBanner* adBanner = nil;
     
 }
 
+- (void)loadMusicPlayer
+{
+    [self.btnMusic sendActionsForControlEvents: UIControlEventTouchUpInside];
+}
+
+
 - (void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx
 {
      NSLog(@"AwesomeMenu didSelectIndex");
+
     switch (idx) {
         case 0:
         {
+         
+            /*
+            hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.labelText = @"Doing stuff...";
+            hud.detailsLabelText = @"Just relax";
+            hud.delegate=self;
+            [hud show:YES];
+            */
+            
+            //[hud showWhileExecuting:@selector(loadMusicPlayer) onTarget:self withObject:nil animated:YES];
+            //[self loadMusicPlayer];
+            
+            
+            /*
+            dispatch_async(dispatch_get_main_queue(),
+            ^{
+                //hud = [MBProgressHUD showHUDAddedTo:self.wait animated:YES];
+                //hud.labelText = @"Loading...";
+                
+                hud = [[MBProgressHUD alloc] initWithView:self.wait];
+                [self.wait addSubview:hud];
+                [[hud superview] bringSubviewToFront:hud];
+                hud.delegate = self;
+                hud.labelText = @"Authorizing...";
+                [hud show:YES];
+            });//main queue
+             */
+
             //[self performSegueWithIdentifier:@"toMusic" sender:nil];
+            
             [self.btnMusic sendActionsForControlEvents: UIControlEventTouchUpInside];
-            NSLog(@"case 0().");
+            
+          
 
         }
             break;
             
         case 1:
         {
+
             //[self performSegueWithIdentifier:@"toYouTube" sender:nil];
             [self.btnYT sendActionsForControlEvents: UIControlEventTouchUpInside];
-            NSLog(@"case 1().");
+           // NSLog(@"case 1().");
             
         }
             break;
 
         case 2:
         {
+
             //[self performSegueWithIdentifier:@"toCamera" sender:nil];
             [self.btnCam sendActionsForControlEvents: UIControlEventTouchUpInside];
-            NSLog(@"case 2().");
+            //NSLog(@"case 2().");
 
         }
             break;
@@ -374,7 +417,7 @@ FlurryAdBanner* adBanner = nil;
         case 3:
         {
             [self.btnMotion sendActionsForControlEvents: UIControlEventTouchUpInside];
-            NSLog(@"case 3().");
+           // NSLog(@"case 3().");
             
         }
             break;
@@ -382,16 +425,20 @@ FlurryAdBanner* adBanner = nil;
         case 4:
         {
             [self.btnSiren sendActionsForControlEvents: UIControlEventTouchUpInside];
-            NSLog(@"case 4().");
+           // NSLog(@"case 4().");
             
         }
             break;
             
         case 5:
         {
+            
+            
             [self logIt:@"AlbumBrowser"];
             [self saveLightState];
             
+
+
             // Browser
             NSMutableArray *photos = [[NSMutableArray alloc] init];
             NSMutableArray *thumbs = [[NSMutableArray alloc] init];
@@ -404,7 +451,7 @@ FlurryAdBanner* adBanner = nil;
             BOOL autoPlayOnAppear = NO;
 
             //[self.btnSiren sendActionsForControlEvents: UIControlEventTouchUpInside];
-            NSLog(@"case 5().");
+            //NSLog(@"case 5().");
             
             @synchronized(_assets)
             {
@@ -562,14 +609,12 @@ FlurryAdBanner* adBanner = nil;
 }
 
 
-
-
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     
     [self resignFirstResponder];
     NSLog(@"***viewWillDisappear().");
+    //[MBProgressHUD hideHUDForView:self.wait animated:YES];
 
     if (self.btnMotion.selected)
     {
@@ -581,8 +626,8 @@ FlurryAdBanner* adBanner = nil;
     }
     
     [self.tooltipManager hideAllTooltipsAnimated:NO];
-    [self.btnHelp setSelected:NO];
-    [self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
+    //[self.btnHelp setSelected:NO];
+    //[self.btnHelp setImage: [UIImage imageNamed:@"help"] forState:UIControlStateNormal] ;
     
     [super viewWillDisappear:animated];
     
@@ -1437,7 +1482,7 @@ FlurryAdBanner* adBanner = nil;
    
     
 }
-
+/*
 - (IBAction)btnHelpPressed:(id)sender
 {
     self.btnHelp.selected = !self.btnHelp.selected;
@@ -1460,7 +1505,7 @@ FlurryAdBanner* adBanner = nil;
     }
     
 }
-
+*/
 - (BOOL) shouldAutorotate
 {
     return NO;
@@ -1926,7 +1971,12 @@ FlurryAdBanner* adBanner = nil;
 
 -(void) viewDidDisappear:(BOOL)animated
 {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [hud hide:YES];
+    });
+    
     [super viewDidDisappear:animated];
+   
     // Do not set ad delegate to nil and
     // Do not remove ad in the viewWillDisappear or viewDidDisappear method
     
@@ -2097,8 +2147,6 @@ FlurryAdBanner* adBanner = nil;
 #pragma mark - FlurryAds
 
 
-
-
 -(IBAction) showAdClickedButton:(id)sender
 {
     NSLog(@"showAdClickedButton()");
@@ -2115,7 +2163,7 @@ FlurryAdBanner* adBanner = nil;
     //}
     
     
-    [FlurryAds fetchAndDisplayAdForSpace:@"BottomBannerAd" view:self.view viewController:self size:BANNER_BOTTOM];
+    //[FlurryAds fetchAndDisplayAdForSpace:@"BottomBannerAd" view:self.view viewController:self size:BANNER_BOTTOM];
     
 }
 
@@ -2201,6 +2249,13 @@ FlurryAdBanner* adBanner = nil;
 }
 
 
+#pragma mark - MBProgressHUDDelegate
 
+- (void)hudWasHidden:(MBProgressHUD *)hud2 {
+    NSLog(@"HIDING MBProgressHUD ");
+    // Remove HUD from screen when the HUD was hidded
+    [hud2 removeFromSuperview];
+    hud2 = nil;
+}
 
 @end

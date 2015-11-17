@@ -63,7 +63,6 @@
 		227BB8561B3B2D17004EFFA7 /* vizicon128.png in Resources */ = {isa = PBXBuildFile; fileRef = 227BB8541B3B2D17004EFFA7 /* vizicon128.png */; };
 		229F784B1BCC1676002980C0 /* DemoSong.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 229F784A1BCC1676002980C0 /* DemoSong.m4a */; };
 		22A812F81BE8488F00173D51 /* libFlurry_7.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22A812E41BE8488F00173D51 /* libFlurry_7.2.1.a */; };
-		22A812F91BE8488F00173D51 /* libFlurryAds_7.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22A812F11BE8488F00173D51 /* libFlurryAds_7.2.1.a */; };
 		22A8130D1BE84DD900173D51 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22A812DD1BE8479800173D51 /* AdSupport.framework */; };
 		22AEB37B1B6BECDA00915E8A /* UIImageResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB37A1B6BECDA00915E8A /* UIImageResizing.m */; };
 		22AEB3821B726F3800915E8A /* ANPopoverSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AEB37F1B726F3800915E8A /* ANPopoverSlider.m */; };
@@ -133,6 +132,7 @@
 
 /* Begin PBXFileReference section */
 		0502F57349B114B47B82E1A7 /* libPods-LIFX Ambience.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LIFX Ambience.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		220405D11BFA58D2007F50E6 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = "LIFX Ambience/PrefixHeader.pch"; sourceTree = "<group>"; };
 		220B5C9A1BCD5C9500FDB95F /* br.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = br.mp3; sourceTree = "<group>"; };
 		221068E31B54544A00D12A3A /* audioplayer_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_pause.png; sourceTree = "<group>"; };
 		221068E41B54544A00D12A3A /* audioplayer_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audioplayer_play.png; sourceTree = "<group>"; };
@@ -221,7 +221,6 @@
 		22A812EE1BE8488F00173D51 /* FlurryAdNativeAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdNativeAsset.h; sourceTree = "<group>"; };
 		22A812EF1BE8488F00173D51 /* FlurryAdNativeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdNativeDelegate.h; sourceTree = "<group>"; };
 		22A812F01BE8488F00173D51 /* FlurryAdNativeStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdNativeStyle.h; sourceTree = "<group>"; };
-		22A812F11BE8488F00173D51 /* libFlurryAds_7.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAds_7.2.1.a; sourceTree = "<group>"; };
 		22A812F31BE8488F00173D51 /* FlurryAdError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdError.h; sourceTree = "<group>"; };
 		22A812F41BE8488F00173D51 /* FlurryAdTargeting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdTargeting.h; sourceTree = "<group>"; };
 		22A812F61BE8488F00173D51 /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
@@ -322,7 +321,6 @@
 				22A8130D1BE84DD900173D51 /* AdSupport.framework in Frameworks */,
 				22A812F81BE8488F00173D51 /* libFlurry_7.2.1.a in Frameworks */,
 				2257A2211BA375AE001C61D0 /* CoreMotion.framework in Frameworks */,
-				22A812F91BE8488F00173D51 /* libFlurryAds_7.2.1.a in Frameworks */,
 				224937061B389E4800699D59 /* SystemConfiguration.framework in Frameworks */,
 				22F76A1B1B3DF83C00EE3AFD /* Security.framework in Frameworks */,
 				224937081B389E5D00699D59 /* libz.dylib in Frameworks */,
@@ -355,6 +353,7 @@
 				22A812E51BE8488F00173D51 /* FlurryAds */,
 				22C44C991B73BAD600F09113 /* Frameworks2 */,
 				224936E71B389CD200699D59 /* Main.storyboard */,
+				220405D11BFA58D2007F50E6 /* PrefixHeader.pch */,
 				226018FE1B9808F400708332 /* YouTubeTVC.h */,
 				226018FF1B9808F400708332 /* YouTubeTVC.m */,
 				224936DB1B389CD200699D59 /* Info.plist */,
@@ -491,7 +490,6 @@
 				22A812E61BE8488F00173D51 /* FlurryAdBanner */,
 				22A812E91BE8488F00173D51 /* FlurryAdInterstitial */,
 				22A812EC1BE8488F00173D51 /* FlurryAdNative */,
-				22A812F11BE8488F00173D51 /* libFlurryAds_7.2.1.a */,
 				22A812F21BE8488F00173D51 /* Shared */,
 				22A812F51BE8488F00173D51 /* StaticAPI */,
 			);
@@ -1061,6 +1059,7 @@
 					"$(PROJECT_DIR)/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LIFX Ambience/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1104,6 +1103,7 @@
 					"$(PROJECT_DIR)/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LIFX Ambience/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

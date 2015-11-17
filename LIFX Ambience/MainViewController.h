@@ -33,7 +33,7 @@
 @property (weak, nonatomic) IBOutlet UISlider *sliderSaturation;
 @property (weak, nonatomic) IBOutlet UISlider *sliderValue;
 @property (weak, nonatomic) IBOutlet UILabel  *lblInfo;
-@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
+//@property (weak, nonatomic) IBOutlet UIButton *btnHelp;
 @property (weak, nonatomic) IBOutlet UIButton *btnInfo;
 @property (weak, nonatomic) IBOutlet UIButton *btnMotion;
 @property (weak, nonatomic) IBOutlet UIButton *btnSiren;
@@ -48,10 +48,11 @@
 @property (nonatomic, strong) NSMutableArray *assets;
 
 @property (nonatomic, strong) ALAssetsLibrary *ALAssetsLibrary;
+//property (weak, nonatomic) IBOutlet UIView *wait;
 
 - (void)loadAssets;
 
-- (void)logIt:(NSString*) event withTag:(NSInteger)tag;
+- (void)logIt:(NSString*) event withTag:(NSString*)tag;
 - (void)logIt:(NSString*) event ;
 - (void) restoreLightState;
 - (void) saveLightState;
