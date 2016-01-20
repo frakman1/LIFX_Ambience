@@ -234,6 +234,12 @@ BOOL gRepeatEnabled = false;
     NSLog(@"Received input lights2 list: %@",self.inputLights2);
     
     //[MBProgressHUD hideHUDForView:self.visualizer animated:YES];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    for (NSString *aDevID in self.inputLights)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setPowerState:LFXPowerStateOn];
+    }
 
     
 }

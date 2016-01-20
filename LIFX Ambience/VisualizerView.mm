@@ -80,7 +80,10 @@ double round(double d)
     //    LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
     //    [aLight setColor:gLifxColor];
    // }
+    //setPowerState:LFXPowerStateOn
     
+
+
     saturation = 0.8;
     gIncrement = 0.001;
 
@@ -142,7 +145,8 @@ double round(double d)
         
     }
     //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    
+
+
     return self;
 }
 
@@ -240,6 +244,7 @@ double round(double d)
             for (LFXLight *aLight in self.vizInputLights2)
             {
                 [aLight setColor:gLifxColor];
+                //[aLight setPowerState:LFXPowerStateOn];
             }
         });
 

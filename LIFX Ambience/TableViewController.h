@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "MBProgressHUD.h"
 
-@interface TableViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface TableViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,MBProgressHUDDelegate>
 
 
 @property (nonatomic, assign) id    delegate;

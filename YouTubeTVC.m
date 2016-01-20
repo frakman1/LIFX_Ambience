@@ -126,12 +126,6 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.separatorColor = [UIColor clearColor];
     
-
-    
-    
-
-
-    
 }
 
 - (void) searchWithString:(NSMutableString *)searchString

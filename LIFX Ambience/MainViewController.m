@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, TableSection) {
     NSMutableArray *yourItemsArray;
     AVAudioPlayer *mysoundaudioPlayer;
     AwesomeMenu *menu;
-     NSMutableArray *_selections;
+    NSMutableArray *_selections;
     MBProgressHUD *hud ;
 
 }
@@ -144,6 +144,11 @@ FlurryAdBanner* adBanner = nil;
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:NULL
                     completion:NULL];
+    [UIView transitionWithView:menu
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
     
     
     self.tableView.hidden = !self.tableView.hidden;
@@ -151,6 +156,7 @@ FlurryAdBanner* adBanner = nil;
     self.sliderHue.hidden = !self.sliderHue.hidden;
     self.sliderSaturation.hidden = !self.sliderSaturation.hidden;
     self.sliderValue.hidden = !self.sliderValue.hidden;
+    menu.hidden = !menu.hidden;
 
 }
 
@@ -286,7 +292,7 @@ FlurryAdBanner* adBanner = nil;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         NSLog(@"delayed launch myTick...");
         
-        timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
+        timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector:@selector(myTick:) userInfo: nil repeats:YES];
         
     });
     
@@ -438,6 +444,14 @@ FlurryAdBanner* adBanner = nil;
             [self saveLightState];
             
 
+            LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+            for (NSString *aDevID in self.selectedIndexes)
+            {
+                LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+                [aLight setPowerState:LFXPowerStateOn];
+            }
+            
+            
 
             // Browser
             NSMutableArray *photos = [[NSMutableArray alloc] init];
@@ -867,119 +881,109 @@ FlurryAdBanner* adBanner = nil;
     headerContentView.transform = CGAffineTransformMakeTranslation(0, MIN(offsetY, 0));
 }
 
-/*
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
-{
-    //NSLog(@"willDisplayHeaderView :%@  forsection :%d",view, section);
-    // Background color
-    //gColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:1.0f] ;
-    //view.tintColor = [UIColor colorWithRed:0.27f green:0.5f blue:0.7f alpha:0.3f] ;
-    
-    // Text Color
-    //UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    //[header.textLabel setTextColor:[UIColor grayColor]];
-    
-    // Another way to set the background color
-    // Note: does not preserve gradient effect of original header
-    // header.contentView.backgroundColor = [UIColor blackColor];
-
-}
-*/
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-    
-    //return self.tableView.tableHeaderView.subviews[0];
-
-    
-    
-//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"didSelectRowAtIndexPath()  indexPath.row:%ld",(long)indexPath.row);
-    //if (self.btnMotion.selected) {return;}
+    //NSLog(@"didSelectRowAtIndexPath()  indexPath.row:%ld",(long)indexPath.row);
     
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    UILabel *mydetailLabel = (UILabel *)[selectedCell viewWithTag:102];
+    UILabel *myLabel = (UILabel *)[selectedCell viewWithTag:101];
+    UISwitch *mySwitch = (UISwitch *)[selectedCell viewWithTag:100];
     
     if ([selectedCell accessoryType] == UITableViewCellAccessoryNone)
     {
-        NSLog(@"UITableViewCellAccessoryNone: ");
+        //NSLog(@"UITableViewCellAccessoryNone: ");
         [selectedCell setAccessoryType:UITableViewCellAccessoryCheckmark];
-        [self.selectedIndexes addObject: selectedCell.detailTextLabel.text];
+        [self.selectedIndexes addObject: mydetailLabel.text];
         
-        {   NSLog(@"Updating sliders");
-            LFXLight *light = self.lights[indexPath.row];
-            [self.mainSelectedLights addObject:light];
-            self.sliderBrightness.value = light.color.brightness;
-            self.sliderSaturation.value = light.color.saturation;
-            self.sliderHue.value = light.color.hue/360;
-            self.sliderValue.value = light.color.brightness;
-            
-        }
-        
-    } else
-    {
-        NSLog(@"else: ");
-        [selectedCell setAccessoryType:UITableViewCellAccessoryNone];
-        [self.selectedIndexes removeObject:selectedCell.detailTextLabel.text];
+        //NSLog(@"Updating sliders");
         LFXLight *light = self.lights[indexPath.row];
-        [self.mainSelectedLights removeObject:light];
+        [self.mainSelectedLights addObject:light];
+        self.sliderBrightness.value = light.color.brightness;
+        self.sliderSaturation.value = light.color.saturation;
+        self.sliderHue.value = light.color.hue/360;
+        self.sliderValue.value = light.color.brightness;
+        myLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        myLabel.alpha = 1;
+        mydetailLabel.alpha = 1;
+
+
         
     }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    else
+    {
+        //NSLog(@"else: ");
+        [selectedCell setAccessoryType:UITableViewCellAccessoryNone];
+        [self.selectedIndexes removeObject:mydetailLabel.text];
+        LFXLight *light = self.lights[indexPath.row];
+        [self.mainSelectedLights removeObject:light];
+        //myLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        //mySwitch.alpha = 0.1;
+        myLabel.alpha = 0.3;
+        mydetailLabel.alpha = 0.3;
+        //mydetailLabel.text = @"deselected";
+
+
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-/*
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"editingStyleForRowAtIndexPath()  indexPath.row:%ld",(long)indexPath.row);
-    return 3; // Undocumented constant
-}
-*/
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"customCell" forIndexPath:indexPath];
+    //NSLog(@"drawing cell:%d ",indexPath.row);
     
-    switch ((TableSection)indexPath.section)
+//    switch ((TableSection)indexPath.section)
+//    {
+//        case TableSectionLights:
+//        {
+    LFXLight *light = self.lights[indexPath.row];
+    UILabel *myLabel = (UILabel *)[cell viewWithTag:101];
+    myLabel.text = light.label;
+    UILabel *mydetailLabel = (UILabel *)[cell viewWithTag:102];
+    mydetailLabel.text = light.deviceID;
+   
+    UISwitch *mySwitch = (UISwitch *)[cell viewWithTag:100];
+    //[mySwitch setOnImage: [UIImage imageNamed:@"switchknob"]];
+   
+    mySwitch.on = (BOOL)light.powerState;
+    //NSLog(@"indexPath.row=%d",indexPath.row);
+    if ([self.selectedIndexes containsObject:light.deviceID])
     {
-        case TableSectionLights:
-        {
-            //NSLog(@"indexPath.row=%d",indexPath.row);
-            if ([self.selectedIndexes containsObject:cell.textLabel.text])
-            {
-                NSLog(@"cellForRowAtIndexPath() ...saved...");
-                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-            }
-            LFXLight *light = self.lights[indexPath.row];
-            //@synchronized (self){
-                if ((light.powerState==LFXPowerStateOff) && (!gShaken))
-                {
-                    NSLog(@"Bulb is Connected but in OFF State.Turning On...");
-                    [light setPowerState:LFXPowerStateOn];
-                }
-            //}
-            //cell.textLabel.textAlignment = NSTextAlignmentCenter;
-            cell.textLabel.text = light.label;
-            cell.detailTextLabel.text = light.deviceID;
-            //NSLog(@"color:%ld",(long)indexPath.row);
-            cell.textLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
-        
-            //cell.textLabel.text = [NSString stringWithFormat:[yourItemsArray objectAtIndex:indexPath.row]];
-            
-            //update sliders. just do it once instead of on every row
-           /* 
-            if ( (indexPath.row==0) && (!self.btnMotion.selected) )
-            {   NSLog(@"Updating sliders");
-                self.sliderBrightness.value = light.color.brightness;
-                self.sliderSaturation.value = light.color.saturation;
-                self.sliderHue.value = light.color.hue/360;
-                self.sliderValue.value = light.color.brightness;
-            }
-            */
-            break;
-        
-       
-        }
+        //NSLog(@"indexPath.row:%d-%@ ...checked...",indexPath.row,myLabel.text);
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+        myLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        myLabel.alpha = 1;
+        mydetailLabel.alpha = 1;
+
+    }
+    else
+    {
+         //NSLog(@"indexPath.row:%d-%@ ...un-checked...",indexPath.row,myLabel.text);
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+        myLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        //mySwitch.alpha = 0.1;
+        myLabel.alpha = 0.3;
+        mydetailLabel.alpha = 0.3;
+        //mydetailLabel.text = @"deselected";
+    }
+    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
+    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.tintColor = [UIColor greenColor];
+    //cell.detailTextLabel.textColor = [UIColor grayColor];
+    
+    return cell;
+
+    
+//          break;
+//        }
 /*
         case TableSectionTags:
         {
@@ -991,17 +995,7 @@ FlurryAdBanner* adBanner = nil;
             break;
         }
  */
-    }
-    cell.backgroundColor = [UIColor clearColor];
-    cell.contentView.backgroundColor = [UIColor clearColor];
-    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.tintColor = [UIColor greenColor];
-    cell.detailTextLabel.textColor = [UIColor grayColor];
-
-
-    
-    return cell;
+//    }
 }
 /*
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -1024,6 +1018,24 @@ FlurryAdBanner* adBanner = nil;
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:rowIndex inSection:TableSectionLights]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
+- (IBAction)mySwitchPressed:(UISwitch *)sender
+{
+    
+    UITableViewCell *theParentCell = [[sender superview] superview];
+    NSIndexPath *indexPathOfSwitch = [self.tableView indexPathForCell:theParentCell];
+    LFXLight *light = self.lights[indexPathOfSwitch.row];
+    NSLog(@"Switched %d (%@) is now %hhd",indexPathOfSwitch.row,light.label,sender.on);
+    if (sender.on)
+    {
+        [light setPowerState:LFXPowerStateOn];
+        
+    }
+    else
+    {
+        [light setPowerState:LFXPowerStateOff];
+
+    }
+}
 
 
 -(NSString *) tagToText:(NSInteger)tag
@@ -1320,6 +1332,9 @@ FlurryAdBanner* adBanner = nil;
 }
 
 
+
+
+
 - (IBAction)brightnessOrKelvinChanged:(UISlider *)sender
 {
     NSLog(@"brightnessOrKelvinChanged()");
@@ -1330,6 +1345,7 @@ FlurryAdBanner* adBanner = nil;
     for (NSString *aDevID in self.selectedIndexes)
     {
         LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setPowerState:LFXPowerStateOn];
         [aLight setColor:tmpColor overDuration:0.5];
     }
 
@@ -1358,7 +1374,7 @@ FlurryAdBanner* adBanner = nil;
     NSString* s = [NSString stringWithFormat:@"White Brightness: %0.2f",self.sliderBrightness.value];
     [self.lblInfo setText:s ];
     [self updateLblInfo];
-    [self turnOnLights];
+    //[self turnOnLights];
 }
 
 
@@ -1373,6 +1389,7 @@ FlurryAdBanner* adBanner = nil;
     for (NSString *aDevID in self.selectedIndexes)
     {
         LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setPowerState:LFXPowerStateOn];
         [aLight setColor:tmpColor overDuration:0.5];
     }
 
@@ -1399,7 +1416,7 @@ FlurryAdBanner* adBanner = nil;
         [self.lblInfo setText:s2 ];
     }
     [self updateLblInfo];
-    [self turnOnLights];
+    //[self turnOnLights];
     
     
 
@@ -1417,6 +1434,7 @@ FlurryAdBanner* adBanner = nil;
     for (NSString *aDevID in self.selectedIndexes)
     {
         LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setPowerState:LFXPowerStateOn];
         [aLight setColor:tmpColor overDuration:0.5];
     }
 
@@ -1432,7 +1450,7 @@ FlurryAdBanner* adBanner = nil;
     NSString* s = [NSString stringWithFormat:@"Saturation (Intensity): %0.2f",self.sliderSaturation.value];
     [self.lblInfo setText:s ];
     [self updateLblInfo];
-    [self turnOnLights];
+    //[self turnOnLights];
     
 
     
@@ -1449,6 +1467,7 @@ FlurryAdBanner* adBanner = nil;
     for (NSString *aDevID in self.selectedIndexes)
     {
         LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setPowerState:LFXPowerStateOn];
         [aLight setColor:tmpColor overDuration:0.5];
     }
 
@@ -1465,7 +1484,7 @@ FlurryAdBanner* adBanner = nil;
     [self.lblInfo setText:s ];
     
     [self updateLblInfo];
-    [self turnOnLights];
+    //[self turnOnLights];
 
 }
 
@@ -1561,6 +1580,15 @@ FlurryAdBanner* adBanner = nil;
     if (self.btnMotion.selected)
     {
         [self saveLightState];
+        
+        LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+        for (NSString *aDevID in self.selectedIndexes)
+        {
+            LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+            [aLight setPowerState:LFXPowerStateOn];
+        }
+        
+        
         
         // dont allow table interaction
         self.tableView.allowsSelection = NO;

@@ -279,7 +279,17 @@ NSLog(@"index: %d",index);
 {
     //[self.delegate ModalTableViewDidClickCancel];
     NSLog(@"Every Day I'm Shuff-a-ling");
+    
     if (playlist.items.count<2) return;
+    
+    //MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view.window];
+    //NSString *info = [NSString stringWithFormat:@"Shuffling"];
+    //[hud setLabelText:info];
+    //[hud setDetailsLabelText:@"Please wait..."];
+    //[hud setDimBackground:YES];
+    //[hud setOpacity:0.5f];
+    //[hud show:YES];
+    //[hud hide:YES afterDelay:3.0];
     
     NSMutableArray *tempPlayist = [[NSMutableArray alloc]initWithArray:playlist.items copyItems:TRUE]; 
     

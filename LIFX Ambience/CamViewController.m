@@ -421,6 +421,14 @@ CGRect cropDimension; // globals are retained between view controllers. I was un
     //NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     //[[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     NSLog(@"inputLights:%@",self.inputLights);
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    for (NSString *aDevID in self.inputLights)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setPowerState:LFXPowerStateOn];
+    }
+    
+    
 
     dispatch_async([self sessionQueue], ^{
         [self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:SessionRunningAndDeviceAuthorizedContext];

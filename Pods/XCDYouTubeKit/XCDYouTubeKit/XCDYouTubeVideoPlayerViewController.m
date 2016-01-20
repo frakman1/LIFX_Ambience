@@ -194,13 +194,13 @@ NSTimer *vidtimer;
     [averageColor getRed:&red green:&green blue:&blue alpha:NULL];
     [averageColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
     LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
-    [localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOn];
+   // [localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOn];
     lifxColor = [LFXHSBKColor colorWithHue:(hue*360) saturation:saturation brightness:brightness];
     //[localNetworkContext.allLightsCollection setColor:lifxColor overDuration:0.25];
     for (NSString *aDevID in self.ytpInputLights)
     {
         LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
-        [aLight setPowerState:LFXPowerStateOn];
+        //[aLight setPowerState:LFXPowerStateOn];
         [aLight setColor:lifxColor overDuration:0.25];
     }
 
@@ -215,6 +215,14 @@ NSTimer *vidtimer;
 - (void) viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    for (NSString *aDevID in self.ytpInputLights)
+    {
+        LFXLight *aLight = [localNetworkContext.allLightsCollection lightForDeviceID:aDevID];
+        [aLight setPowerState:LFXPowerStateOn];
+    }
+
+    
     vidtimer = [NSTimer scheduledTimerWithTimeInterval: 0.05 target: self selector:@selector(myvidTick:) userInfo: nil repeats:YES];
 
 	if (![self isBeingPresented])
