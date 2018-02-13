@@ -18,7 +18,7 @@ __x > __high ? __high : (__x < __low ? __low : __x);\
 @implementation VisualizerView {
         MeterTable meterTable;
     UIColor *gColor ;
-    LFXHSBKColor* gLifxColor ;
+    //LFXHSBKColor* gLifxColor ;
     CGFloat saturation, brightness, alpha;
     CGFloat gIncrement;
     CGFloat starthue;
@@ -155,7 +155,8 @@ double round(double d)
     
     float scale = 0.5;
     float calcBrightness = 1;
-    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXTaggedLightCollection *selected = [localNetworkContext taggedLightCollectionForTag:@"selected"];
     
  
     if (vizRunOnce==FALSE)
@@ -228,7 +229,7 @@ double round(double d)
         
         //NSLog(@"level:%f    scaled:%f   calcbrightness:%f   clamped:%f",level, scale, calcBrightness, clamped);
         
-        gLifxColor = [LFXHSBKColor colorWithHue:(_hue) saturation:saturation brightness:clamped];
+        self.gLifxColor = [LFXHSBKColor colorWithHue:(_hue) saturation:saturation brightness:clamped];
 
         /*
          //[localNetworkContext.allLightsCollection setColor:gLifxColor];
@@ -238,16 +239,18 @@ double round(double d)
          [aLight setColor:gLifxColor];
          }
          */
-  
+/* FRAK-TEMP
       dispatch_async(dispatch_get_main_queue(),
         ^{
-            for (LFXLight *aLight in self.vizInputLights2)
-            {
-                [aLight setColor:gLifxColor];
-                //[aLight setPowerState:LFXPowerStateOn];
-            }
-        });
+            [selected setColor:gLifxColor];
 
+            //for (LFXLight *aLight in self.vizInputLights2)
+            //{
+            //    [aLight setColor:gLifxColor];
+                /////////[aLight setPowerState:LFXPowerStateOn];
+            //}
+        });
+*/
         
     }
     else

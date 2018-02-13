@@ -28,7 +28,7 @@
 static NSString *const kAPIKey = @"AIzaSyALnerjNgondj40BfKE2YZlUCaoAOFVSCY";
 static NSString *const kPlaylistID = @"PLeRz-61h_e8lAiYFT7k9Elxuw9RhT6TV0";
 static NSString *const kParts = @"playlistItems?part=snippet&playlistId=";
-static NSString *const kParts2 = @"search?part=snippet&maxResults=50&q=";
+static NSString *const kParts2 = @"search?part=snippet&maxResults=50&regionCode=US&q=";
 //static NSString *const kSearchq = @"screen+color+test";
 
 static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
@@ -133,25 +133,10 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     videos=nil;
     
     NSString *urlString = [NSString stringWithFormat:@"%@%@%@&type=video&key=%@", @"https://www.googleapis.com/youtube/v3/", kParts2, searchString, kAPIKey];
-    NSLog(@"%@",urlString);
+	    NSLog(@"%@",[urlString stringByReplacingOccurrencesOfString:kAPIKey withString:@"*******"]);
     NSURL *url = [[NSURL alloc] initWithString:urlString];
     
-    /*
-    NSData *data = [[NSData alloc] initWithContentsOfURL:url];  //TODO: This is a slow,blocking operation. Find a better way.
-    NSString *jsonString = [[NSString alloc] initWithData: data encoding:NSUTF8StringEncoding];
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUnicodeStringEncoding];
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options: NSJSONReadingAllowFragments error:nil];
-    NSLog(@"jsonDict:%@",jsonDict);
-    videos = [NSMutableArray arrayWithArray:[jsonDict valueForKey:@"items"]];NSLog(@"videos:%@",videos);
-    
-     dispatch_async(dispatch_get_main_queue(),
-     ^{
-         if (videos) [activityIndicator stopAnimating];
-         [self.tableView reloadData];
-     });//main queue
-    */
-    
-    ////////////
+
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -379,7 +364,7 @@ static NSString *const baseVideoURL = @"https://www.youtube.com/watch?v=";
     NSString* temp = [self.searchString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     [self.searchString setString:temp];
     
-     NSLog(@"after: %@",self.searchString);
+     //NSLog(@"after: %@",self.searchString);
     
     dispatch_async(dispatch_get_main_queue(),
     ^{

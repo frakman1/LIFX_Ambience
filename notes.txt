@@ -1,0 +1,10 @@
+what I did to move it from local Xcode git world to github world:
+
+created a repo on github, got the URL
+added the URL to the locall .git/config file
+ran :
+git remote add origin https://github.com/frakman1/LIFX_Ambience.git
+git push origin master (didn’t work) (fiddled with the UI app) then:
+git pull origin master
+git push origin master
+

@@ -13,7 +13,7 @@
 
 #import <sys/utsname.h> // import it in your header or implementation file.
 
-
+#define FUTURE @"02/28/2018"
 
 @interface InfoViewController ()
 
@@ -46,6 +46,9 @@
     self.lblMail.layer.masksToBounds = NO;
     [self.btnMail.imageView startGlowingWithColor:[UIColor orangeColor] intensity:5];
     [self.btnDonate.imageView startGlowingWithColor:[UIColor greenColor] intensity:5];
+    
+    self.lblBuild.text = [NSString stringWithFormat:@"Version %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+
 
 }
 
@@ -55,6 +58,26 @@
     NSLog(@"***Overriding orientation.");
     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    
+    NSDateFormatter* df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"MM/dd/yyyy"];
+    NSDate* enteredDate = [df dateFromString:FUTURE];
+    NSDate * today = [NSDate date];
+    NSComparisonResult result = [today compare:enteredDate];
+    switch (result)
+    {
+        case NSOrderedAscending:
+            NSLog(@"Future Date");
+            break;
+        case NSOrderedDescending:
+            NSLog(@"Earlier Date");
+            self.lblDonate.hidden = NO;
+            self.btnDonate.hidden = NO;
+            break;
+        case NSOrderedSame:
+            //NSLog(@"Today/Null Date Passed"); //Not sure why This is case when null/wrong date is passed
+            break;
+    }
 
 }
 
@@ -76,8 +99,24 @@
     
     //[self.tooltipManager addTooltipWithTargetPoint:CGPointMake(self.btnMail.center.x, self.btnMail.center.y+20) tooltipText:@"Shoot me an email if you have any questions. I'll try and get back to you as soon as I can" arrowDirection:JDFTooltipViewArrowDirectionUp hostView:[self view] width:200];
 
-
-    [self.tooltipManager addTooltipWithTargetView:self.btnDonate  hostView:self.view tooltipText:@"If you like this app or find it useful, then please consider making a donation to support further development (or nourishment) " arrowDirection:JDFTooltipViewArrowDirectionDown  width:300];
+    NSDateFormatter* df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"MM/dd/yyyy"];
+    NSDate* enteredDate = [df dateFromString:FUTURE];
+    NSDate * today = [NSDate date];
+    NSComparisonResult result = [today compare:enteredDate];
+    switch (result)
+    {
+        case NSOrderedAscending:
+            NSLog(@"Future Date");
+            break;
+        case NSOrderedDescending:
+            NSLog(@"Earlier Date");
+            [self.tooltipManager addTooltipWithTargetView:self.btnDonate  hostView:self.view tooltipText:@"If you like this app or find it useful, then please consider making a Paypal donation to keep this app free and ad-free to frak@snakebite.com " arrowDirection:JDFTooltipViewArrowDirectionDown  width:300];
+            break;
+        case NSOrderedSame:
+            //NSLog(@"Today/Null Date Passed"); //Not sure why This is case when null/wrong date is passed
+            break;
+    }
 
     //[self.tooltipManager addTooltipWithTargetBarButtonItem:self.navigationItem.leftBarButtonItem.customView hostView:self.view tooltipText:@"Toggle Light List and Controls. Green when lights are detected." arrowDirection:JDFTooltipViewArrowDirectionUp width:200 ];
 
@@ -215,9 +254,17 @@ NSString* deviceName()
 
 - (IBAction)btnRatePressed:(UIButton *)sender
 {
-   // NSLog(@"Rate App");
-   [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"itms-apps://itunes.apple.com/app/id1012474625"]];
+    #define YOUR_APP_STORE_ID 1012474625 //Change this one to your ID
     
+    static NSString *const iOS7AppStoreURLFormat = @"itms-apps://itunes.apple.com/app/id%d";
+    static NSString *const iOSAppStoreURLFormat = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d&action=write-review";
+    
+    
+    
+    [ [UIApplication sharedApplication] openURL:
+      [NSURL URLWithString:[NSString stringWithFormat:([[UIDevice currentDevice].systemVersion floatValue] >= 7.0f)? iOS7AppStoreURLFormat: iOSAppStoreURLFormat, YOUR_APP_STORE_ID]]
+    ];
+
     
 }
 

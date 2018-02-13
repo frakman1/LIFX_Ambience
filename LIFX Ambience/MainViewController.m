@@ -34,7 +34,7 @@
 #import "SDImageCache.h"
 #import "MBProgressHUD.h"
 
-#define NSLog(__FORMAT__, ...) NSLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+//#define NSLog(__FORMAT__, ...) NSLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
 typedef NS_ENUM(NSInteger, TableSection) {
@@ -73,7 +73,6 @@ typedef NS_ENUM(NSInteger, TableSection) {
 @property (strong, nonatomic) CMMotionManager *motionManager;
 @property (strong, nonatomic) NSOperationQueue *deviceQueue;
 @property (nonatomic) NSMutableArray *selectedIndexes;
-@property (nonatomic) NSMutableArray *mainSelectedLights;
 
 
 
@@ -885,11 +884,11 @@ FlurryAdBanner* adBanner = nil;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //NSLog(@"didSelectRowAtIndexPath()  indexPath.row:%ld",(long)indexPath.row);
-    
+    AppDelegate *appdel=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     UILabel *mydetailLabel = (UILabel *)[selectedCell viewWithTag:102];
     UILabel *myLabel = (UILabel *)[selectedCell viewWithTag:101];
-    UISwitch *mySwitch = (UISwitch *)[selectedCell viewWithTag:100];
+    //UISwitch *mySwitch = (UISwitch *)[selectedCell viewWithTag:100];
     
     if ([selectedCell accessoryType] == UITableViewCellAccessoryNone)
     {
@@ -899,18 +898,16 @@ FlurryAdBanner* adBanner = nil;
         
         //NSLog(@"Updating sliders");
         LFXLight *light = self.lights[indexPath.row];
+        [appdel.tagged addLight:light];
         [self.mainSelectedLights addObject:light];
         self.sliderBrightness.value = light.color.brightness;
         self.sliderSaturation.value = light.color.saturation;
         self.sliderHue.value = light.color.hue/360;
         self.sliderValue.value = light.color.brightness;
         myLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
-        mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+       // mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
         myLabel.alpha = 1;
         mydetailLabel.alpha = 1;
-
-
-        
     }
     else
     {
@@ -918,9 +915,10 @@ FlurryAdBanner* adBanner = nil;
         [selectedCell setAccessoryType:UITableViewCellAccessoryNone];
         [self.selectedIndexes removeObject:mydetailLabel.text];
         LFXLight *light = self.lights[indexPath.row];
+        [appdel.tagged removeLight:light];
         [self.mainSelectedLights removeObject:light];
         //myLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
-        mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
+        //mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
         //mySwitch.alpha = 0.1;
         myLabel.alpha = 0.3;
         mydetailLabel.alpha = 0.3;
@@ -947,16 +945,16 @@ FlurryAdBanner* adBanner = nil;
     mydetailLabel.text = light.deviceID;
    
     UISwitch *mySwitch = (UISwitch *)[cell viewWithTag:100];
+    mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
     //[mySwitch setOnImage: [UIImage imageNamed:@"switchknob"]];
-   
+    NSLog(@"light for row:%d is %d",indexPath.row,light.powerState);
     mySwitch.on = (BOOL)light.powerState;
-    //NSLog(@"indexPath.row=%d",indexPath.row);
+    NSLog(@"mySwitch.on=%d",mySwitch.on);
     if ([self.selectedIndexes containsObject:light.deviceID])
     {
         //NSLog(@"indexPath.row:%d-%@ ...checked...",indexPath.row,myLabel.text);
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
         myLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
-        mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
         myLabel.alpha = 1;
         mydetailLabel.alpha = 1;
 
@@ -966,18 +964,12 @@ FlurryAdBanner* adBanner = nil;
          //NSLog(@"indexPath.row:%d-%@ ...un-checked...",indexPath.row,myLabel.text);
         [cell setAccessoryType:UITableViewCellAccessoryNone];
         myLabel.textColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
-        mySwitch.onTintColor = [UIColor colorWithHue:light.color.hue/360 saturation:light.color.saturation brightness:light.color.brightness alpha:1];
-        //mySwitch.alpha = 0.1;
         myLabel.alpha = 0.3;
         mydetailLabel.alpha = 0.3;
-        //mydetailLabel.text = @"deselected";
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.contentView.backgroundColor = [UIColor clearColor];
-    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //cell.accessoryType = UITableViewCellAccessoryNone;
     cell.tintColor = [UIColor greenColor];
-    //cell.detailTextLabel.textColor = [UIColor grayColor];
     
     return cell;
 
@@ -1595,7 +1587,7 @@ FlurryAdBanner* adBanner = nil;
         
         // show sliders,table etc
         //[self myfade:NO];
-        [self fadeView:self.tableView Out:NO];
+        [self fadeView:self.tableView Out:YES];
         [self fadeView:self.sliderBrightness Out:YES];
         [self fadeView:self.sliderHue Out:NO];
         [self fadeView:self.sliderSaturation Out:NO];
@@ -1722,7 +1714,7 @@ FlurryAdBanner* adBanner = nil;
     {
         self.tableView.allowsSelection = YES;
         //[self myfade:YES];
-        [self fadeView:self.tableView Out:YES];
+        //[self fadeView:self.tableView Out:NO];
         [self fadeView:self.sliderBrightness Out:YES];
         [self fadeView:self.sliderHue Out:YES];
         [self fadeView:self.sliderSaturation Out:YES];

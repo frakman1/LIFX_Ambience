@@ -97,7 +97,10 @@ BOOL runOnce;
 {
 #if !(TARGET_IPHONE_SIMULATOR)
     //take screenshot
-    [self snapStillImage:self.view];
+    if ([self isDeviceAuthorized])
+    {
+        [self snapStillImage:self.view];
+    }
 #endif
     
 }

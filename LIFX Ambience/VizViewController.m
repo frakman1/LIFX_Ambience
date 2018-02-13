@@ -19,6 +19,7 @@
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MBProgressHUD.h"
+#import "MainViewController.h"
 
 
 
@@ -97,14 +98,39 @@ BOOL gRepeatEnabled = false;
 
 - (void) myTick:(NSTimer *)timer
 {
-    //NSLog(@"myTick");
- //   dispatch_async(dispatch_get_main_queue(),
-   //    ^{
-           self.powerLevel.value = self.visualizer.LevelValue;
-           self.powerLevel.leftChannelLevel = self.visualizer.LevelValue;
-           //self.powerLevel.rightChannelLevel = self.visualizer.LevelValue;
-     //  });
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
+
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //LFXTaggedLightCollection *selected = [localNetworkContext taggedLightCollectionForTag:@"selected"];
+   
+    // !HACK ALERT! getting a reference to parent view controller to access its elements.
+    MainViewController *parentViewController = (MainViewController*)[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
+
+    //NSLog(@"myTick");
+    self.powerLevel.value = self.visualizer.LevelValue;
+    self.powerLevel.leftChannelLevel = self.visualizer.LevelValue;
+    
+    dispatch_async(dispatch_get_main_queue(),
+                   ^{
+                      // [ selected setColor:self.visualizer.gLifxColor];
+                       if ([defaults boolForKey:@"Allbtn"])
+                       {
+                           [localNetworkContext.allLightsCollection setColor:self.visualizer.gLifxColor overDuration:(0.125)];
+                       }
+                       else
+                       {
+                           for (LFXLight *aLight in parentViewController.mainSelectedLights)
+                           {
+                               [aLight setColor:self.visualizer.gLifxColor overDuration:0.125];
+                           }
+                       }
+                   });
+
+    
+    //LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    //[localNetworkContext.allLightsCollection setColor:self.visualizer.gLifxColor];
+
 
 }
 
@@ -384,7 +410,8 @@ BOOL gRepeatEnabled = false;
     [self.viewVolumeView setVolumeThumbImage: [UIImage imageNamed:@"vknob2"] forState:UIControlStateNormal];
     [[self.viewVolumeView superview] bringSubviewToFront:self.viewVolumeView];
     [[self.colourSlider superview] bringSubviewToFront:self.colourSlider];
-    
+    [[self.AllButton superview] bringSubviewToFront:self.AllButton];
+
     
     //[self.imgBox setImage:[UIImage imageNamed:@"play2"]];
    // UIImage *repeatOn = [UIImage imageNamed:@"repeat_on"];
@@ -523,33 +550,42 @@ BOOL gRepeatEnabled = false;
     //[myBtn setShowsTouchWhenHighlighted:YES];
 
     // add tap gesture handlers
+    /*
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tapGesture.numberOfTapsRequired = 2;
     tapGesture.delegate = self;
     tapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGesture];
+    */
+    UISwipeGestureRecognizer *recognizer_up;
+    recognizer_up = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp:)];
+    [recognizer_up setDirection:(UISwipeGestureRecognizerDirectionUp)];
+    recognizer_up.delegate = self;
+    [[self view] addGestureRecognizer:recognizer_up];
     
-    UISwipeGestureRecognizer *recognizer;
-    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp)];
-    [[self view] addGestureRecognizer:recognizer];
+    UISwipeGestureRecognizer *recognizer_down;
+    recognizer_down = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown:)];
+    [recognizer_down setDirection:(UISwipeGestureRecognizerDirectionDown)];
+    recognizer_down.delegate = self;
+    [[self view] addGestureRecognizer:recognizer_down];
     
-    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
-    [[self view] addGestureRecognizer:recognizer];
+    UISwipeGestureRecognizer *recognizer_right;
+    recognizer_right = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    [recognizer_right setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    recognizer_right.delegate = self;
+    [[self view] addGestureRecognizer:recognizer_right];
     
-    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
-    [[self view] addGestureRecognizer:recognizer];
-    
-    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
-    [[self view] addGestureRecognizer:recognizer];
+    UISwipeGestureRecognizer *recognizer_left;
+    recognizer_left = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    [recognizer_left setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    recognizer_left.delegate = self;
+    [[self view] addGestureRecognizer:recognizer_left];
 
     firstTime = TRUE;
     
     //load saved playlist, if any
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
     NSData *data = [defaults objectForKey:@"myplaylist"];
     MPMediaItemCollection *mymediaItemCollection = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
@@ -629,6 +665,7 @@ BOOL gRepeatEnabled = false;
     self.btnLock.layer.cornerRadius = 10;
     self.btnLock.clipsToBounds = YES;
     self.btnLock.selected = [defaults boolForKey:@"HueLock"];
+    self.AllButton.selected = [defaults boolForKey:@"Allbtn"];
     NSLog(@"HueLock: %d: ",self.btnLock.selected);
     if (self.btnLock.selected)
     {
@@ -758,6 +795,7 @@ BOOL gRepeatEnabled = false;
 
 - (void)handleSwipeLeft:(UITapGestureRecognizer *)sender
 {
+    NSLog(@"handleSwipeLeft ");
     if (firstTime) return;
     
     [self.btnnext setHighlighted:YES]; [self.btnnext sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnnext setHighlighted:NO];
@@ -770,6 +808,8 @@ BOOL gRepeatEnabled = false;
 
 - (void)handleSwipeRight:(UITapGestureRecognizer *)sender
 {
+    NSLog(@"handleSwipeRight ");
+
     if (firstTime) return;
     
     [self.btnprevious setHighlighted:YES]; [self.btnprevious sendActionsForControlEvents:UIControlEventTouchUpInside]; [self.btnprevious setHighlighted:NO];
@@ -850,25 +890,30 @@ BOOL gRepeatEnabled = false;
 
 - (IBAction)btnSearchPressed:(UIButton *)sender
 {
+    NSLog(@"btnSearchPressed() 1");
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.delegate = self;
     hud.labelText = @"Loading...";
-    
+    NSLog(@"btnSearchPressed() 2");
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
     picker.prompt = @"Add songs to play";
     [picker setDelegate:self];
     [picker setAllowsPickingMultipleItems: YES];
     [picker setShowsCloudItems:NO];
+    NSLog(@"btnSearchPressed() 3");
     dispatch_async(dispatch_get_main_queue(),
     ^{
         [self presentViewController:picker animated:YES completion:nil];
+        NSLog(@"btnSearchPressed() 3.1");
+
     });
     
     //[picker setAllowsPickingMultipleItems:YES];
     
     //[self presentModalViewController:picker animated: YES];
     
-    
+    NSLog(@"btnSearchPressed() 4");
+
 }
 
 
@@ -1326,12 +1371,12 @@ BOOL gRepeatEnabled = false;
     [defaults setObject:data forKey:@"myplaylist"];
     [defaults synchronize];
     
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) ModalTableViewDidClickCancel
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) ModalTableViewDidSelectSong:(MPMediaItemCollection *)newPlaylist withSong:(int)index
@@ -1347,7 +1392,7 @@ BOOL gRepeatEnabled = false;
     gcurrenSong = (int)index;
     [self startPlaying];
     
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 
 }
 
@@ -1549,6 +1594,35 @@ BOOL gRepeatEnabled = false;
     }
 }
 
+- (IBAction)btnAllPressed:(UIButton *)sender
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    self.AllButton.selected =!self.AllButton.selected;
+    if (self.AllButton.selected)
+    {
+        NSLog(@"btnAll selected");
+
+        //self.AllButton.backgroundColor = [UIColor redColor];
+
+        [defaults setBool:YES forKey:@"Allbtn"];
+        [defaults synchronize];
+
+    }
+    else
+    {
+        NSLog(@"btnAll un-selected");
+
+        //self.AllButton.backgroundColor = [UIColor clearColor];
+
+        [defaults setBool:NO forKey:@"Allbtn"];
+        [defaults synchronize];
+
+    }
+
+}
+
+
 - (BOOL) shouldAutorotate
 {
     return NO;
@@ -1556,7 +1630,7 @@ BOOL gRepeatEnabled = false;
 
 - (NSUInteger) supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return  UIInterfaceOrientationMaskPortrait;
 }
 
 

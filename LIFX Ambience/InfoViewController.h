@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnRate;
 @property (nonatomic, strong) JDFTooltipManager *tooltipManager;
 
+@property (weak, nonatomic) IBOutlet UILabel *lblBuild;
 
 
 @end

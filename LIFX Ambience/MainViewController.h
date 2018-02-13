@@ -46,6 +46,7 @@
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) NSMutableArray *thumbs;
 @property (nonatomic, strong) NSMutableArray *assets;
+@property (nonatomic) NSMutableArray *mainSelectedLights;
 
 @property (nonatomic, strong) ALAssetsLibrary *ALAssetsLibrary;
 //property (weak, nonatomic) IBOutlet UIView *wait;

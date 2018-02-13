@@ -21,6 +21,7 @@
     CGFloat cropBorderRed, cropBorderGreen, cropBorderBlue, cropBorderAlpha;
     CGRect cropArea;
     CGFloat shadeAlpha;
+    UIView* dragView;
 }
 
 @property (nonatomic, retain) UIColor* cropBorderColor;
@@ -32,7 +33,7 @@
 
 CGRect SquareCGRectAtCenter(CGFloat centerX, CGFloat centerY, CGFloat size);
 
-UIView* dragView;
+
 typedef struct {
     CGPoint dragStart;
     CGPoint topLeftCenter;

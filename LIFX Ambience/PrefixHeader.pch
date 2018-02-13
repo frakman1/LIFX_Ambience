@@ -18,4 +18,10 @@
 #import <Foundation/Foundation.h>
 #endif
 
-#define NSLog(__FORMAT__, ...) NSLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#ifdef RELEASE
+    #define NSLog(...) do { } while (0)
+#else
+    #define NSLog(__FORMAT__, ...) NSLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#endif
+
+//#define NSLog(...) do { } while (0)

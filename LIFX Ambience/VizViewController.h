@@ -42,6 +42,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnMixer;
 @property (weak, nonatomic) IBOutlet UIButton *btnPlaylist;
 @property (weak, nonatomic) IBOutlet UIButton *btnLock;
+@property (weak, nonatomic) IBOutlet UIButton *AllButton;
 
 
 @property BOOL isPaused;
@@ -66,13 +67,14 @@
 
 
 
-- (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;
+//- (IBAction) barbtnSearchPressed:(UIBarButtonItem *)sender;
 - (IBAction) btnnextPressed:(UIButton *)sender;
 - (void) startPlaying;
 - (IBAction) btnpreviousPressed:(UIButton *)sender;
 - (IBAction)btnMixerPressed:(UIBarButtonItem *)sender;
 - (IBAction)btnHelpPressed:(UIButton *)sender;
 - (IBAction)btnLockPressed:(UIButton *)sender;
+- (IBAction)btnAllPressed:(UIButton *)sender;
 
 
 //TableViewController Delegate

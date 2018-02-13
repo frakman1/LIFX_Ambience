@@ -42,7 +42,7 @@
     self.backupLights = [[NSMutableDictionary alloc] init];
     self.tagged = [[LFXTaggedLightCollection alloc] init];
     [self.tagged renameWithNewTag:@"selected"];
-    
+    [application setStatusBarHidden:YES];
      return YES;
 }
 
