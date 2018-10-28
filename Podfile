@@ -6,7 +6,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'LIFX Ambience' do
     pod 'EZAudio', '~> 0.0.4'
-    pod 'XCDYouTubeKit', '~> 2.5'
+    pod 'XCDYouTubeKit', '~> 2.6'
     pod 'SDWebImage', '~>3.7'
     pod 'MWPhotoBrowser'
 

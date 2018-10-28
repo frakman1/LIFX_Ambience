@@ -5,17 +5,26 @@ PODS:
   - MWPhotoBrowser (2.1.1):
     - DACircularProgress (~> 2.3)
     - MBProgressHUD (~> 0.9)
-    - SDWebImage (!= 3.7.2, ~> 3.7)
+    - "SDWebImage (!= 3.7.2, ~> 3.7)"
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
-  - XCDYouTubeKit (2.3.2)
+  - XCDYouTubeKit (2.6.0)
 
 DEPENDENCIES:
   - EZAudio (~> 0.0.4)
   - MWPhotoBrowser
   - SDWebImage (~> 3.7)
-  - XCDYouTubeKit (~> 2.3.2)
+  - XCDYouTubeKit (~> 2.6)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DACircularProgress
+    - EZAudio
+    - MBProgressHUD
+    - MWPhotoBrowser
+    - SDWebImage
+    - XCDYouTubeKit
 
 SPEC CHECKSUMS:
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
@@ -23,8 +32,8 @@ SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
-  XCDYouTubeKit: 6aff378bcbbf06d058f2c2d2df655c376970ee03
+  XCDYouTubeKit: 76f14b161e9563541a3674b6b5bfb61c4b72b269
 
-PODFILE CHECKSUM: 6c308534886ffc764afcb1cde7a7a77e2d65ee08
+PODFILE CHECKSUM: e006dfcc65bde1538ebee52d6ff7206f4bd56c26
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.5.3

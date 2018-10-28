@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2013-2015 Cédric Luthi. All rights reserved.
+//  Copyright (c) 2013-2016 Cédric Luthi. All rights reserved.
 //
 
 #import "XCDYouTubeVideoPlayerViewController.h"
@@ -77,10 +77,10 @@ NSString *const XCDYouTubeVideoUserInfoKey = @"Video";
 	if ([[[UIDevice currentDevice] systemVersion] integerValue] >= 8)
 		self = [super initWithContentURL:nil];
 	else
-		self = [super init];
+		self = [super init]; // LCOV_EXCL_LINE
 	
 	if (!self)
-		return nil;
+		return nil; // LCOV_EXCL_LINE
 	
 	// See https://github.com/0xced/XCDYouTubeKit/commit/cadec1c3857d6a302f71b9ce7d1ae48e389e6890
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
