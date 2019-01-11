@@ -50,12 +50,12 @@
 	return self;
 }
 
-- (id<XCDYouTubeOperation>) getVideoWithIdentifier:(NSString *)videoIdentifier completionHandler:(void (^)(XCDYouTubeVideo * __nullable video, NSError * __nullable error))completionHandler
+- (id<XCDYouTubeOperation>) getVideoWithIdentifier:(NSString *)videoIdentifier cookies:(NSArray<NSHTTPCookie *> *)cookies completionHandler:(void (^)(XCDYouTubeVideo * _Nullable, NSError * _Nullable))completionHandler
 {
 	if (!completionHandler)
 		@throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The `completionHandler` argument must not be nil." userInfo:nil];
 	
-	XCDYouTubeVideoOperation *operation = [[XCDYouTubeVideoOperation alloc] initWithVideoIdentifier:videoIdentifier languageIdentifier:self.languageIdentifier];
+	XCDYouTubeVideoOperation *operation = [[XCDYouTubeVideoOperation alloc] initWithVideoIdentifier:videoIdentifier languageIdentifier:self.languageIdentifier cookies:cookies];
 	operation.completionBlock = ^{
 		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 #pragma clang diagnostic push
@@ -75,6 +75,10 @@
 	};
 	[self.queue addOperation:operation];
 	return operation;
+}
+- (id<XCDYouTubeOperation>) getVideoWithIdentifier:(NSString *)videoIdentifier completionHandler:(void (^)(XCDYouTubeVideo * __nullable video, NSError * __nullable error))completionHandler
+{
+	return [self getVideoWithIdentifier:videoIdentifier cookies:nil completionHandler:completionHandler];
 }
 
 @end
