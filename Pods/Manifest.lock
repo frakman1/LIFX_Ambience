@@ -9,13 +9,13 @@ PODS:
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
-  - XCDYouTubeKit (2.6.0)
+  - XCDYouTubeKit (2.7.1)
 
 DEPENDENCIES:
   - EZAudio (~> 0.0.4)
   - MWPhotoBrowser
   - SDWebImage (~> 3.7)
-  - XCDYouTubeKit (~> 2.6)
+  - XCDYouTubeKit (~> 2.7.1)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -32,8 +32,8 @@ SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
-  XCDYouTubeKit: 76f14b161e9563541a3674b6b5bfb61c4b72b269
+  XCDYouTubeKit: c8567fd5cb388a3099fa26eee4b30df2a467847d
 
-PODFILE CHECKSUM: e006dfcc65bde1538ebee52d6ff7206f4bd56c26
+PODFILE CHECKSUM: dfe20a8a8710fe0555edf61cac0b523afff6c35b
 
 COCOAPODS: 1.5.3
